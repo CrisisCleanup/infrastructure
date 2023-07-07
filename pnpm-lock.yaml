@@ -26,6 +26,9 @@ importers:
       '@arroyodev-llc/projen.component.dir-env':
         specifier: ^0.1.6
         version: 0.1.6(projen@0.71.126)
+      '@arroyodev-llc/projen.component.linting':
+        specifier: ^0.1.15
+        version: 0.1.15(projen@0.71.126)
       '@arroyodev-llc/projen.component.tool-versions':
         specifier: ^0.1.12
         version: 0.1.12(projen@0.71.126)
@@ -2354,6 +2357,7 @@ packages:
     dependencies:
       cdk8s: 2.7.96(constructs@10.2.69)
       constructs: 10.2.69
+      minimatch: 3.1.2
     dev: true
     bundledDependencies:
       - minimatch
@@ -2365,6 +2369,9 @@ packages:
       constructs: ^10
     dependencies:
       constructs: 10.2.69
+      fast-json-patch: 3.1.1
+      follow-redirects: 1.15.2
+      yaml: 2.2.2
     optionalDependencies:
       backport: 8.5.0
     transitivePeerDependencies:
@@ -7151,6 +7158,11 @@ packages:
     resolution: {integrity: sha512-r3vXyErRCYJ7wg28yvBY5VSoAF8ZvlcW9/BwUzEtUsjvX/DKs24dIkuwjtuprwJJHsbyUbLApepYTR1BN4uHrg==}
     engines: {node: '>= 6'}
     dev: false
+
+  /yaml@2.2.2:
+    resolution: {integrity: sha512-CBKFWExMn46Foo4cldiChEzn7S7SRV+wqiluAb6xmueD/fGyRHIhX8m14vVGgeFWjN540nKCNVj6P21eQjgTuA==}
+    engines: {node: '>= 14'}
+    dev: true
 
   /yaml@2.3.1:
     resolution: {integrity: sha512-2eHWfjaoXgTBC2jNM1LRef62VQa0umtvRiDSk6HSzW7RvS5YtkabJrwYLLEKWBc8a5U2PTSCs+dJjUTJdlHsWQ==}

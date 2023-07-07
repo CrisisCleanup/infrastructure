@@ -30,6 +30,7 @@
   },
   "devDependencies": {
     "@arroyodev-llc/projen.component.dir-env": "^0.1.6",
+    "@arroyodev-llc/projen.component.linting": "^0.1.15",
     "@arroyodev-llc/projen.component.tool-versions": "^0.1.12",
     "@arroyodev-llc/projen.project.nx-monorepo": "^0.1.20",
     "@arroyodev-llc/projen.project.typescript": "^0.1.21",

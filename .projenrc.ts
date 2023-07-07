@@ -10,6 +10,7 @@ const monorepo = new MonorepoProject({
     "@arroyodev-llc/projen.project.typescript",
     "@arroyodev-llc/projen.component.tool-versions",
     "@arroyodev-llc/projen.component.dir-env",
+    "@arroyodev-llc/projen.component.linting",
     "@aws-prototyping-sdk/nx-monorepo",
     "cdk8s-cli",
   ],

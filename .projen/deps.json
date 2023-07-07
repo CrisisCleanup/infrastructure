@@ -5,6 +5,10 @@
       "type": "build"
     },
     {
+      "name": "@arroyodev-llc/projen.component.linting",
+      "type": "build"
+    },
+    {
       "name": "@arroyodev-llc/projen.component.tool-versions",
       "type": "build"
     },
