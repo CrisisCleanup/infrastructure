@@ -23,6 +23,9 @@ importers:
         specifier: ^10.2.69
         version: 10.2.69
     devDependencies:
+      '@arroyodev-llc/projen.component.dir-env':
+        specifier: ^0.1.6
+        version: 0.1.6(projen@0.71.126)
       '@arroyodev-llc/projen.component.tool-versions':
         specifier: ^0.1.12
         version: 0.1.12(projen@0.71.126)
@@ -92,6 +95,14 @@ packages:
   /@aashutoshrathi/word-wrap@1.2.6:
     resolution: {integrity: sha512-1Yjs2SvM8TflER/OD3cOjhWWOZb58A2t7wpE2S9XfBYTiIl+XFhQG2bjy4Pu1I+EAlCNUzRDYDdFwFYUKvXcIA==}
     engines: {node: '>=0.10.0'}
+    dev: true
+
+  /@arroyodev-llc/projen.component.dir-env@0.1.6(projen@0.71.126):
+    resolution: {integrity: sha512-+yenuUuhp0XVWeKKQhca0CewF9Qg+zQaZ98FyFK26jsRaHuuYx2sQeoWFCTct4lhImpZF/fi1mGScuHrsJpWjg==}
+    peerDependencies:
+      projen: ^0.71.90
+    dependencies:
+      projen: 0.71.126
     dev: true
 
   /@arroyodev-llc/projen.component.linting@0.1.15(projen@0.71.126):

@@ -7,6 +7,7 @@ const monorepo = new MonorepoProject({
   devDeps: [
     "@arroyodev-llc/projen.project.nx-monorepo",
     "@arroyodev-llc/projen.component.tool-versions",
+    "@arroyodev-llc/projen.component.dir-env",
     "@aws-prototyping-sdk/nx-monorepo"
   ],
   packageManager: javascript.NodePackageManager.PNPM,
