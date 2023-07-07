@@ -19,6 +19,9 @@ importers:
         specifier: ^10.2.69
         version: 10.2.69
     devDependencies:
+      '@arroyodev-llc/projen.component.tool-versions':
+        specifier: ^0.1.12
+        version: 0.1.12(projen@0.71.126)
       '@arroyodev-llc/projen.project.nx-monorepo':
         specifier: ^0.1.20
         version: 0.1.20(@aws-prototyping-sdk/nx-monorepo@0.19.34)(projen@0.71.126)
@@ -103,6 +106,14 @@ packages:
       projen: ^0.71.90
     dependencies:
       '@arroyodev-llc/utils.projen': 0.1.15
+      projen: 0.71.126
+    dev: true
+
+  /@arroyodev-llc/projen.component.tool-versions@0.1.12(projen@0.71.126):
+    resolution: {integrity: sha512-X81gpw2LJMMrRkn22haBVCZg4dDttIdhmyHgzY9lMjLmBCXAIoMjmX2EiedVefqw3CSMWebAkdZ5Ip4s40y7iQ==}
+    peerDependencies:
+      projen: ^0.71.90
+    dependencies:
       projen: 0.71.126
     dev: true
 

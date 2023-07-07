@@ -5,6 +5,7 @@ const project = new MonorepoProject({
   name: "crisiscleanup-infrastructure",
   devDeps: [
     "@arroyodev-llc/projen.project.nx-monorepo",
+    "@arroyodev-llc/projen.component.tool-versions",
     "@aws-prototyping-sdk/nx-monorepo"
   ],
   packageManager: javascript.NodePackageManager.PNPM,

@@ -1,6 +1,10 @@
 {
   "dependencies": [
     {
+      "name": "@arroyodev-llc/projen.component.tool-versions",
+      "type": "build"
+    },
+    {
       "name": "@arroyodev-llc/projen.project.nx-monorepo",
       "type": "build"
     },
