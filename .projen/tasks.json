@@ -10,6 +10,14 @@
         }
       ]
     },
+    "clean": {
+      "name": "clean",
+      "steps": [
+        {
+          "exec": "pnpm -r --parallel run clean"
+        }
+      ]
+    },
     "clobber": {
       "name": "clobber",
       "description": "hard resets to HEAD of origin and cleans the local repo",
@@ -57,7 +65,7 @@
       "description": "Synthesize project files",
       "steps": [
         {
-          "exec": "ts-node --project tsconfig.dev.json .projenrc.ts"
+          "exec": "tsx .projenrc.ts"
         }
       ]
     },
@@ -80,6 +88,18 @@
         {
           "exec": "pnpm exec nx run-many --target=eslint --output-style=stream --nx-bail",
           "receiveArgs": true
+        },
+        {
+          "exec": "eslint",
+          "name": "Lint Root",
+          "args": [
+            "--cache",
+            "--no-error-on-unmatched-pattern",
+            "--ext=.ts",
+            "--fix",
+            ".projenrc.ts",
+            "projenrc"
+          ]
         }
       ]
     },
@@ -131,9 +151,27 @@
         }
       ]
     },
+    "post-install": {
+      "name": "post-install",
+      "steps": [
+        {
+          "exec": "pnpm exec nx run-many --target=post-install --output-style=stream --nx-bail",
+          "receiveArgs": true
+        }
+      ]
+    },
     "post-upgrade": {
       "name": "post-upgrade",
       "description": "Runs after upgrading dependencies"
+    },
+    "postinstall": {
+      "name": "postinstall",
+      "description": "Post install hook.",
+      "steps": [
+        {
+          "exec": "pnpm exec projen post-install"
+        }
+      ]
     },
     "pre-compile": {
       "name": "pre-compile",
