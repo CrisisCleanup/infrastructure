@@ -13,6 +13,10 @@
       "type": "build"
     },
     {
+      "name": "@arroyodev-llc/projen.project.typescript",
+      "type": "build"
+    },
+    {
       "name": "@aws-prototyping-sdk/nx-monorepo",
       "type": "build"
     },
@@ -29,6 +33,10 @@
     {
       "name": "@typescript-eslint/parser",
       "version": "^5",
+      "type": "build"
+    },
+    {
+      "name": "cdk8s-cli",
       "type": "build"
     },
     {

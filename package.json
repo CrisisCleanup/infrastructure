@@ -23,19 +23,21 @@
     "synth-workspace": "pnpm exec projen"
   },
   "author": {
-    "name": "arroyoDev-LLC",
-    "email": "support@arroyodev.com",
-    "url": "https://arroyodev.com",
+    "name": "CrisisCleanup",
+    "email": "help@crisiscleanup.org",
+    "url": "https://crisiscleanup.org",
     "organization": true
   },
   "devDependencies": {
     "@arroyodev-llc/projen.component.dir-env": "^0.1.6",
     "@arroyodev-llc/projen.component.tool-versions": "^0.1.12",
     "@arroyodev-llc/projen.project.nx-monorepo": "^0.1.20",
+    "@arroyodev-llc/projen.project.typescript": "^0.1.21",
     "@aws-prototyping-sdk/nx-monorepo": "^0.19.34",
     "@types/node": "^18",
     "@typescript-eslint/eslint-plugin": "^5",
     "@typescript-eslint/parser": "^5",
+    "cdk8s-cli": "^2.2.96",
     "eslint": "^8",
     "eslint-config-prettier": "^8.8.0",
     "eslint-import-resolver-node": "^0.3.7",
