@@ -1,7 +1,8 @@
 import { javascript } from "projen";
 import {MonorepoProject} from '@arroyodev-llc/projen.project.nx-monorepo'
+import {ToolVersions} from '@arroyodev-llc/projen.component.tool-versions'
 
-const project = new MonorepoProject({
+const monorepo = new MonorepoProject({
   name: "crisiscleanup-infrastructure",
   devDeps: [
     "@arroyodev-llc/projen.project.nx-monorepo",
@@ -10,9 +11,15 @@ const project = new MonorepoProject({
   ],
   packageManager: javascript.NodePackageManager.PNPM,
   projenrcTs: true,
-
-  // deps: [],                /* Runtime dependencies of this module. */
-  // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
-  // packageName: undefined,  /* The "name" in package.json. */
+  minNodeVersion: '18.16.0',
+  pnpmVersion: '8.6.6'
 });
-project.synth();
+
+new ToolVersions(monorepo, {
+  tools: {
+    nodejs: [monorepo.package.minNodeVersion!],
+    pnpm: [monorepo.package.pnpmVersion!]
+  }
+})
+
+monorepo.synth();
