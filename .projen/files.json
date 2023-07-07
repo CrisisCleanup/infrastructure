@@ -1,5 +1,6 @@
 {
   "files": [
+    ".envrc",
     ".eslintrc.json",
     ".gitattributes",
     ".github/pull_request_template.md",
