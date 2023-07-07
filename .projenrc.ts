@@ -1,9 +1,12 @@
 import { javascript } from "projen";
-import { NxMonorepoProject } from "@aws-prototyping-sdk/nx-monorepo";
-const project = new NxMonorepoProject({
-  defaultReleaseBranch: "main",
-  devDeps: ["@aws-prototyping-sdk/nx-monorepo"],
+import {MonorepoProject} from '@arroyodev-llc/projen.project.nx-monorepo'
+
+const project = new MonorepoProject({
   name: "crisiscleanup-infrastructure",
+  devDeps: [
+    "@arroyodev-llc/projen.project.nx-monorepo",
+    "@aws-prototyping-sdk/nx-monorepo"
+  ],
   packageManager: javascript.NodePackageManager.PNPM,
   projenrcTs: true,
 

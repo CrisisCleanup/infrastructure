@@ -20,6 +20,7 @@
     "synth-workspace": "pnpm exec projen"
   },
   "devDependencies": {
+    "@arroyodev-llc/projen.project.nx-monorepo": "^0.1.20",
     "@aws-prototyping-sdk/nx-monorepo": "^0.19.34",
     "@types/node": "^16",
     "@typescript-eslint/eslint-plugin": "^5",

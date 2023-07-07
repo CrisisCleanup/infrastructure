@@ -1,6 +1,10 @@
 {
   "dependencies": [
     {
+      "name": "@arroyodev-llc/projen.project.nx-monorepo",
+      "type": "build"
+    },
+    {
       "name": "@aws-prototyping-sdk/nx-monorepo",
       "type": "build"
     },
