@@ -5,6 +5,10 @@
       "type": "build"
     },
     {
+      "name": "@arroyodev-llc/projen.component.git-hooks",
+      "type": "build"
+    },
+    {
       "name": "@arroyodev-llc/projen.component.linting",
       "type": "build"
     },
@@ -69,6 +73,10 @@
       "type": "build"
     },
     {
+      "name": "lint-staged",
+      "type": "build"
+    },
+    {
       "name": "npm-check-updates",
       "type": "build"
     },
@@ -87,6 +95,10 @@
     },
     {
       "name": "rimraf",
+      "type": "build"
+    },
+    {
+      "name": "simple-git-hooks",
       "type": "build"
     },
     {
