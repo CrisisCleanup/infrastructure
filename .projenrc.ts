@@ -7,9 +7,12 @@ import {
 } from '@arroyodev-llc/projen.component.git-hooks'
 import { LintConfig } from '@arroyodev-llc/projen.component.linting'
 import { ToolVersions } from '@arroyodev-llc/projen.component.tool-versions'
-import { MonorepoProject } from '@arroyodev-llc/projen.project.nx-monorepo'
+import {
+	MonorepoProject,
+	TSConfig,
+} from '@arroyodev-llc/projen.project.nx-monorepo'
 import { NodePackageUtils } from '@aws-prototyping-sdk/nx-monorepo'
-import { javascript, typescript } from 'projen'
+import { javascript, typescript, cdk8s, cdk, java, type YamlFile } from 'projen'
 
 const monorepo = new MonorepoProject({
 	name: 'crisiscleanup-infrastructure',
@@ -105,5 +108,36 @@ new GitHooks(monorepo, {
 	},
 	preserveUnused: true,
 })
+
+// Charts
+const crisiscleanup = new cdk8s.Cdk8sTypeScriptApp({
+	name: 'crisiscleanup',
+	parent: monorepo,
+	packageManager: monorepo.package.packageManager,
+	outdir: 'packages/charts/crisiscleanup',
+	authorName: 'CrisisCleanup',
+	authorEmail: 'help@crisiscleanup.org',
+	authorOrganization: true,
+	authorUrl: 'https://crisiscleanup.org',
+	cdk8sCliVersion: '2.2.105',
+	cdk8sVersion: '2.7.102',
+	cdk8sPlus: true,
+	defaultReleaseBranch: 'main',
+	disableTsconfigDev: true,
+	k8sMinorVersion: 24,
+})
+new LintConfig(crisiscleanup)
+crisiscleanup.tryRemoveFile('tsconfig.json')
+new javascript.TypescriptConfig(crisiscleanup, {
+	include: ['src/*.ts', 'src/**/*.ts'],
+	fileName: 'tsconfig.json',
+	compilerOptions: {
+		outDir: 'dist',
+	},
+	extends: monorepo.tsconfigContainer.buildExtends(TSConfig.BASE, TSConfig.ESM),
+})
+crisiscleanup.addDevDeps('tsx')
+const cdk8sConfig = crisiscleanup.tryFindObjectFile('cdk8s.yaml')! as YamlFile
+cdk8sConfig.addOverride('app', 'tsx src/main.ts')
 
 monorepo.synth()
