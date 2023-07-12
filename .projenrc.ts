@@ -12,7 +12,7 @@ import {
 	TSConfig,
 } from '@arroyodev-llc/projen.project.nx-monorepo'
 import { NodePackageUtils } from '@aws-prototyping-sdk/nx-monorepo'
-import { javascript, typescript, cdk8s, cdk, java, type YamlFile } from 'projen'
+import { cdk8s, javascript, typescript, type YamlFile } from 'projen'
 
 const monorepo = new MonorepoProject({
 	name: 'crisiscleanup-infrastructure',
