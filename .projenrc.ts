@@ -123,12 +123,12 @@ const crisiscleanup = new cdk8s.Cdk8sTypeScriptApp({
 	cdk8sVersion: '2.7.102',
 	cdk8sPlus: true,
 	defaultReleaseBranch: 'main',
-	disableTsconfigDev: true,
 	k8sMinorVersion: 24,
 })
 new LintConfig(crisiscleanup)
 crisiscleanup.tryRemoveFile('tsconfig.json')
-new javascript.TypescriptConfig(crisiscleanup, {
+crisiscleanup.tryRemoveFile('tsconfig.dev.json')
+const chartTsconfig = new javascript.TypescriptConfig(crisiscleanup, {
 	include: ['src/*.ts', 'src/**/*.ts'],
 	fileName: 'tsconfig.json',
 	compilerOptions: {
@@ -136,6 +136,12 @@ new javascript.TypescriptConfig(crisiscleanup, {
 	},
 	extends: monorepo.tsconfigContainer.buildExtends(TSConfig.BASE, TSConfig.ESM),
 })
+new javascript.TypescriptConfig(crisiscleanup, {
+	include: ['*.ts', '**/*.ts'],
+	exclude: ['node_modules'],
+	fileName: 'tsconfig.dev.json',
+	compilerOptions: { outDir: 'dist' },
+}).addExtends(chartTsconfig)
 crisiscleanup.addDevDeps('tsx')
 const cdk8sConfig = crisiscleanup.tryFindObjectFile('cdk8s.yaml')! as YamlFile
 cdk8sConfig.addOverride('app', 'tsx src/main.ts')

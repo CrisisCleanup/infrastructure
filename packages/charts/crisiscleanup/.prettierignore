@@ -11,4 +11,5 @@
 cdk8s.yaml
 LICENSE
 project.json
+tsconfig.dev.json
 tsconfig.json

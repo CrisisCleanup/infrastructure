@@ -43,4 +43,5 @@ junit.xml
 !/.prettierignore
 !/.prettierrc.json
 !/tsconfig.json
+!/tsconfig.dev.json
 !/project.json

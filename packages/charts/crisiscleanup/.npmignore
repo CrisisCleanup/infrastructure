@@ -16,3 +16,4 @@ dist
 tsconfig.tsbuildinfo
 /.eslintrc.json
 /tsconfig.json
+/tsconfig.dev.json

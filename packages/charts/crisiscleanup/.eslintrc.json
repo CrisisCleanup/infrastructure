@@ -13,7 +13,7 @@
   "parserOptions": {
     "ecmaVersion": 2018,
     "sourceType": "module",
-    "project": "./tsconfig.json",
+    "project": "./tsconfig.dev.json",
     "tsconfigRootDir": "."
   },
   "extends": [
@@ -41,7 +41,7 @@
         ]
       },
       "typescript": {
-        "project": "./tsconfig.json",
+        "project": "./tsconfig.dev.json",
         "alwaysTryTypes": true
       }
     },
@@ -74,6 +74,7 @@
     "cdk8s.yaml",
     "LICENSE",
     "project.json",
+    "tsconfig.dev.json",
     "tsconfig.json"
   ],
   "rules": {
