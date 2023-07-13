@@ -50,6 +50,7 @@ const tools = new ToolVersions(monorepo, {
 		direnv: ['2.32.3'],
 		nodejs: [monorepo.package.minNodeVersion!],
 		pnpm: [monorepo.package.pnpmVersion!],
+		kind: ['0.20.0'],
 	},
 })
 

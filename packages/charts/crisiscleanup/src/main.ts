@@ -1,6 +1,6 @@
-import { App, Chart, type ChartProps, Duration } from 'cdk8s'
+import { App, Chart, type ChartProps, Duration, Include } from 'cdk8s'
 import * as kplus from 'cdk8s-plus-24'
-import { ImagePullPolicy } from 'cdk8s-plus-24'
+import { ImagePullPolicy, Ingress } from 'cdk8s-plus-24'
 import { Construct } from 'constructs'
 import defu from 'defu'
 
@@ -296,9 +296,27 @@ export class Frontend extends Construct {
 	}
 }
 
+export interface IngressControllerProps {
+	className: string
+	annotations?: Record<string, string>
+}
+
+abstract class IngressController {
+	abstract createController(props: IngressControllerProps): void
+}
+
+class NginxIngressController extends Construct implements IngressController {
+	createController(props: IngressControllerProps) {
+		new Include(this, 'controller', {
+			url: 'https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml',
+		})
+	}
+}
+
 export interface CrisisCleanupChartProps extends ChartProps {
 	backend: BackendProps
 	frontend: FrontendProps
+	domainName: string
 }
 
 export class CrisisCleanupChart extends Chart {
@@ -347,6 +365,7 @@ export class CrisisCleanupChart extends Chart {
 			labels: {
 				app: 'crisiscleanup',
 			},
+			domainName: 'local.crisiscleanup.io',
 			backend: this.backendDefaultProps,
 			frontend: this.frontendDefaultProps,
 		}
@@ -361,14 +380,58 @@ export class CrisisCleanupChart extends Chart {
 		return new this(scope, 'crisiscleanup', values)
 	}
 
+	backend: Backend
+	frontend: Frontend
+	ingress: kplus.Ingress
+
 	constructor(scope: Construct, id: string, props: CrisisCleanupChartProps) {
 		super(scope, id, props)
 
-		new Backend(this, 'backend', props.backend)
-		new Frontend(this, 'frontend', props.frontend)
+		this.backend = new Backend(this, 'backend', props.backend)
+		this.frontend = new Frontend(this, 'frontend', props.frontend)
+
+		this.ingress = new kplus.Ingress(this, 'ingress')
+		this.ingress.addHostRule(
+			`api.${props.domainName}`,
+			'/ws/',
+			kplus.IngressBackend.fromService(
+				this.backend.asgi.deployment.exposeViaService(),
+			),
+			kplus.HttpIngressPathType.PREFIX,
+		)
+		this.ingress.addHostDefaultBackend(
+			`api.${props.domainName}`,
+			kplus.IngressBackend.fromService(
+				this.backend.wsgi.deployment.exposeViaService(),
+			),
+		)
+
+		const webService = this.frontend.web.deployment.exposeViaService()
+		const webBackend = kplus.IngressBackend.fromService(webService)
+		this.ingress.addHostRule(
+			props.domainName,
+			'/',
+			webBackend,
+			kplus.HttpIngressPathType.PREFIX,
+		)
+		this.ingress.addHostRule(
+			`www.${props.domainName}`,
+			'/',
+			webBackend,
+			kplus.HttpIngressPathType.PREFIX,
+		)
 	}
 }
 
 const app = new App({ recordConstructMetadata: true })
-CrisisCleanupChart.withDefaults(app, {})
+const ingressChart = new Chart(app, 'ingress')
+const igController = new NginxIngressController(
+	ingressChart,
+	'ingress-controller',
+)
+igController.createController({
+	className: 'nginx',
+})
+const chart = CrisisCleanupChart.withDefaults(app, {})
+chart.addDependency(ingressChart)
 app.synth()
