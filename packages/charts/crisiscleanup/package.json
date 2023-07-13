@@ -48,7 +48,8 @@
   "dependencies": {
     "cdk8s": "^2.7.102",
     "cdk8s-plus-24": "^2.0.0-rc.26",
-    "constructs": "^10.1.42"
+    "constructs": "^10.1.42",
+    "defu": "^6.1.2"
   },
   "license": "Apache-2.0",
   "version": "0.0.0",

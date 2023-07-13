@@ -118,6 +118,9 @@ importers:
       constructs:
         specifier: ^10.1.42
         version: 10.2.69
+      defu:
+        specifier: ^6.1.2
+        version: 6.1.2
     devDependencies:
       '@types/jest':
         specifier: ^29.5.3
@@ -4672,7 +4675,6 @@ packages:
       {
         integrity: sha512-+uO4+qr7msjNNWKYPHqN/3+Dx3NFkmIzayk2L1MyZQlvgZb/J1A0fo410dpKrN2SnqFjt8n4JL8fDJE0wIgjFQ==,
       }
-    dev: true
 
   /del@6.1.1:
     resolution:
