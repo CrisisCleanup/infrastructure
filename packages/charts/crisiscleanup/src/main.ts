@@ -40,19 +40,24 @@ export interface DeploymentProps {
 	probes?: Pick<kplus.ContainerProps, 'liveness' | 'startup' | 'readiness'>
 }
 
+export interface BackendApiProps extends DeploymentProps {
+	config: BackendConfig
+}
+
 export interface CeleryQueueProps {
 	name: string
 	args?: string[]
 }
 
-export interface CeleryProps extends DeploymentProps {
+export interface CeleryProps extends BackendApiProps {
 	queues?: CeleryQueueProps[]
 }
 
 export interface BackendProps {
-	asgi: DeploymentProps
-	wsgi: DeploymentProps
-	celery: CeleryProps
+	asgi: Omit<BackendApiProps, 'config'>
+	wsgi: Omit<BackendApiProps, 'config'>
+	celery: Omit<CeleryProps, 'config'>
+	config: Record<any, any>
 }
 
 export interface FrontendProps {
@@ -120,52 +125,72 @@ class Component<
 	}
 }
 
-export class BackendWSGI extends Component {
+export class BackendConfig extends Construct {
+	configMap: kplus.ConfigMap
+	constructor(
+		scope: Construct,
+		id: string,
+		readonly props: { config: Record<string, string> },
+	) {
+		super(scope, id)
+
+		this.configMap = new kplus.ConfigMap(this, 'config', {
+			data: props.config,
+		})
+	}
+}
+
+export class BackendWSGI extends Component<BackendApiProps> {
 	static componentName = 'wsgi'
 
-	constructor(scope: Construct, id: string, props: DeploymentProps) {
+	constructor(scope: Construct, id: string, props: BackendApiProps) {
 		super(scope, id, props)
 
 		this.addContainer({
 			name: 'backend',
 			portNumber: 5000,
 			...(props.probes ?? {}),
+			envFrom: [new kplus.EnvFrom(props.config.configMap)],
 		})
 			.addContainer({
 				name: 'migrate',
 				command: ['python', 'manage.py', 'migrate', '--noinput'],
 				init: true,
+				envFrom: [new kplus.EnvFrom(props.config.configMap)],
 			})
 			.addContainer({
 				name: 'collectstatic',
 				command: ['python', 'manage.py', 'collectstatic', '--noinput'],
 				init: true,
+				envFrom: [new kplus.EnvFrom(props.config.configMap)],
 			})
 	}
 }
 
-export class BackendASGI extends Component {
+export class BackendASGI extends Component<BackendApiProps> {
 	static componentName = 'asgi'
 
-	constructor(scope: Construct, id: string, props: DeploymentProps) {
+	constructor(scope: Construct, id: string, props: BackendApiProps) {
 		super(scope, id, props)
 		this.addContainer({
 			name: 'backend',
 			command: ['./serve.sh', 'asgi'],
 			portNumber: 5000,
 			...(props.probes ?? {}),
+			envFrom: [new kplus.EnvFrom(props.config.configMap)],
 		})
 	}
 }
 
-export class CeleryBeat extends Component {
+export class CeleryBeat extends Component<BackendApiProps> {
 	static componentName = 'celerybeat'
 
-	constructor(scope: Construct, id: string, props: DeploymentProps) {
+	constructor(scope: Construct, id: string, props: BackendApiProps) {
 		super(scope, id, props)
 		this.addContainer({
 			name: 'celerybeat',
 			command: ['./start-celerybeat.sh'],
+			envFrom: [new kplus.EnvFrom(props.config.configMap)],
 		})
 	}
 
@@ -174,7 +199,7 @@ export class CeleryBeat extends Component {
 	}
 }
 
-export class CeleryWorkers extends Component {
+export class CeleryWorkers extends Component<BackendApiProps> {
 	static componentName = 'celeryworker'
 
 	addWorkerQueue(queue: CeleryQueueProps): this {
@@ -186,6 +211,7 @@ export class CeleryWorkers extends Component {
 				queue.name,
 				...(queue.args ?? []),
 			],
+			envFrom: [new kplus.EnvFrom(this.props.config.configMap)],
 		})
 		return this
 	}
@@ -208,14 +234,15 @@ export class Celery extends Construct {
 	}
 }
 
-export class AdminWebSocket extends Component {
+export class AdminWebSocket extends Component<BackendApiProps> {
 	static componentName = 'adminwebsocket'
 
-	constructor(scope: Construct, id: string, props: DeploymentProps) {
+	constructor(scope: Construct, id: string, props: BackendApiProps) {
 		super(scope, id, props)
 		this.addContainer({
 			name: 'adminwebsocket',
 			command: ['./start-adminwebsocket.sh'],
+			envFrom: [new kplus.EnvFrom(props.config.configMap)],
 		})
 	}
 }
@@ -247,16 +274,26 @@ export class Backend extends Construct {
 	constructor(scope: Construct, id: string, props: BackendProps) {
 		super(scope, id)
 
+		const config = new BackendConfig(this, 'config', {
+			config: props.config,
+		})
+
 		this.wsgi = new BackendWSGI(this, 'wsgi', {
+			config,
 			probes: this.createHttpProbes('/health'),
 			...props.wsgi,
 		})
 		this.asgi = new BackendASGI(this, 'asgi', {
+			config,
 			probes: this.createHttpProbes('/ws/health'),
 			...props.asgi,
 		})
-		this.celery = new Celery(this, 'celery', props.celery)
+		this.celery = new Celery(this, 'celery', {
+			config,
+			...props.celery,
+		})
 		this.adminWebSocket = new AdminWebSocket(this, 'adminwebsocket', {
+			config,
 			...props.wsgi,
 			replicaCount: 1,
 		})
@@ -348,6 +385,40 @@ export class CrisisCleanupChart extends Chart {
 		}
 
 		this.backendDefaultProps = {
+			config: {
+				CELERY_ALWAYS_EAGER: 'False',
+				DATABASE_PORT: '5432',
+				DJANGO_ACCOUNT_ALLOW_REGISTRATION: 'True',
+				DJANGO_ADMIN_URL: '^ccadmin/',
+				DJANGO_ALLOWED_HOSTS: '*',
+				DJANGO_CSRF_COOKIE_SECURE: 'False',
+				DJANGO_SECURE_SSL_REDIRECT: 'False',
+				DJANGO_SESSION_COOKIE_SECURE: 'False',
+				ELASTIC_SEARCH_HOST:
+					'https://search-crisiscleanup-weyohcdj6uiduuj65scqkmxxjy.us-east-1.es.amazonaws.com/',
+				NEW_RELIC_CONFIG_FILE: '/app/newrelic.ini',
+				SENTRY_TRACE_EXCLUDE_URLS:
+					'/,/health,/health/,/ws/health,/ws/health/,/version,/version/,/{var}health/,/{var}version/,crisiscleanup.common.tasks.get_request_ip,crisiscleanup.common.tasks.create_signal_log',
+				// dev
+				DATABASE_HOST:
+					'ccu-dev-q0upkeu.cgt7ayjtdhxl.us-east-1.rds.amazonaws.com',
+				POSTGRES_DBNAME: 'crisiscleanup',
+				POSTGRES_HOST:
+					'ccu-dev-q0upkeu.cgt7ayjtdhxl.us-east-1.rds.amazonaws.com',
+				REDIS_HOST:
+					'ccu-dev-redis-cache-001.oryzzt.0001.use1.cache.amazonaws.com',
+				REDIS_HOST_REPLICAS:
+					'cc-r-165zput7hbqku-0.oryzzt.0001.use1.cache.amazonaws.com',
+				DJANGO_EMAIL_BACKEND: 'django.core.mail.backends.dummy.EmailBackend',
+				CCU_WEB_URL: 'https://app.dev.crisiscleanup.io',
+				CCU_API_URL: 'https://api.dev.crisiscleanup.io',
+				SAML_AWS_ROLE: 'arn:aws:iam::182237011124:role/CCUDevConnectRole',
+				SAML_AWS_PROVIDER: 'arn:aws:iam::182237011124:saml-provider/ccuDev',
+				CONNECT_INSTANCE_ID: '87fbcad4-9f58-4153-84e8-d5b7202693e8',
+				AWS_DYNAMO_STAGE: 'dev',
+				PHONE_CHECK_TIMEZONE: 'False',
+				DJANGO_SETTINGS_MODULE: 'config.settings.development',
+			},
 			asgi: backendDefaults,
 			celery: {
 				...backendDefaults,
