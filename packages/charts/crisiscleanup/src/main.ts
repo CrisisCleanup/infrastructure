@@ -1,4 +1,4 @@
-import { App, Chart, type ChartProps } from 'cdk8s'
+import { App, Chart, type ChartProps, Duration } from 'cdk8s'
 import * as kplus from 'cdk8s-plus-24'
 import { ImagePullPolicy } from 'cdk8s-plus-24'
 import { Construct } from 'constructs'
@@ -37,6 +37,7 @@ export class ContainerImage implements ContainerImageProps {
 export interface DeploymentProps {
 	replicaCount: number
 	image: ContainerImageProps
+	probes?: Pick<kplus.ContainerProps, 'liveness' | 'startup' | 'readiness'>
 }
 
 export interface CeleryQueueProps {
@@ -124,9 +125,11 @@ export class BackendWSGI extends Component {
 
 	constructor(scope: Construct, id: string, props: DeploymentProps) {
 		super(scope, id, props)
+
 		this.addContainer({
 			name: 'backend',
-			ports: [{ number: 5000 }],
+			portNumber: 5000,
+			...(props.probes ?? {}),
 		})
 			.addContainer({
 				name: 'migrate',
@@ -149,7 +152,8 @@ export class BackendASGI extends Component {
 		this.addContainer({
 			name: 'backend',
 			command: ['./serve.sh', 'asgi'],
-			ports: [{ number: 5000 }],
+			portNumber: 5000,
+			...(props.probes ?? {}),
 		})
 	}
 }
@@ -223,6 +227,7 @@ export class Web extends Component {
 		super(scope, id, props)
 		this.addContainer({
 			name: 'web',
+			portNumber: 80,
 		})
 	}
 }
@@ -236,13 +241,43 @@ export class Backend extends Construct {
 	constructor(scope: Construct, id: string, props: BackendProps) {
 		super(scope, id)
 
-		this.wsgi = new BackendWSGI(this, 'wsgi', props.wsgi)
-		this.asgi = new BackendASGI(this, 'asgi', props.asgi)
+		this.wsgi = new BackendWSGI(this, 'wsgi', {
+			probes: this.createHttpProbes('/health'),
+			...props.wsgi,
+		})
+		this.asgi = new BackendASGI(this, 'asgi', {
+			probes: this.createHttpProbes('/ws/health'),
+			...props.asgi,
+		})
 		this.celery = new Celery(this, 'celery', props.celery)
 		this.adminWebSocket = new AdminWebSocket(this, 'adminwebsocket', {
 			...props.wsgi,
 			replicaCount: 1,
 		})
+	}
+
+	protected createHttpProbes(
+		httpPath: string,
+	): Pick<kplus.ContainerProps, 'readiness' | 'liveness' | 'startup'> {
+		const liveProbe = kplus.Probe.fromHttpGet(httpPath, {
+			initialDelaySeconds: Duration.seconds(10),
+			periodSeconds: Duration.seconds(5),
+		})
+
+		const readyProbe = kplus.Probe.fromHttpGet(httpPath, {
+			initialDelaySeconds: Duration.seconds(5),
+			periodSeconds: Duration.seconds(5),
+		})
+
+		const startProbe = kplus.Probe.fromHttpGet(httpPath, {
+			failureThreshold: 30,
+			periodSeconds: Duration.seconds(10),
+		})
+		return {
+			liveness: liveProbe,
+			readiness: readyProbe,
+			startup: startProbe,
+		}
 	}
 }
 
