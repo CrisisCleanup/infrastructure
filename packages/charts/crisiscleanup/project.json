@@ -92,13 +92,6 @@
         "cwd": "packages/charts/crisiscleanup"
       }
     },
-    "eslint": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "pnpm exec projen eslint",
-        "cwd": "packages/charts/crisiscleanup"
-      }
-    },
     "synth": {
       "executor": "nx:run-commands",
       "options": {
@@ -110,6 +103,13 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "pnpm exec projen import",
+        "cwd": "packages/charts/crisiscleanup"
+      }
+    },
+    "eslint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm exec projen eslint",
         "cwd": "packages/charts/crisiscleanup"
       }
     },

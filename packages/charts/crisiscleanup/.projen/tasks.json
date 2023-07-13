@@ -50,7 +50,7 @@
       "description": "Runs eslint against the codebase",
       "steps": [
         {
-          "exec": "eslint --ext .ts,.tsx --fix --no-error-on-unmatched-pattern src test build-tools"
+          "exec": "eslint --ext .ts --fix --no-error-on-unmatched-pattern /home/bradenmars/projects/work/crisiscleanup/crisiscleanup-infrastructure/packages/charts/crisiscleanup .projenrc.js"
         }
       ]
     },

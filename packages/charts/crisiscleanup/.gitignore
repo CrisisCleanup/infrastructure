@@ -38,8 +38,8 @@ junit.xml
 !/src/
 /lib
 /dist/
-!/.eslintrc.json
 !/cdk8s.yaml
+!/.eslintrc.json
 !/.prettierignore
 !/.prettierrc.json
 !/tsconfig.json
