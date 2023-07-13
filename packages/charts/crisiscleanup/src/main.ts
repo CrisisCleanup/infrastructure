@@ -25,7 +25,7 @@ export interface BackendProps {
   celery: CeleryProps;
 }
 
-class BackendComponent<PropsT extends DeploymentProps=DeploymentProps> extends Construct {
+class Component<PropsT extends DeploymentProps=DeploymentProps> extends Construct {
   static componentName: string = '';
   deployment: kplus.Deployment;
 
@@ -74,7 +74,7 @@ class BackendComponent<PropsT extends DeploymentProps=DeploymentProps> extends C
 }
 
 
-export class BackendWSGI extends BackendComponent {
+export class BackendWSGI extends Component {
   static componentName = 'wsgi';
 
   constructor(scope: Construct, id: string, props: DeploymentProps) {
@@ -94,7 +94,7 @@ export class BackendWSGI extends BackendComponent {
   }
 }
 
-export class BackendASGI extends BackendComponent {
+export class BackendASGI extends Component {
   static componentName = 'asgi';
 
   constructor(scope: Construct, id: string, props: DeploymentProps) {
@@ -109,7 +109,7 @@ export class BackendASGI extends BackendComponent {
   }
 }
 
-export class CeleryBeat extends BackendComponent {
+export class CeleryBeat extends Component {
   static componentName = 'celerybeat';
 
   constructor(scope: Construct, id: string, props: DeploymentProps) {
@@ -126,7 +126,7 @@ export class CeleryBeat extends BackendComponent {
 
 }
 
-export class CeleryWorkers extends BackendComponent {
+export class CeleryWorkers extends Component {
   static componentName = 'celeryworker';
 
   addWorkerQueue(queue: CeleryQueueProps): this {
@@ -151,7 +151,7 @@ export class Celery extends Construct {
   }
 }
 
-export class AdminWebSocket extends BackendComponent {
+export class AdminWebSocket extends Component {
   static componentName = 'adminwebsocket';
 
   constructor(scope: Construct, id: string, props: DeploymentProps) {
