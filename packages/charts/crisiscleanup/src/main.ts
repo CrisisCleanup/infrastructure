@@ -225,9 +225,15 @@ export class Web extends Component {
 
 	constructor(scope: Construct, id: string, props: DeploymentProps) {
 		super(scope, id, props)
+		const probe = kplus.Probe.fromHttpGet('/', {
+			failureThreshold: 3,
+			periodSeconds: Duration.seconds(10),
+		})
 		this.addContainer({
 			name: 'web',
 			portNumber: 80,
+			liveness: probe,
+			readiness: probe,
 		})
 	}
 }
