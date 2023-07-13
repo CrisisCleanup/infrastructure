@@ -2,10 +2,41 @@ import { App, Chart, type ChartProps } from 'cdk8s'
 import * as kplus from 'cdk8s-plus-24'
 import { ImagePullPolicy } from 'cdk8s-plus-24'
 import { Construct } from 'constructs'
+import defu from 'defu'
+
+export interface ContainerImageProps {
+	repository: string
+	tag: string
+	pullPolicy?: kplus.ImagePullPolicy
+}
+
+export class ContainerImage implements ContainerImageProps {
+	static fromProps(props: ContainerImageProps): ContainerImage {
+		if (props instanceof ContainerImage) return props
+		return new ContainerImage(props.repository, props.tag, props.pullPolicy)
+	}
+
+	protected constructor(
+		public readonly repository: string,
+		public readonly tag: string,
+		public readonly pullPolicy?: kplus.ImagePullPolicy,
+	) {}
+
+	get imageFqn(): string {
+		return `${this.repository}:${this.tag}`
+	}
+
+	get containerProps(): {
+		image: string
+		imagePullPolicy?: kplus.ImagePullPolicy
+	} {
+		return { image: this.imageFqn, imagePullPolicy: this.pullPolicy }
+	}
+}
 
 export interface DeploymentProps {
 	replicaCount: number
-	image: string
+	image: ContainerImageProps
 }
 
 export interface CeleryQueueProps {
@@ -69,19 +100,20 @@ class Component<
 
 	addContainer(
 		props: Omit<kplus.ContainerProps, 'image'> & {
-			image?: kplus.ContainerProps['image']
+			image?: ContainerImageProps
 			init?: boolean
 		},
 	): this {
-		const defaults: kplus.ContainerProps = {
-			image: this.props.image,
-			imagePullPolicy: ImagePullPolicy.IF_NOT_PRESENT,
-		}
-		const { init = false, ...containerProps } = props
+		const { init = false, ...containerPropsInput } = props
+		const containerProps = {
+			...ContainerImage.fromProps(props.image ?? this.props.image)
+				.containerProps,
+			...containerPropsInput,
+		} as kplus.ContainerProps
 		if (init) {
-			this.deployment.addInitContainer({ ...defaults, ...containerProps })
+			this.deployment.addInitContainer(containerProps)
 		} else {
-			this.deployment.addContainer({ ...defaults, ...containerProps })
+			this.deployment.addContainer(containerProps)
 		}
 		return this
 	}
@@ -223,27 +255,79 @@ export class Frontend extends Construct {
 	}
 }
 
+export interface CrisisCleanupChartProps extends ChartProps {
+	backend: BackendProps
+	frontend: FrontendProps
+}
+
 export class CrisisCleanupChart extends Chart {
-	constructor(scope: Construct, id: string, props: ChartProps = {}) {
-		super(scope, id, props)
-		const image =
-			'240937704012.dkr.ecr.us-east-1.amazonaws.com/crisiscleanup-api'
-		new Backend(this, 'backend', {
-			asgi: { replicaCount: 1, image },
-			wsgi: { replicaCount: 1, image },
-			celery: {
-				image,
+	static frontendDefaultProps: FrontendProps
+	static backendDefaultProps: BackendProps
+
+	static defaultProps: CrisisCleanupChartProps
+
+	static {
+		const backendDefaults: DeploymentProps = {
+			replicaCount: 1,
+			image: {
+				repository:
+					'240937704012.dkr.ecr.us-east-1.amazonaws.com/crisiscleanup-api',
+				tag: 'latest',
+				pullPolicy: ImagePullPolicy.ALWAYS,
+			},
+		}
+		this.frontendDefaultProps = {
+			web: {
 				replicaCount: 1,
+				image: {
+					repository:
+						'240937704012.dkr.ecr.us-east-1.amazonaws.com/crisiscleanup-api',
+					tag: 'latest',
+					pullPolicy: ImagePullPolicy.ALWAYS,
+				},
+			},
+		}
+
+		this.backendDefaultProps = {
+			asgi: backendDefaults,
+			celery: {
+				...backendDefaults,
 				queues: [
 					{ name: 'default' },
 					{ name: 'phone' },
 					{ name: 'phone-metrics', args: ['--prefetch-multiplier=5'] },
 				],
 			},
-		})
+			wsgi: backendDefaults,
+		}
+
+		this.defaultProps = {
+			namespace: 'local',
+			labels: {
+				app: 'crisiscleanup',
+			},
+			backend: this.backendDefaultProps,
+			frontend: this.frontendDefaultProps,
+		}
+	}
+
+	static withDefaults(
+		scope: Construct,
+		props: Partial<CrisisCleanupChartProps>,
+	) {
+		const defaults = Object.assign({}, this.defaultProps)
+		const values = defu(Object.assign({}, props), defaults)
+		return new this(scope, 'crisiscleanup', values)
+	}
+
+	constructor(scope: Construct, id: string, props: CrisisCleanupChartProps) {
+		super(scope, id, props)
+
+		new Backend(this, 'backend', props.backend)
+		new Frontend(this, 'frontend', props.frontend)
 	}
 }
 
 const app = new App({ recordConstructMetadata: true })
-new CrisisCleanupChart(app, 'crisiscleanup')
+CrisisCleanupChart.withDefaults(app, {})
 app.synth()
