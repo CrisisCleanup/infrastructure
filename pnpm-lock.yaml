@@ -121,6 +121,9 @@ importers:
       defu:
         specifier: ^6.1.2
         version: 6.1.2
+      type-fest:
+        specifier: ^3.13.0
+        version: 3.13.0
     devDependencies:
       '@types/jest':
         specifier: ^29.5.3
@@ -180,7 +183,7 @@ importers:
         specifier: ^3.12.7
         version: 3.12.7
       typescript:
-        specifier: ^5.1.6
+        specifier: ^5
         version: 5.1.6
 
 packages:
@@ -11211,7 +11214,6 @@ packages:
         integrity: sha512-Gur3yQGM9qiLNs0KPP7LPgeRbio2QTt4xXouobMCarR0/wyW3F+F/+OWwshg3NG0Adon7uQfSZBpB46NfhoF1A==,
       }
     engines: { node: '>=14.16' }
-    dev: true
 
   /typed-array-length@1.0.4:
     resolution:

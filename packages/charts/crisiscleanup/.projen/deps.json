@@ -85,6 +85,7 @@
     },
     {
       "name": "typescript",
+      "version": "^5",
       "type": "build"
     },
     {
@@ -104,6 +105,10 @@
     },
     {
       "name": "defu",
+      "type": "runtime"
+    },
+    {
+      "name": "type-fest",
       "type": "runtime"
     }
   ],

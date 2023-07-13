@@ -43,13 +43,14 @@
     "projen": "^0.71.133",
     "ts-jest": "^29.1.1",
     "tsx": "^3.12.7",
-    "typescript": "^5.1.6"
+    "typescript": "^5"
   },
   "dependencies": {
     "cdk8s": "^2.7.102",
     "cdk8s-plus-24": "^2.0.0-rc.26",
     "constructs": "^10.1.42",
-    "defu": "^6.1.2"
+    "defu": "^6.1.2",
+    "type-fest": "^3.13.0"
   },
   "license": "Apache-2.0",
   "version": "0.0.0",

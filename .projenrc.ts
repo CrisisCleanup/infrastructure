@@ -126,7 +126,8 @@ const crisiscleanup = new cdk8s.Cdk8sTypeScriptApp({
 	k8sMinorVersion: 24,
 	eslint: false,
 	prettier: false,
-	deps: ['defu'],
+	deps: ['defu', 'type-fest'],
+	typescriptVersion: '^5',
 })
 new LintConfig(crisiscleanup)
 crisiscleanup.tryRemoveFile('tsconfig.json')
