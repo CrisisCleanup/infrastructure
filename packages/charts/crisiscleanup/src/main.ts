@@ -25,6 +25,10 @@ export interface BackendProps {
   celery: CeleryProps;
 }
 
+export interface FrontendProps {
+  web: DeploymentProps;
+}
+
 class Component<PropsT extends DeploymentProps=DeploymentProps> extends Construct {
   static componentName: string = '';
   deployment: kplus.Deployment;
@@ -163,6 +167,17 @@ export class AdminWebSocket extends Component {
   }
 }
 
+export class Web extends Component {
+  static componentName = 'web';
+
+  constructor(scope: Construct, id: string, props: DeploymentProps) {
+    super(scope, id, props);
+    this.addContainer({
+      name: 'web',
+    });
+  }
+}
+
 export class Backend extends Construct {
   wsgi: BackendWSGI;
   asgi: BackendASGI;
@@ -180,8 +195,19 @@ export class Backend extends Construct {
   }
 }
 
+export class Frontend extends Construct {
+  web: Web;
 
-export class MyChart extends Chart {
+  constructor(scope: Construct, id: string, props: FrontendProps) {
+    super(scope, id);
+    this.web = new Web(this, 'web', props.web);
+  }
+
+}
+
+
+
+export class CrisisCleanupChart extends Chart {
   constructor(scope: Construct, id: string, props: ChartProps = { }) {
     super(scope, id, props);
     const image = '240937704012.dkr.ecr.us-east-1.amazonaws.com/crisiscleanup-api';
@@ -201,6 +227,6 @@ export class MyChart extends Chart {
   }
 }
 
-const app = new App();
-new MyChart(app, 'crisiscleanup');
+const app = new App({ recordConstructMetadata: true });
+new CrisisCleanupChart(app, 'crisiscleanup');
 app.synth();
