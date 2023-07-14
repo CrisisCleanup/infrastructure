@@ -150,23 +150,58 @@ export class BackendWSGI extends Component<BackendApiProps> {
 	constructor(scope: Construct, id: string, props: BackendApiProps) {
 		super(scope, id, props)
 
+		const staticVolume = kplus.Volume.fromEmptyDir(
+			this,
+			'static-files',
+			'staticfiles',
+		)
 		this.addContainer({
 			name: 'backend',
 			portNumber: 5000,
 			...(props.probes ?? {}),
 			envFrom: [new kplus.EnvFrom(props.config.configMap)],
+			securityContext: {
+				readOnlyRootFilesystem: false,
+				user: 1000,
+				group: 1000,
+			},
+			volumeMounts: [{ volume: staticVolume, path: '/app/staticfiles' }],
+			command: ['/serve.sh', 'wsgi'],
 		})
 			.addContainer({
 				name: 'migrate',
-				command: ['python', 'manage.py', 'migrate', '--noinput'],
+				command: [
+					'python',
+					'manage.py',
+					'migrate',
+					'--noinput',
+					'--verbosity=1',
+				],
 				init: true,
 				envFrom: [new kplus.EnvFrom(props.config.configMap)],
+				securityContext: {
+					readOnlyRootFilesystem: false,
+				},
 			})
 			.addContainer({
 				name: 'collectstatic',
-				command: ['python', 'manage.py', 'collectstatic', '--noinput'],
+				command: [
+					'python',
+					'manage.py',
+					'collectstatic',
+					'--link',
+					'--no-post-process',
+					'--noinput',
+					'--verbosity=2',
+				],
 				init: true,
 				envFrom: [new kplus.EnvFrom(props.config.configMap)],
+				securityContext: {
+					readOnlyRootFilesystem: false,
+					user: 1000,
+					group: 1000,
+				},
+				volumeMounts: [{ volume: staticVolume, path: '/app/staticfiles' }],
 			})
 	}
 }
