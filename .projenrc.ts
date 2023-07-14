@@ -52,6 +52,7 @@ const tools = new ToolVersions(monorepo, {
 		nodejs: [monorepo.package.minNodeVersion!],
 		pnpm: [monorepo.package.pnpmVersion!],
 		kind: ['0.20.0'],
+		awscli: ['2.13.0'],
 	},
 })
 

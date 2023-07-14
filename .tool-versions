@@ -3,3 +3,4 @@ direnv 2.32.3
 nodejs 18.16.0
 pnpm 8.6.6
 kind 0.20.0
+awscli 2.13.0
