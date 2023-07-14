@@ -38,6 +38,7 @@ export interface DeploymentProps {
 	replicaCount: number
 	image: ContainerImageProps
 	probes?: Pick<kplus.ContainerProps, 'liveness' | 'startup' | 'readiness'>
+	spread?: boolean
 }
 
 export interface BackendApiProps extends DeploymentProps {
@@ -89,7 +90,7 @@ class Component<
 						component: componentName,
 					},
 				},
-				spread: true,
+				spread: props.spread ?? false,
 			},
 			deploymentProps,
 		)
