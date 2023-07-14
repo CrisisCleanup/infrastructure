@@ -233,8 +233,9 @@ export class CeleryBeat extends Component<BackendApiProps> {
 		super(scope, id, props)
 		this.addContainer({
 			name: 'celerybeat',
-			command: ['./start-celerybeat.sh'],
+			command: ['/serve.sh', 'celerybeat'],
 			envFrom: [new kplus.EnvFrom(props.config.configMap)],
+			securityContext: { readOnlyRootFilesystem: false },
 		})
 	}
 
@@ -285,7 +286,7 @@ export class AdminWebSocket extends Component<BackendApiProps> {
 		super(scope, id, props)
 		this.addContainer({
 			name: 'adminwebsocket',
-			command: ['./start-adminwebsocket.sh'],
+			command: ['/serve.sh', 'adminwebsocket'],
 			envFrom: [new kplus.EnvFrom(props.config.configMap)],
 		})
 	}
@@ -305,6 +306,7 @@ export class Web extends Component {
 			portNumber: 80,
 			liveness: probe,
 			readiness: probe,
+			securityContext: { ensureNonRoot: false, readOnlyRootFilesystem: false },
 		})
 	}
 }
