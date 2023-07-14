@@ -519,18 +519,24 @@ export class CrisisCleanupChart extends Chart {
 			`api.${props.domainName}`,
 			'/ws/',
 			kplus.IngressBackend.fromService(
-				this.backend.asgi.deployment.exposeViaService(),
+				this.backend.asgi.deployment.exposeViaService({
+					serviceType: kplus.ServiceType.NODE_PORT,
+				}),
 			),
 			kplus.HttpIngressPathType.PREFIX,
 		)
 		this.ingress.addHostDefaultBackend(
 			`api.${props.domainName}`,
 			kplus.IngressBackend.fromService(
-				this.backend.wsgi.deployment.exposeViaService(),
+				this.backend.wsgi.deployment.exposeViaService({
+					serviceType: kplus.ServiceType.NODE_PORT,
+				}),
 			),
 		)
 
-		const webService = this.frontend.web.deployment.exposeViaService()
+		const webService = this.frontend.web.deployment.exposeViaService({
+			serviceType: kplus.ServiceType.NODE_PORT,
+		})
 		const webBackend = kplus.IngressBackend.fromService(webService)
 		this.ingress.addHostRule(
 			props.domainName,
