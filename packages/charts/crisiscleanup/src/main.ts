@@ -213,10 +213,15 @@ export class BackendASGI extends Component<BackendApiProps> {
 		super(scope, id, props)
 		this.addContainer({
 			name: 'backend',
-			command: ['./serve.sh', 'asgi'],
+			command: ['/serve.sh', 'asgi'],
 			portNumber: 5000,
 			...(props.probes ?? {}),
 			envFrom: [new kplus.EnvFrom(props.config.configMap)],
+			securityContext: {
+				readOnlyRootFilesystem: false,
+				user: 1000,
+				group: 1000,
+			},
 		})
 	}
 }
