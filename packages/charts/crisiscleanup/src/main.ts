@@ -76,21 +76,24 @@ class Component<
 		readonly props: PropsT,
 	) {
 		super(scope, id)
-		const deploymentProps = this.createDeploymentProps()
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 		const componentName = Object.getPrototypeOf(this).constructor
 			.componentName as string
-		this.deployment = this.createDeployment('deployment', {
-			metadata: {
-				labels: {
-					app: 'crisiscleanup',
-					component: componentName,
+		const deploymentProps = this.createDeploymentProps()
+		const mergedProps = defu<kplus.DeploymentProps>(
+			{
+				replicas: props.replicaCount,
+				metadata: {
+					labels: {
+						app: 'crisiscleanup',
+						component: componentName,
+					},
 				},
-				...(deploymentProps.metadata ?? {}),
+				spread: true,
 			},
-			spread: true,
-			...deploymentProps,
-		})
+			deploymentProps,
+		)
+		this.deployment = this.createDeployment(componentName, mergedProps)
 	}
 
 	protected createDeploymentProps(): kplus.DeploymentProps {
