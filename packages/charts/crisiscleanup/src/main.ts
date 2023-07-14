@@ -1,6 +1,6 @@
+import process from 'node:process'
 import { App, Chart, type ChartProps, Duration, Include } from 'cdk8s'
 import * as kplus from 'cdk8s-plus-24'
-import { ImagePullPolicy, Ingress } from 'cdk8s-plus-24'
 import { Construct } from 'constructs'
 import defu from 'defu'
 
@@ -418,7 +418,7 @@ export class CrisisCleanupChart extends Chart {
 				repository:
 					'240937704012.dkr.ecr.us-east-1.amazonaws.com/crisiscleanup-api',
 				tag: 'latest',
-				pullPolicy: ImagePullPolicy.ALWAYS,
+				pullPolicy: kplus.ImagePullPolicy.IF_NOT_PRESENT,
 			},
 		}
 		this.frontendDefaultProps = {
@@ -426,9 +426,9 @@ export class CrisisCleanupChart extends Chart {
 				replicaCount: 1,
 				image: {
 					repository:
-						'240937704012.dkr.ecr.us-east-1.amazonaws.com/crisiscleanup-api',
+						'240937704012.dkr.ecr.us-east-1.amazonaws.com/crisiscleanup-web',
 					tag: 'latest',
-					pullPolicy: ImagePullPolicy.ALWAYS,
+					pullPolicy: kplus.ImagePullPolicy.IF_NOT_PRESENT,
 				},
 			},
 		}
@@ -446,18 +446,16 @@ export class CrisisCleanupChart extends Chart {
 				ELASTIC_SEARCH_HOST:
 					'https://search-crisiscleanup-weyohcdj6uiduuj65scqkmxxjy.us-east-1.es.amazonaws.com/',
 				NEW_RELIC_CONFIG_FILE: '/app/newrelic.ini',
+				CCU_NEWRELIC_DISABLE: '1',
+				FORCE_DOCKER: 'True',
 				SENTRY_TRACE_EXCLUDE_URLS:
 					'/,/health,/health/,/ws/health,/ws/health/,/version,/version/,/{var}health/,/{var}version/,crisiscleanup.common.tasks.get_request_ip,crisiscleanup.common.tasks.create_signal_log',
 				// dev
-				DATABASE_HOST:
-					'ccu-dev-q0upkeu.cgt7ayjtdhxl.us-east-1.rds.amazonaws.com',
-				POSTGRES_DBNAME: 'crisiscleanup',
-				POSTGRES_HOST:
-					'ccu-dev-q0upkeu.cgt7ayjtdhxl.us-east-1.rds.amazonaws.com',
-				REDIS_HOST:
-					'ccu-dev-redis-cache-001.oryzzt.0001.use1.cache.amazonaws.com',
-				REDIS_HOST_REPLICAS:
-					'cc-r-165zput7hbqku-0.oryzzt.0001.use1.cache.amazonaws.com',
+				DATABASE_HOST: '172.17.0.1',
+				POSTGRES_DBNAME: 'crisiscleanup_dev',
+				POSTGRES_HOST: '172.17.0.1',
+				REDIS_HOST: '172.17.0.1',
+				// REDIS_HOST_REPLICAS:
 				DJANGO_EMAIL_BACKEND: 'django.core.mail.backends.dummy.EmailBackend',
 				CCU_WEB_URL: 'https://local.crisiscleanup.io',
 				CCU_API_URL: 'https://api.local.crisiscleanup.io',
@@ -467,6 +465,20 @@ export class CrisisCleanupChart extends Chart {
 				AWS_DYNAMO_STAGE: 'dev',
 				PHONE_CHECK_TIMEZONE: 'False',
 				DJANGO_SETTINGS_MODULE: 'config.settings.local',
+				// todo: use csi secrets
+				POSTGRES_PASSWORD: process.env.POSTGRES_PASSWORD,
+				POSTGRES_USER: process.env.POSTGRES_USER,
+				DJANGO_SECRET_KEY: process.env.DJANGO_SECRET_KEY,
+				JWT_PUBLIC_KEY: process.env.JWT_PUBLIC_KEY,
+				JWT_PRIVATE_KEY: process.env.JWT_PRIVATE_KEY,
+				CLOUDFRONT_PUBLIC_KEY: process.env.CLOUDFRONT_PUBLIC_KEY,
+				CLOUDFRONT_PRIVATE_KEY: process.env.CLOUDFRONT_PRIVATE_KEY,
+				AWS_ACCESS_KEY_ID: process.env.LOCAL_AWS_ACCESS_KEY_ID,
+				AWS_SECRET_ACCESS_KEY: process.env.LOCAL_AWS_SECRET_ACCESS_KEY,
+				AWS_DEFAULT_REGION: process.env.LOCAL_AWS_DEFAULT_REGION,
+				DJANGO_MANDRILL_API_KEY: process.env.DJANGO_MANDRILL_API_KEY,
+				ZENDESK_API_KEY: process.env.ZENDESK_API_KEY,
+				CONNECT_FIRST_PASSWORD: process.env.CONNECT_FIRST_PASSWORD,
 			},
 			asgi: backendDefaults,
 			celery: {
