@@ -1,7 +1,7 @@
 import process from 'node:process'
 import { App, Chart, type ChartProps, Duration, Include } from 'cdk8s'
 import * as kplus from 'cdk8s-plus-24'
-import { Construct } from 'constructs'
+import { Construct, type Node } from 'constructs'
 import defu from 'defu'
 
 export interface ContainerImageProps {
@@ -65,18 +65,18 @@ export interface FrontendProps {
 	web: DeploymentProps
 }
 
-class Component<
-	PropsT extends DeploymentProps = DeploymentProps,
-> extends Construct {
+class Component<PropsT extends DeploymentProps = DeploymentProps>
+	implements Construct
+{
 	static componentName: string = ''
 	deployment: kplus.Deployment
+	readonly node: Node
 
 	constructor(
-		scope: Construct,
-		id: string,
-		readonly props: PropsT,
+		public readonly scope: Construct,
+		public readonly id: string,
+		public readonly props: PropsT,
 	) {
-		super(scope, id)
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 		const componentName = Object.getPrototypeOf(this).constructor
 			.componentName as string
@@ -94,18 +94,16 @@ class Component<
 			},
 			deploymentProps,
 		)
-		this.deployment = this.createDeployment(componentName, mergedProps)
+		this.deployment = this.createDeployment(mergedProps)
+		this.node = this.deployment.node
 	}
 
 	protected createDeploymentProps(): kplus.DeploymentProps {
 		return {}
 	}
 
-	protected createDeployment(
-		id: string,
-		props: kplus.DeploymentProps,
-	): kplus.Deployment {
-		return new kplus.Deployment(this, id, props)
+	protected createDeployment(props: kplus.DeploymentProps): kplus.Deployment {
+		return new kplus.Deployment(this.scope, this.id, props)
 	}
 
 	addContainer(
