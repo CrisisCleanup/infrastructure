@@ -507,6 +507,10 @@ export class CrisisCleanupChart extends Chart {
 	constructor(scope: Construct, id: string, props: CrisisCleanupChartProps) {
 		super(scope, id, props)
 
+		new kplus.Namespace(this, 'namespace', {
+			metadata: { name: props.namespace },
+		})
+
 		this.backend = new Backend(this, 'backend', props.backend)
 		this.frontend = new Frontend(this, 'frontend', props.frontend)
 
