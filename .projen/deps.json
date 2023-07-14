@@ -119,6 +119,10 @@
       "type": "build"
     },
     {
+      "name": "zx",
+      "type": "build"
+    },
+    {
       "name": "@types/babel__traverse",
       "version": "7.18.2",
       "type": "override"

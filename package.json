@@ -56,7 +56,8 @@
     "syncpack": "^10.7.3",
     "ts-node": "^10.9.1",
     "tsx": "^3.12.7",
-    "typescript": "^5"
+    "typescript": "^5",
+    "zx": "^7.2.3"
   },
   "peerDependencies": {
     "nx": "^16"

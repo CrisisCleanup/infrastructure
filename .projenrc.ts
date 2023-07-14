@@ -25,6 +25,7 @@ const monorepo = new MonorepoProject({
 		'@arroyodev-llc/projen.component.git-hooks',
 		'@aws-prototyping-sdk/nx-monorepo',
 		'cdk8s-cli',
+		'zx',
 	],
 	packageManager: javascript.NodePackageManager.PNPM,
 	projenrcTs: true,
