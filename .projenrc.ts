@@ -132,7 +132,8 @@ const crisiscleanup = new cdk8s.Cdk8sTypeScriptApp({
 	k8sMinorVersion: 24,
 	eslint: false,
 	prettier: false,
-	deps: ['defu', 'type-fest'],
+	deps: ['defu', 'js-yaml'],
+	devDeps: ['type-fest', '@types/js-yaml'],
 	typescriptVersion: '^5',
 })
 const lintConfig = new LintConfig(crisiscleanup)

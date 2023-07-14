@@ -5,6 +5,10 @@
       "type": "build"
     },
     {
+      "name": "@types/js-yaml",
+      "type": "build"
+    },
+    {
       "name": "@types/node",
       "version": "^16",
       "type": "build"
@@ -84,6 +88,10 @@
       "type": "build"
     },
     {
+      "name": "type-fest",
+      "type": "build"
+    },
+    {
       "name": "typescript",
       "version": "^5",
       "type": "build"
@@ -108,7 +116,7 @@
       "type": "runtime"
     },
     {
-      "name": "type-fest",
+      "name": "js-yaml",
       "type": "runtime"
     }
   ],

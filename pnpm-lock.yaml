@@ -124,13 +124,16 @@ importers:
       defu:
         specifier: ^6.1.2
         version: 6.1.2
-      type-fest:
-        specifier: ^3.13.0
-        version: 3.13.0
+      js-yaml:
+        specifier: ^4.1.0
+        version: 4.1.0
     devDependencies:
       '@types/jest':
         specifier: ^29.5.3
         version: 29.5.3
+      '@types/js-yaml':
+        specifier: ^4.0.5
+        version: 4.0.5
       '@types/node':
         specifier: ^16
         version: 16.18.38
@@ -185,6 +188,9 @@ importers:
       tsx:
         specifier: ^3.12.7
         version: 3.12.7
+      type-fest:
+        specifier: ^3.13.0
+        version: 3.13.0
       typescript:
         specifier: ^5
         version: 5.1.6
@@ -2837,6 +2843,13 @@ packages:
       pretty-format: 29.6.1
     dev: true
 
+  /@types/js-yaml@4.0.5:
+    resolution:
+      {
+        integrity: sha512-FhpRzf927MNQdRZP0J5DLIdTXhjLYzeUTmLAu69mnVksLH9CJY3IuSeEgbKUki7GQZm0WqDkGzyxju2EZGD2wA==,
+      }
+    dev: true
+
   /@types/json-schema@7.0.12:
     resolution:
       {
@@ -3384,7 +3397,6 @@ packages:
       {
         integrity: sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==,
       }
-    dev: true
 
   /array-buffer-byte-length@1.0.0:
     resolution:
@@ -4890,7 +4902,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230713
+      typescript: 5.2.0-dev.20230714
     dev: true
 
   /duplexer@0.1.2:
@@ -7714,7 +7726,6 @@ packages:
     hasBin: true
     dependencies:
       argparse: 2.0.1
-    dev: true
 
   /jsesc@2.5.2:
     resolution:
@@ -11381,6 +11392,7 @@ packages:
         integrity: sha512-Gur3yQGM9qiLNs0KPP7LPgeRbio2QTt4xXouobMCarR0/wyW3F+F/+OWwshg3NG0Adon7uQfSZBpB46NfhoF1A==,
       }
     engines: { node: '>=14.16' }
+    dev: true
 
   /typed-array-length@1.0.4:
     resolution:
@@ -11420,10 +11432,10 @@ packages:
     hasBin: true
     dev: true
 
-  /typescript@5.2.0-dev.20230713:
+  /typescript@5.2.0-dev.20230714:
     resolution:
       {
-        integrity: sha512-A/crla7nXo4d7TVRlV4CUzxW218b2WupUrIMnnGBV1o0SQnckrszm0CUMRAYeKAB9lFIo/B1Gx1cBdvNQYiD4A==,
+        integrity: sha512-BZAU6XIqRwO7gRelEoc6iunX6belf+IGyqA79LQqldafiBahXQKYTeyW8V0/ABk7/FpWWk4qRIDDCy8DKWo4XQ==,
       }
     engines: { node: '>=14.17' }
     hasBin: true
