@@ -249,14 +249,17 @@ export class CeleryWorkers extends Component<BackendApiProps> {
 
 	addWorkerQueue(queue: CeleryQueueProps): this {
 		this.addContainer({
-			name: queue.name,
+			name: queue.name.replaceAll(',', '-'),
 			command: [
-				'./start-celeryworker.sh',
+				'/serve.sh',
+				'celeryworker',
 				'-Q',
 				queue.name,
+				'--concurrency=1',
 				...(queue.args ?? []),
 			],
 			envFrom: [new kplus.EnvFrom(this.props.config.configMap)],
+			securityContext: { readOnlyRootFilesystem: false },
 		})
 		return this
 	}
@@ -456,22 +459,22 @@ export class CrisisCleanupChart extends Chart {
 				REDIS_HOST_REPLICAS:
 					'cc-r-165zput7hbqku-0.oryzzt.0001.use1.cache.amazonaws.com',
 				DJANGO_EMAIL_BACKEND: 'django.core.mail.backends.dummy.EmailBackend',
-				CCU_WEB_URL: 'https://app.dev.crisiscleanup.io',
-				CCU_API_URL: 'https://api.dev.crisiscleanup.io',
+				CCU_WEB_URL: 'https://local.crisiscleanup.io',
+				CCU_API_URL: 'https://api.local.crisiscleanup.io',
 				SAML_AWS_ROLE: 'arn:aws:iam::182237011124:role/CCUDevConnectRole',
 				SAML_AWS_PROVIDER: 'arn:aws:iam::182237011124:saml-provider/ccuDev',
 				CONNECT_INSTANCE_ID: '87fbcad4-9f58-4153-84e8-d5b7202693e8',
 				AWS_DYNAMO_STAGE: 'dev',
 				PHONE_CHECK_TIMEZONE: 'False',
-				DJANGO_SETTINGS_MODULE: 'config.settings.development',
+				DJANGO_SETTINGS_MODULE: 'config.settings.local',
 			},
 			asgi: backendDefaults,
 			celery: {
 				...backendDefaults,
 				queues: [
-					{ name: 'default' },
+					{ name: 'celery' },
 					{ name: 'phone' },
-					{ name: 'phone-metrics', args: ['--prefetch-multiplier=5'] },
+					{ name: 'metrics', args: ['--prefetch-multiplier=5'] },
 				],
 			},
 			wsgi: backendDefaults,
