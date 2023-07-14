@@ -125,6 +125,9 @@ const crisiscleanup = new cdk8s.Cdk8sTypeScriptApp({
 	cdk8sCliVersion: '2.2.105',
 	cdk8sVersion: '2.7.102',
 	cdk8sPlus: true,
+	cdk8sImports: [
+		'https://raw.githubusercontent.com/kubernetes-sigs/secrets-store-csi-driver/main/charts/secrets-store-csi-driver/crds/secrets-store.csi.x-k8s.io_secretproviderclasses.yaml',
+	],
 	defaultReleaseBranch: 'main',
 	k8sMinorVersion: 24,
 	eslint: false,
@@ -132,7 +135,8 @@ const crisiscleanup = new cdk8s.Cdk8sTypeScriptApp({
 	deps: ['defu', 'type-fest'],
 	typescriptVersion: '^5',
 })
-new LintConfig(crisiscleanup)
+const lintConfig = new LintConfig(crisiscleanup)
+lintConfig.eslint.addIgnorePattern('src/imports')
 crisiscleanup.tryRemoveFile('tsconfig.json')
 crisiscleanup.tryRemoveFile('tsconfig.dev.json')
 const chartTsconfig = new javascript.TypescriptConfig(crisiscleanup, {

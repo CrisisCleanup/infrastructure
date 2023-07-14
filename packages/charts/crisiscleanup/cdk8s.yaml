@@ -4,3 +4,4 @@ language: typescript
 app: tsx src/main.ts
 imports:
   - k8s
+  - https://raw.githubusercontent.com/kubernetes-sigs/secrets-store-csi-driver/main/charts/secrets-store-csi-driver/crds/secrets-store.csi.x-k8s.io_secretproviderclasses.yaml
