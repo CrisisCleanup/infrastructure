@@ -83,12 +83,12 @@ export class BackendWSGI extends Component<BackendApiProps> {
 		super(scope, id, props)
 
 		const staticVolume = kplus.Volume.fromEmptyDir(
-			this,
+			scope,
 			'static-files',
 			'staticfiles',
 		)
 		const secretsVolume = kplus.Volume.fromCsi(
-			this,
+			scope,
 			'secrets',
 			'secrets-store.csi.k8s.io',
 			{
@@ -109,44 +109,43 @@ export class BackendWSGI extends Component<BackendApiProps> {
 				user: 1000,
 				group: 1000,
 			},
-			volumeMounts: [{ volume: staticVolume, path: '/app/staticfiles' }],
+			volumeMounts: [
+				{ volume: staticVolume, path: '/app/staticfiles' },
+				{ volume: secretsVolume, path: '/run/secrets' },
+			],
 			command: ['/serve.sh', 'wsgi'],
 		})
-			.addContainer({
-				name: 'migrate',
-				command: [
-					'python',
-					'manage.py',
-					'migrate',
-					'--noinput',
-					'--verbosity=1',
-				],
-				init: true,
-				envFrom: [new kplus.EnvFrom(props.config.configMap)],
-				securityContext: {
-					readOnlyRootFilesystem: false,
-				},
-			})
-			.addContainer({
-				name: 'collectstatic',
-				command: [
-					'python',
-					'manage.py',
-					'collectstatic',
-					'--link',
-					'--no-post-process',
-					'--noinput',
-					'--verbosity=2',
-				],
-				init: true,
-				envFrom: [new kplus.EnvFrom(props.config.configMap)],
-				securityContext: {
-					readOnlyRootFilesystem: false,
-					user: 1000,
-					group: 1000,
-				},
-				volumeMounts: [{ volume: staticVolume, path: '/app/staticfiles' }],
-			})
+
+		this.addContainer({
+			name: 'migrate',
+			command: ['python', 'manage.py', 'migrate', '--noinput', '--verbosity=1'],
+			init: true,
+			envFrom: [new kplus.EnvFrom(props.config.configMap)],
+			securityContext: {
+				readOnlyRootFilesystem: false,
+			},
+		})
+
+		this.addContainer({
+			name: 'collectstatic',
+			command: [
+				'python',
+				'manage.py',
+				'collectstatic',
+				'--link',
+				'--no-post-process',
+				'--noinput',
+				'--verbosity=2',
+			],
+			init: true,
+			envFrom: [new kplus.EnvFrom(props.config.configMap)],
+			securityContext: {
+				readOnlyRootFilesystem: false,
+				user: 1000,
+				group: 1000,
+			},
+			volumeMounts: [{ volume: staticVolume, path: '/app/staticfiles' }],
+		})
 	}
 }
 
