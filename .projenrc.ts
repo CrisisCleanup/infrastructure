@@ -11,7 +11,11 @@ import {
 	MonorepoProject,
 	TSConfig,
 } from '@arroyodev-llc/projen.project.nx-monorepo'
-import { builders as tsBuilders } from '@arroyodev-llc/projen.project.typescript'
+import {
+	builders as tsBuilders,
+	TypescriptBaseBuilder,
+	TypescriptConfigBuilder,
+} from '@arroyodev-llc/projen.project.typescript'
 import { builders, ProjectBuilder } from '@arroyodev-llc/utils.projen-builder'
 import { NodePackageUtils } from '@aws-prototyping-sdk/nx-monorepo'
 import { cdk8s, javascript, LogLevel, typescript } from 'projen'
@@ -135,11 +139,28 @@ const WithParentBuilder = new builders.DefaultOptionsBuilder({
 	parent: monorepo,
 })
 
+const TypescriptProjectBuilder = TypescriptBaseBuilder.add(
+	CommonDefaultsBuilder,
+	{ prepend: true },
+)
+	.add(WithParentBuilder, {
+		prepend: true,
+	})
+	.add(NameSchemeBuilder)
+
 const TsESMBuilder = new tsBuilders.TypescriptConfigBuilder({
 	extendsDefault: (container) =>
 		container.buildExtends(TSConfig.BASE, TSConfig.ESM),
 })
 
+const config = TypescriptProjectBuilder.build({
+	name: 'config',
+	deps: ['c12'],
+})
+
+/**
+ * CDK8s
+ */
 const Cdk8sDefaultsBuilder = new builders.DefaultOptionsBuilder({
 	cdk8sCliVersion: '2.2',
 	cdk8sVersion: '2.7.115',
