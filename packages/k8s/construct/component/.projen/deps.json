@@ -21,6 +21,10 @@
       "type": "build"
     },
     {
+      "name": "cdk8s-plus-24",
+      "type": "build"
+    },
+    {
       "name": "cdk8s",
       "version": "2.7.115",
       "type": "build"
@@ -123,6 +127,10 @@
       "name": "@types/prettier",
       "version": "2.6.0",
       "type": "override"
+    },
+    {
+      "name": "cdk8s-plus-24",
+      "type": "peer"
     },
     {
       "name": "cdk8s",

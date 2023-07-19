@@ -172,6 +172,7 @@ const Cdk8sConstructBuilder = new ProjectBuilder(cdk8s.ConstructLibraryCdk8s)
 const k8sComponentConstruct = Cdk8sConstructBuilder.build({
 	name: 'k8s.construct.component',
 	deps: ['defu', 'js-yaml'],
+	peerDeps: ['cdk8s-plus-24'],
 })
 
 // Charts
