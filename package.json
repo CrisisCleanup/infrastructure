@@ -24,7 +24,7 @@
   },
   "author": {
     "name": "CrisisCleanup",
-    "email": "help@crisiscleanup.org",
+    "email": "support@arroyodev.com",
     "url": "https://crisiscleanup.org",
     "organization": true
   },
@@ -87,7 +87,8 @@
   "type": "module",
   "workspaces": {
     "packages": [
-      "packages/charts/crisiscleanup"
+      "packages/charts/crisiscleanup",
+      "packages/k8s/construct/component"
     ]
   },
   "packageManager": "pnpm@8.6.9",
