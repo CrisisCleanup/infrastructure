@@ -182,6 +182,7 @@ const crisiscleanup = Cdk8sAppBuilder.build({
 	],
 	deps: ['defu', 'js-yaml'],
 	devDeps: ['type-fest', '@types/js-yaml', 'tsx'],
+	workspaceDeps: [k8sComponentConstruct],
 })
 crisiscleanup.lintConfig.eslint.addIgnorePattern('src/imports')
 crisiscleanup

@@ -115,6 +115,9 @@ importers:
 
   packages/charts/crisiscleanup:
     dependencies:
+      '@crisiscleanup/k8s.construct.component':
+        specifier: workspace:*
+        version: link:../../k8s/construct/component
       cdk8s:
         specifier: ^2.7.115
         version: 2.7.115(constructs@10.2.69)

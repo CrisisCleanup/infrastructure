@@ -5,7 +5,12 @@
     "../../../tsconfig/tsconfig.esm.json"
   ],
   "compilerOptions": {
-    "outDir": "dist"
+    "outDir": "dist",
+    "paths": {
+      "@crisiscleanup/k8s.construct.component": [
+        "../../k8s/construct/component/src/index"
+      ]
+    }
   },
   "include": [
     "src/**/*.ts",
