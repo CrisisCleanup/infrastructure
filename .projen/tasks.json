@@ -65,7 +65,7 @@
       "description": "Synthesize project files",
       "steps": [
         {
-          "exec": "tsx .projenrc.ts"
+          "exec": "pnpm exec tsx .projenrc.ts"
         }
       ]
     },
@@ -155,7 +155,7 @@
       "name": "post-install",
       "steps": [
         {
-          "exec": "pnpm exec nx run-many --target=post-install --output-style=stream --nx-bail",
+          "exec": "pnpm exec nx run-many --target=post-install --output-style=stream --runner=local --nx-bail",
           "receiveArgs": true
         },
         {

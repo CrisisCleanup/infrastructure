@@ -23,6 +23,7 @@ const monorepo = new MonorepoProject({
 		'@arroyodev-llc/projen.component.dir-env',
 		'@arroyodev-llc/projen.component.linting',
 		'@arroyodev-llc/projen.component.git-hooks',
+		'@arroyodev-llc/utils.projen-builder',
 		'@aws-prototyping-sdk/nx-monorepo',
 		'cdk8s-cli',
 		'zx',

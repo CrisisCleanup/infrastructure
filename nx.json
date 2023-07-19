@@ -1,6 +1,6 @@
 {
   "extends": "nx/presets/npm.json",
-  "npmScope": "monorepo",
+  "npmScope": "@crisiscleanup",
   "affected": {
     "defaultBase": "main"
   },
@@ -33,6 +33,16 @@
   },
   "tasksRunnerOptions": {
     "default": {
+      "runner": "nx/tasks-runners/default",
+      "options": {
+        "useDaemonProcess": false,
+        "cacheableOperations": [
+          "build",
+          "test"
+        ]
+      }
+    },
+    "local": {
       "runner": "nx/tasks-runners/default",
       "options": {
         "useDaemonProcess": false,

@@ -25,6 +25,10 @@
       "type": "build"
     },
     {
+      "name": "@arroyodev-llc/utils.projen-builder",
+      "type": "build"
+    },
+    {
       "name": "@aws-prototyping-sdk/nx-monorepo",
       "type": "build"
     },
