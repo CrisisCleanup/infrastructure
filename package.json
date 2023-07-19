@@ -57,7 +57,7 @@
     "syncpack": "^10.7.3",
     "ts-node": "^10.9.1",
     "tsx": "^3.12.7",
-    "typescript": "^5",
+    "typescript": "~5.1",
     "zx": "^7.2.3"
   },
   "peerDependencies": {
@@ -90,7 +90,7 @@
       "packages/charts/crisiscleanup"
     ]
   },
-  "packageManager": "pnpm@8.6.6",
+  "packageManager": "pnpm@8.6.9",
   "simple-git-hooks": {
     "pre-commit": "pnpm exec lint-staged",
     "preserveUnused": true

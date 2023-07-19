@@ -1,5 +1,5 @@
 {
-  "name": "crisiscleanup",
+  "name": "@crisiscleanup/charts.crisiscleanup",
   "scripts": {
     "build": "npx projen build",
     "clean": "pnpm exec projen clean",
@@ -26,10 +26,10 @@
   "devDependencies": {
     "@types/jest": "^29.5.3",
     "@types/js-yaml": "^4.0.5",
-    "@types/node": "^16",
+    "@types/node": "^18",
     "@typescript-eslint/eslint-plugin": "^5",
     "@typescript-eslint/parser": "^5",
-    "cdk8s-cli": "^2.2.105",
+    "cdk8s-cli": "^2.2",
     "eslint": "^8",
     "eslint-config-prettier": "^8.8.0",
     "eslint-import-resolver-node": "^0.3.7",
@@ -45,14 +45,17 @@
     "ts-jest": "^29.1.1",
     "tsx": "^3.12.7",
     "type-fest": "^4.0.0",
-    "typescript": "^5"
+    "typescript": "~5.1"
   },
   "dependencies": {
-    "cdk8s": "^2.7.102",
-    "cdk8s-plus-24": "^2.0.0-rc.26",
+    "cdk8s": "^2.7.115",
+    "cdk8s-plus-24": "^2.8",
     "constructs": "^10.1.42",
     "defu": "^6.1.2",
     "js-yaml": "^4.1.0"
+  },
+  "engines": {
+    "node": ">= 18.16.0"
   },
   "license": "Apache-2.0",
   "version": "0.0.0",
@@ -96,7 +99,9 @@
       }
     }
   },
-  "packageManager": "pnpm@8.6.6",
+  "type": "module",
+  "sideEffects": false,
+  "packageManager": "pnpm@8.6.9",
   "lint-staged": {
     "*.{ts,tsx,mts,cts,js,jsx,jts,jts}": [
       "pnpm exec eslint --cache --fix --no-error-on-unmatched-pattern"

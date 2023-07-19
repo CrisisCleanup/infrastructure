@@ -1,5 +1,5 @@
 {
-  "name": "crisiscleanup",
+  "name": "charts.crisiscleanup",
   "root": "packages/charts/crisiscleanup",
   "targets": {
     "build": {

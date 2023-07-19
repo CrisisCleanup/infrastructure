@@ -36,12 +36,12 @@ junit.xml
 !/.npmrc
 !/test/
 !/src/
-/lib
+/dist
 /dist/
 !/cdk8s.yaml
+!/tsconfig.json
+!/tsconfig.dev.json
 !/.eslintrc.json
 !/.prettierignore
 !/.prettierrc.json
-!/tsconfig.json
-!/tsconfig.dev.json
 !/project.json

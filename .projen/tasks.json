@@ -86,7 +86,7 @@
       "description": "Runs eslint against the codebase for all affected projects",
       "steps": [
         {
-          "exec": "pnpm exec nx run-many --target=eslint --output-style=stream --nx-bail",
+          "exec": "pnpm exec nx run-many --target=eslint --cache --output-style=stream --nx-bail",
           "receiveArgs": true
         },
         {
@@ -219,19 +219,19 @@
           "exec": "pnpm update npm-check-updates"
         },
         {
-          "exec": "npm-check-updates --dep dev --upgrade --target=minor --reject='nx'"
+          "exec": "npm-check-updates --dep dev --upgrade --target=minor --reject='nx,typescript'"
         },
         {
-          "exec": "npm-check-updates --dep optional --upgrade --target=minor --reject='nx'"
+          "exec": "npm-check-updates --dep optional --upgrade --target=minor --reject='nx,typescript'"
         },
         {
-          "exec": "npm-check-updates --dep peer --upgrade --target=minor --reject='nx'"
+          "exec": "npm-check-updates --dep peer --upgrade --target=minor --reject='nx,typescript'"
         },
         {
-          "exec": "npm-check-updates --dep prod --upgrade --target=minor --reject='nx'"
+          "exec": "npm-check-updates --dep prod --upgrade --target=minor --reject='nx,typescript'"
         },
         {
-          "exec": "npm-check-updates --dep bundle --upgrade --target=minor --reject='nx'"
+          "exec": "npm-check-updates --dep bundle --upgrade --target=minor --reject='nx,typescript'"
         },
         {
           "exec": "pnpm i --no-frozen-lockfile"

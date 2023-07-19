@@ -6,8 +6,7 @@
   ],
   "compilerOptions": {
     "rootDir": ".",
-    "outDir": "dist",
-    "isolatedModules": false
+    "outDir": "dist"
   },
   "include": [
     ".projenrc.ts",

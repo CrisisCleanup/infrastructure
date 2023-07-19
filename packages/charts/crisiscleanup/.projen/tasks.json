@@ -50,7 +50,7 @@
       "description": "Runs eslint against the codebase",
       "steps": [
         {
-          "exec": "eslint --ext .ts --fix --no-error-on-unmatched-pattern /home/bradenmars/projects/work/crisiscleanup/crisiscleanup-infrastructure/packages/charts/crisiscleanup .projenrc.js"
+          "exec": "eslint --cache --ext .ts --fix --no-error-on-unmatched-pattern /home/bradenmars/projects/work/crisiscleanup/crisiscleanup-infrastructure/packages/charts/crisiscleanup .projenrc.js"
         }
       ]
     },
@@ -116,7 +116,7 @@
       "description": "Run tests",
       "steps": [
         {
-          "exec": "jest --passWithNoTests --updateSnapshot",
+          "exec": "jest --passWithNoTests --coverageProvider=v8 --updateSnapshot",
           "receiveArgs": true
         },
         {
@@ -144,19 +144,19 @@
           "exec": "pnpm update npm-check-updates"
         },
         {
-          "exec": "npm-check-updates --dep dev --upgrade --target=minor"
+          "exec": "npm-check-updates --dep dev --upgrade --target=minor --reject='typescript'"
         },
         {
-          "exec": "npm-check-updates --dep optional --upgrade --target=minor"
+          "exec": "npm-check-updates --dep optional --upgrade --target=minor --reject='typescript'"
         },
         {
-          "exec": "npm-check-updates --dep peer --upgrade --target=minor"
+          "exec": "npm-check-updates --dep peer --upgrade --target=minor --reject='typescript'"
         },
         {
-          "exec": "npm-check-updates --dep prod --upgrade --target=minor"
+          "exec": "npm-check-updates --dep prod --upgrade --target=minor --reject='typescript'"
         },
         {
-          "exec": "npm-check-updates --dep bundle --upgrade --target=minor"
+          "exec": "npm-check-updates --dep bundle --upgrade --target=minor --reject='typescript'"
         },
         {
           "exec": "pnpm i --no-frozen-lockfile"
