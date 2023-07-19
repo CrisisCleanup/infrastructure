@@ -11,10 +11,35 @@ import {
 	MonorepoProject,
 	TSConfig,
 } from '@arroyodev-llc/projen.project.nx-monorepo'
+import { builders as tsBuilders } from '@arroyodev-llc/projen.project.typescript'
+import { builders, ProjectBuilder } from '@arroyodev-llc/utils.projen-builder'
 import { NodePackageUtils } from '@aws-prototyping-sdk/nx-monorepo'
-import { cdk8s, javascript, typescript, type YamlFile } from 'projen'
+import { cdk8s, javascript, LogLevel, typescript } from 'projen'
 
-const monorepo = new MonorepoProject({
+const CommonDefaultsBuilder = new builders.DefaultOptionsBuilder({
+	defaultReleaseBranch: 'main',
+	packageManager: javascript.NodePackageManager.PNPM,
+	projenrcTs: true,
+	minNodeVersion: '18.16.0',
+	pnpmVersion: '8.6.9',
+	typescriptVersion: '~5.1',
+	authorName: 'CrisisCleanup',
+	authorEmail: 'help@crisiscleanup.org',
+	authorOrganization: true,
+	authorUrl: 'https://crisiscleanup.org',
+	logging: { level: LogLevel.INFO, usePrefix: true },
+	libdir: 'dist',
+} satisfies Partial<typescript.TypeScriptProjectOptions>)
+
+const NameSchemeBuilder = new builders.NameSchemeBuilder({
+	scope: '@crisiscleanup',
+})
+
+const MonorepoBuilder = new ProjectBuilder(MonorepoProject)
+	.add(CommonDefaultsBuilder)
+	.add(new tsBuilders.TypescriptLintingBuilder({ useTypeInformation: true }))
+
+const monorepo = MonorepoBuilder.build({
 	name: 'crisiscleanup-infrastructure',
 	devDeps: [
 		'@arroyodev-llc/projen.project.nx-monorepo',
@@ -28,22 +53,9 @@ const monorepo = new MonorepoProject({
 		'cdk8s-cli',
 		'zx',
 	],
-	packageManager: javascript.NodePackageManager.PNPM,
-	projenrcTs: true,
-	minNodeVersion: '18.16.0',
-	pnpmVersion: '8.6.6',
-	authorName: 'CrisisCleanup',
-	authorEmail: 'help@crisiscleanup.org',
-	authorOrganization: true,
-	authorUrl: 'https://crisiscleanup.org',
 	namingScheme: {
 		scope: '@crisiscleanup',
 		packagesDir: 'packages',
-	},
-	tsconfig: {
-		compilerOptions: {
-			isolatedModules: false,
-		},
 	},
 })
 
@@ -56,8 +68,6 @@ const tools = new ToolVersions(monorepo, {
 		awscli: ['2.13.0'],
 	},
 })
-
-new LintConfig(monorepo)
 
 new DirEnv(monorepo).buildDefaultEnvRc({
 	localEnvRc: '.envrc.local',
@@ -113,50 +123,51 @@ new GitHooks(monorepo, {
 	preserveUnused: true,
 })
 
-// Charts
-const crisiscleanup = new cdk8s.Cdk8sTypeScriptApp({
-	name: 'crisiscleanup',
+/**
+ * Subprojects
+ */
+
+const WithParentBuilder = new builders.DefaultOptionsBuilder({
 	parent: monorepo,
-	packageManager: monorepo.package.packageManager,
-	outdir: 'packages/charts/crisiscleanup',
-	authorName: 'CrisisCleanup',
-	authorEmail: 'help@crisiscleanup.org',
-	authorOrganization: true,
-	authorUrl: 'https://crisiscleanup.org',
-	cdk8sCliVersion: '2.2.105',
-	cdk8sVersion: '2.7.102',
-	cdk8sPlus: true,
+})
+
+const Cdk8sDefaultsBuilder = new builders.DefaultOptionsBuilder({
+	cdk8sCliVersion: '2.2',
+	cdk8sVersion: '2.7.115',
+	cdksPlus: true,
+	cdk8sPlusVersion: '2.8',
+	k8sMinorVersion: 24,
+	typescriptVersion: '~5.1',
+	eslint: false,
+	prettier: false,
+})
+
+const Cdk8sAppBuilder = new ProjectBuilder(cdk8s.Cdk8sTypeScriptApp)
+	.add(WithParentBuilder)
+	.add(NameSchemeBuilder)
+	.add(CommonDefaultsBuilder)
+	.add(Cdk8sDefaultsBuilder)
+	.add(
+		new tsBuilders.TypescriptConfigBuilder({
+			extendsDefault: (container) =>
+				container.buildExtends(TSConfig.BASE, TSConfig.ESM),
+		}),
+	)
+	.add(new tsBuilders.TypescriptLintingBuilder({ useTypeInformation: true }))
+	.add(new tsBuilders.TypescriptESMManifestBuilder())
+
+// Charts
+const crisiscleanup = Cdk8sAppBuilder.build({
+	name: 'charts.crisiscleanup',
 	cdk8sImports: [
 		'https://raw.githubusercontent.com/kubernetes-sigs/secrets-store-csi-driver/main/charts/secrets-store-csi-driver/crds/secrets-store.csi.x-k8s.io_secretproviderclasses.yaml',
 	],
-	defaultReleaseBranch: 'main',
-	k8sMinorVersion: 24,
-	eslint: false,
-	prettier: false,
 	deps: ['defu', 'js-yaml'],
-	devDeps: ['type-fest', '@types/js-yaml'],
-	typescriptVersion: '^5',
+	devDeps: ['type-fest', '@types/js-yaml', 'tsx'],
 })
-const lintConfig = new LintConfig(crisiscleanup)
-lintConfig.eslint.addIgnorePattern('src/imports')
-crisiscleanup.tryRemoveFile('tsconfig.json')
-crisiscleanup.tryRemoveFile('tsconfig.dev.json')
-const chartTsconfig = new javascript.TypescriptConfig(crisiscleanup, {
-	include: ['src/*.ts', 'src/**/*.ts'],
-	fileName: 'tsconfig.json',
-	compilerOptions: {
-		outDir: 'dist',
-	},
-	extends: monorepo.tsconfigContainer.buildExtends(TSConfig.BASE, TSConfig.ESM),
-})
-new javascript.TypescriptConfig(crisiscleanup, {
-	include: ['*.ts', '**/*.ts'],
-	exclude: ['node_modules'],
-	fileName: 'tsconfig.dev.json',
-	compilerOptions: { outDir: 'dist' },
-}).addExtends(chartTsconfig)
-crisiscleanup.addDevDeps('tsx')
-const cdk8sConfig = crisiscleanup.tryFindObjectFile('cdk8s.yaml')! as YamlFile
-cdk8sConfig.addOverride('app', 'tsx src/main.ts')
+crisiscleanup.lintConfig.eslint.addIgnorePattern('src/imports')
+crisiscleanup
+	.tryFindObjectFile('cdk8s.yaml')!
+	.addOverride('app', 'tsx src/main.ts')
 
 monorepo.synth()
