@@ -23,13 +23,16 @@ const CommonDefaultsBuilder = new builders.DefaultOptionsBuilder({
 	minNodeVersion: '18.16.0',
 	pnpmVersion: '8.6.9',
 	typescriptVersion: '~5.1',
+	author: 'CrisisCleanup',
 	authorName: 'CrisisCleanup',
-	authorEmail: 'help@crisiscleanup.org',
 	authorOrganization: true,
 	authorUrl: 'https://crisiscleanup.org',
+	authorAddress: 'https://crisiscleanup.org',
+	repositoryUrl: 'https://github.com/CrisisCleanup/infrastructure',
 	logging: { level: LogLevel.INFO, usePrefix: true },
 	libdir: 'dist',
-} satisfies Partial<typescript.TypeScriptProjectOptions>)
+} satisfies Partial<typescript.TypeScriptProjectOptions> &
+	Partial<cdk8s.ConstructLibraryCdk8sOptions>)
 
 const NameSchemeBuilder = new builders.NameSchemeBuilder({
 	scope: '@crisiscleanup',
@@ -131,6 +134,11 @@ const WithParentBuilder = new builders.DefaultOptionsBuilder({
 	parent: monorepo,
 })
 
+const TsESMBuilder = new tsBuilders.TypescriptConfigBuilder({
+	extendsDefault: (container) =>
+		container.buildExtends(TSConfig.BASE, TSConfig.ESM),
+})
+
 const Cdk8sDefaultsBuilder = new builders.DefaultOptionsBuilder({
 	cdk8sCliVersion: '2.2',
 	cdk8sVersion: '2.7.115',
@@ -147,14 +155,24 @@ const Cdk8sAppBuilder = new ProjectBuilder(cdk8s.Cdk8sTypeScriptApp)
 	.add(NameSchemeBuilder)
 	.add(CommonDefaultsBuilder)
 	.add(Cdk8sDefaultsBuilder)
-	.add(
-		new tsBuilders.TypescriptConfigBuilder({
-			extendsDefault: (container) =>
-				container.buildExtends(TSConfig.BASE, TSConfig.ESM),
-		}),
-	)
+	.add(TsESMBuilder)
 	.add(new tsBuilders.TypescriptLintingBuilder({ useTypeInformation: true }))
 	.add(new tsBuilders.TypescriptESMManifestBuilder())
+
+const Cdk8sConstructBuilder = new ProjectBuilder(cdk8s.ConstructLibraryCdk8s)
+	.add(WithParentBuilder)
+	.add(NameSchemeBuilder)
+	.add(CommonDefaultsBuilder)
+	.add(Cdk8sDefaultsBuilder)
+	.add(TsESMBuilder)
+	.add(new tsBuilders.TypescriptLintingBuilder({ useTypeInformation: true }))
+	.add(new tsBuilders.TypescriptESMManifestBuilder())
+
+// K8s Constructs
+const k8sComponentConstruct = Cdk8sConstructBuilder.build({
+	name: 'k8s.construct.component',
+	deps: ['defu', 'js-yaml'],
+})
 
 // Charts
 const crisiscleanup = Cdk8sAppBuilder.build({
