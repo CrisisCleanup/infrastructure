@@ -2,4 +2,5 @@
 
 packages:
   - packages/charts/crisiscleanup
+  - packages/config
   - packages/k8s/construct/component
