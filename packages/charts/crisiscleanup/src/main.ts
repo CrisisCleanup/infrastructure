@@ -3,6 +3,8 @@ import { App, Chart, type ChartProps, Duration, Include } from 'cdk8s'
 import * as kplus from 'cdk8s-plus-24'
 import { Construct, type Node } from 'constructs'
 import defu from 'defu'
+import yaml from 'js-yaml'
+import { SecretProviderClass } from './imports/secrets-store.csi.x-k8s.io'
 
 export interface ContainerImageProps {
 	repository: string
@@ -59,6 +61,8 @@ export interface BackendProps {
 	wsgi: Omit<BackendApiProps, 'config'>
 	celery: Omit<CeleryProps, 'config'>
 	config: Record<any, any>
+	secrets?: Record<any, any>
+	stage?: string
 }
 
 export interface FrontendProps {
@@ -132,12 +136,37 @@ export class BackendConfig extends Construct {
 	constructor(
 		scope: Construct,
 		id: string,
-		readonly props: { config: Record<string, string> },
+		readonly props: {
+			config: Record<string, string>
+			secrets?: Record<string, string>
+			stage?: string
+		},
 	) {
 		super(scope, id)
 
 		this.configMap = new kplus.ConfigMap(this, 'config', {
 			data: props.config,
+		})
+
+		const secrets = props.secrets ?? {}
+
+		const secretObjects = Object.entries(secrets).map(([key, value]) => ({
+			objectAlias: key,
+			objectName: `${props.stage ?? 'local'}/${key
+				.toLowerCase()
+				.replaceAll('__', '/')
+				.replaceAll('_', '-')}`,
+			objectType: 'secretsmanager',
+		}))
+
+		new SecretProviderClass(this, 'aws-secrets', {
+			metadata: { name: 'aws-secrets' },
+			spec: {
+				parameters: {
+					region: 'us-east-1',
+					objects: yaml.dump(secretObjects),
+				},
+			},
 		})
 	}
 }
@@ -153,6 +182,18 @@ export class BackendWSGI extends Component<BackendApiProps> {
 			'static-files',
 			'staticfiles',
 		)
+		const secretsVolume = kplus.Volume.fromCsi(
+			this,
+			'secrets',
+			'secrets-store.csi.k8s.io',
+			{
+				readOnly: true,
+				attributes: {
+					secretProviderClass: 'aws-secrets',
+				},
+			},
+		)
+
 		this.addContainer({
 			name: 'backend',
 			portNumber: 5000,
@@ -323,6 +364,7 @@ export class Backend extends Construct {
 
 		const config = new BackendConfig(this, 'config', {
 			config: props.config,
+			secrets: props.secrets,
 		})
 
 		this.wsgi = new BackendWSGI(this, 'wsgi', {
@@ -477,6 +519,13 @@ export class CrisisCleanupChart extends Chart {
 				DJANGO_MANDRILL_API_KEY: process.env.DJANGO_MANDRILL_API_KEY,
 				ZENDESK_API_KEY: process.env.ZENDESK_API_KEY,
 				CONNECT_FIRST_PASSWORD: process.env.CONNECT_FIRST_PASSWORD,
+			},
+			secrets: {
+				database__password: process.env.POSTGRES_PASSWORD,
+				database__user: process.env.POSTGRES_USER,
+				django__secret_key: process.env.DJANGO_SECRET_KEY,
+				auth__jwt__public_key: process.env.JWT_PUBLIC_KEY,
+				auth__jwt__private_key: process.env.JWT_PRIVATE_KEY,
 			},
 			asgi: backendDefaults,
 			celery: {
