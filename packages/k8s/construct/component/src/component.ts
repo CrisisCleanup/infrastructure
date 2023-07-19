@@ -55,7 +55,7 @@ export class Component<PropsT extends DeploymentProps = DeploymentProps>
 		const componentName = Object.getPrototypeOf(this).constructor
 			.componentName as string
 		const deploymentProps = this.createDeploymentProps()
-		const mergedProps = defu<kplus.DeploymentProps>(
+		const mergedProps = defu(
 			{
 				replicas: props.replicaCount,
 				metadata: {
@@ -85,7 +85,7 @@ export class Component<PropsT extends DeploymentProps = DeploymentProps>
 			image?: ContainerImageProps
 			init?: boolean
 		},
-	): this {
+	): kplus.Container {
 		const { init = false, ...containerPropsInput } = props
 		const containerProps = {
 			...ContainerImage.fromProps(props.image ?? this.props.image)
@@ -93,10 +93,9 @@ export class Component<PropsT extends DeploymentProps = DeploymentProps>
 			...containerPropsInput,
 		} as kplus.ContainerProps
 		if (init) {
-			this.deployment.addInitContainer(containerProps)
+			return this.deployment.addInitContainer(containerProps)
 		} else {
-			this.deployment.addContainer(containerProps)
+			return this.deployment.addContainer(containerProps)
 		}
-		return this
 	}
 }
