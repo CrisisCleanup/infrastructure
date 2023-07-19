@@ -41,6 +41,7 @@
     "@typescript-eslint/eslint-plugin": "^5",
     "@typescript-eslint/parser": "^5",
     "cdk8s-cli": "^2.2.116",
+    "constructs": "^10.2.69",
     "eslint": "^8",
     "eslint-config-prettier": "^8.8.0",
     "eslint-import-resolver-node": "^0.3.7",
@@ -72,6 +73,8 @@
     "overrides": {
       "@types/babel__traverse": "7.18.2",
       "@zkochan/js-yaml": "npm:js-yaml@4.1.0",
+      "cdk8s-plus-24": "2.8.0",
+      "constructs": "10.1.42",
       "wrap-ansi": "^7.0.0"
     }
   },
@@ -89,6 +92,12 @@
     "packages": [
       "packages/charts/crisiscleanup",
       "packages/k8s/construct/component"
+    ],
+    "nohoist": [
+      "k8s.construct.component/defu",
+      "k8s.construct.component/defu/*",
+      "k8s.construct.component/js-yaml",
+      "k8s.construct.component/js-yaml/*"
     ]
   },
   "packageManager": "pnpm@8.6.9",

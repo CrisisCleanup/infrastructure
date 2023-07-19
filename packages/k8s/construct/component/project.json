@@ -8,16 +8,12 @@
         "^default",
         "!{projectRoot}/.jsii",
         "!{projectRoot}/dist/**/*",
-        "!{projectRoot}/dist/**/*",
-        "!{projectRoot}/coverage/**/*",
-        "!{projectRoot}/test-reports/**/*"
+        "!{projectRoot}/dist/**/*"
       ],
       "outputs": [
         "{projectRoot}/.jsii",
         "{projectRoot}/dist",
-        "{projectRoot}/dist",
-        "{projectRoot}/coverage",
-        "{projectRoot}/test-reports"
+        "{projectRoot}/dist"
       ],
       "dependsOn": [
         "^build"
@@ -67,13 +63,6 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "pnpm exec projen package",
-        "cwd": "packages/k8s/construct/component"
-      }
-    },
-    "test:watch": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "pnpm exec projen test:watch",
         "cwd": "packages/k8s/construct/component"
       }
     },

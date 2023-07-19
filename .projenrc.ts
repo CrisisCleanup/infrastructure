@@ -54,6 +54,7 @@ const monorepo = MonorepoBuilder.build({
 		'@arroyodev-llc/utils.projen-builder',
 		'@aws-prototyping-sdk/nx-monorepo',
 		'cdk8s-cli',
+		'constructs',
 		'zx',
 	],
 	namingScheme: {
@@ -158,6 +159,7 @@ const Cdk8sAppBuilder = new ProjectBuilder(cdk8s.Cdk8sTypeScriptApp)
 	.add(TsESMBuilder)
 	.add(new tsBuilders.TypescriptLintingBuilder({ useTypeInformation: true }))
 	.add(new tsBuilders.TypescriptESMManifestBuilder())
+	.add(new builders.OptionsPropertyBuilder<cdk8s.Cdk8sTypeScriptAppOptions>())
 
 const Cdk8sConstructBuilder = new ProjectBuilder(cdk8s.ConstructLibraryCdk8s)
 	.add(WithParentBuilder)
@@ -171,8 +173,8 @@ const Cdk8sConstructBuilder = new ProjectBuilder(cdk8s.ConstructLibraryCdk8s)
 // K8s Constructs
 const k8sComponentConstruct = Cdk8sConstructBuilder.build({
 	name: 'k8s.construct.component',
-	deps: ['defu', 'js-yaml'],
-	peerDeps: ['cdk8s-plus-24'],
+	bundledDeps: ['defu', 'js-yaml'],
+	jest: false,
 })
 
 // Charts
@@ -189,5 +191,17 @@ crisiscleanup.lintConfig.eslint.addIgnorePattern('src/imports')
 crisiscleanup
 	.tryFindObjectFile('cdk8s.yaml')!
 	.addOverride('app', 'tsx src/main.ts')
+
+// Ensure same constructs version
+const cdksPlusLib = `cdk8s-plus-${crisiscleanup.options.k8sMinorVersion!}`
+k8sComponentConstruct.addPeerDeps(cdksPlusLib)
+monorepo.package.addPackageResolutions(
+	`constructs@${crisiscleanup.package.tryResolveDependencyVersion(
+		'constructs',
+	)!}`,
+	`${cdksPlusLib}@${crisiscleanup.package.tryResolveDependencyVersion(
+		cdksPlusLib,
+	)!}`,
+)
 
 monorepo.synth()
