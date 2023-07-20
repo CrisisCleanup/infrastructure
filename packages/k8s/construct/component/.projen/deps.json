@@ -17,16 +17,7 @@
     },
     {
       "name": "cdk8s-plus-24",
-      "type": "build"
-    },
-    {
-      "name": "cdk8s",
-      "version": "2.7.115",
-      "type": "build"
-    },
-    {
-      "name": "constructs",
-      "version": "10.0.0",
+      "version": "*",
       "type": "build"
     },
     {
@@ -68,12 +59,12 @@
     },
     {
       "name": "jsii-rosetta",
-      "version": "1.x",
+      "version": "~5",
       "type": "build"
     },
     {
       "name": "jsii",
-      "version": "1.x",
+      "version": "~5",
       "type": "build"
     },
     {
@@ -107,16 +98,6 @@
       "type": "bundled"
     },
     {
-      "name": "@types/babel__traverse",
-      "version": "7.18.2",
-      "type": "override"
-    },
-    {
-      "name": "@types/prettier",
-      "version": "2.6.0",
-      "type": "override"
-    },
-    {
       "name": "cdk8s-plus-24",
       "type": "peer"
     },
@@ -127,7 +108,7 @@
     },
     {
       "name": "constructs",
-      "version": "^10.0.0",
+      "version": "^10.2.69",
       "type": "peer"
     }
   ],

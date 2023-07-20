@@ -147,7 +147,7 @@
           "exec": "npm-check-updates --dep dev --upgrade --target=minor --reject='typescript,@crisiscleanup/config,@crisiscleanup/k8s.construct.component'"
         },
         {
-          "exec": "npm-check-updates --dep optional --upgrade --target=minor --reject='typescript,@crisiscleanup/config,@crisiscleanup/k8s.construct.component'"
+          "exec": "npm-check-updates --dep bundle --upgrade --target=minor --reject='typescript,@crisiscleanup/config,@crisiscleanup/k8s.construct.component'"
         },
         {
           "exec": "npm-check-updates --dep peer --upgrade --target=minor --reject='typescript,@crisiscleanup/config,@crisiscleanup/k8s.construct.component'"
@@ -156,7 +156,7 @@
           "exec": "npm-check-updates --dep prod --upgrade --target=minor --reject='typescript,@crisiscleanup/config,@crisiscleanup/k8s.construct.component'"
         },
         {
-          "exec": "npm-check-updates --dep bundle --upgrade --target=minor --reject='typescript,@crisiscleanup/config,@crisiscleanup/k8s.construct.component'"
+          "exec": "npm-check-updates --dep optional --upgrade --target=minor --reject='typescript,@crisiscleanup/config,@crisiscleanup/k8s.construct.component'"
         },
         {
           "exec": "pnpm i --no-frozen-lockfile"

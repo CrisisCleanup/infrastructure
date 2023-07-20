@@ -14,11 +14,17 @@ import {
 import {
 	builders as tsBuilders,
 	TypescriptBaseBuilder,
-	TypescriptConfigBuilder,
 } from '@arroyodev-llc/projen.project.typescript'
 import { builders, ProjectBuilder } from '@arroyodev-llc/utils.projen-builder'
 import { NodePackageUtils } from '@aws-prototyping-sdk/nx-monorepo'
-import { cdk8s, javascript, LogLevel, typescript } from 'projen'
+import {
+	awscdk,
+	cdk8s,
+	DependencyType,
+	javascript,
+	LogLevel,
+	type typescript,
+} from 'projen'
 
 const CommonDefaultsBuilder = new builders.DefaultOptionsBuilder({
 	defaultReleaseBranch: 'main',
@@ -57,8 +63,6 @@ const monorepo = MonorepoBuilder.build({
 		'@arroyodev-llc/projen.component.git-hooks',
 		'@arroyodev-llc/utils.projen-builder',
 		'@aws-prototyping-sdk/nx-monorepo',
-		'cdk8s-cli',
-		'constructs',
 		'zx',
 	],
 	namingScheme: {
@@ -89,7 +93,7 @@ new DirEnv(monorepo).buildDefaultEnvRc({
 // Setup githooks
 monorepo.applyRecursive(
 	(project) => {
-		if (project instanceof typescript.TypeScriptProject) {
+		if (project instanceof javascript.NodeProject) {
 			new LintStaged(project, {
 				entries: [
 					{
@@ -167,13 +171,14 @@ monorepo.addWorkspaceDeps(
 )
 
 /**
- * CDK8s
+ * CDK8s Charts and Constructs
  */
 const Cdk8sDefaultsBuilder = new builders.DefaultOptionsBuilder({
+	constructsVersion: '10.2.69',
 	cdk8sCliVersion: '2.2',
 	cdk8sVersion: '2.7.115',
 	cdksPlus: true,
-	cdk8sPlusVersion: '2.8',
+	cdk8sPlusVersion: '2.8.99',
 	k8sMinorVersion: 24,
 	typescriptVersion: '~5.1',
 	eslint: false,
@@ -203,7 +208,15 @@ const Cdk8sConstructBuilder = new ProjectBuilder(cdk8s.ConstructLibraryCdk8s)
 const k8sComponentConstruct = Cdk8sConstructBuilder.build({
 	name: 'k8s.construct.component',
 	bundledDeps: ['defu', 'js-yaml'],
+	jsiiVersion: '~5',
 	jest: false,
+	devDeps: [
+		`cdk8s-plus-${Cdk8sDefaultsBuilder.defaultOptions.k8sMinorVersion!}@*`,
+	],
+	peerDeps: [
+		`cdk8s-plus-${Cdk8sDefaultsBuilder.defaultOptions.k8sMinorVersion!}`,
+	],
+	peerDependencyOptions: { pinnedDevDependency: false },
 })
 
 // Charts
@@ -221,16 +234,5 @@ crisiscleanup
 	.tryFindObjectFile('cdk8s.yaml')!
 	.addOverride('app', 'tsx src/main.ts')
 
-// Ensure same constructs version
-const cdksPlusLib = `cdk8s-plus-${crisiscleanup.options.k8sMinorVersion!}`
-k8sComponentConstruct.addPeerDeps(cdksPlusLib)
-monorepo.package.addPackageResolutions(
-	`constructs@${crisiscleanup.package.tryResolveDependencyVersion(
-		'constructs',
-	)!}`,
-	`${cdksPlusLib}@${crisiscleanup.package.tryResolveDependencyVersion(
-		cdksPlusLib,
-	)!}`,
-)
 
 monorepo.synth()
