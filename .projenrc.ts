@@ -234,5 +234,28 @@ crisiscleanup
 	.tryFindObjectFile('cdk8s.yaml')!
 	.addOverride('app', 'tsx src/main.ts')
 
+/**
+ * AWS CDK Stacks and Constructs
+ */
+const AwsCdkTsAppBuilder = new ProjectBuilder(awscdk.AwsCdkTypeScriptApp)
+	.add(WithParentBuilder)
+	.add(NameSchemeBuilder)
+	.add(CommonDefaultsBuilder)
+	.add(TsESMBuilder)
+	.add(new tsBuilders.TypescriptLintingBuilder())
+	.add(new tsBuilders.TypescriptESMManifestBuilder({ sideEffects: true }))
+
+// Stacks
+const apiStack = AwsCdkTsAppBuilder.build({
+	name: 'stacks.api',
+	cdkVersion: '2.87.0',
+	integrationTestAutoDiscover: true,
+	workspaceDeps: [config],
+	deps: ['cdk-sops-secrets'],
+})
+apiStack.cdkConfig.json.addOverride(
+	'app',
+	apiStack.formatExecCommand('tsx', 'src/main.ts'),
+)
 
 monorepo.synth()
