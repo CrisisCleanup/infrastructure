@@ -97,6 +97,11 @@
       "type": "build"
     },
     {
+      "name": "@crisiscleanup/config",
+      "version": "workspace:*",
+      "type": "runtime"
+    },
+    {
       "name": "@crisiscleanup/k8s.construct.component",
       "version": "workspace:*",
       "type": "runtime"

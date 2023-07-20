@@ -131,6 +131,11 @@
       "type": "build"
     },
     {
+      "name": "@crisiscleanup/config",
+      "version": "workspace:*",
+      "type": "devenv"
+    },
+    {
       "name": "@types/babel__traverse",
       "version": "7.18.2",
       "type": "override"

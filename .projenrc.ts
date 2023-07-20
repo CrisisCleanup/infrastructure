@@ -155,8 +155,12 @@ const TsESMBuilder = new tsBuilders.TypescriptConfigBuilder({
 
 const config = TypescriptProjectBuilder.build({
 	name: 'config',
-	deps: ['c12'],
+	deps: ['c12', 'defu'],
 })
+monorepo.addWorkspaceDeps(
+	{ depType: DependencyType.DEVENV, addTsPath: true },
+	config,
+)
 
 /**
  * CDK8s
@@ -206,7 +210,7 @@ const crisiscleanup = Cdk8sAppBuilder.build({
 	],
 	deps: ['defu', 'js-yaml'],
 	devDeps: ['type-fest', '@types/js-yaml', 'tsx'],
-	workspaceDeps: [k8sComponentConstruct],
+	workspaceDeps: [k8sComponentConstruct, config],
 })
 crisiscleanup.lintConfig.eslint.addIgnorePattern('src/imports')
 crisiscleanup

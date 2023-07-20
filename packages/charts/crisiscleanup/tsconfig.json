@@ -9,6 +9,9 @@
     "paths": {
       "@crisiscleanup/k8s.construct.component": [
         "../../k8s/construct/component/src/index"
+      ],
+      "@crisiscleanup/config": [
+        "../../config/src/index"
       ]
     }
   },

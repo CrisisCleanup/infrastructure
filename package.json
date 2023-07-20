@@ -37,6 +37,7 @@
     "@arroyodev-llc/projen.project.typescript": "^0.1.23",
     "@arroyodev-llc/utils.projen-builder": "^0.1.2",
     "@aws-prototyping-sdk/nx-monorepo": "^0.19.45",
+    "@crisiscleanup/config": "workspace:*",
     "@types/node": "^18",
     "@typescript-eslint/eslint-plugin": "^5",
     "@typescript-eslint/parser": "^5",

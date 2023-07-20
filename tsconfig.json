@@ -6,7 +6,12 @@
   ],
   "compilerOptions": {
     "rootDir": ".",
-    "outDir": "dist"
+    "outDir": "dist",
+    "paths": {
+      "@crisiscleanup/config": [
+        "./packages/config/src/index"
+      ]
+    }
   },
   "include": [
     ".projenrc.ts",
