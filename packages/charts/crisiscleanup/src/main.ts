@@ -1,18 +1,37 @@
-import { flattenToScreamingSnakeCase, getConfig } from "@crisiscleanup/config";
-import { Component, type DeploymentProps } from "@crisiscleanup/k8s.construct.component";
-import { App, Chart, type ChartProps, Duration, Helm, Include, JsonPatch } from "cdk8s";
-import * as kplus from "cdk8s-plus-24";
-import { Construct } from "constructs";
-import createDebug from "debug";
-import defu from "defu";
-import type { PartialDeep } from "type-fest";
-import { Backend, BackendProps } from "@crisiscleanup/k8s.construct.api/src/api";
+import {
+	type ApiAppConfig,
+	type ApiAppSecrets,
+	flattenToScreamingSnakeCase,
+	getConfig,
+} from '@crisiscleanup/config'
+import {
+	ApiASGI,
+	ApiConfig,
+	type ApiConstructConfig,
+	ApiWSGI,
+	CeleryBeat,
+	CeleryWorker,
+} from '@crisiscleanup/k8s.construct.api'
+import {
+	Component,
+	type DeploymentProps,
+} from '@crisiscleanup/k8s.construct.component'
+import {
+	App,
+	Chart,
+	type ChartProps,
+	Duration,
+	Helm,
+	Include,
+	JsonPatch,
+} from 'cdk8s'
+import * as kplus from 'cdk8s-plus-24'
+import { Construct } from 'constructs'
+import createDebug from 'debug'
+import defu from 'defu'
+import type { PartialDeep } from 'type-fest'
 
 const debug = createDebug('@crisiscleanup:charts.crisiscleanup')
-
-enum ContextKey {
-	stage = 'stage',
-}
 
 export interface FrontendProps {
 	web: DeploymentProps
@@ -56,24 +75,27 @@ abstract class IngressController {
 }
 
 class NginxIngressController extends Construct implements IngressController {
-	createController(props: IngressControllerProps) {
+	createController(_props: IngressControllerProps) {
 		new Include(this, 'controller', {
 			url: 'https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml',
 		})
 	}
 }
 
-export interface CrisisCleanupChartProps extends ChartProps {
-	backend: BackendProps
+export interface CrisisCleanupChartProps
+	extends ChartProps,
+		ApiConstructConfig {
 	frontend: FrontendProps
 	domainName: string
+	apiAppConfig: ApiAppConfig
+	apiAppSecrets: ApiAppSecrets
 }
 
 export class CrisisCleanupChart extends Chart {
 	static frontendDefaultProps: FrontendProps
-	static backendDefaultProps: BackendProps
+	static backendDefaultProps: ApiConstructConfig
 
-	static defaultProps: CrisisCleanupChartProps
+	static defaultProps: Partial<CrisisCleanupChartProps>
 
 	static {
 		const backendDefaults: DeploymentProps = {
@@ -98,18 +120,19 @@ export class CrisisCleanupChart extends Chart {
 		}
 
 		this.backendDefaultProps = {
-			config: {},
-			secrets: {},
-			asgi: backendDefaults,
-			celery: {
-				...backendDefaults,
-				queues: [
-					{ name: 'celery' },
-					{ name: 'phone' },
-					{ name: 'metrics', args: ['--prefetch-multiplier=5'] },
-				],
-			},
 			wsgi: backendDefaults,
+			asgi: backendDefaults,
+			celeryBeat: backendDefaults,
+			celery: [
+				{ ...backendDefaults, queues: ['celery'] },
+				{ ...backendDefaults, queues: ['phone'] },
+				{ ...backendDefaults, queues: ['signal'] },
+				{
+					...backendDefaults,
+					queues: ['metrics'],
+					args: ['--prefetch-multiplier=5'],
+				},
+			],
 		}
 
 		this.defaultProps = {
@@ -118,9 +141,9 @@ export class CrisisCleanupChart extends Chart {
 				app: 'crisiscleanup',
 			},
 			domainName: 'local.crisiscleanup.io',
-			backend: this.backendDefaultProps,
 			frontend: this.frontendDefaultProps,
-		}
+			...this.backendDefaultProps,
+		} as Partial<CrisisCleanupChartProps>
 	}
 
 	static withDefaults(
@@ -134,20 +157,41 @@ export class CrisisCleanupChart extends Chart {
 		return new this(scope, 'crisiscleanup', values as CrisisCleanupChartProps)
 	}
 
-	backend: Backend
-	frontend: Frontend
-	ingress: kplus.Ingress
+	readonly apiConfig: ApiConfig
+	readonly wsgi: ApiWSGI
+	readonly asgi: ApiASGI
+	readonly celeryBeat: CeleryBeat
+	readonly celeryWorkers: CeleryWorker[]
+	readonly frontend: Frontend
+	readonly ingress: kplus.Ingress
 
 	constructor(scope: Construct, id: string, props: CrisisCleanupChartProps) {
 		super(scope, id, props)
-
-		this.node.setContext(ContextKey.stage, props.backend.stage ?? 'local')
 
 		new kplus.Namespace(this, 'namespace', {
 			metadata: { name: props.namespace },
 		})
 
-		this.backend = new Backend(this, 'backend', props.backend)
+		this.apiConfig = new ApiConfig(this, 'api-config', {
+			config: flattenToScreamingSnakeCase(props.apiAppConfig, {
+				nestedDelimiter: '_',
+			}),
+			secrets: flattenToScreamingSnakeCase(props.apiAppSecrets, {
+				nestedDelimiter: '_',
+			}),
+		})
+		this.wsgi = new ApiWSGI(this, 'wsgi', props.wsgi)
+		this.asgi = new ApiASGI(this, 'asgi', props.asgi)
+
+		this.celeryBeat = new CeleryBeat(this, 'celerybeat', props.celeryBeat)
+		this.celeryWorkers = props.celery.map(
+			(celeryProps) =>
+				new CeleryWorker(
+					this,
+					`celery-${celeryProps.queues.join('-')}`,
+					celeryProps,
+				),
+		)
 		this.frontend = new Frontend(this, 'frontend', props.frontend)
 
 		this.ingress = new kplus.Ingress(this, 'ingress')
@@ -155,7 +199,7 @@ export class CrisisCleanupChart extends Chart {
 			`api.${props.domainName}`,
 			'/ws/',
 			kplus.IngressBackend.fromService(
-				this.backend.asgi.deployment.exposeViaService({
+				this.asgi.deployment.exposeViaService({
 					serviceType: kplus.ServiceType.CLUSTER_IP,
 				}),
 			),
@@ -164,7 +208,7 @@ export class CrisisCleanupChart extends Chart {
 		this.ingress.addHostDefaultBackend(
 			`api.${props.domainName}`,
 			kplus.IngressBackend.fromService(
-				this.backend.wsgi.deployment.exposeViaService({
+				this.wsgi.deployment.exposeViaService({
 					serviceType: kplus.ServiceType.CLUSTER_IP,
 				}),
 			),
@@ -190,20 +234,11 @@ export class CrisisCleanupChart extends Chart {
 }
 
 const { config } = await getConfig()
-const apiConfig = flattenToScreamingSnakeCase(config.api.config, {
-	nestedDelimiter: '_',
-})
-const apiSecrets = flattenToScreamingSnakeCase(config.api.secrets, {
-	nestedDelimiter: '_',
-})
 
 const app = new App({ recordConstructMetadata: true })
 const chart = CrisisCleanupChart.withDefaults(app, {
-	backend: {
-		stage: config.ccuStage,
-		config: apiConfig,
-		secrets: apiSecrets,
-	},
+	apiAppConfig: config.api.config,
+	apiAppSecrets: config.api.secrets,
 })
 
 if (config.ccuStage === 'local') {
