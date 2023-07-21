@@ -226,8 +226,8 @@ const crisiscleanup = Cdk8sAppBuilder.build({
 	cdk8sImports: [
 		'https://raw.githubusercontent.com/kubernetes-sigs/secrets-store-csi-driver/main/charts/secrets-store-csi-driver/crds/secrets-store.csi.x-k8s.io_secretproviderclasses.yaml',
 	],
-	deps: ['defu', 'js-yaml'],
-	devDeps: ['type-fest', '@types/js-yaml', 'tsx'],
+	deps: ['defu', 'js-yaml', 'debug'],
+	devDeps: ['type-fest', '@types/js-yaml', 'tsx', '@types/debug'],
 	workspaceDeps: [k8sComponentConstruct, config],
 })
 crisiscleanup.lintConfig.eslint.addIgnorePattern('src/imports')

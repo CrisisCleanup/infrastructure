@@ -23,6 +23,7 @@
     "organization": true
   },
   "devDependencies": {
+    "@types/debug": "^4.1.8",
     "@types/jest": "^29.5.3",
     "@types/js-yaml": "^4.0.5",
     "@types/node": "^18",
@@ -52,6 +53,7 @@
     "cdk8s": "^2.7.115",
     "cdk8s-plus-24": "^2.8.99",
     "constructs": "^10.2.69",
+    "debug": "^4.3.4",
     "defu": "^6.1.2",
     "js-yaml": "^4.1.0"
   },

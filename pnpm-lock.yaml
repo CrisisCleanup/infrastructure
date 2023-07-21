@@ -123,13 +123,16 @@ importers:
         version: link:../../k8s/construct/component
       cdk8s:
         specifier: ^2.7.115
-        version: 2.7.115(constructs@10.2.69)
+        version: 2.7.115(constructs@10.2.69)(debug@4.3.4)
       cdk8s-plus-24:
         specifier: ^2.8.99
         version: 2.8.99(cdk8s@2.7.115)(constructs@10.2.69)
       constructs:
         specifier: ^10.2.69
         version: 10.2.69
+      debug:
+        specifier: ^4.3.4
+        version: 4.3.4(supports-color@8.1.1)
       defu:
         specifier: ^6.1.2
         version: 6.1.2
@@ -137,6 +140,9 @@ importers:
         specifier: ^4.1.0
         version: 4.1.0
     devDependencies:
+      '@types/debug':
+        specifier: ^4.1.8
+        version: 4.1.8
       '@types/jest':
         specifier: ^29.5.3
         version: 29.5.3
@@ -154,7 +160,7 @@ importers:
         version: 5.62.0(eslint@8.45.0)(supports-color@8.1.1)(typescript@5.1.6)
       cdk8s-cli:
         specifier: ^2.2
-        version: 2.2.116
+        version: 2.2.116(debug@4.3.4)
       eslint:
         specifier: ^8
         version: 8.45.0(supports-color@8.1.1)
@@ -287,7 +293,7 @@ importers:
     dependencies:
       cdk8s:
         specifier: ^2.7.115
-        version: 2.7.115(constructs@10.2.69)
+        version: 2.7.115(constructs@10.2.69)(debug@4.3.4)
       constructs:
         specifier: ^10.2.69
         version: 10.2.69
@@ -4154,13 +4160,13 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /axios@0.27.2:
+  /axios@0.27.2(debug@4.3.4):
     resolution:
       {
         integrity: sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==,
       }
     dependencies:
-      follow-redirects: 1.15.2
+      follow-redirects: 1.15.2(debug@4.3.4)
       form-data: 4.0.0
     transitivePeerDependencies:
       - debug
@@ -4172,7 +4178,7 @@ packages:
         integrity: sha512-S4XCWMEmzvo64T9GfvQDOXgYRDJ/wsSZc7Jvdgx5u1sd0JwsuPLqb3SYmusag+edF6ziyMensPVqLTSc1PiSEA==,
       }
     dependencies:
-      follow-redirects: 1.15.2
+      follow-redirects: 1.15.2(debug@4.3.4)
       form-data: 4.0.0
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -4266,7 +4272,7 @@ packages:
       babel-preset-current-node-syntax: 1.0.1(@babel/core@7.22.9)
     dev: true
 
-  /backport@8.5.0:
+  /backport@8.5.0(debug@4.3.4):
     resolution:
       {
         integrity: sha512-gX8v+l+BTue2lmmqD/yQiR6JUUY+5OWNZTI1qyusViqC9R2iv4YFPqT23IcJfpYqlYb3DOiwunfVjKLickdQ6g==,
@@ -4276,7 +4282,7 @@ packages:
     requiresBuild: true
     dependencies:
       '@octokit/rest': 18.12.0
-      axios: 0.27.2
+      axios: 0.27.2(debug@4.3.4)
       dedent: 0.7.0
       del: 6.1.1
       dotenv: 16.3.1
@@ -4644,7 +4650,7 @@ packages:
       constructs: 10.2.69
     dev: false
 
-  /cdk8s-cli@2.2.116:
+  /cdk8s-cli@2.2.116(debug@4.3.4):
     resolution:
       {
         integrity: sha512-cX0j3VwLMrn/HnLXWfAPq+fCbKkOy15440cUt5icB7aj2qf8DwaUCE4Q0VLan4RC7cUYIAdrp1n3Sm2tFhAZYA==,
@@ -4654,7 +4660,7 @@ packages:
     dependencies:
       '@types/node': 16.18.38
       ajv: 8.12.0
-      cdk8s: 2.7.115(constructs@10.2.69)
+      cdk8s: 2.7.115(constructs@10.2.69)(debug@4.3.4)
       cdk8s-plus-25: 2.8.98(cdk8s@2.7.115)(constructs@10.2.69)
       codemaker: 1.85.0
       colors: 1.4.0
@@ -4669,7 +4675,7 @@ packages:
       yaml: 2.3.1
       yargs: 15.4.1
     optionalDependencies:
-      backport: 8.5.0
+      backport: 8.5.0(debug@4.3.4)
     transitivePeerDependencies:
       - debug
       - encoding
@@ -4686,7 +4692,7 @@ packages:
       cdk8s: ^2.7.115
       constructs: ^10.2.69
     dependencies:
-      cdk8s: 2.7.115(constructs@10.2.69)
+      cdk8s: 2.7.115(constructs@10.2.69)(debug@4.3.4)
       constructs: 10.2.69
       minimatch: 3.1.2
     bundledDependencies:
@@ -4702,14 +4708,14 @@ packages:
       cdk8s: ^2.7.115
       constructs: ^10.2.69
     dependencies:
-      cdk8s: 2.7.115(constructs@10.2.69)
+      cdk8s: 2.7.115(constructs@10.2.69)(debug@4.3.4)
       constructs: 10.2.69
       minimatch: 3.1.2
     dev: true
     bundledDependencies:
       - minimatch
 
-  /cdk8s@2.7.115(constructs@10.2.69):
+  /cdk8s@2.7.115(constructs@10.2.69)(debug@4.3.4):
     resolution:
       {
         integrity: sha512-AFMF8fUxnH+nlvmQAlj5SHyD3NJuEKQF3k4Lf6O8LPPtI/giYr42mVlK2CGkpvbwoTuakT8g5BSXKT8n1Sm8Cg==,
@@ -4720,10 +4726,10 @@ packages:
     dependencies:
       constructs: 10.2.69
       fast-json-patch: 3.1.1
-      follow-redirects: 1.15.2
+      follow-redirects: 1.15.2(debug@4.3.4)
       yaml: 2.3.1
     optionalDependencies:
-      backport: 8.5.0
+      backport: 8.5.0(debug@4.3.4)
     transitivePeerDependencies:
       - debug
       - encoding
@@ -6920,7 +6926,7 @@ packages:
       }
     optional: true
 
-  /follow-redirects@1.15.2:
+  /follow-redirects@1.15.2(debug@4.3.4):
     resolution:
       {
         integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==,
@@ -6931,6 +6937,8 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
+    dependencies:
+      debug: 4.3.4(supports-color@8.1.1)
 
   /for-each@0.3.3:
     resolution:
