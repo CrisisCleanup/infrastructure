@@ -15,7 +15,7 @@ import {
 	Component,
 	type DeploymentProps,
 } from '@crisiscleanup/k8s.construct.component'
-import { Chart, type ChartProps, Duration, Include } from 'cdk8s'
+import { Chart, type ChartProps, Duration } from 'cdk8s'
 import * as kplus from 'cdk8s-plus-24'
 import { Construct } from 'constructs'
 import createDebug from 'debug'
@@ -53,26 +53,6 @@ export class Frontend extends Construct {
 	constructor(scope: Construct, id: string, props: FrontendProps) {
 		super(scope, id)
 		this.web = new Web(this, 'web', props.web)
-	}
-}
-
-export interface IngressControllerProps {
-	className: string
-	annotations?: Record<string, string>
-}
-
-abstract class IngressController {
-	abstract createController(props: IngressControllerProps): void
-}
-
-export class NginxIngressController
-	extends Construct
-	implements IngressController
-{
-	createController(_props: IngressControllerProps) {
-		new Include(this, 'controller', {
-			url: 'https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml',
-		})
 	}
 }
 
