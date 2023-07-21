@@ -225,6 +225,7 @@ export class CeleryWorker extends ApiComponent<CeleryProps> {
 		super(scope, id, props)
 
 		const name = props.name ?? props.queues.join('-')
+		const hostname = `${name}@%%h`
 
 		this.addContainer({
 			name,
@@ -235,6 +236,8 @@ export class CeleryWorker extends ApiComponent<CeleryProps> {
 				props.queues.join(','),
 				'--concurrency',
 				String(props.concurrency ?? 2),
+				'--hostname',
+				hostname,
 				...(props.args ?? []),
 			],
 			envFrom: this.config.envFrom,
