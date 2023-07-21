@@ -56,8 +56,8 @@ export interface BackendProps {
 	asgi: Omit<BackendApiProps, 'config'>
 	wsgi: Omit<BackendApiProps, 'config'>
 	celery: Omit<CeleryProps, 'config'>
-	config: Record<any, any>
-	secrets?: Record<any, any>
+	config: BackendConfigProps['config']
+	secrets: BackendConfigProps['secrets']
 	stage?: string
 }
 
