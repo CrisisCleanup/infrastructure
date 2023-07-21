@@ -34,7 +34,7 @@
     "@arroyodev-llc/projen.component.linting": "^0.1.17",
     "@arroyodev-llc/projen.component.tool-versions": "^0.1.14",
     "@arroyodev-llc/projen.project.nx-monorepo": "^0.1.22",
-    "@arroyodev-llc/projen.project.typescript": "^0.1.23",
+    "@arroyodev-llc/projen.project.typescript": "^0.1.24",
     "@arroyodev-llc/utils.projen-builder": "^0.1.2",
     "@aws-prototyping-sdk/nx-monorepo": "^0.19.45",
     "@crisiscleanup/config": "workspace:*",
