@@ -283,6 +283,12 @@ if (config.ccuStage === 'local') {
 		}.svc.cluster.local`,
 		ports: [{ port: 80 }],
 	})
+	new Helm(localChart, 'metrics-server', {
+		chart: 'metrics-server',
+		repo: 'https://kubernetes-sigs.github.io/metrics-server/',
+		releaseName: 'metrics-server',
+		namespace: 'kube-system',
+	})
 	chart.ingress.addHostDefaultBackend(
 		'headlamp.local.crisiscleanup.io',
 		kplus.IngressBackend.fromService(externalHeadlamp, { port: 80 }),
