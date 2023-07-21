@@ -163,7 +163,7 @@ export class ApiWSGI
 			command: ['python', 'manage.py', 'migrate', '--noinput', '--verbosity=1'],
 			envFrom: this.config.envFrom,
 			securityContext,
-			image: ContainerImage.fromProps(props.image).imageFqn,
+			...ContainerImage.fromProps(props.image).containerProps,
 		})
 
 		const staticJob = new kplus.Job(this, 'collectstatic', {
@@ -173,7 +173,7 @@ export class ApiWSGI
 		})
 		const staticJobContainer = staticJob.addContainer({
 			name: 'collectstatic',
-			image: ContainerImage.fromProps(props.image).imageFqn,
+			...ContainerImage.fromProps(props.image).containerProps,
 			command: [
 				'python',
 				'manage.py',
