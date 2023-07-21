@@ -175,6 +175,7 @@ monorepo.addWorkspaceDeps(
  * CDK8s Charts and Constructs
  */
 const Cdk8sDefaultsBuilder = new builders.DefaultOptionsBuilder({
+	jsiiVersion: '~5',
 	constructsVersion: '10.2.69',
 	cdk8sCliVersion: '2.2',
 	cdk8sVersion: '2.7.115',
@@ -184,6 +185,16 @@ const Cdk8sDefaultsBuilder = new builders.DefaultOptionsBuilder({
 	typescriptVersion: '~5.1',
 	eslint: false,
 	prettier: false,
+})
+
+const Cdk8sConstructDefaultsBuilder = new builders.DefaultOptionsBuilder({
+	devDeps: [
+		`cdk8s-plus-${Cdk8sDefaultsBuilder.defaultOptions.k8sMinorVersion!}@*`,
+	],
+	peerDeps: [
+		`cdk8s-plus-${Cdk8sDefaultsBuilder.defaultOptions.k8sMinorVersion!}`,
+	],
+	peerDependencyOptions: { pinnedDevDependency: false },
 })
 
 const Cdk8sAppBuilder = new ProjectBuilder(cdk8s.Cdk8sTypeScriptApp)
@@ -201,6 +212,7 @@ const Cdk8sConstructBuilder = new ProjectBuilder(cdk8s.ConstructLibraryCdk8s)
 	.add(NameSchemeBuilder)
 	.add(CommonDefaultsBuilder)
 	.add(Cdk8sDefaultsBuilder)
+	.add(Cdk8sConstructDefaultsBuilder)
 	.add(TsESMBuilder)
 	.add(new tsBuilders.TypescriptLintingBuilder({ useTypeInformation: true }))
 	.add(new tsBuilders.TypescriptESMManifestBuilder())
@@ -209,15 +221,15 @@ const Cdk8sConstructBuilder = new ProjectBuilder(cdk8s.ConstructLibraryCdk8s)
 const k8sComponentConstruct = Cdk8sConstructBuilder.build({
 	name: 'k8s.construct.component',
 	bundledDeps: ['defu', 'js-yaml'],
-	jsiiVersion: '~5',
 	jest: false,
-	devDeps: [
-		`cdk8s-plus-${Cdk8sDefaultsBuilder.defaultOptions.k8sMinorVersion!}@*`,
-	],
-	peerDeps: [
-		`cdk8s-plus-${Cdk8sDefaultsBuilder.defaultOptions.k8sMinorVersion!}`,
-	],
-	peerDependencyOptions: { pinnedDevDependency: false },
+})
+
+const apiConstruct = Cdk8sConstructBuilder.build({
+	name: 'k8s.construct.api',
+	deps: ['debug'],
+	devDeps: ['@types/debug'],
+	workspaceDeps: [k8sComponentConstruct, config],
+	jest: false,
 })
 
 // Charts
