@@ -41,3 +41,10 @@ export interface IApiConfig {
 	configSecret: kplus.Secret
 	readonly envFrom: kplus.EnvFrom[]
 }
+
+export interface ApiConstructConfig {
+	wsgi: ApiWSGIProps
+	asgi: ApiASGIProps
+	celery: CeleryProps[]
+	celeryBeat: ApiProps
+}
