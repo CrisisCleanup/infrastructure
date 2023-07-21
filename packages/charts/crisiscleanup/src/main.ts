@@ -120,17 +120,18 @@ export class CrisisCleanupChart extends Chart {
 		}
 
 		this.backendDefaultProps = {
-			wsgi: backendDefaults,
+			wsgi: { ...backendDefaults, replicaCount: undefined },
 			asgi: backendDefaults,
 			celeryBeat: backendDefaults,
 			celery: [
-				{ ...backendDefaults, queues: ['celery'] },
-				{ ...backendDefaults, queues: ['phone'] },
-				{ ...backendDefaults, queues: ['signal'] },
+				{ ...backendDefaults, queues: ['celery'], replicaCount: undefined },
+				{ ...backendDefaults, queues: ['phone'], replicaCount: undefined },
+				{ ...backendDefaults, queues: ['signal'], replicaCount: undefined },
 				{
 					...backendDefaults,
 					queues: ['metrics'],
 					args: ['--prefetch-multiplier=5'],
+					replicaCount: undefined,
 				},
 			],
 		}
@@ -195,6 +196,26 @@ export class CrisisCleanupChart extends Chart {
 		this.frontend = new Frontend(this, 'frontend', props.frontend)
 
 		this.ingress = new kplus.Ingress(this, 'ingress')
+
+		const resourceMetrics = [
+			kplus.Metric.resourceCpu(kplus.MetricTarget.averageUtilization(70)),
+			kplus.Metric.resourceMemory(kplus.MetricTarget.averageUtilization(70)),
+		]
+
+		new kplus.HorizontalPodAutoscaler(this, 'wsgi-hpa', {
+			target: this.wsgi.deployment,
+			maxReplicas: 16,
+			metrics: [...resourceMetrics],
+		})
+
+		this.celeryWorkers.forEach((worker) => {
+			new kplus.HorizontalPodAutoscaler(this, `${worker.id}-hpa`, {
+				target: worker.deployment,
+				maxReplicas: 10,
+				metrics: resourceMetrics,
+			})
+		})
+
 		this.ingress.addHostRule(
 			`api.${props.domainName}`,
 			'/ws/',
@@ -288,6 +309,12 @@ if (config.ccuStage === 'local') {
 		repo: 'https://kubernetes-sigs.github.io/metrics-server/',
 		releaseName: 'metrics-server',
 		namespace: 'kube-system',
+		values: {
+			args: [
+				'--kubelet-insecure-tls',
+				'--kubelet-preferred-address-types=InternalIP',
+			],
+		},
 	})
 	chart.ingress.addHostDefaultBackend(
 		'headlamp.local.crisiscleanup.io',
