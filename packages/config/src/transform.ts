@@ -1,6 +1,68 @@
-import { objectPick } from '@antfu/utils'
+import { objectMap, objectPick } from '@antfu/utils'
 import { destr } from 'destr'
 import flatten from 'flat'
+import type {
+	Exact,
+	Get,
+	ScreamingSnakeCase,
+	Split,
+	Stringified,
+} from 'type-fest'
+
+/**
+ * Create a union of flattened keys from an object.
+ */
+export type FlattenKeys<
+	T,
+	P extends string | number | symbol = '',
+	Delimiter extends string = '.',
+> = T extends object
+	? {
+			[K in keyof T]-?: `${P extends string | number ? P : never}${P extends ''
+				? ''
+				: Delimiter}${string & K}` extends infer E
+				? T[K] extends readonly any[] | null
+					? E
+					: FlattenKeys<
+							T[K],
+							E extends string | number | symbol ? E : never,
+							Delimiter
+					  >
+				: never
+	  }[keyof T]
+	: P
+
+/**
+ * Flatten an object into a single depth with the given delimiter.
+ * @example
+ * ```ts
+ * type Foo = {
+ * 	bar: {
+ * 		baz: string
+ * 		qux: number
+ * 	},
+ * 	quux: boolean
+ * 	}
+ * type FlatFoo = FlattenObject<Foo, '_'>
+ * // {
+ * // 	'bar_baz': string
+ * // 	'bar_qux': number
+ * // 	'quux': boolean
+ * // }
+ * ```
+ */
+export type FlattenObject<T, Delimiter extends string = ''> = T extends object
+	? {
+			[FlatKey in Extract<FlattenKeys<T, '', Delimiter>, string>]: Get<
+				T,
+				Split<FlatKey, Delimiter>
+			>
+	  }
+	: never
+
+export type ScreamingSnakeCaseProperties<T> = T extends object
+	? { [Key in keyof T as ScreamingSnakeCase<Key>]: T[Key] }
+	: never
 
 interface TransformedEnv {
 	[key: string]: string | boolean | string[] | TransformedEnv
@@ -76,6 +138,11 @@ function parseValue(value: string): string | boolean | string[] {
 
 	return destr(value)
 }
+
+interface FlattenToScreamingSnakeCaseOptions {
+	nestedDelimiter: string
+}
+
 /**
  * Flatten a nested object into a single level object using 'SCREAMING_SNAKE_CASE'.
  *
@@ -105,10 +172,17 @@ function parseValue(value: string): string | boolean | string[] {
  *  ```
  *
  */
-export const flattenToScreamingSnakeCase = (
-	obj: Record<string, unknown>,
-	options: { nestedDelimiter: string } = { nestedDelimiter: '__' },
-): Record<string, string> => {
+export const flattenToScreamingSnakeCase = <
+	ObjT,
+	OptionsT extends Exact<FlattenToScreamingSnakeCaseOptions, OptionsT> = {
+		nestedDelimiter: '__'
+	},
+>(
+	obj: ObjT,
+	options?: OptionsT,
+): ScreamingSnakeCaseProperties<
+	FlattenObject<ObjT, OptionsT['nestedDelimiter']>
+> => {
 	const result: Record<string, string> = {}
 	const flatObj: Record<string, string | string[]> = flatten(obj, {
 		safe: true,
@@ -117,12 +191,14 @@ export const flattenToScreamingSnakeCase = (
 		const newKey = key
 			.replaceAll(/([A-Z])+/g, '_$1')
 			.toUpperCase()
-			.replace(/\./g, options.nestedDelimiter)
+			.replace(/\./g, options?.nestedDelimiter ?? '__')
 		result[newKey] = Array.isArray(flatObj[key])
 			? (flatObj[key] as string[]).join(',')
 			: (flatObj[key] as string)
 	}
-	return result
+	return result as ScreamingSnakeCaseProperties<
+		FlattenObject<ObjT, OptionsT['nestedDelimiter']>
+	>
 }
 type FlatOptions = Parameters<typeof flatten>[1]
 type UnFlatOptions = Parameters<typeof flatten.unflatten>[1]
@@ -184,4 +260,17 @@ export const pickSubsetDeep = <T extends object, Filter extends object>(
 		options?.unflatOptions,
 	)
 	return results as Extract<T, Filter>
+}
+
+/**
+ * Stringify all values of an object.
+ * @param object input object.
+ */
+export const stringifyObjectValues = <T extends Record<string, unknown>>(
+	object: T,
+): Stringified<T> => {
+	return objectMap<string, unknown, string, string>(object, (key, value) => [
+		key,
+		Array.isArray(value) ? value.join(',') : String(value),
+	]) as Stringified<T>
 }

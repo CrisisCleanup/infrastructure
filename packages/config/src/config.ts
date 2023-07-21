@@ -4,7 +4,6 @@ import {
 	createDefineConfig,
 	type LoadConfigOptions,
 	type ResolvedConfig,
-	ConfigLayerMeta,
 } from 'c12'
 import createDebug from 'debug'
 import { type Exact } from 'type-fest'
@@ -191,7 +190,7 @@ export const getConfig = async <
 	})
 	debug('resolved config: %O', cfg)
 
-	if (!cfg.config && (options.strict ?? true)) {
+	if (!cfg.config && (options?.strict ?? true)) {
 		throw new Error(
 			'Failed to resolve config and getConfig was called with strict=true',
 		)
