@@ -76,3 +76,51 @@ function parseValue(value: string): string | boolean | string[] {
 
 	return destr(value)
 }
+/**
+ * Flatten a nested object into a single level object using 'SCREAMING_SNAKE_CASE'.
+ *
+ * @param obj input object.
+ * @param options output options.
+ *
+ * @example
+ * ```ts
+ * const obj = {
+ *  ccu: {
+ *  	django: {
+ *  		allowedHosts: '*',
+ *  		csrfCookieSecure: false,
+ *  	},
+ *  },
+ *  sentry: {
+ *  	traceExcludeUrls: ['one', 'two', 'three'],
+ *  	},
+ *  }
+ *  const result = convertToScreamingSnakeCase(obj, { nestedDelimiter: '__' })
+ *  console.log(result)
+ *  // {
+ *  //   CCU__DJANGO__ALLOWED_HOSTS: '*',
+ *  //   CCU__DJANGO__CSRF_COOKIE_SECURE: false,
+ *  //   SENTRY__TRACE_EXCLUDE_URLS: 'one,two,three',
+ *  // }
+ *  ```
+ *
+ */
+export const flattenToScreamingSnakeCase = (
+	obj: Record<string, unknown>,
+	options: { nestedDelimiter: string } = { nestedDelimiter: '__' },
+): Record<string, string> => {
+	const result: Record<string, string> = {}
+	const flatObj: Record<string, string | string[]> = flatten(obj, {
+		safe: true,
+	})
+	for (const key in flatObj) {
+		const newKey = key
+			.replaceAll(/([A-Z])+/g, '_$1')
+			.toUpperCase()
+			.replace(/\./g, options.nestedDelimiter)
+		result[newKey] = Array.isArray(flatObj[key])
+			? (flatObj[key] as string[]).join(',')
+			: (flatObj[key] as string)
+	}
+	return result
+}
