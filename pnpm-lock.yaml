@@ -289,6 +289,88 @@ importers:
         specifier: ^1.2.1
         version: 1.2.1(supports-color@8.1.1)
 
+  packages/k8s/construct/api:
+    dependencies:
+      '@crisiscleanup/config':
+        specifier: workspace:*
+        version: link:../../../config
+      '@crisiscleanup/k8s.construct.component':
+        specifier: workspace:*
+        version: link:../component
+      cdk8s:
+        specifier: ^2.7.115
+        version: 2.7.115(constructs@10.2.69)(debug@4.3.4)
+      constructs:
+        specifier: ^10.2.69
+        version: 10.2.69
+      debug:
+        specifier: ^4.3.4
+        version: 4.3.4(supports-color@8.1.1)
+    devDependencies:
+      '@types/debug':
+        specifier: ^4.1.8
+        version: 4.1.8
+      '@types/node':
+        specifier: ^18
+        version: 18.16.19
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^5
+        version: 5.62.0(@typescript-eslint/parser@5.62.0)(eslint@8.45.0)(supports-color@8.1.1)(typescript@5.1.6)
+      '@typescript-eslint/parser':
+        specifier: ^5
+        version: 5.62.0(eslint@8.45.0)(supports-color@8.1.1)(typescript@5.1.6)
+      cdk8s-plus-24:
+        specifier: ^2.8.99
+        version: 2.8.99(cdk8s@2.7.115)(constructs@10.2.69)
+      eslint:
+        specifier: ^8
+        version: 8.45.0(supports-color@8.1.1)
+      eslint-config-prettier:
+        specifier: ^8.8.0
+        version: 8.8.0(eslint@8.45.0)
+      eslint-import-resolver-node:
+        specifier: ^0.3.7
+        version: 0.3.7(supports-color@8.1.1)
+      eslint-import-resolver-typescript:
+        specifier: ^3.5.5
+        version: 3.5.5(@typescript-eslint/parser@5.62.0)(eslint-import-resolver-node@0.3.7)(eslint-plugin-import@2.27.5)(eslint@8.45.0)
+      eslint-plugin-import:
+        specifier: ^2.27.5
+        version: 2.27.5(@typescript-eslint/parser@5.62.0)(eslint-import-resolver-typescript@3.5.5)(eslint@8.45.0)
+      eslint-plugin-prettier:
+        specifier: ^5.0.0
+        version: 5.0.0(eslint-config-prettier@8.8.0)(eslint@8.45.0)(prettier@3.0.0)
+      jsii:
+        specifier: ~5
+        version: 5.1.8
+      jsii-diff:
+        specifier: ^1.85.0
+        version: 1.85.0
+      jsii-docgen:
+        specifier: ^9.1.1
+        version: 9.1.1(jsii-rosetta@5.1.7)
+      jsii-pacmak:
+        specifier: ^1.85.0
+        version: 1.85.0
+      jsii-rosetta:
+        specifier: ~5
+        version: 5.1.7
+      lint-staged:
+        specifier: ^13.2.3
+        version: 13.2.3(supports-color@8.1.1)
+      npm-check-updates:
+        specifier: ^16
+        version: 16.10.16(supports-color@8.1.1)
+      prettier:
+        specifier: ^3.0.0
+        version: 3.0.0
+      projen:
+        specifier: ^0.71.144
+        version: 0.71.144
+      typescript:
+        specifier: ~5.1
+        version: 5.1.6
+
   packages/k8s/construct/component:
     dependencies:
       cdk8s:

@@ -6,6 +6,6 @@ export default defineConfig({
 	api: baseApiConfig,
 	cdkEnvironment: {
 		region: process.env.CDK_DEFAULT_REGION ?? 'us-east-1',
-		account: process.env.CDK_DEFAULT_ACCOUNT!,
+		account: String(process.env.CDK_DEFAULT_ACCOUNT!),
 	},
 })

@@ -3,5 +3,6 @@
 packages:
   - packages/charts/crisiscleanup
   - packages/config
+  - packages/k8s/construct/api
   - packages/k8s/construct/component
   - packages/stacks/api
