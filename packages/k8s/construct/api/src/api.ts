@@ -1,52 +1,17 @@
-import {
-	type ApiAppConfig,
-	type ApiAppSecrets,
-	type FlattenObject,
-	type ScreamingSnakeCaseProperties,
-	stringifyObjectValues,
-} from '@crisiscleanup/config'
-import {
-	Component,
-	type DeploymentProps,
-} from '@crisiscleanup/k8s.construct.component'
+import { stringifyObjectValues } from '@crisiscleanup/config'
+import { Component } from '@crisiscleanup/k8s.construct.component'
 import { Chart, Duration } from 'cdk8s'
 import * as kplus from 'cdk8s-plus-24'
 import { Construct } from 'constructs'
-
-export interface ApiConfigProps {
-	config: ScreamingSnakeCaseProperties<FlattenObject<ApiAppConfig, '_'>>
-	secrets: ScreamingSnakeCaseProperties<FlattenObject<ApiAppSecrets, '_'>>
-}
-
-export interface ApiProps extends DeploymentProps {
-	config?: IApiConfig
-}
-
-export interface CeleryProps extends ApiProps {
-	queues: string[]
-	name?: string
-	concurrency?: number
-	args?: string[]
-}
-
-export interface ApiWSGIProps extends ApiProps {
-	workers?: number
-	threads?: number
-}
-
-export interface ApiASGIProps extends ApiProps {
-	workers?: number
-}
-
-export interface IHttpProbable {
-	httpProbePath: string
-}
-
-interface IApiConfig {
-	configMap: kplus.ConfigMap
-	configSecret: kplus.Secret
-	readonly envFrom: kplus.EnvFrom[]
-}
+import {
+	type ApiASGIProps,
+	type ApiConfigProps,
+	type ApiProps,
+	type ApiWSGIProps,
+	type CeleryProps,
+	type IApiConfig,
+	type IHttpProbable,
+} from './types'
 
 export class ApiConfig extends Construct implements IApiConfig {
 	static of(construct: Construct): ApiConfig | undefined {
