@@ -118,6 +118,9 @@ importers:
       '@crisiscleanup/config':
         specifier: workspace:*
         version: link:../../config
+      '@crisiscleanup/k8s.construct.api':
+        specifier: workspace:*
+        version: link:../../k8s/construct/api
       '@crisiscleanup/k8s.construct.component':
         specifier: workspace:*
         version: link:../../k8s/construct/component
