@@ -50,7 +50,7 @@ export class Component<PropsT extends DeploymentProps = DeploymentProps>
 	static componentName: string = ''
 	deployment: kplus.Deployment
 	readonly node: Node
-	#containers: Map<string, kplus.Container>
+	#containers: Map<string, kplus.Container> = new Map()
 
 	constructor(
 		public readonly scope: Construct,
