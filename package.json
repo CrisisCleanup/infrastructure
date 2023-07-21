@@ -41,8 +41,6 @@
     "@types/node": "^18",
     "@typescript-eslint/eslint-plugin": "^5",
     "@typescript-eslint/parser": "^5",
-    "cdk8s-cli": "^2.2.116",
-    "constructs": "^10.2.69",
     "eslint": "^8",
     "eslint-config-prettier": "^8.8.0",
     "eslint-import-resolver-node": "^0.3.7",
@@ -53,7 +51,7 @@
     "npm-check-updates": "^16.10.16",
     "nx": "16.0.0",
     "prettier": "^3.0.0",
-    "projen": "^0.71.142",
+    "projen": "^0.71.144",
     "rimraf": "^5.0.1",
     "simple-git-hooks": "^2.8.1",
     "syncpack": "^10.7.3",
@@ -67,15 +65,13 @@
   },
   "dependencies": {
     "aws-cdk-lib": "^2.87.0",
-    "cdk-nag": "^2.27.74",
+    "cdk-nag": "^2.27.75",
     "constructs": "^10.2.69"
   },
   "pnpm": {
     "overrides": {
       "@types/babel__traverse": "7.18.2",
       "@zkochan/js-yaml": "npm:js-yaml@4.1.0",
-      "cdk8s-plus-24": "2.8.0",
-      "constructs": "10.1.42",
       "wrap-ansi": "^7.0.0"
     }
   },
@@ -93,7 +89,8 @@
     "packages": [
       "packages/charts/crisiscleanup",
       "packages/config",
-      "packages/k8s/construct/component"
+      "packages/k8s/construct/component",
+      "packages/stacks/api"
     ],
     "nohoist": [
       "k8s.construct.component/defu",

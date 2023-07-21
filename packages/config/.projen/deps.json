@@ -1,6 +1,14 @@
 {
   "dependencies": [
     {
+      "name": "@types/debug",
+      "type": "build"
+    },
+    {
+      "name": "@types/flat",
+      "type": "build"
+    },
+    {
       "name": "@types/node",
       "version": "^18",
       "type": "build"
@@ -59,6 +67,10 @@
       "type": "build"
     },
     {
+      "name": "supports-color",
+      "type": "build"
+    },
+    {
       "name": "typescript",
       "version": "~5.1",
       "type": "build"
@@ -68,11 +80,31 @@
       "type": "build"
     },
     {
+      "name": "@antfu/utils",
+      "type": "runtime"
+    },
+    {
       "name": "c12",
       "type": "runtime"
     },
     {
+      "name": "debug",
+      "type": "runtime"
+    },
+    {
       "name": "defu",
+      "type": "runtime"
+    },
+    {
+      "name": "destr",
+      "type": "runtime"
+    },
+    {
+      "name": "flat",
+      "type": "runtime"
+    },
+    {
+      "name": "type-fest",
       "type": "runtime"
     }
   ],

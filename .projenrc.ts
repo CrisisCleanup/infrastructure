@@ -163,7 +163,8 @@ const TsESMBuilder = new tsBuilders.TypescriptConfigBuilder({
 
 const config = TypescriptProjectBuilder.build({
 	name: 'config',
-	deps: ['c12', 'defu'],
+	deps: ['c12', 'defu', 'flat', '@antfu/utils', 'debug', 'type-fest', 'destr'],
+	devDeps: ['@types/flat', '@types/debug', 'supports-color'],
 })
 monorepo.addWorkspaceDeps(
 	{ depType: DependencyType.DEVENV, addTsPath: true },
