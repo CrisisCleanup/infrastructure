@@ -49,6 +49,7 @@
   },
   "dependencies": {
     "@crisiscleanup/config": "workspace:*",
+    "@crisiscleanup/k8s.construct.api": "workspace:*",
     "@crisiscleanup/k8s.construct.component": "workspace:*",
     "cdk8s": "^2.7.115",
     "cdk8s-plus-24": "^2.8.99",
