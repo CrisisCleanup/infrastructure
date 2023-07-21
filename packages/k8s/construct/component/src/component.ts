@@ -33,7 +33,7 @@ export class ContainerImage implements ContainerImageProps {
 }
 
 export interface DeploymentProps {
-	replicaCount: number
+	replicaCount?: number
 	image: ContainerImageProps
 	probes?: Pick<kplus.ContainerProps, 'liveness' | 'startup' | 'readiness'>
 	spread?: boolean
