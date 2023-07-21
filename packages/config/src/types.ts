@@ -1,3 +1,6 @@
+import type { ConfigLayerMeta } from 'c12'
+import { type PartialDeep } from 'type-fest'
+
 interface Celery {
 	alwaysEager: boolean
 }
@@ -86,7 +89,7 @@ interface ConnectFirst {
 	password: string
 }
 
-export interface Config {
+export interface ApiAppConfig {
 	celery: Celery
 	django: Django
 	elasticSearch: ElasticSearch
@@ -99,7 +102,7 @@ export interface Config {
 	phone: Phone
 }
 
-export interface Secrets {
+export interface ApiAppSecrets {
 	postgres: Postgres
 	jwt: Jwt
 	djangoMandrill: DjangoMandrill
@@ -109,7 +112,27 @@ export interface Secrets {
 	cloudfront: Cloudfront
 }
 
+export interface ApiConfig {
+	config: ApiAppConfig
+	secrets?: ApiAppSecrets
+}
+
+export interface CdkEnvironment {
+	account: string
+	region: string
+}
+
+export type Stage = 'local' | 'development' | 'staging' | 'production'
+
 export interface CrisisCleanupConfig {
-	config: Config
-	secrets?: Secrets
+	api: ApiConfig
+	cdkEnvironment: CdkEnvironment
+	ccuStage: Stage
+}
+
+export interface CrisisCleanupConfigInput
+	extends PartialDeep<CrisisCleanupConfig> {}
+
+export interface CrisisCleanupConfigMeta extends ConfigLayerMeta {
+	name: 'crisiscleanup'
 }
