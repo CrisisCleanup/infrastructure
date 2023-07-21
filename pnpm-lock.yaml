@@ -142,6 +142,9 @@ importers:
       js-yaml:
         specifier: ^4.1.0
         version: 4.1.0
+      type-fest:
+        specifier: ^4.0.0
+        version: 4.0.0
     devDependencies:
       '@types/debug':
         specifier: ^4.1.8
@@ -206,9 +209,6 @@ importers:
       tsx:
         specifier: ^3.12.7
         version: 3.12.7
-      type-fest:
-        specifier: ^4.0.0
-        version: 4.0.0
       typescript:
         specifier: ~5.1
         version: 5.1.6

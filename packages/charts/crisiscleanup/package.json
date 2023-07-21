@@ -44,7 +44,6 @@
     "projen": "^0.71.144",
     "ts-jest": "^29.1.1",
     "tsx": "^3.12.7",
-    "type-fest": "^4.0.0",
     "typescript": "~5.1"
   },
   "dependencies": {
@@ -56,7 +55,8 @@
     "constructs": "^10.2.69",
     "debug": "^4.3.4",
     "defu": "^6.1.2",
-    "js-yaml": "^4.1.0"
+    "js-yaml": "^4.1.0",
+    "type-fest": "^4.0.0"
   },
   "engines": {
     "node": ">= 18.16.0"
