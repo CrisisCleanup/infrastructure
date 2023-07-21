@@ -1,5 +1,8 @@
 import { stringifyObjectValues } from '@crisiscleanup/config'
-import { Component } from '@crisiscleanup/k8s.construct.component'
+import {
+	Component,
+	ContainerImage,
+} from '@crisiscleanup/k8s.construct.component'
 import { Chart, Duration } from 'cdk8s'
 import * as kplus from 'cdk8s-plus-24'
 import { Construct } from 'constructs'
@@ -135,22 +138,6 @@ export class ApiWSGI
 			securityContext,
 		})
 
-		const staticInit = this.addContainer({
-			name: 'collectstatic',
-			command: [
-				'python',
-				'manage.py',
-				'collectstatic',
-				'--link',
-				'--no-post-process',
-				'--noinput',
-				'--verbosity=2',
-			],
-			init: true,
-			envFrom: this.config.envFrom,
-			securityContext,
-		})
-
 		const staticVolume = kplus.Volume.fromEmptyDir(
 			scope,
 			'static-files',
@@ -165,8 +152,43 @@ export class ApiWSGI
 			},
 		)
 
+		// migrate + collectstatic jobs
+		const migrateJob = new kplus.Job(this, 'migrate', {
+			securityContext,
+			podMetadata: { labels: { component: 'api-migrate' } },
+		})
+
+		migrateJob.addContainer({
+			name: 'migrate',
+			command: ['python', 'manage.py', 'migrate', '--noinput', '--verbosity=1'],
+			envFrom: this.config.envFrom,
+			securityContext,
+			image: ContainerImage.fromProps(props.image).imageFqn,
+		})
+
+		const staticJob = new kplus.Job(this, 'collectstatic', {
+			securityContext,
+			volumes: [staticVolume],
+			podMetadata: { labels: { component: 'api-static' } },
+		})
+		const staticJobContainer = staticJob.addContainer({
+			name: 'collectstatic',
+			image: ContainerImage.fromProps(props.image).imageFqn,
+			command: [
+				'python',
+				'manage.py',
+				'collectstatic',
+				'--link',
+				'--no-post-process',
+				'--noinput',
+				'--verbosity=2',
+			],
+			envFrom: this.config.envFrom,
+			securityContext,
+		})
+
 		// mount volumes
-		staticInit.mount('/app/staticfiles', staticVolume)
+		staticJobContainer.mount('/app/staticfiles', staticVolume)
 		backend.mount('/app/staticfiles', staticVolume)
 		backend.mount('/worker-tmp', workerTmpVolume)
 	}
