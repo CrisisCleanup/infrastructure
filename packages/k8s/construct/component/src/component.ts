@@ -39,12 +39,18 @@ export interface DeploymentProps {
 	spread?: boolean
 }
 
+export type ComponentContainerProps = Omit<kplus.ContainerProps, 'image'> & {
+	image?: ContainerImageProps
+	init?: boolean
+}
+
 export class Component<PropsT extends DeploymentProps = DeploymentProps>
 	implements Construct
 {
 	static componentName: string = ''
 	deployment: kplus.Deployment
 	readonly node: Node
+	#containers: Map<string, kplus.Container>
 
 	constructor(
 		public readonly scope: Construct,
@@ -72,6 +78,10 @@ export class Component<PropsT extends DeploymentProps = DeploymentProps>
 		this.node = this.deployment.node
 	}
 
+	get containers(): Map<string, kplus.Container> {
+		return new Map(this.#containers)
+	}
+
 	protected createDeploymentProps(): kplus.DeploymentProps {
 		return {}
 	}
@@ -80,22 +90,17 @@ export class Component<PropsT extends DeploymentProps = DeploymentProps>
 		return new kplus.Deployment(this.scope, this.id, props)
 	}
 
-	addContainer(
-		props: Omit<kplus.ContainerProps, 'image'> & {
-			image?: ContainerImageProps
-			init?: boolean
-		},
-	): kplus.Container {
+	addContainer(props: ComponentContainerProps): kplus.Container {
 		const { init = false, ...containerPropsInput } = props
 		const containerProps = {
 			...ContainerImage.fromProps(props.image ?? this.props.image)
 				.containerProps,
 			...containerPropsInput,
 		} as kplus.ContainerProps
-		if (init) {
-			return this.deployment.addInitContainer(containerProps)
-		} else {
-			return this.deployment.addContainer(containerProps)
-		}
+		const container = init
+			? this.deployment.addInitContainer(containerProps)
+			: this.deployment.addContainer(containerProps)
+		this.#containers.set(container.name, container)
+		return container
 	}
 }
