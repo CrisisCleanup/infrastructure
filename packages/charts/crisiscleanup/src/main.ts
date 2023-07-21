@@ -511,14 +511,61 @@ const apiSecrets = flattenToScreamingSnakeCase(config.api.secrets, {
 })
 
 const app = new App({ recordConstructMetadata: true })
-const ingressChart = new Chart(app, 'ingress')
-const igController = new NginxIngressController(
-	ingressChart,
-	'ingress-controller',
-)
-igController.createController({
-	className: 'nginx',
+const chart = CrisisCleanupChart.withDefaults(app, {
+	backend: {
+		stage: config.ccuStage,
+		config: apiConfig,
+		secrets: apiSecrets,
+	},
 })
-const chart = CrisisCleanupChart.withDefaults(app, {})
-chart.addDependency(ingressChart)
+
+if (config.ccuStage === 'local') {
+	const localChart = new Chart(app, 'local')
+	const igController = new NginxIngressController(
+		localChart,
+		'ingress-controller',
+	)
+	igController.createController({
+		className: 'nginx',
+	})
+	new Helm(localChart, 'secrets-csi', {
+		chart: 'secrets-store-csi-driver',
+		namespace: 'kube-system',
+		repo: 'https://kubernetes-sigs.github.io/secrets-store-csi-driver/charts',
+		releaseName: 'csi-secrets-store',
+	})
+	// secrets store csi
+	new Include(localChart, 'secrets-store-driver-provider-aws', {
+		url: 'https://raw.githubusercontent.com/aws/secrets-store-csi-driver-provider-aws/main/deployment/aws-provider-installer.yaml',
+	})
+
+	// headlamp
+	const headlamp = new Helm(localChart, 'headlamp', {
+		namespace: 'kube-system',
+		releaseName: 'headlamp',
+		chart: 'headlamp',
+		repo: 'https://headlamp-k8s.github.io/headlamp/',
+		helmFlags: ['--namespace=kube-system'],
+	})
+	headlamp.apiObjects.forEach((obj) => {
+		obj.addJsonPatch(JsonPatch.add('/metadata/namespace', 'kube-system'))
+	})
+
+	const headlampService = headlamp.apiObjects.find(
+		(obj) => obj.kind === 'Service',
+	)!
+	const externalHeadlamp = new kplus.Service(chart, 'headlamp-external', {
+		type: kplus.ServiceType.EXTERNAL_NAME,
+		externalName: `${headlampService.metadata.name!}.${
+			headlampService.metadata.namespace ?? 'kube-system'
+		}.svc.cluster.local`,
+		ports: [{ port: 80 }],
+	})
+	chart.ingress.addHostDefaultBackend(
+		'headlamp.local.crisiscleanup.io',
+		kplus.IngressBackend.fromService(externalHeadlamp, { port: 80 }),
+	)
+	chart.addDependency(localChart)
+}
+
 app.synth()
