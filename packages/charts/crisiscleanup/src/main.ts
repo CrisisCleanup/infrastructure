@@ -1,14 +1,43 @@
-import process from 'node:process'
+import {
+	type ApiAppConfig,
+	type ApiAppSecrets,
+	type FlattenObject,
+	flattenToScreamingSnakeCase,
+	getConfig,
+	type ScreamingSnakeCaseProperties,
+	stringifyObjectValues,
+} from '@crisiscleanup/config'
 import {
 	Component,
 	type DeploymentProps,
 } from '@crisiscleanup/k8s.construct.component'
-import { App, Chart, type ChartProps, Duration, Include } from 'cdk8s'
+import {
+	App,
+	Chart,
+	type ChartProps,
+	Duration,
+	Helm,
+	Include,
+	JsonPatch,
+} from 'cdk8s'
 import * as kplus from 'cdk8s-plus-24'
 import { Construct } from 'constructs'
+import createDebug from 'debug'
 import defu from 'defu'
 import yaml from 'js-yaml'
+import type { PartialDeep } from 'type-fest'
 import { SecretProviderClass } from './imports/secrets-store.csi.x-k8s.io'
+
+const debug = createDebug('@crisiscleanup:charts.crisiscleanup')
+
+enum ContextKey {
+	stage = 'stage',
+}
+
+export interface BackendConfigProps {
+	config: ScreamingSnakeCaseProperties<FlattenObject<ApiAppConfig, '_'>>
+	secrets: ScreamingSnakeCaseProperties<FlattenObject<ApiAppSecrets, '_'>>
+}
 
 export interface BackendApiProps extends DeploymentProps {
 	config: BackendConfig
@@ -38,41 +67,45 @@ export interface FrontendProps {
 
 export class BackendConfig extends Construct {
 	configMap: kplus.ConfigMap
-	constructor(
-		scope: Construct,
-		id: string,
-		readonly props: {
-			config: Record<string, string>
-			secrets?: Record<string, string>
-			stage?: string
-		},
-	) {
+	configSecret: kplus.Secret
+	constructor(scope: Construct, id: string, props: BackendConfigProps) {
 		super(scope, id)
 
+		const stage = this.node.getContext(ContextKey.stage) as string
+
 		this.configMap = new kplus.ConfigMap(this, 'config', {
-			data: props.config,
+			data: stringifyObjectValues(props.config),
 		})
 
-		const secrets = props.secrets ?? {}
+		this.configSecret = new kplus.Secret(this, 'config-secret', {
+			stringData: stringifyObjectValues(props.secrets),
+		})
 
-		const secretObjects = Object.entries(secrets).map(([key, value]) => ({
+		const secretObjects = Object.entries(
+			stringifyObjectValues(props.secrets),
+		).map(([key]) => ({
 			objectAlias: key,
-			objectName: `${props.stage ?? 'local'}/${key
-				.toLowerCase()
-				.replaceAll('__', '/')
-				.replaceAll('_', '-')}`,
+			objectName: `${stage}/${key}`,
 			objectType: 'secretsmanager',
 		}))
 
 		new SecretProviderClass(this, 'aws-secrets', {
 			metadata: { name: 'aws-secrets' },
 			spec: {
+				provider: 'aws',
 				parameters: {
 					region: 'us-east-1',
 					objects: yaml.dump(secretObjects),
 				},
 			},
 		})
+	}
+
+	get envFrom(): kplus.EnvFrom[] {
+		return [
+			new kplus.EnvFrom(this.configMap),
+			new kplus.EnvFrom(undefined, undefined, this.configSecret),
+		]
 	}
 }
 
@@ -103,7 +136,7 @@ export class BackendWSGI extends Component<BackendApiProps> {
 			name: 'backend',
 			portNumber: 5000,
 			...(props.probes ?? {}),
-			envFrom: [new kplus.EnvFrom(props.config.configMap)],
+			envFrom: props.config.envFrom,
 			securityContext: {
 				readOnlyRootFilesystem: false,
 				user: 1000,
@@ -111,7 +144,7 @@ export class BackendWSGI extends Component<BackendApiProps> {
 			},
 			volumeMounts: [
 				{ volume: staticVolume, path: '/app/staticfiles' },
-				{ volume: secretsVolume, path: '/run/secrets' },
+				// { volume: secretsVolume, path: '/run/secrets' },
 			],
 			command: ['/serve.sh', 'wsgi'],
 		})
@@ -120,7 +153,7 @@ export class BackendWSGI extends Component<BackendApiProps> {
 			name: 'migrate',
 			command: ['python', 'manage.py', 'migrate', '--noinput', '--verbosity=1'],
 			init: true,
-			envFrom: [new kplus.EnvFrom(props.config.configMap)],
+			envFrom: props.config.envFrom,
 			securityContext: {
 				readOnlyRootFilesystem: false,
 			},
@@ -138,7 +171,7 @@ export class BackendWSGI extends Component<BackendApiProps> {
 				'--verbosity=2',
 			],
 			init: true,
-			envFrom: [new kplus.EnvFrom(props.config.configMap)],
+			envFrom: props.config.envFrom,
 			securityContext: {
 				readOnlyRootFilesystem: false,
 				user: 1000,
@@ -159,7 +192,7 @@ export class BackendASGI extends Component<BackendApiProps> {
 			command: ['/serve.sh', 'asgi'],
 			portNumber: 5000,
 			...(props.probes ?? {}),
-			envFrom: [new kplus.EnvFrom(props.config.configMap)],
+			envFrom: props.config.envFrom,
 			securityContext: {
 				readOnlyRootFilesystem: false,
 				user: 1000,
@@ -177,7 +210,7 @@ export class CeleryBeat extends Component<BackendApiProps> {
 		this.addContainer({
 			name: 'celerybeat',
 			command: ['/serve.sh', 'celerybeat'],
-			envFrom: [new kplus.EnvFrom(props.config.configMap)],
+			envFrom: props.config.envFrom,
 			securityContext: { readOnlyRootFilesystem: false },
 		})
 	}
@@ -201,7 +234,7 @@ export class CeleryWorkers extends Component<BackendApiProps> {
 				'--concurrency=1',
 				...(queue.args ?? []),
 			],
-			envFrom: [new kplus.EnvFrom(this.props.config.configMap)],
+			envFrom: this.props.config.envFrom,
 			securityContext: { readOnlyRootFilesystem: false },
 		})
 		return this
@@ -233,7 +266,7 @@ export class AdminWebSocket extends Component<BackendApiProps> {
 		this.addContainer({
 			name: 'adminwebsocket',
 			command: ['/serve.sh', 'adminwebsocket'],
-			envFrom: [new kplus.EnvFrom(props.config.configMap)],
+			envFrom: this.props.config.envFrom,
 		})
 	}
 }
@@ -378,59 +411,8 @@ export class CrisisCleanupChart extends Chart {
 		}
 
 		this.backendDefaultProps = {
-			config: {
-				CELERY_ALWAYS_EAGER: 'False',
-				DATABASE_PORT: '5432',
-				DJANGO_ACCOUNT_ALLOW_REGISTRATION: 'True',
-				DJANGO_ADMIN_URL: '^ccadmin/',
-				DJANGO_ALLOWED_HOSTS: '*',
-				DJANGO_CSRF_COOKIE_SECURE: 'False',
-				DJANGO_SECURE_SSL_REDIRECT: 'False',
-				DJANGO_SESSION_COOKIE_SECURE: 'False',
-				ELASTIC_SEARCH_HOST:
-					'https://search-crisiscleanup-weyohcdj6uiduuj65scqkmxxjy.us-east-1.es.amazonaws.com/',
-				NEW_RELIC_CONFIG_FILE: '/app/newrelic.ini',
-				CCU_NEWRELIC_DISABLE: '1',
-				FORCE_DOCKER: 'True',
-				SENTRY_TRACE_EXCLUDE_URLS:
-					'/,/health,/health/,/ws/health,/ws/health/,/version,/version/,/{var}health/,/{var}version/,crisiscleanup.common.tasks.get_request_ip,crisiscleanup.common.tasks.create_signal_log',
-				// dev
-				DATABASE_HOST: '172.17.0.1',
-				POSTGRES_DBNAME: 'crisiscleanup_dev',
-				POSTGRES_HOST: '172.17.0.1',
-				REDIS_HOST: '172.17.0.1',
-				// REDIS_HOST_REPLICAS:
-				DJANGO_EMAIL_BACKEND: 'django.core.mail.backends.dummy.EmailBackend',
-				CCU_WEB_URL: 'https://local.crisiscleanup.io',
-				CCU_API_URL: 'https://api.local.crisiscleanup.io',
-				SAML_AWS_ROLE: 'arn:aws:iam::182237011124:role/CCUDevConnectRole',
-				SAML_AWS_PROVIDER: 'arn:aws:iam::182237011124:saml-provider/ccuDev',
-				CONNECT_INSTANCE_ID: '87fbcad4-9f58-4153-84e8-d5b7202693e8',
-				AWS_DYNAMO_STAGE: 'dev',
-				PHONE_CHECK_TIMEZONE: 'False',
-				DJANGO_SETTINGS_MODULE: 'config.settings.local',
-				// todo: use csi secrets
-				POSTGRES_PASSWORD: process.env.POSTGRES_PASSWORD,
-				POSTGRES_USER: process.env.POSTGRES_USER,
-				DJANGO_SECRET_KEY: process.env.DJANGO_SECRET_KEY,
-				JWT_PUBLIC_KEY: process.env.JWT_PUBLIC_KEY,
-				JWT_PRIVATE_KEY: process.env.JWT_PRIVATE_KEY,
-				CLOUDFRONT_PUBLIC_KEY: process.env.CLOUDFRONT_PUBLIC_KEY,
-				CLOUDFRONT_PRIVATE_KEY: process.env.CLOUDFRONT_PRIVATE_KEY,
-				AWS_ACCESS_KEY_ID: process.env.LOCAL_AWS_ACCESS_KEY_ID,
-				AWS_SECRET_ACCESS_KEY: process.env.LOCAL_AWS_SECRET_ACCESS_KEY,
-				AWS_DEFAULT_REGION: process.env.LOCAL_AWS_DEFAULT_REGION,
-				DJANGO_MANDRILL_API_KEY: process.env.DJANGO_MANDRILL_API_KEY,
-				ZENDESK_API_KEY: process.env.ZENDESK_API_KEY,
-				CONNECT_FIRST_PASSWORD: process.env.CONNECT_FIRST_PASSWORD,
-			},
-			secrets: {
-				database__password: process.env.POSTGRES_PASSWORD,
-				database__user: process.env.POSTGRES_USER,
-				django__secret_key: process.env.DJANGO_SECRET_KEY,
-				auth__jwt__public_key: process.env.JWT_PUBLIC_KEY,
-				auth__jwt__private_key: process.env.JWT_PRIVATE_KEY,
-			},
+			config: {},
+			secrets: {},
 			asgi: backendDefaults,
 			celery: {
 				...backendDefaults,
@@ -456,11 +438,13 @@ export class CrisisCleanupChart extends Chart {
 
 	static withDefaults(
 		scope: Construct,
-		props: Partial<CrisisCleanupChartProps>,
+		props: PartialDeep<CrisisCleanupChartProps>,
 	) {
 		const defaults = Object.assign({}, this.defaultProps)
 		const values = defu(Object.assign({}, props), defaults)
-		return new this(scope, 'crisiscleanup', values)
+		debug('input props: %O', props)
+		debug('chart props: %O', values)
+		return new this(scope, 'crisiscleanup', values as CrisisCleanupChartProps)
 	}
 
 	backend: Backend
@@ -469,6 +453,8 @@ export class CrisisCleanupChart extends Chart {
 
 	constructor(scope: Construct, id: string, props: CrisisCleanupChartProps) {
 		super(scope, id, props)
+
+		this.node.setContext(ContextKey.stage, props.backend.stage ?? 'local')
 
 		new kplus.Namespace(this, 'namespace', {
 			metadata: { name: props.namespace },
@@ -483,7 +469,7 @@ export class CrisisCleanupChart extends Chart {
 			'/ws/',
 			kplus.IngressBackend.fromService(
 				this.backend.asgi.deployment.exposeViaService({
-					serviceType: kplus.ServiceType.NODE_PORT,
+					serviceType: kplus.ServiceType.CLUSTER_IP,
 				}),
 			),
 			kplus.HttpIngressPathType.PREFIX,
@@ -492,13 +478,13 @@ export class CrisisCleanupChart extends Chart {
 			`api.${props.domainName}`,
 			kplus.IngressBackend.fromService(
 				this.backend.wsgi.deployment.exposeViaService({
-					serviceType: kplus.ServiceType.NODE_PORT,
+					serviceType: kplus.ServiceType.CLUSTER_IP,
 				}),
 			),
 		)
 
 		const webService = this.frontend.web.deployment.exposeViaService({
-			serviceType: kplus.ServiceType.NODE_PORT,
+			serviceType: kplus.ServiceType.CLUSTER_IP,
 		})
 		const webBackend = kplus.IngressBackend.fromService(webService)
 		this.ingress.addHostRule(
@@ -515,6 +501,14 @@ export class CrisisCleanupChart extends Chart {
 		)
 	}
 }
+
+const { config } = await getConfig()
+const apiConfig = flattenToScreamingSnakeCase(config.api.config, {
+	nestedDelimiter: '_',
+})
+const apiSecrets = flattenToScreamingSnakeCase(config.api.secrets, {
+	nestedDelimiter: '_',
+})
 
 const app = new App({ recordConstructMetadata: true })
 const ingressChart = new Chart(app, 'ingress')
