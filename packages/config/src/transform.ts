@@ -124,3 +124,64 @@ export const flattenToScreamingSnakeCase = (
 	}
 	return result
 }
+type FlatOptions = Parameters<typeof flatten>[1]
+type UnFlatOptions = Parameters<typeof flatten.unflatten>[1]
+
+/**
+ * Pick a deep subset of an object filtered by key paths of another object.
+ * @param input Object to pick from.
+ * @param subsetFilter Object to use as filter.
+ * @param options Flatten options.
+ *
+ * @example
+ * ```ts
+ * // input (values will always come from input)
+ * const input = {
+ *  randomValue: 'random',
+ *  django: {
+ *    allowedHosts: '*',
+ *    csrfCookieSecure: false,
+ *  },
+ *  sentry: {
+ *   traceExcludeUrls: ['one', 'two', 'three'],
+ *  },
+ * }
+ * // filter only django values (only keys are looked at).
+ * const subsetFilter = {
+ *  django: {
+ *    allowedHosts: true,
+ *    csrfCookieSecure: true,
+ *  },
+ * }
+ * const result = pickSubsetDeep(input, subsetFilter)
+ * console.log(result)
+ * // {
+ * //   django: {
+ * //     allowedHosts: '*',
+ * //     csrfCookieSecure: false,
+ * //   },
+ * // }
+ * ```
+ */
+export const pickSubsetDeep = <T extends object, Filter extends object>(
+	input: T,
+	subsetFilter: Filter,
+	options?: {
+		inputFlatOptions?: FlatOptions
+		filterFlatOptions?: FlatOptions
+		unflatOptions?: UnFlatOptions
+	},
+): Extract<T, Filter> => {
+	const flatInput: Record<string, unknown> = flatten(
+		input,
+		options?.inputFlatOptions ?? { safe: true },
+	)
+	const flatFilter = Object.keys(
+		flatten(subsetFilter, options?.filterFlatOptions ?? { safe: true }),
+	)
+	const results = flatten.unflatten(
+		objectPick(flatInput, flatFilter, true),
+		options?.unflatOptions,
+	)
+	return results as Extract<T, Filter>
+}
