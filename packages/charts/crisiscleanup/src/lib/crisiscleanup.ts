@@ -178,12 +178,21 @@ export class CrisisCleanupChart extends Chart {
 
 		new kplus.HorizontalPodAutoscaler(this, 'wsgi-hpa', {
 			target: this.wsgi.deployment,
+			minReplicas: 2,
 			maxReplicas: 16,
+			metrics: [...resourceMetrics],
+		})
+
+		new kplus.HorizontalPodAutoscaler(this, 'asgi-hpa', {
+			target: this.asgi.deployment,
+			minReplicas: 2,
+			maxReplicas: 8,
 			metrics: [...resourceMetrics],
 		})
 
 		new kplus.HorizontalPodAutoscaler(this, 'frontend-hpa', {
 			target: this.frontend.web.deployment,
+			minReplicas: 2,
 			maxReplicas: 8,
 			metrics: resourceMetrics,
 		})
@@ -191,6 +200,7 @@ export class CrisisCleanupChart extends Chart {
 		this.celeryWorkers.forEach((worker) => {
 			new kplus.HorizontalPodAutoscaler(this, `${worker.id}-hpa`, {
 				target: worker.deployment,
+				minReplicas: 1,
 				maxReplicas: 10,
 				metrics: resourceMetrics,
 			})
