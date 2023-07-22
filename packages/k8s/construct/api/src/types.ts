@@ -43,8 +43,8 @@ export interface IApiConfig {
 }
 
 export interface ApiConstructConfig {
-	wsgi: ApiWSGIProps
-	asgi: ApiASGIProps
-	celery: CeleryProps[]
-	celeryBeat: ApiProps
+	wsgi: Omit<ApiWSGIProps, 'config'>
+	asgi: Omit<ApiASGIProps, 'config'>
+	celery: Omit<CeleryProps, 'config'>[]
+	celeryBeat: Omit<ApiProps, 'config'>
 }
