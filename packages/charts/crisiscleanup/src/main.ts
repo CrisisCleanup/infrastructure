@@ -5,6 +5,7 @@ import { CrisisCleanupChart, LocalChart } from './lib'
 
 export const createChart = (app: App, config: CrisisCleanupConfig) => {
 	const chart = CrisisCleanupChart.withDefaults(app, {
+		...config.chart,
 		apiAppConfig: config.api.config,
 		apiAppSecrets: config.api.secrets,
 	})

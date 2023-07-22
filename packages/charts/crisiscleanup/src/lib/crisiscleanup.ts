@@ -13,6 +13,7 @@ import {
 } from '@crisiscleanup/k8s.construct.api'
 import {
 	Component,
+	type ContainerImageProps,
 	type DeploymentProps,
 } from '@crisiscleanup/k8s.construct.component'
 import { Chart, type ChartProps, Duration } from 'cdk8s'
@@ -20,7 +21,7 @@ import * as kplus from 'cdk8s-plus-24'
 import { Construct } from 'constructs'
 import createDebug from 'debug'
 import defu from 'defu'
-import { type PartialDeep } from 'type-fest'
+import type { PartialDeep } from 'type-fest'
 
 const debug = createDebug('@crisiscleanup:charts.crisiscleanup')
 
@@ -63,6 +64,8 @@ export interface CrisisCleanupChartProps
 	domainName: string
 	apiAppConfig: ApiAppConfig
 	apiAppSecrets: ApiAppSecrets
+	apiImage?: ContainerImageProps
+	webImage?: ContainerImageProps
 }
 
 export class CrisisCleanupChart extends Chart {
@@ -73,41 +76,19 @@ export class CrisisCleanupChart extends Chart {
 
 	static {
 		const backendDefaults: DeploymentProps = {
-			replicaCount: 1,
-			image: {
-				repository:
-					'240937704012.dkr.ecr.us-east-1.amazonaws.com/crisiscleanup-api',
-				tag: 'latest',
-				pullPolicy: kplus.ImagePullPolicy.IF_NOT_PRESENT,
-			},
+			replicaCount: undefined,
 		}
 		this.frontendDefaultProps = {
 			web: {
 				replicaCount: undefined,
-				image: {
-					repository:
-						'240937704012.dkr.ecr.us-east-1.amazonaws.com/crisiscleanup-web',
-					tag: 'latest',
-					pullPolicy: kplus.ImagePullPolicy.IF_NOT_PRESENT,
-				},
 			},
 		}
 
 		this.backendDefaultProps = {
-			wsgi: { ...backendDefaults, replicaCount: undefined },
-			asgi: { ...backendDefaults, replicaCount: undefined },
+			wsgi: backendDefaults,
+			asgi: backendDefaults,
 			celeryBeat: backendDefaults,
-			celery: [
-				{ ...backendDefaults, queues: ['celery'], replicaCount: undefined },
-				{ ...backendDefaults, queues: ['phone'], replicaCount: undefined },
-				{ ...backendDefaults, queues: ['signal'], replicaCount: undefined },
-				{
-					...backendDefaults,
-					queues: ['metrics'],
-					args: ['--prefetch-multiplier=5'],
-					replicaCount: undefined,
-				},
-			],
+			celery: [],
 		}
 
 		this.defaultProps = {
@@ -155,56 +136,34 @@ export class CrisisCleanupChart extends Chart {
 				nestedDelimiter: '_',
 			}),
 		})
-		this.wsgi = new ApiWSGI(this, 'wsgi', props.wsgi)
-		this.asgi = new ApiASGI(this, 'asgi', props.asgi)
+		this.wsgi = new ApiWSGI(this, 'wsgi', {
+			...props.wsgi,
+			image: props.wsgi.image ?? props.apiImage,
+		})
+		this.asgi = new ApiASGI(this, 'asgi', {
+			...props.asgi,
+			image: props.asgi.image ?? props.apiImage,
+		})
 
-		this.celeryBeat = new CeleryBeat(this, 'celerybeat', props.celeryBeat)
+		this.celeryBeat = new CeleryBeat(this, 'celerybeat', {
+			...props.celeryBeat,
+			image: props.celeryBeat.image ?? props.apiImage,
+		})
 		this.celeryWorkers = props.celery.map(
 			(celeryProps) =>
-				new CeleryWorker(
-					this,
-					`celery-${celeryProps.queues.join('-')}`,
-					celeryProps,
-				),
+				new CeleryWorker(this, `celery-${celeryProps.queues.join('-')}`, {
+					...celeryProps,
+					image: celeryProps.image ?? props.apiImage,
+				}),
 		)
-		this.frontend = new Frontend(this, 'frontend', props.frontend)
+		this.frontend = new Frontend(this, 'frontend', {
+			web: {
+				...props.frontend.web,
+				image: props.frontend.web.image ?? props.webImage,
+			},
+		})
 
 		this.ingress = new kplus.Ingress(this, 'ingress')
-
-		const resourceMetrics = [
-			kplus.Metric.resourceCpu(kplus.MetricTarget.averageUtilization(70)),
-			kplus.Metric.resourceMemory(kplus.MetricTarget.averageUtilization(70)),
-		]
-
-		new kplus.HorizontalPodAutoscaler(this, 'wsgi-hpa', {
-			target: this.wsgi.deployment,
-			minReplicas: 2,
-			maxReplicas: 16,
-			metrics: [...resourceMetrics],
-		})
-
-		new kplus.HorizontalPodAutoscaler(this, 'asgi-hpa', {
-			target: this.asgi.deployment,
-			minReplicas: 2,
-			maxReplicas: 8,
-			metrics: [...resourceMetrics],
-		})
-
-		new kplus.HorizontalPodAutoscaler(this, 'frontend-hpa', {
-			target: this.frontend.web.deployment,
-			minReplicas: 2,
-			maxReplicas: 8,
-			metrics: resourceMetrics,
-		})
-
-		this.celeryWorkers.forEach((worker) => {
-			new kplus.HorizontalPodAutoscaler(this, `${worker.id}-hpa`, {
-				target: worker.deployment,
-				minReplicas: 1,
-				maxReplicas: 10,
-				metrics: resourceMetrics,
-			})
-		})
 
 		this.ingress.addHostRule(
 			`api.${props.domainName}`,
@@ -237,6 +196,12 @@ export class CrisisCleanupChart extends Chart {
 		)
 		this.ingress.addHostRule(
 			`www.${props.domainName}`,
+			'/',
+			webBackend,
+			kplus.HttpIngressPathType.PREFIX,
+		)
+		this.ingress.addHostRule(
+			`app.${props.domainName}`,
 			'/',
 			webBackend,
 			kplus.HttpIngressPathType.PREFIX,
