@@ -17,6 +17,7 @@ import {
 } from '@arroyodev-llc/projen.project.typescript'
 import { builders, ProjectBuilder } from '@arroyodev-llc/utils.projen-builder'
 import { NodePackageUtils } from '@aws-prototyping-sdk/nx-monorepo'
+import { baseConfig, flattenToScreamingSnakeCase } from '@crisiscleanup/config'
 import {
 	awscdk,
 	cdk8s,
@@ -87,10 +88,35 @@ const tools = new ToolVersions(monorepo, {
 	},
 })
 
-new DirEnv(monorepo).buildDefaultEnvRc({
-	localEnvRc: '.envrc.local',
-	minDirEnvVersion: tools.versionsOf('direnv')[0]!,
+const dirEnv = new DirEnv(monorepo)
+	.buildDefaultEnvRc({
+		localEnvRc: '.envrc.local',
+		minDirEnvVersion: tools.versionsOf('direnv')[0]!,
+	})
+	.addComment(
+		'Set CCU_STAGE in .envrc.local (local|development|staging|production)',
+	)
+	.addComment(
+		'Config values can then be overridden from the appropriate ".envrc.$CCU_STAGE" file.',
+	)
+	.addComment('')
+	.addComment(' All config keys available for override:')
+
+const envConfig = flattenToScreamingSnakeCase(baseConfig)
+Object.keys(envConfig).forEach((key) => {
+	dirEnv.addComment(`  ${key}`)
 })
+
+dirEnv
+	.addBlankLine()
+	.addBlankLine()
+	.addComment('Load environment config overrides.')
+	.addEnvVar('CCU_STAGE', '$CCU_STAGE', { defaultValue: 'local' })
+	.addCommand('target_env=".envrc.${CCU_STAGE}"')
+	.addSourceEnvIfExists('"$target_env"')
+
+monorepo.gitignore.removePatterns('"$target_env"')
+monorepo.gitignore.addPatterns('.envrc.*')
 
 // Setup githooks
 monorepo.applyRecursive(

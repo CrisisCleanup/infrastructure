@@ -60,4 +60,5 @@ jspm_packages/
 !/.tool-versions
 !/.envrc
 .envrc.local
+.envrc.*
 !/pnpm-workspace.yaml
