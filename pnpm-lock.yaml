@@ -46,9 +46,18 @@ importers:
       '@aws-prototyping-sdk/nx-monorepo':
         specifier: ^0.19.45
         version: 0.19.45(@pnpm/logger@5.0.0)(projen@0.71.144)
+      '@crisiscleanup/charts.crisiscleanup':
+        specifier: workspace:*
+        version: link:packages/charts/crisiscleanup
       '@crisiscleanup/config':
         specifier: workspace:*
         version: link:packages/config
+      '@crisiscleanup/k8s.construct.api':
+        specifier: workspace:*
+        version: link:packages/k8s/construct/api
+      '@crisiscleanup/k8s.construct.component':
+        specifier: workspace:*
+        version: link:packages/k8s/construct/component
       '@types/node':
         specifier: ^18
         version: 18.16.19

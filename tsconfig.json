@@ -10,6 +10,15 @@
     "paths": {
       "@crisiscleanup/config": [
         "./packages/config/src/index"
+      ],
+      "@crisiscleanup/charts.crisiscleanup": [
+        "./packages/charts/crisiscleanup/src/index"
+      ],
+      "@crisiscleanup/k8s.construct.api": [
+        "./packages/k8s/construct/api/src/index"
+      ],
+      "@crisiscleanup/k8s.construct.component": [
+        "./packages/k8s/construct/component/src/index"
       ]
     }
   },

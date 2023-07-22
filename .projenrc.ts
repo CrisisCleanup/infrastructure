@@ -17,7 +17,11 @@ import {
 } from '@arroyodev-llc/projen.project.typescript'
 import { builders, ProjectBuilder } from '@arroyodev-llc/utils.projen-builder'
 import { NodePackageUtils } from '@aws-prototyping-sdk/nx-monorepo'
-import { baseConfig, flattenToScreamingSnakeCase } from '@crisiscleanup/config'
+import {
+	baseConfig,
+	type CrisisCleanupConfig,
+	flattenToScreamingSnakeCase,
+} from '@crisiscleanup/config'
 import {
 	awscdk,
 	cdk8s,
@@ -102,7 +106,8 @@ const dirEnv = new DirEnv(monorepo)
 	.addComment('')
 	.addComment(' All config keys available for override:')
 
-const envConfig = flattenToScreamingSnakeCase(baseConfig)
+const envConfig =
+	flattenToScreamingSnakeCase<Omit<CrisisCleanupConfig, 'chart'>>(baseConfig)
 Object.keys(envConfig).forEach((key) => {
 	dirEnv.addComment(`  ${key}`)
 })
@@ -291,12 +296,19 @@ const apiStack = AwsCdkTsAppBuilder.build({
 	name: 'stacks.api',
 	cdkVersion: '2.87.0',
 	integrationTestAutoDiscover: true,
-	workspaceDeps: [config],
+	workspaceDeps: [config, crisiscleanup, apiConstruct],
 	deps: ['cdk-sops-secrets'],
 })
 apiStack.cdkConfig.json.addOverride(
 	'app',
 	apiStack.formatExecCommand('tsx', 'src/main.ts'),
+)
+
+monorepo.addWorkspaceDeps(
+	{ depType: DependencyType.DEVENV, addTsPath: true },
+	crisiscleanup,
+	apiConstruct,
+	k8sComponentConstruct,
 )
 
 monorepo.synth()

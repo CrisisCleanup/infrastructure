@@ -131,7 +131,22 @@
       "type": "build"
     },
     {
+      "name": "@crisiscleanup/charts.crisiscleanup",
+      "version": "workspace:*",
+      "type": "devenv"
+    },
+    {
       "name": "@crisiscleanup/config",
+      "version": "workspace:*",
+      "type": "devenv"
+    },
+    {
+      "name": "@crisiscleanup/k8s.construct.api",
+      "version": "workspace:*",
+      "type": "devenv"
+    },
+    {
+      "name": "@crisiscleanup/k8s.construct.component",
       "version": "workspace:*",
       "type": "devenv"
     },
