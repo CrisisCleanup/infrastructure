@@ -85,7 +85,17 @@
       "type": "build"
     },
     {
+      "name": "@crisiscleanup/charts.crisiscleanup",
+      "version": "workspace:*",
+      "type": "runtime"
+    },
+    {
       "name": "@crisiscleanup/config",
+      "version": "workspace:*",
+      "type": "runtime"
+    },
+    {
+      "name": "@crisiscleanup/k8s.construct.api",
       "version": "workspace:*",
       "type": "runtime"
     },

@@ -48,7 +48,9 @@
     "typescript": "~5.1"
   },
   "dependencies": {
+    "@crisiscleanup/charts.crisiscleanup": "workspace:*",
     "@crisiscleanup/config": "workspace:*",
+    "@crisiscleanup/k8s.construct.api": "workspace:*",
     "aws-cdk-lib": "^2.87.0",
     "cdk-sops-secrets": "^1.2.208",
     "constructs": "^10.0.5"
