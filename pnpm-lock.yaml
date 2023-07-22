@@ -58,6 +58,12 @@ importers:
       '@typescript-eslint/parser':
         specifier: ^5
         version: 5.62.0(eslint@8.45.0)(supports-color@8.1.1)(typescript@5.1.6)
+      defu:
+        specifier: ^6.1.2
+        version: 6.1.2
+      destr:
+        specifier: ^2.0.0
+        version: 2.0.0
       eslint:
         specifier: ^8
         version: 8.45.0(supports-color@8.1.1)
@@ -452,9 +458,15 @@ importers:
 
   packages/stacks/api:
     dependencies:
+      '@crisiscleanup/charts.crisiscleanup':
+        specifier: workspace:*
+        version: link:../../charts/crisiscleanup
       '@crisiscleanup/config':
         specifier: workspace:*
         version: link:../../config
+      '@crisiscleanup/k8s.construct.api':
+        specifier: workspace:*
+        version: link:../../k8s/construct/api
       aws-cdk-lib:
         specifier: ^2.87.0
         version: 2.87.0(constructs@10.2.69)
@@ -6105,7 +6117,6 @@ packages:
       {
         integrity: sha512-FJ9RDpf3GicEBvzI3jxc2XhHzbqD8p4ANw/1kPsFBfTvP1b7Gn/Lg1vO7R9J4IVgoMbyUmFrFGZafJ1hPZpvlg==,
       }
-    dev: false
 
   /detect-indent@5.0.0:
     resolution:
@@ -6249,7 +6260,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230721
+      typescript: 5.2.0-dev.20230722
     dev: true
 
   /duplexer@0.1.2:
@@ -13624,10 +13635,10 @@ packages:
     hasBin: true
     dev: true
 
-  /typescript@5.2.0-dev.20230721:
+  /typescript@5.2.0-dev.20230722:
     resolution:
       {
-        integrity: sha512-xBP6NmF/Sk+4H5OM4eYRqyv2pTFjOyIFjaPaVlxXdgqKrysoyB5HkbtHu7GOP9/v5qGG6bd57CVOB/xFpmjxkA==,
+        integrity: sha512-4xNgjOKKAWIYxNXlxeEZX+EqD+ve0tugfhkck66/bljxbCknP8fnSdVeiwSZ+q/YvouZEzzuUfFkIlWNnXwhrQ==,
       }
     engines: { node: '>=14.17' }
     hasBin: true

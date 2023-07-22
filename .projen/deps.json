@@ -48,6 +48,14 @@
       "type": "build"
     },
     {
+      "name": "defu",
+      "type": "build"
+    },
+    {
+      "name": "destr",
+      "type": "build"
+    },
+    {
       "name": "eslint-config-prettier",
       "type": "build"
     },

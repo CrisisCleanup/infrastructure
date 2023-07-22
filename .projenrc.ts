@@ -64,6 +64,8 @@ const monorepo = MonorepoBuilder.build({
 		'@arroyodev-llc/utils.projen-builder',
 		'@aws-prototyping-sdk/nx-monorepo',
 		'zx',
+		'defu',
+		'destr',
 	],
 	namingScheme: {
 		scope: '@crisiscleanup',
