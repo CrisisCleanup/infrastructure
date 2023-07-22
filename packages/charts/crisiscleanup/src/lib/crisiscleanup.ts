@@ -83,7 +83,7 @@ export class CrisisCleanupChart extends Chart {
 		}
 		this.frontendDefaultProps = {
 			web: {
-				replicaCount: 1,
+				replicaCount: undefined,
 				image: {
 					repository:
 						'240937704012.dkr.ecr.us-east-1.amazonaws.com/crisiscleanup-web',
@@ -95,7 +95,7 @@ export class CrisisCleanupChart extends Chart {
 
 		this.backendDefaultProps = {
 			wsgi: { ...backendDefaults, replicaCount: undefined },
-			asgi: backendDefaults,
+			asgi: { ...backendDefaults, replicaCount: undefined },
 			celeryBeat: backendDefaults,
 			celery: [
 				{ ...backendDefaults, queues: ['celery'], replicaCount: undefined },
@@ -180,6 +180,12 @@ export class CrisisCleanupChart extends Chart {
 			target: this.wsgi.deployment,
 			maxReplicas: 16,
 			metrics: [...resourceMetrics],
+		})
+
+		new kplus.HorizontalPodAutoscaler(this, 'frontend-hpa', {
+			target: this.frontend.web.deployment,
+			maxReplicas: 8,
+			metrics: resourceMetrics,
 		})
 
 		this.celeryWorkers.forEach((worker) => {
