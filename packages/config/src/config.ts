@@ -1,4 +1,4 @@
-import { exec } from 'child_process'
+import { exec } from 'node:child_process'
 import {
 	loadConfig,
 	createDefineConfig,
@@ -32,6 +32,9 @@ const baseAppConfig: ApiAppConfig = {
 		sessionCookieSecure: false,
 		emailBackend: 'django.core.mail.backends.dummy.EmailBackend',
 		settingsModule: 'config.settings.local',
+		mandrill: {
+			apiKey: '',
+		},
 	},
 	ccu: {
 		forceDocker: true,
@@ -50,13 +53,6 @@ const baseAppConfig: ApiAppConfig = {
 	},
 	phone: {
 		checkTimezone: false,
-	},
-	redis: {
-		host: '172.17.0.1',
-	},
-	saml: {
-		awsProvider: 'arn:aws:iam::182237011124:role/CCUDevConnectRole',
-		awsRole: 'arn:aws:iam::182237011124:saml-provider/ccuDev',
 	},
 	sentry: {
 		traceExcludeUrls: [
@@ -92,18 +88,23 @@ const baseAppSecrets: ApiAppSecrets = {
 		publicKey: '',
 	},
 	connectFirst: { password: '' },
-	djangoMandrill: {
-		apiKey: '',
-	},
 	postgres: {
 		host: '172.17.0.1',
-		password: 'crisiscleanup_dev',
-		dbname: 'crisiscleanup_dev',
+		password: '',
+		dbname: '',
 		port: 5432,
-		user: 'crisiscleanup_dev',
+		user: '',
+	},
+	redis: {
+		host: '172.17.0.1',
+		hostReplicas: [],
 	},
 	zendesk: {
 		apiKey: '',
+	},
+	saml: {
+		awsProvider: '',
+		awsRole: '',
 	},
 }
 
@@ -136,6 +137,15 @@ const getGitRoot = (): Promise<string> =>
 			}
 		})
 	})
+
+const getGithubToken = (): Promise<string> =>
+	new Promise((resolve, reject) =>
+		exec('gh auth token', (error, stdout, stderr) => {
+			if (error) reject(error)
+			if (stderr) reject(new Error(stderr))
+			resolve(stdout.trim())
+		}),
+	)
 
 export const loadEnvOverrides = (): CrisisCleanupConfig => {
 	const env = Object.assign({}, process.env)
@@ -181,13 +191,32 @@ export const getConfig = async <
 	> = options?.useEnvOverrides ?? true ? { overrides: loadEnvOverrides() } : {}
 	debug('using overrides from env: %O', overridesConfig)
 
+	const previousEnv = process.env
+
+	if (typeof process.env.GIGIT_AUTH !== 'string') {
+		try {
+			process.env.GIGIT_AUTH = await getGithubToken()
+			console.log('resolved github auth from gh-cli')
+		} catch (err) {
+			console.warn(err)
+			console.warn(
+				'GIGIT_AUTH not set in environment and token resolution from gh-cli failed.',
+			)
+			console.warn(
+				'Resolving config will likely fail; please set GIGIT_AUTH to a github auth token in your environment.',
+			)
+		}
+	}
+
 	const cfg = await loadConfig<CrisisCleanupConfig, CrisisCleanupConfigMeta>({
 		name: 'crisiscleanup',
-		defaultConfig: baseConfig,
-		envName: 'CCU_STAGE',
+		defaults: baseConfig,
+		envName: process.env.CCU_STAGE ?? 'local',
 		cwd: await getGitRoot(),
+		extend: { extendKey: '$extends' },
 		...overridesConfig,
 	})
+	process.env = previousEnv
 	debug('resolved config: %O', cfg)
 
 	if (!cfg.config && (options?.strict ?? true)) {
@@ -200,6 +229,6 @@ export const getConfig = async <
 }
 
 export const defineConfig = createDefineConfig<
-	CrisisCleanupConfigInput,
+	CrisisCleanupConfigInput & { $extends?: string[] },
 	CrisisCleanupConfigMeta
 >()

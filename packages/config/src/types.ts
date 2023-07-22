@@ -14,6 +14,7 @@ interface Django {
 	sessionCookieSecure: boolean
 	emailBackend: string
 	settingsModule: string
+	mandrill: DjangoMandrill
 }
 
 interface ElasticSearch {
@@ -45,6 +46,7 @@ interface Postgres {
 
 interface Redis {
 	host: string
+	hostReplicas: string[]
 }
 
 interface Saml {
@@ -96,20 +98,19 @@ export interface ApiAppConfig {
 	newRelic: NewRelic
 	ccu: CCU
 	sentry: Sentry
-	redis: Redis
-	saml: Saml
 	connect: Connect
 	phone: Phone
 }
 
 export interface ApiAppSecrets {
 	postgres: Postgres
+	redis: Redis
 	jwt: Jwt
-	djangoMandrill: DjangoMandrill
 	zendesk: Zendesk
 	connectFirst: ConnectFirst
 	aws: AWS
 	cloudfront: Cloudfront
+	saml: Saml
 }
 
 export interface ApiConfig {
