@@ -132,7 +132,7 @@ export interface CrisisCleanupConfig {
 }
 
 export interface CrisisCleanupConfigInput
-	extends PartialDeep<CrisisCleanupConfig> {}
+	extends PartialDeep<CrisisCleanupConfig, { recurseIntoArrays: true }> {}
 
 export interface CrisisCleanupConfigMeta extends ConfigLayerMeta {
 	name: 'crisiscleanup'
