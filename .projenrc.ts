@@ -282,6 +282,7 @@ const crisiscleanup = Cdk8sAppBuilder.build({
 	devDeps: ['@types/js-yaml', 'tsx', '@types/debug'],
 	workspaceDeps: [k8sComponentConstruct, config, apiConstruct],
 })
+crisiscleanup.tsconfig.addInclude('crisiscleanup.config.ts')
 crisiscleanup.lintConfig.eslint.addIgnorePattern('src/imports')
 crisiscleanup
 	.tryFindObjectFile('cdk8s.yaml')!
