@@ -3,9 +3,11 @@ import {
 	Component,
 	ContainerImage,
 } from '@crisiscleanup/k8s.construct.component'
-import { Chart, Duration } from 'cdk8s'
+import { Chart, Duration, Size, SizeRoundingBehavior } from 'cdk8s'
 import * as kplus from 'cdk8s-plus-24'
 import { Construct } from 'constructs'
+import createDebug from 'debug'
+import defu from 'defu'
 import {
 	type ApiASGIProps,
 	type ApiConfigProps,
@@ -15,6 +17,8 @@ import {
 	type IApiConfig,
 	type IHttpProbable,
 } from './types'
+
+const debug = createDebug('@crisiscleanup:k8s.construct.api')
 
 export class ApiConfig extends Construct implements IApiConfig {
 	static of(construct: Construct): ApiConfig | undefined {
@@ -63,9 +67,24 @@ export abstract class ApiComponent<
 	protected constructor(
 		readonly scope: Construct,
 		readonly id: string,
-		readonly props: PropsT,
+		props: PropsT,
 	) {
-		super(scope, id, props)
+		const propsWithDefaults = defu(props, {
+			containerDefaults: {
+				resources: {
+					cpu: {
+						request: kplus.Cpu.millis(100),
+						limit: kplus.Cpu.millis(500),
+					},
+					memory: {
+						request: Size.mebibytes(1000),
+						limit: Size.mebibytes(2000),
+					},
+				},
+			},
+		}) as PropsT
+		super(scope, id, propsWithDefaults)
+		debug('%s: (componentProps=%O)', id, propsWithDefaults)
 		const config = props.config ?? ApiConfig.of(scope)
 		if (!config) throw Error('Failed to resolve ApiConfig!')
 		this.config = config
@@ -75,18 +94,20 @@ export abstract class ApiComponent<
 		httpPath: string,
 	): Pick<kplus.ContainerProps, 'readiness' | 'liveness' | 'startup'> {
 		const liveProbe = kplus.Probe.fromHttpGet(httpPath, {
-			initialDelaySeconds: Duration.seconds(10),
+			initialDelaySeconds: Duration.seconds(20),
 			periodSeconds: Duration.seconds(5),
 		})
 
 		const readyProbe = kplus.Probe.fromHttpGet(httpPath, {
-			initialDelaySeconds: Duration.seconds(5),
+			initialDelaySeconds: Duration.seconds(20),
 			periodSeconds: Duration.seconds(5),
 		})
 
 		const startProbe = kplus.Probe.fromHttpGet(httpPath, {
-			failureThreshold: 30,
-			periodSeconds: Duration.seconds(10),
+			initialDelaySeconds: Duration.seconds(20),
+			failureThreshold: 6,
+			periodSeconds: Duration.seconds(20),
+			timeoutSeconds: Duration.seconds(3),
 		})
 		return {
 			liveness: liveProbe,
@@ -104,18 +125,22 @@ export class ApiWSGI
 	readonly httpProbePath = '/health'
 
 	constructor(scope: Construct, id: string, props: ApiWSGIProps) {
-		super(scope, id, props)
 		const securityContext = new kplus.ContainerSecurityContext({
 			readOnlyRootFilesystem: false,
 			user: 1000,
 			group: 1000,
 			ensureNonRoot: true,
 		})
+		const propsWithDefaults = defu(props, {
+			containerDefaults: {
+				securityContext,
+			},
+		}) as ApiWSGIProps
+		super(scope, id, propsWithDefaults)
 
 		const backend = this.addContainer({
 			name: 'gunicorn',
 			portNumber: 5000,
-			securityContext,
 			envFrom: this.config.envFrom,
 			command: [
 				'/serve.sh',
@@ -128,14 +153,6 @@ export class ApiWSGI
 				'--worker-tmp-dir=/worker-tmp',
 			],
 			...(props.probes ?? this.createHttpProbes(this.httpProbePath)),
-		})
-
-		this.addContainer({
-			name: 'migrate',
-			command: ['python', 'manage.py', 'migrate', '--noinput', '--verbosity=1'],
-			init: true,
-			envFrom: this.config.envFrom,
-			securityContext,
 		})
 
 		const staticVolume = kplus.Volume.fromEmptyDir(
@@ -152,10 +169,19 @@ export class ApiWSGI
 			},
 		)
 
+		const jobResources: kplus.ContainerProps['resources'] = {
+			cpu: {
+				request: kplus.Cpu.millis(500),
+				limit: kplus.Cpu.millis(1500),
+			},
+			memory: this.props.containerDefaults!.resources!.memory!,
+		}
+
 		// migrate + collectstatic jobs
 		const migrateJob = new kplus.Job(this, 'migrate', {
 			securityContext,
 			podMetadata: { labels: { component: 'api-migrate' } },
+			terminationGracePeriod: Duration.minutes(5),
 		})
 
 		migrateJob.addContainer({
@@ -163,17 +189,19 @@ export class ApiWSGI
 			command: ['python', 'manage.py', 'migrate', '--noinput', '--verbosity=1'],
 			envFrom: this.config.envFrom,
 			securityContext,
-			...ContainerImage.fromProps(props.image).containerProps,
+			...ContainerImage.fromProps(props.image!).containerProps,
+			resources: jobResources,
 		})
 
 		const staticJob = new kplus.Job(this, 'collectstatic', {
 			securityContext,
 			volumes: [staticVolume],
 			podMetadata: { labels: { component: 'api-static' } },
+			terminationGracePeriod: Duration.minutes(5),
 		})
 		const staticJobContainer = staticJob.addContainer({
 			name: 'collectstatic',
-			...ContainerImage.fromProps(props.image).containerProps,
+			...ContainerImage.fromProps(props.image!).containerProps,
 			command: [
 				'python',
 				'manage.py',
@@ -185,6 +213,7 @@ export class ApiWSGI
 			],
 			envFrom: this.config.envFrom,
 			securityContext,
+			resources: jobResources,
 		})
 
 		// mount volumes
@@ -231,6 +260,16 @@ export class CeleryBeat extends ApiComponent {
 				readOnlyRootFilesystem: false,
 				user: 1000,
 				group: 1000,
+			},
+			resources: {
+				cpu: {
+					request: kplus.Cpu.millis(3),
+					limit: kplus.Cpu.millis(15),
+				},
+				memory: {
+					request: Size.mebibytes(250),
+					limit: Size.mebibytes(500),
+				},
 			},
 		})
 	}
@@ -285,6 +324,16 @@ export class AdminWebSocket extends ApiComponent {
 				readOnlyRootFilesystem: false,
 				user: 1000,
 				group: 1000,
+			},
+			resources: {
+				cpu: {
+					request: kplus.Cpu.millis(3),
+					limit: kplus.Cpu.millis(15),
+				},
+				memory: {
+					request: Size.mebibytes(200),
+					limit: Size.mebibytes(300),
+				},
 			},
 		})
 	}
