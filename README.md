@@ -11,22 +11,22 @@ Projen powered IaC for CrisisCleanup.
 ```mermaid
 graph LR
     subgraph Ingress
-        A[Ingress: crisiscleanup-ingress]
+        A[crisiscleanup-ingress]
     end
     subgraph Services
-        B[Service: crisiscleanup-wsgi-service]
-        C[Service: crisiscleanup-asgi-service]
-        D[Service: crisiscleanup-frontend-web-service]
+        B[crisiscleanup-wsgi-service]
+        C[crisiscleanup-asgi-service]
+        D[crisiscleanup-frontend-web-service]
     end
     subgraph Deployments
-        E[Deployment: crisiscleanup-wsgi]
-        F[Deployment: crisiscleanup-asgi]
-        G[Deployment: crisiscleanup-frontend-web]
-        M[Deployment: crisiscleanup-celerybeat]
-        N[Deployment: crisiscleanup-celery-celery]
-        P[Deployment: crisiscleanup-celery-phone]
-        R[Deployment: crisiscleanup-celery-signal]
-        T[Deployment: crisiscleanup-celery-metrics]
+        E[crisiscleanup-wsgi]
+        F[crisiscleanup-asgi]
+        G[crisiscleanup-frontend-web]
+        M[crisiscleanup-celerybeat]
+        N[crisiscleanup-celery-celery]
+        P[crisiscleanup-celery-phone]
+        R[crisiscleanup-celery-signal]
+        T[crisiscleanup-celery-metrics]
         V[Job: crisiscleanup-wsgi-migrate]
         W[Job: crisiscleanup-wsgi-collectstatic]
     end
@@ -35,16 +35,16 @@ graph LR
         L[Secret: crisiscleanup-api-config-config-secret]
     end
     subgraph Autoscalers
-        H[HorizontalPodAutoscaler: crisiscleanup-wsgi-hpa]
-        I[HorizontalPodAutoscaler: crisiscleanup-asgi-hpa]
-        J[HorizontalPodAutoscaler: crisiscleanup-frontend-web-hpa]
-        O[HorizontalPodAutoscaler: crisiscleanup-celery-celery-hpa]
-        Q[HorizontalPodAutoscaler: crisiscleanup-celery-phone-hpa]
-        S[HorizontalPodAutoscaler: crisiscleanup-celery-signal-hpa]
-        U[HorizontalPodAutoscaler: crisiscleanup-celery-metrics-hpa]
+        H[HPA: crisiscleanup-wsgi-hpa]
+        I[HPA: crisiscleanup-asgi-hpa]
+        J[HPA: crisiscleanup-frontend-web-hpa]
+        O[HPA: crisiscleanup-celery-celery-hpa]
+        Q[HPA: crisiscleanup-celery-phone-hpa]
+        S[HPA: crisiscleanup-celery-signal-hpa]
+        U[HPA: crisiscleanup-celery-metrics-hpa]
     end
-    A -->|Route: /| B
-    A -->|Route: /ws/| C
+    A -->|Route: api.*/| B
+    A -->|Route: api.*/ws/| C
     A -->|Route: /| D
     B --> E
     C --> F
