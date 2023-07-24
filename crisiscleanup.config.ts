@@ -60,6 +60,17 @@ export default defineConfig({
 				...celeryScaling,
 			},
 		],
+		ingressAnnotations: {
+			'alb.ingress.kubernetes.io/listen-ports': '[{"HTTP": 80}, {"HTTPS":443}]',
+			'alb.ingress.kubernetes.io/ssl-redirect': '443',
+			'alb.ingress.kubernetes.io/scheme': 'internet-facing',
+			'alb.ingress.kubernetes.io/target-type': 'ip',
+			'alb.ingress.kubernetes.io/target-group-attributes':
+				'load_balancing.algorithm.type=least_outstanding_requests',
+			'alb.ingress.kubernetes.io/healthcheck-path': '/health',
+			'alb.ingress.kubernetes.io/load-balancer-attributes':
+				'idle_timeout.timeout_seconds=120',
+		},
 	},
 	$env: {
 		development: {

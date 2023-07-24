@@ -66,6 +66,7 @@ export interface CrisisCleanupChartProps
 	apiAppSecrets: ApiAppSecrets
 	apiImage?: ContainerImageProps
 	webImage?: ContainerImageProps
+	ingressAnnotations?: Record<string, string>
 }
 
 export class CrisisCleanupChart extends Chart {
@@ -163,7 +164,15 @@ export class CrisisCleanupChart extends Chart {
 			},
 		})
 
-		this.ingress = new kplus.Ingress(this, 'ingress')
+		this.ingress = new kplus.Ingress(
+			this,
+			'ingress',
+			props.ingressAnnotations
+				? {
+						metadata: { annotations: props.ingressAnnotations },
+				  }
+				: undefined,
+		)
 
 		this.ingress.addHostRule(
 			`api.${props.domainName}`,
