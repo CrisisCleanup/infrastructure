@@ -1,6 +1,10 @@
+import { Size } from 'cdk8s'
 import * as kplus from 'cdk8s-plus-24'
 import { type Construct, type Node } from 'constructs'
+import createDebug from 'debug'
 import defu from 'defu'
+
+const debug = createDebug('@crisiscleanup:k8s.construct.component')
 
 export interface ContainerImageProps {
 	repository: string
@@ -28,10 +32,10 @@ export class ContainerImage implements ContainerImageProps {
 		return `${this.repository}:${this.tag}`
 	}
 
-	get containerProps(): {
-		image: string
-		imagePullPolicy?: kplus.ImagePullPolicy
-	} {
+	get containerProps(): Pick<
+		kplus.ContainerProps,
+		'image' | 'imagePullPolicy'
+	> {
 		return { image: this.imageFqn, imagePullPolicy: this.pullPolicy }
 	}
 }
@@ -54,6 +58,7 @@ export interface DeploymentProps extends kplus.WorkloadProps {
 	image?: ContainerImageProps
 	probes?: Pick<kplus.ContainerProps, 'liveness' | 'startup' | 'readiness'>
 	scaling?: HorizontalPodAutoscalerProps
+	containerDefaults?: Partial<kplus.ContainerProps>
 }
 
 export type ComponentContainerProps = Omit<kplus.ContainerProps, 'image'> & {
@@ -160,13 +165,68 @@ export class Component<PropsT extends DeploymentProps = DeploymentProps>
 		return new kplus.Deployment(this.scope, this.id, props)
 	}
 
+	protected createContainerProps(
+		source: Partial<kplus.ContainerProps>,
+		...props: Partial<kplus.ContainerProps>[]
+	): kplus.ContainerProps {
+		debug('container props layers (name=%s, layers=%O)', source.name, [
+			source,
+			this.props.containerDefaults,
+			...props,
+		])
+		const merged = defu(
+			source,
+			this.props.containerDefaults ?? {},
+			...props,
+		) as kplus.ContainerProps
+		const { resources, ...rest } = merged
+		if (resources && resources.memory) {
+			return {
+				...rest,
+				resources: {
+					...resources,
+					memory: {
+						...(resources.memory.request
+							? {
+									// @ts-expect-error - defu converts Size to object
+									// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
+									request: Size[resources.memory.request.unit.label](
+										// @ts-expect-error
+										resources.memory.request.amount,
+									),
+							  }
+							: {}),
+						...(resources.memory.limit
+							? {
+									// @ts-expect-error - defu converts Size to object
+									// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
+									limit: Size[resources.memory.limit.unit.label](
+										// @ts-expect-error
+										resources.memory.limit.amount,
+									),
+							  }
+							: {}),
+					},
+				},
+			}
+		}
+		return { resources, ...rest }
+	}
+
 	addContainer(props: ComponentContainerProps): kplus.Container {
-		const { init = false, ...containerPropsInput } = props
-		const containerProps = {
-			...ContainerImage.fromProps(props.image ?? this.props.image)
-				.containerProps,
-			...containerPropsInput,
-		} as kplus.ContainerProps
+		const { init = false, image, ...containerPropsInput } = props
+		const containerProps = this.createContainerProps(
+			containerPropsInput,
+			ContainerImage.fromProps(
+				(image as ContainerImageProps) ?? this.props.image,
+			).containerProps,
+		)
+		debug(
+			'%s: adding container (name=%s, props=%O)',
+			this.deployment.name,
+			containerProps.name,
+			containerProps,
+		)
 		const container = init
 			? this.deployment.addInitContainer(containerProps)
 			: this.deployment.addContainer(containerProps)
