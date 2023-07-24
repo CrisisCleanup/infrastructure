@@ -315,6 +315,9 @@ importers:
       '@crisiscleanup/k8s.construct.component':
         specifier: workspace:*
         version: link:../component
+      '@types/debug':
+        specifier: ^4.1.8
+        version: 4.1.8
       cdk8s:
         specifier: ^2.7.115
         version: 2.7.115(constructs@10.2.69)(debug@4.3.4)
@@ -324,10 +327,10 @@ importers:
       debug:
         specifier: ^4.3.4
         version: 4.3.4(supports-color@8.1.1)
+      defu:
+        specifier: ^6.1.2
+        version: 6.1.2
     devDependencies:
-      '@types/debug':
-        specifier: ^4.1.8
-        version: 4.1.8
       '@types/node':
         specifier: ^18
         version: 18.16.19
@@ -391,12 +394,18 @@ importers:
 
   packages/k8s/construct/component:
     dependencies:
+      '@types/debug':
+        specifier: ^4.1.8
+        version: 4.1.8
       cdk8s:
         specifier: ^2.7.115
         version: 2.7.115(constructs@10.2.69)(debug@4.3.4)
       constructs:
         specifier: ^10.2.69
         version: 10.2.69
+      debug:
+        specifier: ^4.3.4
+        version: 4.3.4(supports-color@8.1.1)
       defu:
         specifier: ^6.1.2
         version: 6.1.2
@@ -3690,7 +3699,6 @@ packages:
       }
     dependencies:
       '@types/ms': 0.7.31
-    dev: true
 
   /@types/estree@1.0.1:
     resolution:
@@ -3826,7 +3834,6 @@ packages:
       {
         integrity: sha512-iiUgKzV9AuaEkZqkOLDIvlQiL6ltuZd9tGcW3gwpnX8JbuiuhFlEGmmFXEXkN50Cvq7Os88IY2v0dkDqXYWVgA==,
       }
-    dev: true
 
   /@types/node@16.18.38:
     resolution:
@@ -6269,7 +6276,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230722
+      typescript: 5.2.0-dev.20230723
     dev: true
 
   /duplexer@0.1.2:
@@ -13644,10 +13651,10 @@ packages:
     hasBin: true
     dev: true
 
-  /typescript@5.2.0-dev.20230722:
+  /typescript@5.2.0-dev.20230723:
     resolution:
       {
-        integrity: sha512-4xNgjOKKAWIYxNXlxeEZX+EqD+ve0tugfhkck66/bljxbCknP8fnSdVeiwSZ+q/YvouZEzzuUfFkIlWNnXwhrQ==,
+        integrity: sha512-xC5i1s4sexgxAA4OYatFnu20Un4QfEVMs2nOhGbHZf1iNwt3zoQMeZYD2Z3OFvWFqfnMveROpOwiqaN8RvWPyQ==,
       }
     engines: { node: '>=14.17' }
     hasBin: true

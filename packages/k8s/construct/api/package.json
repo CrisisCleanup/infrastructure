@@ -58,8 +58,16 @@
   "dependencies": {
     "@crisiscleanup/config": "workspace:*",
     "@crisiscleanup/k8s.construct.component": "workspace:*",
-    "debug": "^4.3.4"
+    "@types/debug": "^4.1.8",
+    "debug": "^4.3.4",
+    "defu": "^6.1.2"
   },
+  "bundledDependencies": [
+    "@crisiscleanup/config",
+    "@types/debug",
+    "debug",
+    "defu"
+  ],
   "keywords": [
     "cdk"
   ],

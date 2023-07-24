@@ -99,10 +99,22 @@
       "packages/stacks/api"
     ],
     "nohoist": [
+      "k8s.construct.component/@types/debug",
+      "k8s.construct.component/@types/debug/*",
+      "k8s.construct.component/debug",
+      "k8s.construct.component/debug/*",
       "k8s.construct.component/defu",
       "k8s.construct.component/defu/*",
       "k8s.construct.component/js-yaml",
-      "k8s.construct.component/js-yaml/*"
+      "k8s.construct.component/js-yaml/*",
+      "k8s.construct.api/@crisiscleanup/config",
+      "k8s.construct.api/@crisiscleanup/config/*",
+      "k8s.construct.api/@types/debug",
+      "k8s.construct.api/@types/debug/*",
+      "k8s.construct.api/debug",
+      "k8s.construct.api/debug/*",
+      "k8s.construct.api/defu",
+      "k8s.construct.api/defu/*"
     ]
   },
   "packageManager": "pnpm@8.6.9",

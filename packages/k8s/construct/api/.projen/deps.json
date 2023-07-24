@@ -94,6 +94,22 @@
       "type": "build"
     },
     {
+      "name": "@crisiscleanup/config",
+      "type": "bundled"
+    },
+    {
+      "name": "@types/debug",
+      "type": "bundled"
+    },
+    {
+      "name": "debug",
+      "type": "bundled"
+    },
+    {
+      "name": "defu",
+      "type": "bundled"
+    },
+    {
       "name": "cdk8s-plus-24",
       "type": "peer"
     },
@@ -119,6 +135,10 @@
     },
     {
       "name": "debug",
+      "type": "runtime"
+    },
+    {
+      "name": "defu",
       "type": "runtime"
     }
   ],
