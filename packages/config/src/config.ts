@@ -89,11 +89,12 @@ const baseAppSecrets: ApiAppSecrets = {
 	},
 	connectFirst: { password: '' },
 	postgres: {
+		// local
 		host: '172.17.0.1',
-		password: '',
-		dbname: '',
+		password: 'crisiscleanup_dev',
+		dbname: 'crisiscleanup_dev',
 		port: 5432,
-		user: '',
+		user: 'crisiscleanup_dev',
 	},
 	redis: {
 		host: '172.17.0.1',
