@@ -68,7 +68,7 @@
       "description": "Runs eslint against the codebase",
       "steps": [
         {
-          "exec": "eslint --cache --ext .ts --fix --no-error-on-unmatched-pattern /home/bradenmars/projects/work/crisiscleanup/crisiscleanup-infrastructure/packages/k8s/construct/api .projenrc.js"
+          "exec": "eslint --cache --ext .ts,.tsx --fix --no-error-on-unmatched-pattern src test build-tools"
         }
       ]
     },
@@ -92,7 +92,12 @@
     },
     "package": {
       "name": "package",
-      "description": "Creates the distribution package"
+      "description": "Creates the distribution package",
+      "steps": [
+        {
+          "exec": "pdk-pnpm-link-bundled-transitive-deps packages/k8s/construct/api"
+        }
+      ]
     },
     "package-all": {
       "name": "package-all",

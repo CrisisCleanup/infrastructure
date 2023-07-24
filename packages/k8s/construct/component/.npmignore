@@ -11,7 +11,7 @@ dist
 /.idea/
 /.projenrc.js
 tsconfig.tsbuildinfo
+/.eslintrc.json
 !.jsii
 /tsconfig.json
 /tsconfig.dev.json
-/.eslintrc.json

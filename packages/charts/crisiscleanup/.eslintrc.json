@@ -14,7 +14,7 @@
   "parserOptions": {
     "ecmaVersion": 2018,
     "sourceType": "module",
-    "project": "./tsconfig.json",
+    "project": "./tsconfig.dev.json",
     "tsconfigRootDir": "."
   },
   "extends": [
@@ -44,7 +44,7 @@
         ]
       },
       "typescript": {
-        "project": "./tsconfig.json",
+        "project": "./tsconfig.dev.json",
         "alwaysTryTypes": true
       }
     },
@@ -61,7 +61,6 @@
   },
   "ignorePatterns": [
     "*.js",
-    "!.projenrc.js",
     "*.d.ts",
     "node_modules/",
     "*.generated.ts",
@@ -106,7 +105,10 @@
     "import/no-extraneous-dependencies": [
       "error",
       {
-        "devDependencies": [],
+        "devDependencies": [
+          "**/test/**",
+          "**/build-tools/**"
+        ],
         "optionalDependencies": false,
         "peerDependencies": true
       }
@@ -195,15 +197,6 @@
     ]
   },
   "overrides": [
-    {
-      "files": [
-        ".projenrc.js"
-      ],
-      "rules": {
-        "@typescript-eslint/no-require-imports": "off",
-        "import/no-extraneous-dependencies": "off"
-      }
-    },
     {
       "files": [
         "test/**"
