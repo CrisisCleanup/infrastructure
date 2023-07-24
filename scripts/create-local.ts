@@ -42,7 +42,7 @@ const imageFqn = ({
 	repository,
 	tag = 'latest',
 	registry = ECR_REGISTRY,
-}: Image) => `${registry}/${repository}:${tag}`
+}: Image) => `${registry ? registry + '/' : ''}${repository}:${tag}`
 
 const authEcr = async () =>
 	$`aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${ECR_REGISTRY}`
@@ -68,18 +68,22 @@ const loadKindImage = async (image: Image) =>
 const createLocalCluster = async () => {
 	echo('Creating local cluster using kind...')
 	const images: Image[] = [
-		{ repository: ECRRepository.API, tag: 'development' },
-		{ repository: ECRRepository.WEB, tag: 'development' },
+		{ repository: ECRRepository.API, tag: 'latest' },
+		{ repository: ECRRepository.WEB, tag: 'latest' },
 	]
 	const pullAndTag = async (image: Image) =>
 		pullImage(image).then(() => tagImage(image, { ...image, tag: 'latest' }))
 	await Promise.all([
 		createKindCluster(),
+		...images.map((img) => tagImage(img, { ...img, registry: '' })),
 		// ...images.map((img) => pullAndTag(img)),
 	])
 	echo('Importing images into kind...')
 	await Promise.all(
 		images.map((img) => loadKindImage({ ...img, tag: 'latest' })),
+	)
+	await Promise.all(
+		images.map((img) => loadKindImage({ ...img, registry: '', tag: 'latest' })),
 	)
 	echo('Ready!')
 }
