@@ -16,7 +16,7 @@ import {
 	type ContainerImageProps,
 	type DeploymentProps,
 } from '@crisiscleanup/k8s.construct.component'
-import { Chart, type ChartProps, Duration } from 'cdk8s'
+import { Chart, type ChartProps, Duration, Size } from 'cdk8s'
 import * as kplus from 'cdk8s-plus-24'
 import { Construct } from 'constructs'
 import createDebug from 'debug'
@@ -44,6 +44,16 @@ export class Web extends Component {
 			liveness: probe,
 			readiness: probe,
 			securityContext: { ensureNonRoot: false, readOnlyRootFilesystem: false },
+			resources: {
+				cpu: {
+					limit: kplus.Cpu.millis(6),
+					request: kplus.Cpu.millis(2),
+				},
+				memory: {
+					limit: Size.mebibytes(100),
+					request: Size.mebibytes(50),
+				},
+			},
 		})
 	}
 }
