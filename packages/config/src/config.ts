@@ -67,6 +67,7 @@ const baseAppConfig: ApiAppConfig = {
 			'/{var}version/',
 			'crisiscleanup.common.tasks.get_request_ip',
 			'crisiscleanup.common.tasks.create_signal_log',
+			'crisiscleanup.common.tasks.create_new_signal_events',
 		],
 	},
 }
@@ -194,17 +195,17 @@ export const getConfig = async <
 
 	const previousEnv = process.env
 
-	if (typeof process.env.GIGIT_AUTH !== 'string') {
+	if (typeof process.env.GIGET_AUTH !== 'string') {
 		try {
-			process.env.GIGIT_AUTH = await getGithubToken()
+			process.env.GIGET_AUTH = await getGithubToken()
 			console.log('resolved github auth from gh-cli')
 		} catch (err) {
 			console.warn(err)
 			console.warn(
-				'GIGIT_AUTH not set in environment and token resolution from gh-cli failed.',
+				'GIGET_AUTH not set in environment and token resolution from gh-cli failed.',
 			)
 			console.warn(
-				'Resolving config will likely fail; please set GIGIT_AUTH to a github auth token in your environment.',
+				'Resolving config will likely fail; please set GIGET_AUTH to a github auth token in your environment.',
 			)
 		}
 	}
