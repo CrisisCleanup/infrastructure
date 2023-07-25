@@ -99,7 +99,7 @@ export class CrisisCleanupChart extends Chart {
 			wsgi: backendDefaults,
 			asgi: backendDefaults,
 			celeryBeat: backendDefaults,
-			celery: [],
+			celery: {},
 		}
 
 		this.defaultProps = {
@@ -124,6 +124,13 @@ export class CrisisCleanupChart extends Chart {
 		return new this(scope, 'crisiscleanup', values as CrisisCleanupChartProps)
 	}
 
+	readonly namespaceChart: Chart
+	readonly configChart: Chart
+	readonly apiChart: Chart
+	readonly celeryChart: Chart
+	readonly webChart: Chart
+	readonly ingressChart: Chart
+
 	readonly apiConfig: ApiConfig
 	readonly wsgi: ApiWSGI
 	readonly asgi: ApiASGI
@@ -135,11 +142,65 @@ export class CrisisCleanupChart extends Chart {
 	constructor(scope: Construct, id: string, props: CrisisCleanupChartProps) {
 		super(scope, id, props)
 
-		new kplus.Namespace(this, 'namespace', {
+		this.namespaceChart = new Chart(this, 'namespace', {
+			namespace: props.namespace,
+			disableResourceNameHashes: true,
+			labels: {
+				...this.labels,
+				component: 'config',
+			},
+		})
+		const namespace = new kplus.Namespace(this.namespaceChart, 'namespace', {
 			metadata: { name: props.namespace },
 		})
 
-		this.apiConfig = new ApiConfig(this, 'api-config', {
+		this.configChart = new Chart(this, 'config', {
+			namespace: props.namespace,
+			disableResourceNameHashes: true,
+			labels: {
+				...this.labels,
+				component: 'config',
+			},
+		})
+		this.configChart.addDependency(namespace)
+
+		this.apiChart = new Chart(this, 'api', {
+			namespace: props.namespace,
+			disableResourceNameHashes: true,
+			labels: {
+				...this.labels,
+				tier: 'api',
+			},
+		})
+
+		this.celeryChart = new Chart(this, 'celery', {
+			namespace: props.namespace,
+			disableResourceNameHashes: true,
+			labels: {
+				...this.labels,
+				tier: 'celery',
+			},
+		})
+
+		this.webChart = new Chart(this, 'web', {
+			namespace: props.namespace,
+			disableResourceNameHashes: true,
+			labels: {
+				...this.labels,
+				tier: 'web',
+			},
+		})
+
+		this.ingressChart = new Chart(this, 'ingress', {
+			namespace: props.namespace,
+			disableResourceNameHashes: true,
+			labels: {
+				...this.labels,
+				tier: 'ingress',
+			},
+		})
+
+		this.apiConfig = new ApiConfig(this.configChart, 'api', {
 			config: flattenToScreamingSnakeCase(props.apiAppConfig, {
 				nestedDelimiter: '_',
 			}),
@@ -147,27 +208,37 @@ export class CrisisCleanupChart extends Chart {
 				nestedDelimiter: '_',
 			}),
 		})
-		this.wsgi = new ApiWSGI(this, 'wsgi', {
+
+		this.celeryChart.addDependency(this.apiConfig)
+		this.apiChart.addDependency(this.celeryChart)
+
+		this.wsgi = new ApiWSGI(this.apiChart, 'wsgi', {
 			...props.wsgi,
 			image: props.wsgi.image ?? props.apiImage,
+			config: this.apiConfig,
 		})
-		this.asgi = new ApiASGI(this, 'asgi', {
+		this.asgi = new ApiASGI(this.apiChart, 'asgi', {
 			...props.asgi,
 			image: props.asgi.image ?? props.apiImage,
+			config: this.apiConfig,
 		})
 
-		this.celeryBeat = new CeleryBeat(this, 'celerybeat', {
+		this.celeryBeat = new CeleryBeat(this.celeryChart, 'celerybeat', {
 			...props.celeryBeat,
 			image: props.celeryBeat.image ?? props.apiImage,
+			config: this.apiConfig,
 		})
-		this.celeryWorkers = props.celery.map(
-			(celeryProps) =>
-				new CeleryWorker(this, `celery-${celeryProps.queues.join('-')}`, {
+
+		this.celeryWorkers = Object.entries(props.celery).map(
+			([name, celeryProps]) =>
+				new CeleryWorker(this.celeryChart, `celery-${name}`, {
 					...celeryProps,
 					image: celeryProps.image ?? props.apiImage,
+					name,
+					config: this.apiConfig,
 				}),
 		)
-		this.frontend = new Frontend(this, 'frontend', {
+		this.frontend = new Frontend(this.webChart, 'frontend', {
 			web: {
 				...props.frontend.web,
 				image: props.frontend.web.image ?? props.webImage,
@@ -175,7 +246,7 @@ export class CrisisCleanupChart extends Chart {
 		})
 
 		this.ingress = new kplus.Ingress(
-			this,
+			this.ingressChart,
 			'ingress',
 			props.ingressAnnotations
 				? {

@@ -8,6 +8,7 @@ export const createChart = (app: App, config: CrisisCleanupConfig) => {
 		...config.chart,
 		apiAppConfig: config.api.config,
 		apiAppSecrets: config.api.secrets,
+		disableResourceNameHashes: true,
 	})
 	return chart
 }
