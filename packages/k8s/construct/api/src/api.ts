@@ -3,7 +3,7 @@ import {
 	Component,
 	ContainerImage,
 } from '@crisiscleanup/k8s.construct.component'
-import { Chart, Duration, Size, SizeRoundingBehavior } from 'cdk8s'
+import { Chart, Duration, Size } from 'cdk8s'
 import * as kplus from 'cdk8s-plus-24'
 import { Construct } from 'constructs'
 import createDebug from 'debug'
@@ -73,12 +73,12 @@ export abstract class ApiComponent<
 			containerDefaults: {
 				resources: {
 					cpu: {
-						request: kplus.Cpu.millis(100),
-						limit: kplus.Cpu.millis(500),
+						request: kplus.Cpu.millis(50),
+						limit: kplus.Cpu.millis(800),
 					},
 					memory: {
-						request: Size.mebibytes(1000),
-						limit: Size.mebibytes(2000),
+						request: Size.mebibytes(400),
+						limit: Size.mebibytes(800),
 					},
 				},
 			},
@@ -104,10 +104,8 @@ export abstract class ApiComponent<
 		})
 
 		const startProbe = kplus.Probe.fromHttpGet(httpPath, {
-			initialDelaySeconds: Duration.seconds(20),
-			failureThreshold: 6,
-			periodSeconds: Duration.seconds(20),
-			timeoutSeconds: Duration.seconds(3),
+			failureThreshold: 30,
+			periodSeconds: Duration.seconds(15),
 		})
 		return {
 			liveness: liveProbe,
@@ -170,10 +168,7 @@ export class ApiWSGI
 		)
 
 		const jobResources: kplus.ContainerProps['resources'] = {
-			cpu: {
-				request: kplus.Cpu.millis(500),
-				limit: kplus.Cpu.millis(1500),
-			},
+			cpu: this.props.containerDefaults!.resources!.cpu!,
 			memory: this.props.containerDefaults!.resources!.memory!,
 		}
 
@@ -182,6 +177,8 @@ export class ApiWSGI
 			securityContext,
 			podMetadata: { labels: { component: 'api-migrate' } },
 			terminationGracePeriod: Duration.minutes(5),
+			activeDeadline: Duration.minutes(10),
+			ttlAfterFinished: Duration.minutes(2),
 		})
 
 		migrateJob.addContainer({
@@ -198,6 +195,8 @@ export class ApiWSGI
 			volumes: [staticVolume],
 			podMetadata: { labels: { component: 'api-static' } },
 			terminationGracePeriod: Duration.minutes(5),
+			activeDeadline: Duration.minutes(10),
+			ttlAfterFinished: Duration.minutes(2),
 		})
 		const staticJobContainer = staticJob.addContainer({
 			name: 'collectstatic',
@@ -264,7 +263,7 @@ export class CeleryBeat extends ApiComponent {
 			resources: {
 				cpu: {
 					request: kplus.Cpu.millis(3),
-					limit: kplus.Cpu.millis(15),
+					limit: kplus.Cpu.millis(25),
 				},
 				memory: {
 					request: Size.mebibytes(250),
@@ -306,6 +305,13 @@ export class CeleryWorker extends ApiComponent<CeleryProps> {
 				readOnlyRootFilesystem: false,
 				user: 1000,
 				group: 1000,
+			},
+			resources: {
+				cpu: this.props.containerDefaults!.resources!.cpu!,
+				memory: {
+					limit: Size.mebibytes(800),
+					request: Size.mebibytes(450),
+				},
 			},
 		})
 	}
