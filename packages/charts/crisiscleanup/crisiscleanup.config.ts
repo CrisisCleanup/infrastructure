@@ -3,9 +3,11 @@ import { defineConfig } from '@crisiscleanup/config'
 const celeryScaling = {
 	scaling: {
 		minReplicas: 1,
-		maxReplicas: 4,
+		maxReplicas: 2,
 	},
 }
+
+const spread = false
 
 // Chart config defaults for local development.
 export default defineConfig({
@@ -25,38 +27,40 @@ export default defineConfig({
 		},
 		frontend: {
 			web: {
+				spread,
 				replicaCount: undefined,
 				scaling: {
 					minReplicas: 2,
-					maxReplicas: 4,
+					maxReplicas: 3,
 				},
 			},
 		},
 		wsgi: {
+			spread,
 			scaling: {
 				minReplicas: 2,
-				maxReplicas: 6,
+				maxReplicas: 3,
 			},
 		},
 		asgi: {
+			spread,
 			scaling: {
 				minReplicas: 2,
-				maxReplicas: 4,
+				maxReplicas: 3,
 			},
 		},
 		celeryBeat: {
+			spread,
 			replicaCount: 1,
 		},
-		celery: [
-			{ queues: ['celery'], ...celeryScaling },
-			{ queues: ['phone'], ...celeryScaling },
-			{ queues: ['signal'], ...celeryScaling },
-			{
-				queues: ['metrics'],
-				args: ['--prefetch-multiplier=5'],
+		celery: {
+			celery: { queues: ['celery'], ...celeryScaling, spread },
+			signal: {
+				queues: ['signal', 'phone', 'metrics'],
 				...celeryScaling,
+				spread,
 			},
-		],
+		},
 		ingressAnnotations: {
 			'alb.ingress.kubernetes.io/listen-ports': '[{"HTTP": 80}, {"HTTPS":443}]',
 			'alb.ingress.kubernetes.io/ssl-redirect': '443',
