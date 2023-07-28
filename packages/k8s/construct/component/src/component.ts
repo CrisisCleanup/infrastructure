@@ -3,42 +3,9 @@ import * as kplus from 'cdk8s-plus-24'
 import { type Construct, type Node } from 'constructs'
 import createDebug from 'debug'
 import defu from 'defu'
+import { ContainerImage, type ContainerImageProps } from './container-image'
 
 const debug = createDebug('@crisiscleanup:k8s.construct.component')
-
-export interface ContainerImageProps {
-	repository: string
-	tag: string
-	pullPolicy?: kplus.ImagePullPolicy | string
-}
-
-export class ContainerImage implements ContainerImageProps {
-	static fromProps(props: ContainerImageProps): ContainerImage {
-		if (props instanceof ContainerImage) return props
-		return new ContainerImage(
-			props.repository,
-			props.tag,
-			props.pullPolicy as kplus.ImagePullPolicy,
-		)
-	}
-
-	protected constructor(
-		public readonly repository: string,
-		public readonly tag: string,
-		public readonly pullPolicy?: kplus.ImagePullPolicy,
-	) {}
-
-	get imageFqn(): string {
-		return `${this.repository}:${this.tag}`
-	}
-
-	get containerProps(): Pick<
-		kplus.ContainerProps,
-		'image' | 'imagePullPolicy'
-	> {
-		return { image: this.imageFqn, imagePullPolicy: this.pullPolicy }
-	}
-}
 
 export interface HorizontalPodAutoscalerProps
 	extends Pick<
