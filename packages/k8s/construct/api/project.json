@@ -122,6 +122,20 @@
         "cwd": "packages/k8s/construct/api"
       }
     },
+    "stub": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm exec projen stub",
+        "cwd": "packages/k8s/construct/api"
+      }
+    },
+    "post-install": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm exec projen post-install",
+        "cwd": "packages/k8s/construct/api"
+      }
+    },
     "clean": {
       "executor": "nx:run-commands",
       "options": {

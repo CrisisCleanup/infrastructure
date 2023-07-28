@@ -94,20 +94,8 @@
       "type": "build"
     },
     {
-      "name": "@types/debug",
-      "type": "bundled"
-    },
-    {
-      "name": "debug",
-      "type": "bundled"
-    },
-    {
-      "name": "defu",
-      "type": "bundled"
-    },
-    {
-      "name": "js-yaml",
-      "type": "bundled"
+      "name": "unbuild",
+      "type": "build"
     },
     {
       "name": "cdk8s-plus-24",

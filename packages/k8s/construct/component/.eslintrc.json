@@ -201,6 +201,26 @@
           "warn"
         ]
       }
+    },
+    {
+      "files": [
+        "build.config.ts"
+      ],
+      "rules": {
+        "import/no-extraneous-dependencies": [
+          "off"
+        ]
+      }
+    },
+    {
+      "files": [
+        "build.config.ts"
+      ],
+      "rules": {
+        "import/order": [
+          "off"
+        ]
+      }
     }
   ]
 }

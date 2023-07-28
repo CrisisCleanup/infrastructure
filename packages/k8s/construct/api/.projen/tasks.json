@@ -46,7 +46,8 @@
       "description": "Only compile",
       "steps": [
         {
-          "exec": "jsii --silence-warnings=reserved-word"
+          "exec": "pnpm exec tsc --build",
+          "name": "Type check"
         }
       ]
     },
@@ -56,12 +57,7 @@
     },
     "docgen": {
       "name": "docgen",
-      "description": "Generate API.md from .jsii manifest",
-      "steps": [
-        {
-          "exec": "jsii-docgen -o API.md"
-        }
-      ]
+      "description": "Generate API.md from .jsii manifest"
     },
     "eslint": {
       "name": "eslint",
@@ -92,12 +88,7 @@
     },
     "package": {
       "name": "package",
-      "description": "Creates the distribution package",
-      "steps": [
-        {
-          "exec": "pdk-pnpm-link-bundled-transitive-deps packages/k8s/construct/api"
-        }
-      ]
+      "description": "Creates the distribution package"
     },
     "package-all": {
       "name": "package-all",
@@ -123,6 +114,18 @@
       "steps": [
         {
           "spawn": "docgen"
+        },
+        {
+          "exec": "unbuild",
+          "name": "Unbuild"
+        }
+      ]
+    },
+    "post-install": {
+      "name": "post-install",
+      "steps": [
+        {
+          "spawn": "stub"
         }
       ]
     },
@@ -133,6 +136,15 @@
     "pre-compile": {
       "name": "pre-compile",
       "description": "Prepare the project for compilation"
+    },
+    "stub": {
+      "name": "stub",
+      "steps": [
+        {
+          "exec": "pnpm exec unbuild --stub"
+        }
+      ],
+      "condition": "test -z \"$CI\""
     },
     "test": {
       "name": "test",

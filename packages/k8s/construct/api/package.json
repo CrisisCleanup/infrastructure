@@ -16,8 +16,10 @@
     "package-all": "npx projen package-all",
     "package:js": "npx projen package:js",
     "post-compile": "npx projen post-compile",
+    "post-install": "npx projen post-install",
     "post-upgrade": "npx projen post-upgrade",
     "pre-compile": "npx projen pre-compile",
+    "stub": "npx projen stub",
     "test": "npx projen test",
     "upgrade": "npx projen upgrade",
     "watch": "npx projen watch"
@@ -48,7 +50,8 @@
     "npm-check-updates": "^16",
     "prettier": "^3.0.0",
     "projen": "^0.71.144",
-    "typescript": "~5.1"
+    "typescript": "~5.1",
+    "unbuild": "^1.2.1"
   },
   "peerDependencies": {
     "cdk8s": "^2.7.115",
@@ -58,26 +61,19 @@
   "dependencies": {
     "@crisiscleanup/config": "workspace:*",
     "@crisiscleanup/k8s.construct.component": "workspace:*",
-    "@types/debug": "^4.1.8",
     "debug": "^4.3.4",
     "defu": "^6.1.2"
   },
-  "bundledDependencies": [
-    "@crisiscleanup/config",
-    "@types/debug",
-    "debug",
-    "defu"
-  ],
   "keywords": [
     "cdk"
   ],
   "engines": {
     "node": ">= 18.16.0"
   },
-  "main": "lib/index.js",
+  "main": "dist/index.mjs",
   "license": "Apache-2.0",
   "version": "0.0.0",
-  "types": "dist/index.d.ts",
+  "types": "./dist/index.d.mts",
   "stability": "stable",
   "jsii": {
     "outdir": "dist",
@@ -89,6 +85,24 @@
   },
   "type": "module",
   "sideEffects": false,
+  "import": "./dist/index.mjs",
+  "require": "./dist/index.cjs",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
   "packageManager": "pnpm@8.6.9",
   "lint-staged": {
     "*.{ts,tsx,mts,cts,js,jsx,jts,jts}": [

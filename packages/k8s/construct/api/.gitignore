@@ -43,4 +43,5 @@ tsconfig.json
 !/API.md
 !/tsconfig.json
 !/tsconfig.dev.json
+!/build.config.ts
 !/project.json
