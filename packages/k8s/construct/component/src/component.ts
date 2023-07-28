@@ -1,9 +1,10 @@
-import { Size } from 'cdk8s'
+import { Chart, Size } from 'cdk8s'
 import * as kplus from 'cdk8s-plus-24'
 import { type Construct, type Node } from 'constructs'
 import createDebug from 'debug'
 import defu from 'defu'
 import { ContainerImage, type ContainerImageProps } from './container-image'
+import { Label } from './labels'
 import { ComponentScaling, type HorizontalPodAutoscalerProps } from './scaling'
 
 const debug = createDebug('@crisiscleanup:k8s.construct.component')
@@ -43,8 +44,8 @@ export class Component<PropsT extends DeploymentProps = DeploymentProps>
 			...(props.replicaCount ? { replicas: props.replicaCount } : {}),
 			metadata: {
 				labels: {
-					app: 'crisiscleanup',
-					component: componentName,
+					...Chart.of(scope).labels,
+					[Label.NAME]: componentName,
 				},
 			},
 			spread: props.spread ?? false,
