@@ -17,6 +17,7 @@
     "pre-compile": "pnpm exec projen pre-compile",
     "run-many": "pnpm exec projen run-many",
     "test": "pnpm exec projen test",
+    "test:watch": "pnpm exec projen test:watch",
     "upgrade": "pnpm exec projen upgrade",
     "upgrade-deps": "pnpm exec projen upgrade-deps",
     "watch": "pnpm exec projen watch",
@@ -33,6 +34,7 @@
     "@arroyodev-llc/projen.component.git-hooks": "^0.1.6",
     "@arroyodev-llc/projen.component.linting": "^0.1.17",
     "@arroyodev-llc/projen.component.tool-versions": "^0.1.14",
+    "@arroyodev-llc/projen.component.vitest": "^0.1.20",
     "@arroyodev-llc/projen.project.nx-monorepo": "^0.1.22",
     "@arroyodev-llc/projen.project.typescript": "^0.1.24",
     "@arroyodev-llc/utils.projen-builder": "^0.1.2",
@@ -63,6 +65,7 @@
     "ts-node": "^10.9.1",
     "tsx": "^3.12.7",
     "typescript": "~5.1",
+    "vitest": "^0.33.0",
     "zx": "^7.2.3"
   },
   "peerDependencies": {
@@ -77,6 +80,7 @@
     "overrides": {
       "@types/babel__traverse": "7.18.2",
       "@zkochan/js-yaml": "npm:js-yaml@4.1.0",
+      "unbuild": "^2.0.0-rc.0",
       "wrap-ansi": "^7.0.0"
     }
   },
@@ -97,24 +101,6 @@
       "packages/k8s/construct/api",
       "packages/k8s/construct/component",
       "packages/stacks/api"
-    ],
-    "nohoist": [
-      "k8s.construct.component/@types/debug",
-      "k8s.construct.component/@types/debug/*",
-      "k8s.construct.component/debug",
-      "k8s.construct.component/debug/*",
-      "k8s.construct.component/defu",
-      "k8s.construct.component/defu/*",
-      "k8s.construct.component/js-yaml",
-      "k8s.construct.component/js-yaml/*",
-      "k8s.construct.api/@crisiscleanup/config",
-      "k8s.construct.api/@crisiscleanup/config/*",
-      "k8s.construct.api/@types/debug",
-      "k8s.construct.api/@types/debug/*",
-      "k8s.construct.api/debug",
-      "k8s.construct.api/debug/*",
-      "k8s.construct.api/defu",
-      "k8s.construct.api/defu/*"
     ]
   },
   "packageManager": "pnpm@8.6.9",

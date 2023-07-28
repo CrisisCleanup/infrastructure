@@ -206,6 +206,27 @@
           "warn"
         ]
       }
+    },
+    {
+      "files": [
+        "vitest.config.ts",
+        "test/**/*.spec.ts"
+      ],
+      "rules": {
+        "import/no-extraneous-dependencies": [
+          "off"
+        ]
+      }
+    },
+    {
+      "files": [
+        "vitest.config.ts"
+      ],
+      "rules": {
+        "import/order": [
+          "off"
+        ]
+      }
     }
   ]
 }

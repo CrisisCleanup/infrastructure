@@ -33,3 +33,5 @@
 /tsconfig/tsconfig.base.json linguist-generated
 /tsconfig/tsconfig.bundler.json linguist-generated
 /tsconfig/tsconfig.esm.json linguist-generated
+/vitest.config.ts linguist-generated
+/vitest.workspace.json linguist-generated

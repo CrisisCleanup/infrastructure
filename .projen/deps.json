@@ -17,6 +17,10 @@
       "type": "build"
     },
     {
+      "name": "@arroyodev-llc/projen.component.vitest",
+      "type": "build"
+    },
+    {
       "name": "@arroyodev-llc/projen.project.nx-monorepo",
       "type": "build"
     },
@@ -124,6 +128,10 @@
     {
       "name": "typescript",
       "version": "~5.1",
+      "type": "build"
+    },
+    {
+      "name": "vitest",
       "type": "build"
     },
     {

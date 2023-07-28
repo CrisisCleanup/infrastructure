@@ -6,6 +6,7 @@
     ".projenrc.ts",
     "**/*.ts",
     "projenrc/*.ts",
+    "vitest.config.ts",
     ".projenrc.ts",
     "projenrc/**/*.ts"
   ],

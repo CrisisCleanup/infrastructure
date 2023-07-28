@@ -90,6 +90,7 @@
     "tsconfig/tsconfig.base.json",
     "tsconfig/tsconfig.bundler.json",
     "tsconfig/tsconfig.esm.json",
+    "vitest.workspace.json",
     "!.projenrc.ts",
     "!projenrc/**/*.ts",
     ".envrc",
@@ -120,7 +121,8 @@
     "tsconfig.json",
     "tsconfig/tsconfig.base.json",
     "tsconfig/tsconfig.bundler.json",
-    "tsconfig/tsconfig.esm.json"
+    "tsconfig/tsconfig.esm.json",
+    "vitest.workspace.json"
   ],
   "rules": {
     "prettier/prettier": [
@@ -233,6 +235,27 @@
       "rules": {
         "@typescript-eslint/require-await": [
           "warn"
+        ]
+      }
+    },
+    {
+      "files": [
+        "vitest.config.ts",
+        "test/**/*.spec.ts"
+      ],
+      "rules": {
+        "import/no-extraneous-dependencies": [
+          "off"
+        ]
+      }
+    },
+    {
+      "files": [
+        "vitest.config.ts"
+      ],
+      "rules": {
+        "import/order": [
+          "off"
         ]
       }
     },

@@ -57,6 +57,8 @@ jspm_packages/
 !/tsconfig/tsconfig.bundler.json
 !/tsconfig.json
 !/tsconfig.dev.json
+!/vitest.config.ts
+!/vitest.workspace.json
 !/.tool-versions
 !/.envrc
 .envrc.local

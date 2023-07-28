@@ -8,6 +8,10 @@ import {
 import { LintConfig } from '@arroyodev-llc/projen.component.linting'
 import { ToolVersions } from '@arroyodev-llc/projen.component.tool-versions'
 import {
+	Vitest,
+	VitestConfigType,
+} from '@arroyodev-llc/projen.component.vitest'
+import {
 	MonorepoProject,
 	TSConfig,
 } from '@arroyodev-llc/projen.project.nx-monorepo'
@@ -66,6 +70,7 @@ const monorepo = MonorepoBuilder.build({
 		'@arroyodev-llc/projen.component.dir-env',
 		'@arroyodev-llc/projen.component.linting',
 		'@arroyodev-llc/projen.component.git-hooks',
+		'@arroyodev-llc/projen.component.vitest',
 		'@arroyodev-llc/utils.projen-builder',
 		'@aws-prototyping-sdk/nx-monorepo',
 		'zx',
@@ -78,6 +83,7 @@ const monorepo = MonorepoBuilder.build({
 	},
 })
 monorepo.package.addPackageResolutions('unbuild@^2.0.0-rc.0')
+new Vitest(monorepo, { configType: VitestConfigType.WORKSPACE })
 
 const tools = new ToolVersions(monorepo, {
 	tools: {
@@ -291,12 +297,14 @@ const crisiscleanup = Cdk8sAppBuilder.build({
 	deps: ['defu', 'js-yaml', 'debug', 'type-fest'],
 	devDeps: ['@types/js-yaml', 'tsx', '@types/debug'],
 	workspaceDeps: [k8sComponentConstruct, config, apiConstruct],
+	jest: false,
 })
 crisiscleanup.tsconfig.addInclude('crisiscleanup.config.ts')
 crisiscleanup.lintConfig.eslint.addIgnorePattern('src/imports')
 crisiscleanup
 	.tryFindObjectFile('cdk8s.yaml')!
 	.addOverride('app', 'tsx src/main.ts')
+new Vitest(crisiscleanup)
 
 /**
  * AWS CDK Stacks and Constructs
