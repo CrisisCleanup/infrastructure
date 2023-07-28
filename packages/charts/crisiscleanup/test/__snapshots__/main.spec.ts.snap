@@ -1,0 +1,1421 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`CrisisCleanupChart > api: matches snapshot > api 1`] = `
+[
+  {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/component": "api",
+        "app.kubernetes.io/name": "wsgi",
+        "app.kubernetes.io/part-of": "crisiscleanup",
+      },
+      "name": "crisiscleanup-api-wsgi",
+      "namespace": "test",
+    },
+    "spec": {
+      "minReadySeconds": 0,
+      "progressDeadlineSeconds": 600,
+      "selector": {
+        "matchLabels": {
+          "cdk8s.io/metadata.addr": "crisiscleanup-api-wsgi-c83e828d",
+        },
+      },
+      "strategy": {
+        "rollingUpdate": {
+          "maxSurge": "25%",
+          "maxUnavailable": "25%",
+        },
+        "type": "RollingUpdate",
+      },
+      "template": {
+        "metadata": {
+          "labels": {
+            "cdk8s.io/metadata.addr": "crisiscleanup-api-wsgi-c83e828d",
+          },
+        },
+        "spec": {
+          "automountServiceAccountToken": false,
+          "containers": [
+            {
+              "command": [
+                "/serve.sh",
+                "wsgi",
+                "--workers",
+                "2",
+                "--threads",
+                "4",
+                "--worker-class=gthread",
+                "--worker-tmp-dir=/worker-tmp",
+              ],
+              "envFrom": [
+                {
+                  "configMapRef": {
+                    "name": "crisiscleanup-config-api-config",
+                  },
+                },
+                {
+                  "secretRef": {
+                    "name": "crisiscleanup-config-api-config-secret",
+                  },
+                },
+              ],
+              "image": "test-api:test",
+              "imagePullPolicy": "Always",
+              "livenessProbe": {
+                "failureThreshold": 3,
+                "httpGet": {
+                  "path": "/health",
+                  "port": 5000,
+                  "scheme": "HTTP",
+                },
+                "initialDelaySeconds": 20,
+                "periodSeconds": 5,
+              },
+              "name": "gunicorn",
+              "ports": [
+                {
+                  "containerPort": 5000,
+                },
+              ],
+              "readinessProbe": {
+                "failureThreshold": 3,
+                "httpGet": {
+                  "path": "/health",
+                  "port": 5000,
+                  "scheme": "HTTP",
+                },
+                "initialDelaySeconds": 20,
+                "periodSeconds": 5,
+              },
+              "resources": {
+                "limits": {
+                  "cpu": "800m",
+                  "memory": "800Mi",
+                },
+                "requests": {
+                  "cpu": "50m",
+                  "memory": "400Mi",
+                },
+              },
+              "securityContext": {
+                "allowPrivilegeEscalation": false,
+                "privileged": false,
+                "readOnlyRootFilesystem": false,
+                "runAsGroup": 1000,
+                "runAsNonRoot": true,
+                "runAsUser": 1000,
+              },
+              "startupProbe": {
+                "failureThreshold": 30,
+                "httpGet": {
+                  "path": "/health",
+                  "port": 5000,
+                  "scheme": "HTTP",
+                },
+                "periodSeconds": 15,
+              },
+              "volumeMounts": [
+                {
+                  "mountPath": "/app/staticfiles",
+                  "name": "staticfiles",
+                },
+                {
+                  "mountPath": "/worker-tmp",
+                  "name": "worker-tmp",
+                },
+              ],
+            },
+          ],
+          "dnsPolicy": "ClusterFirst",
+          "hostNetwork": false,
+          "restartPolicy": "Always",
+          "securityContext": {
+            "fsGroupChangePolicy": "Always",
+            "runAsNonRoot": true,
+          },
+          "setHostnameAsFQDN": false,
+          "terminationGracePeriodSeconds": 30,
+          "volumes": [
+            {
+              "emptyDir": {},
+              "name": "staticfiles",
+            },
+            {
+              "emptyDir": {
+                "medium": "Memory",
+              },
+              "name": "worker-tmp",
+            },
+          ],
+        },
+      },
+    },
+  },
+  {
+    "apiVersion": "batch/v1",
+    "kind": "Job",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/component": "api",
+        "app.kubernetes.io/part-of": "crisiscleanup",
+      },
+      "name": "crisiscleanup-api-wsgi-migrate",
+      "namespace": "test",
+    },
+    "spec": {
+      "activeDeadlineSeconds": 600,
+      "template": {
+        "metadata": {
+          "labels": {
+            "cdk8s.io/metadata.addr": "crisiscleanup-api-wsgi-migrate-c8890c80",
+            "component": "api-migrate",
+          },
+        },
+        "spec": {
+          "automountServiceAccountToken": false,
+          "containers": [
+            {
+              "command": [
+                "python",
+                "manage.py",
+                "migrate",
+                "--noinput",
+                "--verbosity=1",
+              ],
+              "envFrom": [
+                {
+                  "configMapRef": {
+                    "name": "crisiscleanup-config-api-config",
+                  },
+                },
+                {
+                  "secretRef": {
+                    "name": "crisiscleanup-config-api-config-secret",
+                  },
+                },
+              ],
+              "image": "test-api:test",
+              "imagePullPolicy": "Always",
+              "name": "migrate",
+              "resources": {
+                "limits": {
+                  "cpu": "800m",
+                  "memory": "800Mi",
+                },
+                "requests": {
+                  "cpu": "50m",
+                  "memory": "400Mi",
+                },
+              },
+              "securityContext": {
+                "allowPrivilegeEscalation": false,
+                "privileged": false,
+                "readOnlyRootFilesystem": false,
+                "runAsGroup": 1000,
+                "runAsNonRoot": true,
+                "runAsUser": 1000,
+              },
+            },
+          ],
+          "dnsPolicy": "ClusterFirst",
+          "hostNetwork": false,
+          "restartPolicy": "Never",
+          "securityContext": {
+            "fsGroupChangePolicy": "Always",
+            "runAsGroup": 1000,
+            "runAsNonRoot": true,
+            "runAsUser": 1000,
+          },
+          "setHostnameAsFQDN": false,
+          "terminationGracePeriodSeconds": 300,
+        },
+      },
+      "ttlSecondsAfterFinished": 120,
+    },
+  },
+  {
+    "apiVersion": "batch/v1",
+    "kind": "Job",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/component": "api",
+        "app.kubernetes.io/part-of": "crisiscleanup",
+      },
+      "name": "crisiscleanup-api-wsgi-collectstatic",
+      "namespace": "test",
+    },
+    "spec": {
+      "activeDeadlineSeconds": 600,
+      "template": {
+        "metadata": {
+          "labels": {
+            "cdk8s.io/metadata.addr": "crisiscleanup-api-wsgi-collectstatic-c871685d",
+            "component": "api-static",
+          },
+        },
+        "spec": {
+          "automountServiceAccountToken": false,
+          "containers": [
+            {
+              "command": [
+                "python",
+                "manage.py",
+                "collectstatic",
+                "--link",
+                "--no-post-process",
+                "--noinput",
+                "--verbosity=2",
+              ],
+              "envFrom": [
+                {
+                  "configMapRef": {
+                    "name": "crisiscleanup-config-api-config",
+                  },
+                },
+                {
+                  "secretRef": {
+                    "name": "crisiscleanup-config-api-config-secret",
+                  },
+                },
+              ],
+              "image": "test-api:test",
+              "imagePullPolicy": "Always",
+              "name": "collectstatic",
+              "resources": {
+                "limits": {
+                  "cpu": "800m",
+                  "memory": "800Mi",
+                },
+                "requests": {
+                  "cpu": "50m",
+                  "memory": "400Mi",
+                },
+              },
+              "securityContext": {
+                "allowPrivilegeEscalation": false,
+                "privileged": false,
+                "readOnlyRootFilesystem": false,
+                "runAsGroup": 1000,
+                "runAsNonRoot": true,
+                "runAsUser": 1000,
+              },
+              "volumeMounts": [
+                {
+                  "mountPath": "/app/staticfiles",
+                  "name": "staticfiles",
+                },
+              ],
+            },
+          ],
+          "dnsPolicy": "ClusterFirst",
+          "hostNetwork": false,
+          "restartPolicy": "Never",
+          "securityContext": {
+            "fsGroupChangePolicy": "Always",
+            "runAsGroup": 1000,
+            "runAsNonRoot": true,
+            "runAsUser": 1000,
+          },
+          "setHostnameAsFQDN": false,
+          "terminationGracePeriodSeconds": 300,
+          "volumes": [
+            {
+              "emptyDir": {},
+              "name": "staticfiles",
+            },
+          ],
+        },
+      },
+      "ttlSecondsAfterFinished": 120,
+    },
+  },
+  {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/component": "api",
+        "app.kubernetes.io/part-of": "crisiscleanup",
+      },
+      "name": "crisiscleanup-api-wsgi-service",
+      "namespace": "test",
+    },
+    "spec": {
+      "externalIPs": [],
+      "ports": [
+        {
+          "port": 5000,
+          "targetPort": 5000,
+        },
+      ],
+      "selector": {
+        "cdk8s.io/metadata.addr": "crisiscleanup-api-wsgi-c83e828d",
+      },
+      "type": "ClusterIP",
+    },
+  },
+  {
+    "apiVersion": "autoscaling/v2",
+    "kind": "HorizontalPodAutoscaler",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/component": "api",
+        "app.kubernetes.io/part-of": "crisiscleanup",
+      },
+      "name": "crisiscleanup-api-wsgi-hpa",
+      "namespace": "test",
+    },
+    "spec": {
+      "behavior": {
+        "scaleDown": {
+          "policies": [
+            {
+              "periodSeconds": 300,
+              "type": "Pods",
+              "value": 2,
+            },
+          ],
+          "selectPolicy": "Max",
+          "stabilizationWindowSeconds": 300,
+        },
+        "scaleUp": {
+          "policies": [
+            {
+              "periodSeconds": 60,
+              "type": "Pods",
+              "value": 4,
+            },
+            {
+              "periodSeconds": 60,
+              "type": "Percent",
+              "value": 200,
+            },
+          ],
+          "selectPolicy": "Max",
+          "stabilizationWindowSeconds": 0,
+        },
+      },
+      "maxReplicas": 3,
+      "metrics": [
+        {
+          "resource": {
+            "name": "cpu",
+            "target": {
+              "averageUtilization": 70,
+              "type": "Utilization",
+            },
+          },
+          "type": "Resource",
+        },
+        {
+          "resource": {
+            "name": "memory",
+            "target": {
+              "averageUtilization": 70,
+              "type": "Utilization",
+            },
+          },
+          "type": "Resource",
+        },
+      ],
+      "minReplicas": 2,
+      "scaleTargetRef": {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "name": "crisiscleanup-api-wsgi",
+      },
+    },
+  },
+  {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/component": "api",
+        "app.kubernetes.io/name": "asgi",
+        "app.kubernetes.io/part-of": "crisiscleanup",
+      },
+      "name": "crisiscleanup-api-asgi",
+      "namespace": "test",
+    },
+    "spec": {
+      "minReadySeconds": 0,
+      "progressDeadlineSeconds": 600,
+      "selector": {
+        "matchLabels": {
+          "cdk8s.io/metadata.addr": "crisiscleanup-api-asgi-c818ff7e",
+        },
+      },
+      "strategy": {
+        "rollingUpdate": {
+          "maxSurge": "25%",
+          "maxUnavailable": "25%",
+        },
+        "type": "RollingUpdate",
+      },
+      "template": {
+        "metadata": {
+          "labels": {
+            "cdk8s.io/metadata.addr": "crisiscleanup-api-asgi-c818ff7e",
+          },
+        },
+        "spec": {
+          "automountServiceAccountToken": false,
+          "containers": [
+            {
+              "command": [
+                "/serve.sh",
+                "asgi",
+                "--workers",
+                "2",
+              ],
+              "envFrom": [
+                {
+                  "configMapRef": {
+                    "name": "crisiscleanup-config-api-config",
+                  },
+                },
+                {
+                  "secretRef": {
+                    "name": "crisiscleanup-config-api-config-secret",
+                  },
+                },
+              ],
+              "image": "test-api:test",
+              "imagePullPolicy": "Always",
+              "livenessProbe": {
+                "failureThreshold": 3,
+                "httpGet": {
+                  "path": "/ws/health",
+                  "port": 5000,
+                  "scheme": "HTTP",
+                },
+                "initialDelaySeconds": 20,
+                "periodSeconds": 5,
+              },
+              "name": "hypercorn",
+              "ports": [
+                {
+                  "containerPort": 5000,
+                },
+              ],
+              "readinessProbe": {
+                "failureThreshold": 3,
+                "httpGet": {
+                  "path": "/ws/health",
+                  "port": 5000,
+                  "scheme": "HTTP",
+                },
+                "initialDelaySeconds": 20,
+                "periodSeconds": 5,
+              },
+              "resources": {
+                "limits": {
+                  "cpu": "800m",
+                  "memory": "800Mi",
+                },
+                "requests": {
+                  "cpu": "50m",
+                  "memory": "400Mi",
+                },
+              },
+              "securityContext": {
+                "allowPrivilegeEscalation": false,
+                "privileged": false,
+                "readOnlyRootFilesystem": false,
+                "runAsGroup": 1000,
+                "runAsNonRoot": true,
+                "runAsUser": 1000,
+              },
+              "startupProbe": {
+                "failureThreshold": 30,
+                "httpGet": {
+                  "path": "/ws/health",
+                  "port": 5000,
+                  "scheme": "HTTP",
+                },
+                "periodSeconds": 15,
+              },
+            },
+          ],
+          "dnsPolicy": "ClusterFirst",
+          "hostNetwork": false,
+          "restartPolicy": "Always",
+          "securityContext": {
+            "fsGroupChangePolicy": "Always",
+            "runAsNonRoot": true,
+          },
+          "setHostnameAsFQDN": false,
+          "terminationGracePeriodSeconds": 30,
+        },
+      },
+    },
+  },
+  {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/component": "api",
+        "app.kubernetes.io/part-of": "crisiscleanup",
+      },
+      "name": "crisiscleanup-api-asgi-service",
+      "namespace": "test",
+    },
+    "spec": {
+      "externalIPs": [],
+      "ports": [
+        {
+          "port": 5000,
+          "targetPort": 5000,
+        },
+      ],
+      "selector": {
+        "cdk8s.io/metadata.addr": "crisiscleanup-api-asgi-c818ff7e",
+      },
+      "type": "ClusterIP",
+    },
+  },
+  {
+    "apiVersion": "autoscaling/v2",
+    "kind": "HorizontalPodAutoscaler",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/component": "api",
+        "app.kubernetes.io/part-of": "crisiscleanup",
+      },
+      "name": "crisiscleanup-api-asgi-hpa",
+      "namespace": "test",
+    },
+    "spec": {
+      "behavior": {
+        "scaleDown": {
+          "policies": [
+            {
+              "periodSeconds": 300,
+              "type": "Pods",
+              "value": 1,
+            },
+          ],
+          "selectPolicy": "Max",
+          "stabilizationWindowSeconds": 300,
+        },
+        "scaleUp": {
+          "policies": [
+            {
+              "periodSeconds": 60,
+              "type": "Pods",
+              "value": 4,
+            },
+            {
+              "periodSeconds": 60,
+              "type": "Percent",
+              "value": 200,
+            },
+          ],
+          "selectPolicy": "Max",
+          "stabilizationWindowSeconds": 0,
+        },
+      },
+      "maxReplicas": 2,
+      "metrics": [
+        {
+          "resource": {
+            "name": "cpu",
+            "target": {
+              "averageUtilization": 70,
+              "type": "Utilization",
+            },
+          },
+          "type": "Resource",
+        },
+        {
+          "resource": {
+            "name": "memory",
+            "target": {
+              "averageUtilization": 70,
+              "type": "Utilization",
+            },
+          },
+          "type": "Resource",
+        },
+      ],
+      "minReplicas": 1,
+      "scaleTargetRef": {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "name": "crisiscleanup-api-asgi",
+      },
+    },
+  },
+]
+`;
+
+exports[`CrisisCleanupChart > celery: matches snapshot > celery 1`] = `
+[
+  {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/component": "task-queue",
+        "app.kubernetes.io/name": "celerybeat",
+        "app.kubernetes.io/part-of": "crisiscleanup",
+      },
+      "name": "crisiscleanup-celery-celerybeat",
+      "namespace": "test",
+    },
+    "spec": {
+      "minReadySeconds": 0,
+      "progressDeadlineSeconds": 600,
+      "replicas": 1,
+      "selector": {
+        "matchLabels": {
+          "cdk8s.io/metadata.addr": "crisiscleanup-celery-celerybeat-c8500419",
+        },
+      },
+      "strategy": {
+        "rollingUpdate": {
+          "maxSurge": "25%",
+          "maxUnavailable": "25%",
+        },
+        "type": "RollingUpdate",
+      },
+      "template": {
+        "metadata": {
+          "labels": {
+            "cdk8s.io/metadata.addr": "crisiscleanup-celery-celerybeat-c8500419",
+          },
+        },
+        "spec": {
+          "automountServiceAccountToken": false,
+          "containers": [
+            {
+              "command": [
+                "/serve.sh",
+                "celerybeat",
+              ],
+              "envFrom": [
+                {
+                  "configMapRef": {
+                    "name": "crisiscleanup-config-api-config",
+                  },
+                },
+                {
+                  "secretRef": {
+                    "name": "crisiscleanup-config-api-config-secret",
+                  },
+                },
+              ],
+              "image": "test-api:test",
+              "imagePullPolicy": "Always",
+              "name": "celerybeat",
+              "resources": {
+                "limits": {
+                  "cpu": "25m",
+                  "memory": "500Mi",
+                },
+                "requests": {
+                  "cpu": "3m",
+                  "memory": "250Mi",
+                },
+              },
+              "securityContext": {
+                "allowPrivilegeEscalation": false,
+                "privileged": false,
+                "readOnlyRootFilesystem": false,
+                "runAsGroup": 1000,
+                "runAsNonRoot": true,
+                "runAsUser": 1000,
+              },
+            },
+          ],
+          "dnsPolicy": "ClusterFirst",
+          "hostNetwork": false,
+          "restartPolicy": "Always",
+          "securityContext": {
+            "fsGroupChangePolicy": "Always",
+            "runAsNonRoot": true,
+          },
+          "setHostnameAsFQDN": false,
+          "terminationGracePeriodSeconds": 30,
+        },
+      },
+    },
+  },
+  {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/component": "task-queue",
+        "app.kubernetes.io/name": "celeryworker",
+        "app.kubernetes.io/part-of": "crisiscleanup",
+      },
+      "name": "crisiscleanup-celery-celery-celery",
+      "namespace": "test",
+    },
+    "spec": {
+      "minReadySeconds": 0,
+      "progressDeadlineSeconds": 600,
+      "selector": {
+        "matchLabels": {
+          "cdk8s.io/metadata.addr": "crisiscleanup-celery-celery-celery-c8528587",
+        },
+      },
+      "strategy": {
+        "rollingUpdate": {
+          "maxSurge": "25%",
+          "maxUnavailable": "25%",
+        },
+        "type": "RollingUpdate",
+      },
+      "template": {
+        "metadata": {
+          "labels": {
+            "cdk8s.io/metadata.addr": "crisiscleanup-celery-celery-celery-c8528587",
+          },
+        },
+        "spec": {
+          "automountServiceAccountToken": false,
+          "containers": [
+            {
+              "command": [
+                "/serve.sh",
+                "celeryworker",
+                "-Q",
+                "celery",
+                "--concurrency",
+                "2",
+                "--hostname",
+                "celery@%%h",
+              ],
+              "envFrom": [
+                {
+                  "configMapRef": {
+                    "name": "crisiscleanup-config-api-config",
+                  },
+                },
+                {
+                  "secretRef": {
+                    "name": "crisiscleanup-config-api-config-secret",
+                  },
+                },
+              ],
+              "image": "test-api:test",
+              "imagePullPolicy": "Always",
+              "name": "celery",
+              "resources": {
+                "limits": {
+                  "cpu": "800m",
+                  "memory": "800Mi",
+                },
+                "requests": {
+                  "cpu": "50m",
+                  "memory": "450Mi",
+                },
+              },
+              "securityContext": {
+                "allowPrivilegeEscalation": false,
+                "privileged": false,
+                "readOnlyRootFilesystem": false,
+                "runAsGroup": 1000,
+                "runAsNonRoot": true,
+                "runAsUser": 1000,
+              },
+            },
+          ],
+          "dnsPolicy": "ClusterFirst",
+          "hostNetwork": false,
+          "restartPolicy": "Always",
+          "securityContext": {
+            "fsGroupChangePolicy": "Always",
+            "runAsNonRoot": true,
+          },
+          "setHostnameAsFQDN": false,
+          "terminationGracePeriodSeconds": 30,
+        },
+      },
+    },
+  },
+  {
+    "apiVersion": "autoscaling/v2",
+    "kind": "HorizontalPodAutoscaler",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/component": "task-queue",
+        "app.kubernetes.io/part-of": "crisiscleanup",
+      },
+      "name": "crisiscleanup-celery-celery-celery-hpa",
+      "namespace": "test",
+    },
+    "spec": {
+      "behavior": {
+        "scaleDown": {
+          "policies": [
+            {
+              "periodSeconds": 300,
+              "type": "Pods",
+              "value": 1,
+            },
+          ],
+          "selectPolicy": "Max",
+          "stabilizationWindowSeconds": 300,
+        },
+        "scaleUp": {
+          "policies": [
+            {
+              "periodSeconds": 60,
+              "type": "Pods",
+              "value": 4,
+            },
+            {
+              "periodSeconds": 60,
+              "type": "Percent",
+              "value": 200,
+            },
+          ],
+          "selectPolicy": "Max",
+          "stabilizationWindowSeconds": 0,
+        },
+      },
+      "maxReplicas": 2,
+      "metrics": [
+        {
+          "resource": {
+            "name": "cpu",
+            "target": {
+              "averageUtilization": 70,
+              "type": "Utilization",
+            },
+          },
+          "type": "Resource",
+        },
+        {
+          "resource": {
+            "name": "memory",
+            "target": {
+              "averageUtilization": 70,
+              "type": "Utilization",
+            },
+          },
+          "type": "Resource",
+        },
+      ],
+      "minReplicas": 1,
+      "scaleTargetRef": {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "name": "crisiscleanup-celery-celery-celery",
+      },
+    },
+  },
+  {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/component": "task-queue",
+        "app.kubernetes.io/name": "celeryworker",
+        "app.kubernetes.io/part-of": "crisiscleanup",
+      },
+      "name": "crisiscleanup-celery-celery-signal",
+      "namespace": "test",
+    },
+    "spec": {
+      "minReadySeconds": 0,
+      "progressDeadlineSeconds": 600,
+      "selector": {
+        "matchLabels": {
+          "cdk8s.io/metadata.addr": "crisiscleanup-celery-celery-signal-c80f507d",
+        },
+      },
+      "strategy": {
+        "rollingUpdate": {
+          "maxSurge": "25%",
+          "maxUnavailable": "25%",
+        },
+        "type": "RollingUpdate",
+      },
+      "template": {
+        "metadata": {
+          "labels": {
+            "cdk8s.io/metadata.addr": "crisiscleanup-celery-celery-signal-c80f507d",
+          },
+        },
+        "spec": {
+          "automountServiceAccountToken": false,
+          "containers": [
+            {
+              "command": [
+                "/serve.sh",
+                "celeryworker",
+                "-Q",
+                "signal,phone,metrics",
+                "--concurrency",
+                "2",
+                "--hostname",
+                "signal@%%h",
+              ],
+              "envFrom": [
+                {
+                  "configMapRef": {
+                    "name": "crisiscleanup-config-api-config",
+                  },
+                },
+                {
+                  "secretRef": {
+                    "name": "crisiscleanup-config-api-config-secret",
+                  },
+                },
+              ],
+              "image": "test-api:test",
+              "imagePullPolicy": "Always",
+              "name": "signal",
+              "resources": {
+                "limits": {
+                  "cpu": "800m",
+                  "memory": "800Mi",
+                },
+                "requests": {
+                  "cpu": "50m",
+                  "memory": "450Mi",
+                },
+              },
+              "securityContext": {
+                "allowPrivilegeEscalation": false,
+                "privileged": false,
+                "readOnlyRootFilesystem": false,
+                "runAsGroup": 1000,
+                "runAsNonRoot": true,
+                "runAsUser": 1000,
+              },
+            },
+          ],
+          "dnsPolicy": "ClusterFirst",
+          "hostNetwork": false,
+          "restartPolicy": "Always",
+          "securityContext": {
+            "fsGroupChangePolicy": "Always",
+            "runAsNonRoot": true,
+          },
+          "setHostnameAsFQDN": false,
+          "terminationGracePeriodSeconds": 30,
+        },
+      },
+    },
+  },
+  {
+    "apiVersion": "autoscaling/v2",
+    "kind": "HorizontalPodAutoscaler",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/component": "task-queue",
+        "app.kubernetes.io/part-of": "crisiscleanup",
+      },
+      "name": "crisiscleanup-celery-celery-signal-hpa",
+      "namespace": "test",
+    },
+    "spec": {
+      "behavior": {
+        "scaleDown": {
+          "policies": [
+            {
+              "periodSeconds": 300,
+              "type": "Pods",
+              "value": 1,
+            },
+          ],
+          "selectPolicy": "Max",
+          "stabilizationWindowSeconds": 300,
+        },
+        "scaleUp": {
+          "policies": [
+            {
+              "periodSeconds": 60,
+              "type": "Pods",
+              "value": 4,
+            },
+            {
+              "periodSeconds": 60,
+              "type": "Percent",
+              "value": 200,
+            },
+          ],
+          "selectPolicy": "Max",
+          "stabilizationWindowSeconds": 0,
+        },
+      },
+      "maxReplicas": 2,
+      "metrics": [
+        {
+          "resource": {
+            "name": "cpu",
+            "target": {
+              "averageUtilization": 70,
+              "type": "Utilization",
+            },
+          },
+          "type": "Resource",
+        },
+        {
+          "resource": {
+            "name": "memory",
+            "target": {
+              "averageUtilization": 70,
+              "type": "Utilization",
+            },
+          },
+          "type": "Resource",
+        },
+      ],
+      "minReplicas": 1,
+      "scaleTargetRef": {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "name": "crisiscleanup-celery-celery-signal",
+      },
+    },
+  },
+]
+`;
+
+exports[`CrisisCleanupChart > chart: matches snapshot > chart 1`] = `
+[
+  {
+    "apiVersion": "networking.k8s.io/v1",
+    "kind": "Ingress",
+    "metadata": {
+      "annotations": {
+        "alb.ingress.kubernetes.io/healthcheck-path": "/health",
+        "alb.ingress.kubernetes.io/listen-ports": "[{\\"HTTP\\": 80}, {\\"HTTPS\\":443}]",
+        "alb.ingress.kubernetes.io/load-balancer-attributes": "idle_timeout.timeout_seconds=120",
+        "alb.ingress.kubernetes.io/scheme": "internet-facing",
+        "alb.ingress.kubernetes.io/ssl-redirect": "443",
+        "alb.ingress.kubernetes.io/target-group-attributes": "load_balancing.algorithm.type=least_outstanding_requests",
+        "alb.ingress.kubernetes.io/target-type": "ip",
+      },
+      "labels": {
+        "app.kubernetes.io/part-of": "crisiscleanup",
+      },
+      "name": "crisiscleanup-ingress-c8203526",
+      "namespace": "test",
+    },
+    "spec": {
+      "rules": [
+        {
+          "host": "api.test.crisiscleanup.io",
+          "http": {
+            "paths": [
+              {
+                "backend": {
+                  "service": {
+                    "name": "crisiscleanup-api-wsgi-service",
+                    "port": {
+                      "number": 5000,
+                    },
+                  },
+                },
+                "path": "/",
+                "pathType": "Prefix",
+              },
+              {
+                "backend": {
+                  "service": {
+                    "name": "crisiscleanup-api-asgi-service",
+                    "port": {
+                      "number": 5000,
+                    },
+                  },
+                },
+                "path": "/ws/",
+                "pathType": "Prefix",
+              },
+            ],
+          },
+        },
+        {
+          "host": "test.crisiscleanup.io",
+          "http": {
+            "paths": [
+              {
+                "backend": {
+                  "service": {
+                    "name": "crisiscleanup-web-frontend-web-service",
+                    "port": {
+                      "number": 80,
+                    },
+                  },
+                },
+                "path": "/",
+                "pathType": "Prefix",
+              },
+            ],
+          },
+        },
+        {
+          "host": "www.test.crisiscleanup.io",
+          "http": {
+            "paths": [
+              {
+                "backend": {
+                  "service": {
+                    "name": "crisiscleanup-web-frontend-web-service",
+                    "port": {
+                      "number": 80,
+                    },
+                  },
+                },
+                "path": "/",
+                "pathType": "Prefix",
+              },
+            ],
+          },
+        },
+        {
+          "host": "app.test.crisiscleanup.io",
+          "http": {
+            "paths": [
+              {
+                "backend": {
+                  "service": {
+                    "name": "crisiscleanup-web-frontend-web-service",
+                    "port": {
+                      "number": 80,
+                    },
+                  },
+                },
+                "path": "/",
+                "pathType": "Prefix",
+              },
+            ],
+          },
+        },
+      ],
+    },
+  },
+]
+`;
+
+exports[`CrisisCleanupChart > config: matches snapshot > config 1`] = `
+[
+  {
+    "apiVersion": "v1",
+    "data": {
+      "CCU_API_URL": "https://api.local.crisiscleanup.io",
+      "CCU_FORCE_DOCKER": "true",
+      "CCU_NEWRELIC_DISABLE": "true",
+      "CCU_WEB_URL": "https://local.crisiscleanup.io",
+      "CELERY_ALWAYS_EAGER": "false",
+      "CONNECT_INSTANCE_ID": "87fbcad4-9f58-4153-84e8-d5b7202693e8",
+      "DJANGO_ACCOUNT_ALLOW_REGISTRATION": "True",
+      "DJANGO_ADMIN_URL": "^ccadmin/",
+      "DJANGO_ALLOWED_HOSTS": "*",
+      "DJANGO_CSRF_COOKIE_SECURE": "false",
+      "DJANGO_EMAIL_BACKEND": "django.core.mail.backends.dummy.EmailBackend",
+      "DJANGO_MANDRILL_API_KEY": "",
+      "DJANGO_SECURE_SSL_REDIRECT": "false",
+      "DJANGO_SESSION_COOKIE_SECURE": "false",
+      "DJANGO_SETTINGS_MODULE": "config.settings.local",
+      "ELASTIC_SEARCH_HOST": "https://search-crisiscleanup-weyohcdj6uiduuj65scqkmxxjy.us-east-1.es.amazonaws.com/",
+      "NEW_RELIC_CONFIG_FILE": "/app/newrelic.ini",
+      "PHONE_CHECK_TIMEZONE": "false",
+      "SENTRY_TRACE_EXCLUDE_URLS": "/,/health,/health/,/ws/health,/ws/health/,/version,/version/,/{var}health/,/{var}version/,crisiscleanup.common.tasks.get_request_ip,crisiscleanup.common.tasks.create_signal_log,crisiscleanup.common.tasks.create_new_signal_events",
+    },
+    "immutable": false,
+    "kind": "ConfigMap",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/component": "config",
+        "app.kubernetes.io/part-of": "crisiscleanup",
+      },
+      "name": "crisiscleanup-config-api-config",
+      "namespace": "test",
+    },
+  },
+  {
+    "apiVersion": "v1",
+    "immutable": false,
+    "kind": "Secret",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/component": "config",
+        "app.kubernetes.io/part-of": "crisiscleanup",
+      },
+      "name": "crisiscleanup-config-api-config-secret",
+      "namespace": "test",
+    },
+    "stringData": {
+      "AWS_ACCESS_KEY_ID": "",
+      "AWS_DEFAULT_REGION": "us-east-1",
+      "AWS_DYNAMO_STAGE": "local",
+      "AWS_SECRET_ACCESS_KEY": "",
+      "CLOUDFRONT_PRIVATE_KEY": "",
+      "CLOUDFRONT_PUBLIC_KEY": "",
+      "CONNECT_FIRST_PASSWORD": "",
+      "JWT_PRIVATE_KEY": "",
+      "JWT_PUBLIC_KEY": "",
+      "POSTGRES_DBNAME": "crisiscleanup_dev",
+      "POSTGRES_HOST": "172.17.0.1",
+      "POSTGRES_PASSWORD": "crisiscleanup_dev",
+      "POSTGRES_PORT": "5432",
+      "POSTGRES_USER": "crisiscleanup_dev",
+      "REDIS_HOST": "172.17.0.1",
+      "REDIS_HOST_REPLICAS": "",
+      "SAML_AWS_PROVIDER": "",
+      "SAML_AWS_ROLE": "",
+      "ZENDESK_API_KEY": "",
+    },
+  },
+]
+`;
+
+exports[`CrisisCleanupChart > namespace: matches snapshot > namespace 1`] = `
+[
+  {
+    "apiVersion": "v1",
+    "kind": "Namespace",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/part-of": "crisiscleanup",
+      },
+      "name": "test",
+      "namespace": "test",
+    },
+    "spec": {},
+  },
+]
+`;
+
+exports[`CrisisCleanupChart > web: matches snapshot > web 1`] = `
+[
+  {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/component": "web",
+        "app.kubernetes.io/name": "web",
+        "app.kubernetes.io/part-of": "crisiscleanup",
+      },
+      "name": "crisiscleanup-web-frontend-web",
+      "namespace": "test",
+    },
+    "spec": {
+      "minReadySeconds": 0,
+      "progressDeadlineSeconds": 600,
+      "replicas": 1,
+      "selector": {
+        "matchLabels": {
+          "cdk8s.io/metadata.addr": "crisiscleanup-web-frontend-web-c8f1c77c",
+        },
+      },
+      "strategy": {
+        "rollingUpdate": {
+          "maxSurge": "25%",
+          "maxUnavailable": "25%",
+        },
+        "type": "RollingUpdate",
+      },
+      "template": {
+        "metadata": {
+          "labels": {
+            "cdk8s.io/metadata.addr": "crisiscleanup-web-frontend-web-c8f1c77c",
+          },
+        },
+        "spec": {
+          "automountServiceAccountToken": false,
+          "containers": [
+            {
+              "image": "test-web:test",
+              "imagePullPolicy": "Always",
+              "livenessProbe": {
+                "failureThreshold": 3,
+                "httpGet": {
+                  "path": "/",
+                  "port": 80,
+                  "scheme": "HTTP",
+                },
+                "periodSeconds": 10,
+              },
+              "name": "web",
+              "ports": [
+                {
+                  "containerPort": 80,
+                },
+              ],
+              "readinessProbe": {
+                "failureThreshold": 3,
+                "httpGet": {
+                  "path": "/",
+                  "port": 80,
+                  "scheme": "HTTP",
+                },
+                "periodSeconds": 10,
+              },
+              "resources": {
+                "limits": {
+                  "cpu": "6m",
+                  "memory": "100Mi",
+                },
+                "requests": {
+                  "cpu": "2m",
+                  "memory": "50Mi",
+                },
+              },
+              "securityContext": {
+                "allowPrivilegeEscalation": false,
+                "privileged": false,
+                "readOnlyRootFilesystem": false,
+                "runAsNonRoot": false,
+              },
+              "startupProbe": {
+                "failureThreshold": 3,
+                "tcpSocket": {
+                  "port": 80,
+                },
+              },
+            },
+          ],
+          "dnsPolicy": "ClusterFirst",
+          "hostNetwork": false,
+          "restartPolicy": "Always",
+          "securityContext": {
+            "fsGroupChangePolicy": "Always",
+            "runAsNonRoot": true,
+          },
+          "setHostnameAsFQDN": false,
+          "terminationGracePeriodSeconds": 30,
+        },
+      },
+    },
+  },
+  {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/component": "web",
+        "app.kubernetes.io/part-of": "crisiscleanup",
+      },
+      "name": "crisiscleanup-web-frontend-web-service",
+      "namespace": "test",
+    },
+    "spec": {
+      "externalIPs": [],
+      "ports": [
+        {
+          "port": 80,
+          "targetPort": 80,
+        },
+      ],
+      "selector": {
+        "cdk8s.io/metadata.addr": "crisiscleanup-web-frontend-web-c8f1c77c",
+      },
+      "type": "ClusterIP",
+    },
+  },
+]
+`;
