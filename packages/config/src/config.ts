@@ -7,7 +7,7 @@ import {
 } from 'c12'
 import createDebug from 'debug'
 import { type Exact } from 'type-fest'
-import { pickSubsetDeep, transformEnvVars } from './transform.ts'
+import { pickSubsetDeep, transformEnvVars } from './transform'
 import type {
 	ApiAppConfig,
 	ApiAppSecrets,
