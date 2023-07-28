@@ -14,17 +14,14 @@ export interface HorizontalPodAutoscalerProps {
 	readonly hpa?: kplus.HorizontalPodAutoscalerProps
 }
 
-export class ComponentScaling<
-	PropsT extends HorizontalPodAutoscalerProps = HorizontalPodAutoscalerProps,
-> implements Construct
-{
+export class ComponentScaling {
 	readonly node: Node
 	readonly hpa: kplus.HorizontalPodAutoscaler
 
 	constructor(
 		readonly scope: Construct,
 		readonly id: string,
-		readonly props: PropsT,
+		readonly props: HorizontalPodAutoscalerProps,
 	) {
 		this.node = scope.node
 		this.hpa = this.createHPA(this.createHPAProps(props.target))

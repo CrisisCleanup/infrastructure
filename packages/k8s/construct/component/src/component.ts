@@ -22,9 +22,7 @@ export type ComponentContainerProps = Omit<kplus.ContainerProps, 'image'> & {
 	init?: boolean
 }
 
-export class Component<PropsT extends DeploymentProps = DeploymentProps>
-	implements Construct
-{
+export class Component<PropsT extends DeploymentProps = DeploymentProps> {
 	static componentName: string = ''
 	readonly deployment: kplus.Deployment
 	readonly scaling?: ComponentScaling = undefined
