@@ -13,6 +13,7 @@ import {
 } from '@crisiscleanup/k8s.construct.api'
 import {
 	Component,
+	Label,
 	type ContainerImageProps,
 	type DeploymentProps,
 } from '@crisiscleanup/k8s.construct.component'
@@ -105,7 +106,7 @@ export class CrisisCleanupChart extends Chart {
 		this.defaultProps = {
 			namespace: 'local',
 			labels: {
-				app: 'crisiscleanup',
+				[Label.PART_OF]: 'crisiscleanup',
 			},
 			domainName: 'local.crisiscleanup.io',
 			frontend: this.frontendDefaultProps,
@@ -145,10 +146,7 @@ export class CrisisCleanupChart extends Chart {
 		this.namespaceChart = new Chart(this, 'namespace', {
 			namespace: props.namespace,
 			disableResourceNameHashes: true,
-			labels: {
-				...this.labels,
-				component: 'config',
-			},
+			labels: this.labels,
 		})
 		const namespace = new kplus.Namespace(this.namespaceChart, 'namespace', {
 			metadata: { name: props.namespace },
@@ -157,10 +155,7 @@ export class CrisisCleanupChart extends Chart {
 		this.configChart = new Chart(this, 'config', {
 			namespace: props.namespace,
 			disableResourceNameHashes: true,
-			labels: {
-				...this.labels,
-				component: 'config',
-			},
+			labels: { ...this.labels, [Label.COMPONENT]: 'config' },
 		})
 		this.configChart.addDependency(namespace)
 
@@ -169,7 +164,7 @@ export class CrisisCleanupChart extends Chart {
 			disableResourceNameHashes: true,
 			labels: {
 				...this.labels,
-				tier: 'api',
+				[Label.COMPONENT]: 'api',
 			},
 		})
 
@@ -178,7 +173,7 @@ export class CrisisCleanupChart extends Chart {
 			disableResourceNameHashes: true,
 			labels: {
 				...this.labels,
-				tier: 'celery',
+				[Label.COMPONENT]: 'task-queue',
 			},
 		})
 
@@ -187,7 +182,7 @@ export class CrisisCleanupChart extends Chart {
 			disableResourceNameHashes: true,
 			labels: {
 				...this.labels,
-				tier: 'web',
+				[Label.COMPONENT]: 'web',
 			},
 		})
 
@@ -196,7 +191,7 @@ export class CrisisCleanupChart extends Chart {
 			disableResourceNameHashes: true,
 			labels: {
 				...this.labels,
-				tier: 'ingress',
+				[Label.COMPONENT]: 'ingress',
 			},
 		})
 
