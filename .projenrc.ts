@@ -77,6 +77,7 @@ const monorepo = MonorepoBuilder.build({
 		packagesDir: 'packages',
 	},
 })
+monorepo.package.addPackageResolutions('unbuild@^2.0.0-rc.0')
 
 const tools = new ToolVersions(monorepo, {
 	tools: {
@@ -227,6 +228,9 @@ const Cdk8sConstructDefaultsBuilder = new builders.DefaultOptionsBuilder({
 		`cdk8s-plus-${Cdk8sDefaultsBuilder.defaultOptions.k8sMinorVersion!}`,
 	],
 	peerDependencyOptions: { pinnedDevDependency: false },
+	unbuild: true,
+	libdir: 'dist',
+	entrypoint: 'dist/index.mjs',
 })
 
 const Cdk8sAppBuilder = new ProjectBuilder(cdk8s.Cdk8sTypeScriptApp)
@@ -248,29 +252,35 @@ const Cdk8sConstructBuilder = new ProjectBuilder(cdk8s.ConstructLibraryCdk8s)
 	.add(TsESMBuilder)
 	.add(new tsBuilders.TypescriptLintingBuilder({ useTypeInformation: true }))
 	.add(new tsBuilders.TypescriptESMManifestBuilder())
+	.add(new tsBuilders.TypescriptBundlerBuilder())
 
 // K8s Constructs
 const k8sComponentConstruct = Cdk8sConstructBuilder.build({
 	name: 'k8s.construct.component',
 	deps: ['debug', 'defu', 'js-yaml'],
 	devDeps: ['@types/debug'],
-	bundledDeps: ['defu', 'js-yaml', 'debug', '@types/debug'],
 	jest: false,
 })
+k8sComponentConstruct.tasks
+	.tryFind('compile')
+	?.reset?.(k8sComponentConstruct.formatExecCommand('tsc', '--build'), {
+		name: 'Type check',
+	})
+k8sComponentConstruct.tasks.tryFind('docgen')?.reset?.()
 
 const apiConstruct = Cdk8sConstructBuilder.build({
 	name: 'k8s.construct.api',
 	deps: ['debug', 'defu'],
 	devDeps: ['@types/debug'],
-	bundledDeps: [
-		'defu',
-		'debug',
-		'@types/debug',
-		config.projectName.packageName,
-	],
 	workspaceDeps: [k8sComponentConstruct, config],
 	jest: false,
 })
+apiConstruct.tasks
+	.tryFind('compile')
+	?.reset?.(apiConstruct.formatExecCommand('tsc', '--build'), {
+		name: 'Type check',
+	})
+apiConstruct.tasks.tryFind('docgen')?.reset?.()
 
 // Charts
 const crisiscleanup = Cdk8sAppBuilder.build({
