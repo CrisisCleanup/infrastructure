@@ -217,10 +217,10 @@ monorepo.addWorkspaceDeps(
 const Cdk8sDefaultsBuilder = new builders.DefaultOptionsBuilder({
 	jsiiVersion: '~5',
 	constructsVersion: '10.2.69',
-	cdk8sCliVersion: '2.2',
-	cdk8sVersion: '2.7.115',
+	cdk8sCliVersion: '2.11.0',
+	cdk8sVersion: '2.22.0',
 	cdksPlus: true,
-	cdk8sPlusVersion: '2.8.99',
+	cdk8sPlusVersion: '2.12.1',
 	k8sMinorVersion: 24,
 	typescriptVersion: '~5.1',
 	prettier: true,
@@ -320,7 +320,7 @@ const AwsCdkTsAppBuilder = new ProjectBuilder(awscdk.AwsCdkTypeScriptApp)
 // Stacks
 const apiStack = AwsCdkTsAppBuilder.build({
 	name: 'stacks.api',
-	cdkVersion: '2.87.0',
+	cdkVersion: '2.88.0',
 	integrationTestAutoDiscover: true,
 	workspaceDeps: [config, crisiscleanup, apiConstruct],
 	deps: ['cdk-sops-secrets'],

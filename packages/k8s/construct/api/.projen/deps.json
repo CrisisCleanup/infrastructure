@@ -103,7 +103,7 @@
     },
     {
       "name": "cdk8s",
-      "version": "^2.7.115",
+      "version": "^2.22.0",
       "type": "peer"
     },
     {
