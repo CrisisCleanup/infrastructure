@@ -28,11 +28,7 @@ export default defineConfig({
 		frontend: {
 			web: {
 				spread,
-				replicaCount: undefined,
-				scaling: {
-					minReplicas: 2,
-					maxReplicas: 3,
-				},
+				replicaCount: 2,
 			},
 		},
 		wsgi: {
@@ -45,8 +41,8 @@ export default defineConfig({
 		asgi: {
 			spread,
 			scaling: {
-				minReplicas: 2,
-				maxReplicas: 3,
+				minReplicas: 1,
+				maxReplicas: 2,
 			},
 		},
 		celeryBeat: {
