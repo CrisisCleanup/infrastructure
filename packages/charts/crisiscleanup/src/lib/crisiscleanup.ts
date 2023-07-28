@@ -130,7 +130,6 @@ export class CrisisCleanupChart extends Chart {
 	readonly apiChart: Chart
 	readonly celeryChart: Chart
 	readonly webChart: Chart
-	readonly ingressChart: Chart
 
 	readonly apiConfig: ApiConfig
 	readonly wsgi: ApiWSGI
@@ -186,15 +185,6 @@ export class CrisisCleanupChart extends Chart {
 			},
 		})
 
-		this.ingressChart = new Chart(this, 'ingress', {
-			namespace: props.namespace,
-			disableResourceNameHashes: true,
-			labels: {
-				...this.labels,
-				[Label.COMPONENT]: 'ingress',
-			},
-		})
-
 		this.apiConfig = new ApiConfig(this.configChart, 'api', {
 			config: flattenToScreamingSnakeCase(props.apiAppConfig, {
 				nestedDelimiter: '_',
@@ -241,7 +231,7 @@ export class CrisisCleanupChart extends Chart {
 		})
 
 		this.ingress = new kplus.Ingress(
-			this.ingressChart,
+			this,
 			'ingress',
 			props.ingressAnnotations
 				? {
