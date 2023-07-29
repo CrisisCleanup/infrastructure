@@ -43,6 +43,7 @@
     "@crisiscleanup/config": "workspace:*",
     "@crisiscleanup/k8s.construct.api": "workspace:*",
     "@crisiscleanup/k8s.construct.component": "workspace:*",
+    "@crisiscleanup/stacks.api": "workspace:*",
     "@types/node": "^18",
     "@typescript-eslint/eslint-plugin": "^5",
     "@typescript-eslint/parser": "^5",

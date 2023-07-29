@@ -314,7 +314,7 @@ const AwsCdkTsAppBuilder = new ProjectBuilder(awscdk.AwsCdkTypeScriptApp)
 	.add(NameSchemeBuilder)
 	.add(CommonDefaultsBuilder)
 	.add(TsESMBuilder)
-	.add(new tsBuilders.TypescriptLintingBuilder())
+	.add(new tsBuilders.TypescriptLintingBuilder({ useTypeInformation: true }))
 	.add(new tsBuilders.TypescriptESMManifestBuilder({ sideEffects: true }))
 
 // Stacks
@@ -323,18 +323,27 @@ const apiStack = AwsCdkTsAppBuilder.build({
 	cdkVersion: '2.88.0',
 	integrationTestAutoDiscover: true,
 	workspaceDeps: [config, crisiscleanup, apiConstruct],
-	deps: ['cdk-sops-secrets'],
+	deps: [
+		'cdk-sops-secrets',
+		'@aws-quickstart/eks-blueprints',
+		'@aws-cdk/lambda-layer-kubectl-v24',
+	],
+	// use ts linting builder
+	eslint: false,
+	prettier: false,
 })
 apiStack.cdkConfig.json.addOverride(
 	'app',
 	apiStack.formatExecCommand('tsx', 'src/main.ts'),
 )
+apiStack.tsconfig.addInclude('crisiscleanup.config.ts')
 
 monorepo.addWorkspaceDeps(
 	{ depType: DependencyType.DEVENV, addTsPath: true },
 	crisiscleanup,
 	apiConstruct,
 	k8sComponentConstruct,
+	apiStack,
 )
 
 monorepo.synth()

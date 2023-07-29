@@ -19,6 +19,9 @@
       ],
       "@crisiscleanup/k8s.construct.component": [
         "./packages/k8s/construct/component/src/index"
+      ],
+      "@crisiscleanup/stacks.api": [
+        "./packages/stacks/api/src/index"
       ]
     }
   },
