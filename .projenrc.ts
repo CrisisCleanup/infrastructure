@@ -26,6 +26,7 @@ import {
 	type CrisisCleanupConfig,
 	flattenToScreamingSnakeCase,
 } from '@crisiscleanup/config'
+import stacksBaseConfig from '@crisiscleanup/stacks.api/crisiscleanup.config'
 import {
 	awscdk,
 	cdk8s,
@@ -115,7 +116,10 @@ const dirEnv = new DirEnv(monorepo)
 
 const envConfig =
 	flattenToScreamingSnakeCase<Omit<CrisisCleanupConfig, 'chart'>>(baseConfig)
-Object.keys(envConfig).forEach((key) => {
+const stacksEnvConfig = flattenToScreamingSnakeCase({
+	apiStack: stacksBaseConfig.apiStack,
+})
+Object.keys({ ...envConfig, ...stacksEnvConfig }).forEach((key) => {
 	dirEnv.addComment(`  ${key}`)
 })
 
