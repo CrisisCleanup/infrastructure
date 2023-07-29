@@ -337,6 +337,7 @@ apiStack.cdkConfig.json.addOverride(
 	apiStack.formatExecCommand('tsx', 'src/main.ts'),
 )
 apiStack.tsconfig.addInclude('crisiscleanup.config.ts')
+apiStack.addGitIgnore('cdk.context.json')
 
 monorepo.addWorkspaceDeps(
 	{ depType: DependencyType.DEVENV, addTsPath: true },

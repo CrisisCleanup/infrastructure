@@ -38,7 +38,6 @@ junit.xml
 !/src/
 /dist
 /dist/
-!/.eslintrc.json
 /assets/
 !/cdk.json
 /cdk.out/
@@ -46,6 +45,8 @@ junit.xml
 .parcel-cache/
 !/tsconfig.json
 !/tsconfig.dev.json
+!/.eslintrc.json
 !/.prettierignore
 !/.prettierrc.json
+cdk.context.json
 !/project.json

@@ -29,6 +29,10 @@
       "type": "build"
     },
     {
+      "name": "eslint-config-prettier",
+      "type": "build"
+    },
+    {
       "name": "eslint-import-resolver-node",
       "type": "build"
     },
@@ -38,6 +42,10 @@
     },
     {
       "name": "eslint-plugin-import",
+      "type": "build"
+    },
+    {
+      "name": "eslint-plugin-prettier",
       "type": "build"
     },
     {
@@ -83,6 +91,14 @@
       "name": "typescript",
       "version": "~5.1",
       "type": "build"
+    },
+    {
+      "name": "@aws-cdk/lambda-layer-kubectl-v24",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-quickstart/eks-blueprints",
+      "type": "runtime"
     },
     {
       "name": "@crisiscleanup/charts.crisiscleanup",

@@ -20,7 +20,8 @@
   },
   "include": [
     "src/**/*.ts",
-    "src/*.ts"
+    "src/*.ts",
+    "crisiscleanup.config.ts"
   ],
   "exclude": [
     "cdk.out"
