@@ -125,9 +125,17 @@ export interface CdkEnvironment {
 
 export type Stage = 'local' | 'development' | 'staging' | 'production'
 
+export interface Environments {
+	pipeline: CdkEnvironment
+	development: CdkEnvironment
+	staging: CdkEnvironment
+	production: CdkEnvironment
+}
+
 export interface CrisisCleanupConfig {
 	api: ApiConfig
 	cdkEnvironment: CdkEnvironment
+	environment: Environments
 	ccuStage: Stage
 }
 

@@ -124,6 +124,24 @@ export const baseConfig: CrisisCleanupConfig = {
 			'us-east-1',
 		account: process.env.CDK_DEFAULT_ACCOUNT!,
 	},
+	environment: {
+		pipeline: {
+			region: '',
+			account: '',
+		},
+		development: {
+			account: '',
+			region: '',
+		},
+		staging: {
+			account: '',
+			region: '',
+		},
+		production: {
+			account: '',
+			region: '',
+		},
+	},
 	api: baseApiConfig,
 }
 
