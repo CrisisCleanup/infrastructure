@@ -94,12 +94,30 @@ export class Pipeline {
 			// })
 			.build(scope, 'crisiscleanup-infra-pipeline-stack', props)
 
+		const sopsInstall = [
+			'echo Installing Sops...',
+			'curl -L https://github.com/mozilla/sops/releases/download/v3.7.3/sops-v3.7.3.linux -o sops',
+			'chmod 755 sops',
+			'mv sops /usr/local/bin',
+			'sops --version',
+		]
+
+		const helmInstall = [
+			'echo Installing Helm...',
+			'curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3',
+			'chmod 700 get_helm.sh',
+			'./get_helm.sh',
+			'helm version',
+		]
+
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 		pipe.node.tryFindChild(
 			'crisiscleanup-infra-pipeline',
 			// @ts-ignore
 		)!.synth.installCommands = [
 			'n stable',
+			...sopsInstall,
+			...helmInstall,
 			'npm install -g pnpm aws-cdk@2.88.0',
 			'pnpm install',
 		]
