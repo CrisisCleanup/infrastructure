@@ -22,11 +22,13 @@ import {
 import { builders, ProjectBuilder } from '@arroyodev-llc/utils.projen-builder'
 import { NodePackageUtils } from '@aws-prototyping-sdk/nx-monorepo'
 import {
-	baseConfig,
 	type CrisisCleanupConfig,
 	flattenToScreamingSnakeCase,
+	getConfigDefaults,
 } from '@crisiscleanup/config'
-import stacksBaseConfig from '@crisiscleanup/stacks.api/crisiscleanup.config'
+// populate defaults metadata
+import '@crisiscleanup/stacks.api/crisiscleanup.config'
+import '@crisiscleanup/charts.crisiscleanup/crisiscleanup.config'
 import {
 	awscdk,
 	cdk8s,
@@ -114,12 +116,10 @@ const dirEnv = new DirEnv(monorepo)
 	.addComment('')
 	.addComment(' All config keys available for override:')
 
-const envConfig =
-	flattenToScreamingSnakeCase<Omit<CrisisCleanupConfig, 'chart'>>(baseConfig)
-const stacksEnvConfig = flattenToScreamingSnakeCase({
-	apiStack: stacksBaseConfig.apiStack,
-})
-Object.keys({ ...envConfig, ...stacksEnvConfig }).forEach((key) => {
+const envConfig = flattenToScreamingSnakeCase<
+	Omit<CrisisCleanupConfig, 'chart'>
+>(getConfigDefaults())
+Object.keys(envConfig).forEach((key) => {
 	dirEnv.addComment(`  ${key}`)
 })
 
