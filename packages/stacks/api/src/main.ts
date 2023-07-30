@@ -65,9 +65,8 @@ const singleNatStack = eksStackBuilder
 		}),
 	)
 	.addOns(
-		buildKarpenter('crisiscleanup', [
-			'crisiscleanup/crisiscleanup-vpc/PrivateSubnet1',
-			'crisiscleanup/crisiscleanup-vpc/PrivateSubnet2',
+		buildKarpenter('development-blueprint', [
+			'crisiscleanup-infra-pipeline-stack/development/development-blueprint/development-blueprint-vpc/PrivateSubnet*',
 		]),
 	)
 
