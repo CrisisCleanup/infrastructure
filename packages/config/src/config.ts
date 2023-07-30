@@ -217,6 +217,16 @@ export const getConfig = async <
 		}
 	}
 
+	let cwd = process.cwd()
+	try {
+		cwd = await getGitRoot()
+	} catch {
+		console.warn(
+			'Failed to resolve git root, falling back to current cwd:',
+			cwd,
+		)
+	}
+
 	const cfg = (await loadConfig<
 		CrisisCleanupConfig & CrisisCleanupConfigMeta,
 		CrisisCleanupConfigLayerMeta
@@ -224,7 +234,7 @@ export const getConfig = async <
 		name: 'crisiscleanup',
 		defaults: baseConfig,
 		envName: process.env.CCU_STAGE ?? 'local',
-		cwd: await getGitRoot(),
+		cwd,
 		extend: { extendKey: '$extends' },
 		...overridesConfig,
 	})) as ResolvedCrisisCleanupConfig
