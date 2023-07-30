@@ -5,6 +5,7 @@ import { defineConfig } from '@crisiscleanup/config'
 export default defineConfig({
 	$meta: { name: 'crisiscleanup' },
 	apiStack: {
+		codeStarConnectionArn: '',
 		isolateDatabase: false,
 		eks: {
 			defaultSecretsEncryption: true,

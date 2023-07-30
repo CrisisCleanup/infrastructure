@@ -8,6 +8,8 @@ export interface PipelineProps {
 	readonly stagingEnv: Environment
 	readonly prodEnv: Environment
 
+	readonly connectionArn: string
+
 	readonly devStack: blueprints.BlueprintBuilder
 }
 
@@ -47,9 +49,10 @@ export class Pipeline {
 			.enableCrossAccountKeys()
 			.repository({
 				repoUrl: 'infrastructure',
-				credentialsSecretName: 'github-token',
 				path: 'packages/api/stacks',
 				targetRevision: 'main',
+				codeStarConnectionArn:
+					'arn:aws:codestar-connections:us-east-1:971613762022:connection/fa675d04-034e-445d-8918-5e4cf2ca8899',
 			})
 			.stage({
 				id: 'development',

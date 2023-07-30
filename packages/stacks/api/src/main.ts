@@ -74,6 +74,7 @@ const singleNatStack = eksStackBuilder
 new Pipeline({
 	devStack: provideDatabase(singleNatStack),
 	pipelineEnv: config.cdkEnvironment,
+	connectionArn: config.apiStack.codeStarConnectionArn,
 	devEnv: config.$env.development.cdkEnvironment,
 	stagingEnv: config.$env.staging.cdkEnvironment,
 	prodEnv: config.$env.production.cdkEnvironment,

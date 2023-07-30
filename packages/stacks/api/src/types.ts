@@ -19,4 +19,5 @@ export interface ApiStackConfig {
 	eks: EKSConfig
 	database: DatabaseConfig
 	isolateDatabase: boolean
+	codeStarConnectionArn: string
 }
