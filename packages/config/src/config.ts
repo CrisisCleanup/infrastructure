@@ -144,6 +144,15 @@ const getGitRoot = (): Promise<string> =>
 		})
 	})
 
+const getPnpmRoot = (): Promise<string> =>
+	new Promise((resolve, reject) =>
+		exec('pnpm -w exec pwd', (error, stdout, stderr) => {
+			if (error) reject(error)
+			if (stderr) reject(new Error(stderr))
+			resolve(stdout.trim())
+		}),
+	)
+
 const getGithubToken = (): Promise<string> =>
 	new Promise((resolve, reject) =>
 		exec('gh auth token', (error, stdout, stderr) => {
@@ -217,14 +226,17 @@ export const getConfig = async <
 		}
 	}
 
-	let cwd = process.cwd()
+	let cwd: string
 	try {
 		cwd = await getGitRoot()
 	} catch {
-		console.warn(
-			'Failed to resolve git root, falling back to current cwd:',
-			cwd,
-		)
+		cwd = await getPnpmRoot().catch(() => {
+			console.warn(
+				'Failed to resolve both git and pnpm roots, falling back to cwd:',
+				process.cwd(),
+			)
+			return process.cwd()
+		})
 	}
 
 	const cfg = (await loadConfig<
