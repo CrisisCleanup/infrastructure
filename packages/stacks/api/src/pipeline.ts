@@ -36,7 +36,7 @@ export class Pipeline {
 		this.props = props
 	}
 
-	build(scope: Construct, id: string, props?: StackProps) {
+	async build(scope: Construct, id: string, props?: StackProps) {
 		const devEnv = PipelineEnv.fromEnv(this.props.devEnv, id + '-development')
 		// const stagingEnv = PipelineEnv.fromEnv(this.props.devEnv, 'staging')
 		// const prodEnv = PipelineEnv.fromEnv(this.props.devEnv, 'production')
@@ -49,7 +49,6 @@ export class Pipeline {
 			.enableCrossAccountKeys()
 			.repository({
 				repoUrl: 'infrastructure',
-				path: 'packages/api/stacks',
 				targetRevision: 'main',
 				codeStarConnectionArn:
 					'arn:aws:codestar-connections:us-east-1:971613762022:connection/fa675d04-034e-445d-8918-5e4cf2ca8899',
@@ -109,6 +108,18 @@ export class Pipeline {
 		pipe.node.tryFindChild(
 			'crisiscleanup-infra-pipeline',
 			// @ts-ignore
-		)!.synth.commands = ['pnpm -w build']
+		)!.synth.commands = [
+			'pnpm build',
+			'cp -r packages/stacks/api/cdk.out ./cdk.out',
+		]
+
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+		pipe.node.tryFindChild(
+			'crisiscleanup-infra-pipeline',
+			// @ts-ignore
+		)!.synth.env.GIGET_AUTH = await blueprints.utils.getSecretValue(
+			'github-token',
+			'us-east-1',
+		)
 	}
 }

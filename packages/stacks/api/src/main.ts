@@ -71,7 +71,7 @@ const singleNatStack = eksStackBuilder
 		]),
 	)
 
-new Pipeline({
+await new Pipeline({
 	devStack: provideDatabase(singleNatStack),
 	pipelineEnv: config.cdkEnvironment,
 	connectionArn: config.apiStack.codeStarConnectionArn,
