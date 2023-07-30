@@ -3,14 +3,14 @@ import { type Environment, type StackProps } from 'aws-cdk-lib'
 import { type Construct } from 'constructs'
 
 export interface PipelineProps {
-	readonly pipelineEnv: Environment
-	readonly devEnv: Environment
-	readonly stagingEnv: Environment
-	readonly prodEnv: Environment
-
+	readonly id: string
 	readonly connectionArn: string
+}
 
-	readonly devStack: blueprints.BlueprintBuilder
+export interface PipelineTarget {
+	readonly name: string
+	readonly environment: Environment
+	readonly stackBuilder: blueprints.BlueprintBuilder
 }
 
 class PipelineEnv implements Environment {
@@ -30,17 +30,7 @@ class PipelineEnv implements Environment {
 }
 
 export class Pipeline {
-	readonly props: PipelineProps
-
-	constructor(props: PipelineProps) {
-		this.props = props
-	}
-
-	async build(scope: Construct, id: string, props?: StackProps) {
-		const devEnv = PipelineEnv.fromEnv(this.props.devEnv, id + '-development')
-		// const stagingEnv = PipelineEnv.fromEnv(this.props.devEnv, 'staging')
-		// const prodEnv = PipelineEnv.fromEnv(this.props.devEnv, 'production')
-
+	static builder(props: PipelineProps): Pipeline {
 		const pipe = blueprints.CodePipelineStack.builder()
 			.application('npx tsx src/main.ts')
 			.name('crisiscleanup-infra-pipeline')
@@ -50,48 +40,35 @@ export class Pipeline {
 			.repository({
 				repoUrl: 'infrastructure',
 				targetRevision: 'main',
-				codeStarConnectionArn: this.props.connectionArn,
+				codeStarConnectionArn: props.connectionArn,
 			})
-			.stage({
-				id: 'development',
-				stackBuilder: this.props.devStack
-					.clone(devEnv.region, devEnv.account)
-					.name(devEnv.id),
-			})
-			// .wave({
-			// 	id: 'dev',
-			// 	stages: [
-			// 		{
-			// 			id: devEnv.id,
-			// 			stackBuilder: this.props.devStack
-			// 				.clone(devEnv.region, devEnv.account)
-			// 				.name(devEnv.id),
-			// 		},
-			// 	],
-			// })
-			// .wave({
-			// 	id: 'staging',
-			// 	stages: [
-			// 		{
-			// 			id: stagingEnv.id,
-			// 			stackBuilder: this.props.devStack
-			// 				.clone(devEnv.region, devEnv.account)
-			// 				.name(stagingEnv.id),
-			// 		},
-			// 	],
-			// })
-			// .wave({
-			// 	id: 'prod',
-			// 	stages: [
-			// 		{
-			// 			id: prodEnv.id,
-			// 			stackBuilder: this.props.devStack
-			// 				.clone(prodEnv.region, prodEnv.account)
-			// 				.name(prodEnv.id),
-			// 		},
-			// 	],
-			// })
-			.build(scope, 'crisiscleanup-infra-pipeline-stack', props)
+		return new Pipeline(props, pipe)
+	}
+
+	protected constructor(
+		readonly props: PipelineProps,
+		readonly pipeline: blueprints.CodePipelineBuilder,
+	) {}
+
+	target(target: PipelineTarget): this {
+		const { name, environment, stackBuilder } = target
+		const env = PipelineEnv.fromEnv(environment, `${this.props.id}-${name}`)
+		const envStackBuilder = stackBuilder
+			.clone(env.region, env.account)
+			.name(env.id)
+		this.pipeline.stage({
+			id: name,
+			stackBuilder: envStackBuilder,
+		})
+		return this
+	}
+
+	async build(scope: Construct, props?: StackProps) {
+		const pipe = this.pipeline.build(
+			scope,
+			'crisiscleanup-infra-pipeline-stack',
+			props,
+		)
 
 		const sopsInstall = [
 			'echo Installing Sops...',
@@ -138,5 +115,6 @@ export class Pipeline {
 			'github-token',
 			'us-east-1',
 		)
+		return pipe
 	}
 }

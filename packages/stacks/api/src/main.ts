@@ -51,7 +51,7 @@ const provideDatabase = (
 		)
 }
 
-const clusterBuilder = buildClusterBuilder(app, config)
+const clusterBuilder = buildClusterBuilder(config)
 const cluster = clusterBuilder.build()
 const eksStackBuilder = buildEKSStack(config).clusterProvider(cluster)
 
@@ -70,17 +70,19 @@ const singleNatStack = eksStackBuilder
 		]),
 	)
 
-await new Pipeline({
-	devStack: provideDatabase(singleNatStack),
-	pipelineEnv: config.cdkEnvironment,
+export default await Pipeline.builder({
+	id: 'crisiscleanup',
 	connectionArn: config.apiStack.codeStarConnectionArn,
-	devEnv: config.$env.development.cdkEnvironment,
-	stagingEnv: config.$env.staging.cdkEnvironment,
-	prodEnv: config.$env.production.cdkEnvironment,
-}).build(app, 'crisiscleanup', {
-	crossRegionReferences: true,
-	env: {
-		account: String(config.cdkEnvironment.account),
-		region: config.cdkEnvironment.region,
-	},
 })
+	.target({
+		name: 'development',
+		stackBuilder: provideDatabase(singleNatStack),
+		environment: config.$env.development.cdkEnvironment,
+	})
+	.build(app, {
+		env: {
+			account: String(config.cdkEnvironment.account),
+			region: config.cdkEnvironment.region,
+		},
+		crossRegionReferences: true,
+	})
