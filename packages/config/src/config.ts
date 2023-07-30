@@ -1,12 +1,15 @@
 import { exec } from 'node:child_process'
+import { objectKeys, objectPick } from '@antfu/utils'
 import {
 	loadConfig,
 	createDefineConfig,
 	type LoadConfigOptions,
 	type ResolvedConfig,
+	type DefineConfig,
 } from 'c12'
 import createDebug from 'debug'
-import { type Exact } from 'type-fest'
+import defu from 'defu'
+import type { Exact } from 'type-fest'
 import { pickSubsetDeep, transformEnvVars } from './transform'
 import type {
 	ApiAppConfig,
@@ -170,7 +173,7 @@ const getGithubToken = (): Promise<string> =>
 export const loadEnvOverrides = (): CrisisCleanupConfig => {
 	const env = Object.assign({}, process.env)
 	const mappedEnv = transformEnvVars(env) as unknown as CrisisCleanupConfig
-	return pickSubsetDeep(mappedEnv, baseConfig)
+	return pickSubsetDeep(mappedEnv, getConfigDefaults())
 }
 
 export interface GetConfigOptions {
@@ -248,7 +251,59 @@ export const getConfig = async <
 	return cfg as LoadedConfig<T, typeof cfg>
 }
 
-export const defineConfig = createDefineConfig<
+const ConfigDefaults = Symbol.for('@crisiscleanup:config:defaults')
+
+/**
+ * Retrieve current default values from metadata.
+ */
+const getDefaultsMeta = (): Array<CrisisCleanupConfig> =>
+	(Reflect.getOwnMetadata(ConfigDefaults, baseConfig) ??
+		[]) as Array<CrisisCleanupConfig>
+
+/**
+ * Retrieve and merge all defaults.
+ */
+export const getConfigDefaults = (): CrisisCleanupConfig => {
+	return defu(baseConfig, ...getDefaultsMeta())
+}
+
+/**
+ * Append new defaults definition to defaults metadata.
+ * @param defaults new entry.
+ */
+const addConfigDefaults = (
+	defaults: CrisisCleanupConfigInput,
+): CrisisCleanupConfigInput => {
+	const current = getDefaultsMeta()
+	Reflect.defineMetadata(ConfigDefaults, [...current, defaults], baseConfig)
+	return defaults
+}
+
+type DefineCCUConfig = DefineConfig<
 	CrisisCleanupConfigInput & { $extends?: string[] },
 	CrisisCleanupConfigMeta
->()
+>
+
+/**
+ * Wrapper for {@link defineConfig} that updates defaults meta from provided values.
+ * @param target - defineConfig function.
+ */
+function defineConfigWrapper<T extends DefineCCUConfig>(target: T) {
+	return (...args: Parameters<T>): ReturnType<T> => {
+		const result = target.apply(target, args)
+		// filter out any meta keys
+		const config = objectPick(
+			result,
+			objectKeys(result).filter((k) => !k.startsWith('$')),
+		)
+		addConfigDefaults(config)
+		return result as ReturnType<T>
+	}
+}
+
+export const defineConfig = defineConfigWrapper(
+	createDefineConfig<
+		CrisisCleanupConfigInput & { $extends?: string[] },
+		CrisisCleanupConfigMeta
+	>(),
+) as DefineCCUConfig
