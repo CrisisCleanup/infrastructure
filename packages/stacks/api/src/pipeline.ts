@@ -109,7 +109,7 @@ export class Pipeline {
 			'crisiscleanup-infra-pipeline',
 			// @ts-ignore
 		)!.synth.commands = [
-			'pnpm build',
+			"pnpm -F 'stacks.api' build",
 			'cp -r packages/stacks/api/cdk.out ./cdk.out',
 		]
 
