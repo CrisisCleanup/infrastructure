@@ -2,6 +2,7 @@ import * as blueprints from '@aws-quickstart/eks-blueprints'
 import { type CrisisCleanupConfig } from '@crisiscleanup/config'
 import type * as ec2 from 'aws-cdk-lib/aws-ec2'
 import { KubernetesVersion } from 'aws-cdk-lib/aws-eks'
+import { type Construct } from 'constructs'
 
 enum Label {
 	INSTANCE_TYPE = 'node.kubernetes.io/instance-type',
@@ -86,12 +87,15 @@ export const buildEKSStack = (
 }
 
 export const buildClusterBuilder = (
+	scope: Construct,
 	config: CrisisCleanupConfig,
 ): blueprints.ClusterBuilder => {
+	const k8sVersion = KubernetesVersion.of(config.apiStack.eks.k8s.version)
 	return blueprints.clusters
 		.clusterBuilder()
 		.withCommonOptions({
-			version: KubernetesVersion.of(config.apiStack.eks.k8s.version),
+			version: k8sVersion,
+			kubectlLayer: blueprints.selectKubectlLayer(scope, k8sVersion),
 		})
 		.fargateProfile('serverless', { selectors: [{ namespace: 'karpenter' }] })
 }

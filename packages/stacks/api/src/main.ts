@@ -51,7 +51,7 @@ const provideDatabase = (
 		)
 }
 
-const clusterBuilder = buildClusterBuilder(config)
+const clusterBuilder = buildClusterBuilder(app, config)
 const cluster = clusterBuilder.build()
 const eksStackBuilder = buildEKSStack(config).clusterProvider(cluster)
 
