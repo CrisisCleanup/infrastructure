@@ -2,7 +2,6 @@ import * as blueprints from '@aws-quickstart/eks-blueprints'
 import { type CrisisCleanupConfig } from '@crisiscleanup/config'
 import type * as ec2 from 'aws-cdk-lib/aws-ec2'
 import { KubernetesVersion } from 'aws-cdk-lib/aws-eks'
-import { type Construct } from 'constructs'
 
 enum Label {
 	INSTANCE_TYPE = 'node.kubernetes.io/instance-type',
@@ -12,13 +11,6 @@ enum Label {
 	KARPENTER_DISCOVERY = 'karpenter.sh/discovery',
 	CLUSTER_DISCOVERY = 'kubernetes.io/cluster',
 }
-
-const defaultAddons: Array<blueprints.ClusterAddOn> = [
-	// new blueprints.addons.ArgoCDAddOn(),
-	// -- support k8s network policies
-	// new blueprints.addons.CalicoOperatorAddOn(),
-	// new blueprints.addons.ContainerInsightsAddOn(),
-]
 
 export const getDefaultAddons = (
 	config: CrisisCleanupConfig,
@@ -76,26 +68,23 @@ export const buildKarpenter = (clusterName: string, subnetNames: string[]) => {
 export const buildEKSStack = (
 	config: CrisisCleanupConfig,
 ): blueprints.BlueprintBuilder => {
-	const { apiStack, cdkEnvironment } = config
+	const { apiStack } = config
 	if (!apiStack) throw Error('No apistack config found.')
 	return blueprints.EksBlueprint.builder()
-		.account(String(cdkEnvironment.account))
-		.region(cdkEnvironment.region)
 		.version(KubernetesVersion.of(apiStack.eks.k8s.version))
-		.addOns(...defaultAddons)
+		.addOns(...getDefaultAddons(config))
 		.useDefaultSecretEncryption(apiStack.eks.defaultSecretsEncryption)
 }
 
 export const buildClusterBuilder = (
-	scope: Construct,
 	config: CrisisCleanupConfig,
 ): blueprints.ClusterBuilder => {
 	const k8sVersion = KubernetesVersion.of(config.apiStack.eks.k8s.version)
 	return blueprints.clusters
 		.clusterBuilder()
 		.withCommonOptions({
+			clusterName: 'crisiscleanup',
 			version: k8sVersion,
-			kubectlLayer: blueprints.selectKubectlLayer(scope, k8sVersion),
 		})
 		.fargateProfile('serverless', { selectors: [{ namespace: 'karpenter' }] })
 }
