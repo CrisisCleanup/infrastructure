@@ -1,11 +1,11 @@
 import { exec } from 'node:child_process'
 import { objectKeys, objectPick } from '@antfu/utils'
 import {
-	loadConfig,
 	createDefineConfig,
+	type DefineConfig,
+	loadConfig,
 	type LoadConfigOptions,
 	type ResolvedConfig,
-	type DefineConfig,
 } from 'c12'
 import createDebug from 'debug'
 import defu from 'defu'
@@ -17,6 +17,7 @@ import type {
 	ApiConfig,
 	CrisisCleanupConfig,
 	CrisisCleanupConfigInput,
+	CrisisCleanupConfigLayerMeta,
 	CrisisCleanupConfigMeta,
 } from './types'
 
@@ -127,24 +128,6 @@ export const baseConfig: CrisisCleanupConfig = {
 			'us-east-1',
 		account: process.env.CDK_DEFAULT_ACCOUNT!,
 	},
-	environment: {
-		pipeline: {
-			region: '',
-			account: '',
-		},
-		development: {
-			account: '',
-			region: '',
-		},
-		staging: {
-			account: '',
-			region: '',
-		},
-		production: {
-			account: '',
-			region: '',
-		},
-	},
 	api: baseApiConfig,
 }
 
@@ -197,8 +180,8 @@ type LoadedConfig<
 	: ResolvedT
 
 type ResolvedCrisisCleanupConfig = ResolvedConfig<
-	CrisisCleanupConfig,
-	CrisisCleanupConfigMeta
+	CrisisCleanupConfig & Required<CrisisCleanupConfigMeta>,
+	CrisisCleanupConfigLayerMeta
 >
 
 export const getConfig = async <
@@ -210,7 +193,10 @@ export const getConfig = async <
 	options?: T,
 ): Promise<LoadedConfig<T, ResolvedCrisisCleanupConfig>> => {
 	const overridesConfig: Partial<
-		LoadConfigOptions<CrisisCleanupConfig, CrisisCleanupConfigMeta>
+		LoadConfigOptions<
+			CrisisCleanupConfig & CrisisCleanupConfigMeta,
+			CrisisCleanupConfigLayerMeta
+		>
 	> = options?.useEnvOverrides ?? true ? { overrides: loadEnvOverrides() } : {}
 	debug('using overrides from env: %O', overridesConfig)
 
@@ -231,14 +217,17 @@ export const getConfig = async <
 		}
 	}
 
-	const cfg = await loadConfig<CrisisCleanupConfig, CrisisCleanupConfigMeta>({
+	const cfg = (await loadConfig<
+		CrisisCleanupConfig & CrisisCleanupConfigMeta,
+		CrisisCleanupConfigLayerMeta
+	>({
 		name: 'crisiscleanup',
 		defaults: baseConfig,
 		envName: process.env.CCU_STAGE ?? 'local',
 		cwd: await getGitRoot(),
 		extend: { extendKey: '$extends' },
 		...overridesConfig,
-	})
+	})) as ResolvedCrisisCleanupConfig
 	process.env = previousEnv
 	debug('resolved config: %O', cfg)
 
@@ -280,8 +269,8 @@ const addConfigDefaults = (
 }
 
 type DefineCCUConfig = DefineConfig<
-	CrisisCleanupConfigInput & { $extends?: string[] },
-	CrisisCleanupConfigMeta
+	CrisisCleanupConfigInput,
+	CrisisCleanupConfigLayerMeta
 >
 
 /**
@@ -302,8 +291,5 @@ function defineConfigWrapper<T extends DefineCCUConfig>(target: T) {
 }
 
 export const defineConfig = defineConfigWrapper(
-	createDefineConfig<
-		CrisisCleanupConfigInput & { $extends?: string[] },
-		CrisisCleanupConfigMeta
-	>(),
+	createDefineConfig<CrisisCleanupConfigInput, CrisisCleanupConfigLayerMeta>(),
 ) as DefineCCUConfig

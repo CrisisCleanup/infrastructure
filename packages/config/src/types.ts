@@ -125,23 +125,22 @@ export interface CdkEnvironment {
 
 export type Stage = 'local' | 'development' | 'staging' | 'production'
 
-export interface Environments {
-	pipeline: CdkEnvironment
-	development: CdkEnvironment
-	staging: CdkEnvironment
-	production: CdkEnvironment
+export interface CrisisCleanupConfigMeta {
+	$env?: Record<Stage, CrisisCleanupConfig>
 }
 
 export interface CrisisCleanupConfig {
 	api: ApiConfig
 	cdkEnvironment: CdkEnvironment
-	environment: Environments
 	ccuStage: Stage
 }
 
 export interface CrisisCleanupConfigInput
-	extends PartialDeep<CrisisCleanupConfig, { recurseIntoArrays: true }> {}
+	extends PartialDeep<
+		CrisisCleanupConfig & { $extends?: string[] },
+		{ recurseIntoArrays: true }
+	> {}
 
-export interface CrisisCleanupConfigMeta extends ConfigLayerMeta {
+export interface CrisisCleanupConfigLayerMeta extends ConfigLayerMeta {
 	name: 'crisiscleanup'
 }
