@@ -80,6 +80,10 @@
       "type": "build"
     },
     {
+      "name": "vitest",
+      "type": "build"
+    },
+    {
       "name": "@antfu/utils",
       "type": "runtime"
     },
@@ -101,6 +105,10 @@
     },
     {
       "name": "flat",
+      "type": "runtime"
+    },
+    {
+      "name": "reflect-metadata",
       "type": "runtime"
     },
     {

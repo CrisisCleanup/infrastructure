@@ -114,6 +114,13 @@
         "cwd": "packages/config"
       }
     },
+    "test:watch": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm exec projen test:watch",
+        "cwd": "packages/config"
+      }
+    },
     "clean": {
       "executor": "nx:run-commands",
       "options": {

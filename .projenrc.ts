@@ -207,13 +207,34 @@ const TsESMBuilder = new tsBuilders.TypescriptConfigBuilder({
 
 const config = TypescriptProjectBuilder.build({
 	name: 'config',
-	deps: ['c12', 'defu', 'flat', '@antfu/utils', 'debug', 'type-fest', 'destr'],
+	deps: [
+		'c12',
+		'defu',
+		'flat',
+		'@antfu/utils',
+		'debug',
+		'type-fest',
+		'destr',
+		'reflect-metadata',
+	],
 	devDeps: ['@types/flat', '@types/debug', 'supports-color'],
+	tsconfigBase: monorepo.tsconfigContainer.buildExtends(
+		TSConfig.BASE,
+		TSConfig.ESM,
+	),
+	tsconfig: {
+		compilerOptions: {
+			experimentalDecorators: true,
+			emitDecoratorMetadata: true,
+		},
+	},
 })
+config.tsconfig.file.addToArray('compilerOptions.types', 'reflect-metadata')
 monorepo.addWorkspaceDeps(
 	{ depType: DependencyType.DEVENV, addTsPath: true },
 	config,
 )
+new Vitest(config)
 
 /**
  * CDK8s Charts and Constructs
