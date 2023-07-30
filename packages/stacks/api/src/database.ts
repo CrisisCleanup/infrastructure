@@ -1,12 +1,14 @@
 import type * as blueprints from '@aws-quickstart/eks-blueprints'
 import { type ResourceContext } from '@aws-quickstart/eks-blueprints'
 import * as ec2 from 'aws-cdk-lib/aws-ec2'
+import type * as kms from 'aws-cdk-lib/aws-kms'
 import * as rds from 'aws-cdk-lib/aws-rds'
 import { type ISecret, Secret } from 'aws-cdk-lib/aws-secretsmanager'
 
 export interface DatabaseProviderProps {
 	vpcResourceName: string
 	databaseSecretResourceName: string
+	databaseKeyResourceName: string
 
 	engineVersion: string
 	isolated: boolean
@@ -54,6 +56,9 @@ export class DatabaseProvider
 		const vpc = context.get<ec2.IVpc>(this.props.vpcResourceName)
 		if (!vpc) throw Error('Missing VPC!')
 
+		const dbKey = context.get<kms.IKey>(this.props.databaseKeyResourceName)
+		if (!dbKey) throw Error('Missing DB KMS Key!')
+
 		const securityGroup = new ec2.SecurityGroup(
 			context.scope,
 			id + '-security-group',
@@ -96,6 +101,7 @@ export class DatabaseProvider
 			serverlessV2MaxCapacity: 1,
 			writer,
 			readers: [rds.ClusterInstance.serverlessV2(id + '-cluster-reader-1')],
+			storageEncryptionKey: dbKey,
 		}
 
 		const cluster = new rds.DatabaseCluster(
