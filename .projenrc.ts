@@ -352,6 +352,7 @@ const apiStack = AwsCdkTsAppBuilder.build({
 		'cdk-sops-secrets',
 		'@aws-quickstart/eks-blueprints',
 		'@aws-cdk/lambda-layer-kubectl-v24',
+		'defu',
 	],
 	// use ts linting builder
 	eslint: false,

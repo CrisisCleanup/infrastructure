@@ -57,7 +57,8 @@
     "@crisiscleanup/k8s.construct.api": "workspace:*",
     "aws-cdk-lib": "^2.88.0",
     "cdk-sops-secrets": "^1.2.223",
-    "constructs": "^10.0.5"
+    "constructs": "^10.0.5",
+    "defu": "^6.1.2"
   },
   "engines": {
     "node": ">= 18.16.0"
