@@ -3,15 +3,16 @@ import { getConfig } from '@crisiscleanup/config'
 import { App } from 'aws-cdk-lib'
 import { buildClusterBuilder, buildEKSStack, buildKarpenter } from './cluster'
 import { DatabaseProvider, DatabaseSecretProvider } from './database'
-import { SingleGatewayVpcProvider } from './vpc'
+import { KeyProvider } from './kms'
+import { Pipeline } from './pipeline'
+import { VpcProvider } from './vpc'
 
 const { config } = await getConfig()
-if (!config) throw Error('No config found')
-console.log(config)
 
 blueprints.HelmAddOn.validateHelmVersions = true
 
 const app = new App({
+	autoSynth: true,
 	context: {
 		config,
 	},
@@ -20,12 +21,19 @@ const app = new App({
 enum ResourceNames {
 	DATABASE = 'database',
 	DATABASE_SECRET = 'database-secret',
+	DATABASE_KEY = 'database-key',
 }
 
 const provideDatabase = (
 	builder: blueprints.BlueprintBuilder,
 ): blueprints.BlueprintBuilder => {
 	return builder
+		.resourceProvider(
+			ResourceNames.DATABASE_KEY,
+			new KeyProvider({
+				name: 'crisiscleanup-database-key',
+			}),
+		)
 		.resourceProvider(
 			ResourceNames.DATABASE_SECRET,
 			new DatabaseSecretProvider(),
@@ -38,6 +46,7 @@ const provideDatabase = (
 				engineVersion: config.apiStack.database.engineVersion,
 				vpcResourceName: blueprints.GlobalResources.Vpc,
 				databaseSecretResourceName: ResourceNames.DATABASE_SECRET,
+				databaseKeyResourceName: ResourceNames.DATABASE_KEY,
 			}),
 		)
 }
@@ -49,17 +58,29 @@ const eksStackBuilder = buildEKSStack(config).clusterProvider(cluster)
 const singleNatStack = eksStackBuilder
 	.resourceProvider(
 		blueprints.GlobalResources.Vpc,
-		new SingleGatewayVpcProvider({
+		new VpcProvider({
 			createIsolatedSubnet: config.apiStack.isolateDatabase,
+			maxAzs: 2,
+			natGateways: 1,
 		}),
 	)
 	.addOns(
 		buildKarpenter('crisiscleanup', [
-			'crisiscleanup/single-gateway-vpc/PrivateSubnet1',
-			'crisiscleanup/single-gateway-vpc/PrivateSubnet2',
+			'crisiscleanup/crisiscleanup-vpc/PrivateSubnet1',
+			'crisiscleanup/crisiscleanup-vpc/PrivateSubnet2',
 		]),
 	)
 
-await provideDatabase(singleNatStack).buildAsync(app, 'crisiscleanup')
-
-app.synth()
+new Pipeline({
+	devStack: provideDatabase(singleNatStack),
+	pipelineEnv: config.cdkEnvironment,
+	devEnv: config.$env.development.cdkEnvironment,
+	stagingEnv: config.$env.staging.cdkEnvironment,
+	prodEnv: config.$env.production.cdkEnvironment,
+}).build(app, 'crisiscleanup', {
+	crossRegionReferences: true,
+	env: {
+		account: String(config.cdkEnvironment.account),
+		region: config.cdkEnvironment.region,
+	},
+})

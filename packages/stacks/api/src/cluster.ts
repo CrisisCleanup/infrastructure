@@ -2,7 +2,6 @@ import * as blueprints from '@aws-quickstart/eks-blueprints'
 import { type CrisisCleanupConfig } from '@crisiscleanup/config'
 import type * as ec2 from 'aws-cdk-lib/aws-ec2'
 import { KubernetesVersion } from 'aws-cdk-lib/aws-eks'
-import { KubectlLayer } from 'aws-cdk-lib/lambda-layer-kubectl'
 
 enum Label {
 	INSTANCE_TYPE = 'node.kubernetes.io/instance-type',
