@@ -41,7 +41,7 @@ export class Pipeline {
 		// const stagingEnv = PipelineEnv.fromEnv(this.props.devEnv, 'staging')
 		// const prodEnv = PipelineEnv.fromEnv(this.props.devEnv, 'production')
 
-		blueprints.CodePipelineStack.builder()
+		const pipe = blueprints.CodePipelineStack.builder()
 			.application('npx tsx src/main.ts')
 			.name('crisiscleanup-infra-pipeline')
 			.owner('crisiscleanup')
@@ -94,5 +94,21 @@ export class Pipeline {
 			// 	],
 			// })
 			.build(scope, 'crisiscleanup-infra-pipeline-stack', props)
+
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+		pipe.node.tryFindChild(
+			'crisiscleanup-infra-pipeline',
+			// @ts-ignore
+		)!.synth.installCommands = [
+			'n stable',
+			'npm install -g pnpm aws-cdk@2.88.0',
+			'pnpm install',
+		]
+
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+		pipe.node.tryFindChild(
+			'crisiscleanup-infra-pipeline',
+			// @ts-ignore
+		)!.synth.commands = ['pnpm -w build']
 	}
 }
