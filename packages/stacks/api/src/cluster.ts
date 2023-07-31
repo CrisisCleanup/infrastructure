@@ -1,4 +1,4 @@
-import { KubectlV24Layer } from '@aws-cdk/lambda-layer-kubectl-v24'
+import { KubectlV27Layer } from '@aws-cdk/lambda-layer-kubectl-v27'
 import * as blueprints from '@aws-quickstart/eks-blueprints'
 import { type CrisisCleanupConfig } from '@crisiscleanup/config'
 import type * as ec2 from 'aws-cdk-lib/aws-ec2'
@@ -88,7 +88,7 @@ export const buildClusterBuilder = (
 			clusterName: 'crisiscleanup',
 			version: k8sVersion,
 			kubectlLayer: blueprints.getResource(
-				(context) => new KubectlV24Layer(context.scope, 'kubectllayer24'),
+				(context) => new KubectlV27Layer(context.scope, 'kubectllayer24'),
 			),
 		})
 		.fargateProfile('serverless', { selectors: [{ namespace: 'karpenter' }] })
