@@ -1,5 +1,7 @@
-/// <reference types="@crisiscleanup/charts.crisiscleanup/src/config" />
-/// <reference types="@crisiscleanup/stacks.api/src/config" />
+// eslint-disable-next-line import/no-extraneous-dependencies
+import '@crisiscleanup/charts.crisiscleanup/crisiscleanup.config'
+// eslint-disable-next-line import/no-extraneous-dependencies
+import '@crisiscleanup/stacks.api/crisiscleanup.config'
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { defineConfig } from '@crisiscleanup/config'
