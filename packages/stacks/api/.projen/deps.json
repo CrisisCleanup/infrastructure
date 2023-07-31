@@ -1,10 +1,6 @@
 {
   "dependencies": [
     {
-      "name": "@types/jest",
-      "type": "build"
-    },
-    {
       "name": "@types/node",
       "version": "^18",
       "type": "build"
@@ -54,15 +50,6 @@
       "type": "build"
     },
     {
-      "name": "jest",
-      "type": "build"
-    },
-    {
-      "name": "jest-junit",
-      "version": "^15",
-      "type": "build"
-    },
-    {
       "name": "lint-staged",
       "type": "build"
     },
@@ -80,16 +67,16 @@
       "type": "build"
     },
     {
-      "name": "ts-jest",
-      "type": "build"
-    },
-    {
       "name": "ts-node",
       "type": "build"
     },
     {
       "name": "typescript",
       "version": "~5.1",
+      "type": "build"
+    },
+    {
+      "name": "vitest",
       "type": "build"
     },
     {

@@ -78,7 +78,7 @@
       "description": "Runs eslint against the codebase",
       "steps": [
         {
-          "exec": "eslint --cache --ext .ts --fix --no-error-on-unmatched-pattern /home/bradenmars/projects/work/crisiscleanup/crisiscleanup-infrastructure/packages/stacks/api .projenrc.js"
+          "exec": "eslint --cache --ext .ts,.tsx --fix --no-error-on-unmatched-pattern src test build-tools"
         }
       ]
     },
@@ -144,20 +144,24 @@
       "description": "Run tests",
       "steps": [
         {
-          "exec": "jest --passWithNoTests --coverageProvider=v8 --updateSnapshot",
-          "receiveArgs": true
+          "spawn": "eslint"
         },
         {
-          "spawn": "eslint"
+          "exec": "vitest",
+          "args": [
+            "--run"
+          ],
+          "receiveArgs": true
         }
       ]
     },
     "test:watch": {
       "name": "test:watch",
-      "description": "Run jest in watch mode",
+      "description": "Run tests on changes.",
       "steps": [
         {
-          "exec": "jest --watch"
+          "exec": "vitest",
+          "receiveArgs": true
         }
       ]
     },

@@ -1,4 +1,5 @@
 [
   "./packages/config/vitest.config.ts",
-  "./packages/charts/crisiscleanup/vitest.config.ts"
+  "./packages/charts/crisiscleanup/vitest.config.ts",
+  "./packages/stacks/api/vitest.config.ts"
 ]

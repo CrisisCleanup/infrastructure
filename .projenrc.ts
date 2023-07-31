@@ -368,8 +368,8 @@ const apiStack = AwsCdkTsAppBuilder.build({
 		)!}`,
 	],
 	// use ts linting builder
-	eslint: false,
-	prettier: false,
+	prettier: true,
+	jest: false,
 })
 apiStack.cdkConfig.json.addOverride(
 	'app',
@@ -377,6 +377,7 @@ apiStack.cdkConfig.json.addOverride(
 )
 apiStack.tsconfig.addInclude('crisiscleanup.config.ts')
 apiStack.addGitIgnore('cdk.context.json')
+new Vitest(apiStack)
 
 monorepo.addWorkspaceDeps(
 	{ depType: DependencyType.DEVENV, addTsPath: true },
@@ -385,5 +386,7 @@ monorepo.addWorkspaceDeps(
 	k8sComponentConstruct,
 	apiStack,
 )
+
+monorepo.gitattributes.addAttributes('*.snap', 'linguist-generated')
 
 monorepo.synth()

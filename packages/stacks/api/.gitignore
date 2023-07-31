@@ -30,14 +30,14 @@ jspm_packages/
 .yarn-integrity
 .cache
 !/.projenrc.js
-/test-reports/
-junit.xml
-/coverage/
+!/.prettierignore
+!/.prettierrc.json
 !/.npmrc
 !/test/
 !/src/
 /dist
 /dist/
+!/.eslintrc.json
 /assets/
 !/cdk.json
 /cdk.out/
@@ -45,8 +45,6 @@ junit.xml
 .parcel-cache/
 !/tsconfig.json
 !/tsconfig.dev.json
-!/.eslintrc.json
-!/.prettierignore
-!/.prettierrc.json
 cdk.context.json
+!/vitest.config.ts
 !/project.json

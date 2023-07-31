@@ -2,26 +2,6 @@
   "name": "stacks.api",
   "root": "packages/stacks/api",
   "targets": {
-    "build": {
-      "inputs": [
-        "default",
-        "^default",
-        "!{projectRoot}/coverage/**/*",
-        "!{projectRoot}/test-reports/**/*"
-      ],
-      "outputs": [
-        "{projectRoot}/coverage",
-        "{projectRoot}/test-reports"
-      ],
-      "dependsOn": [
-        "^build"
-      ],
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "pnpm exec projen build",
-        "cwd": "packages/stacks/api"
-      }
-    },
     "default": {
       "executor": "nx:run-commands",
       "options": {
@@ -64,10 +44,10 @@
         "cwd": "packages/stacks/api"
       }
     },
-    "test:watch": {
+    "build": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "pnpm exec projen test:watch",
+        "command": "pnpm exec projen build",
         "cwd": "packages/stacks/api"
       }
     },
@@ -138,6 +118,13 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "pnpm exec projen eslint",
+        "cwd": "packages/stacks/api"
+      }
+    },
+    "test:watch": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm exec projen test:watch",
         "cwd": "packages/stacks/api"
       }
     },
