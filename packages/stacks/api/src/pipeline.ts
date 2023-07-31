@@ -15,11 +15,7 @@ export interface PipelineTarget {
 
 class PipelineEnv implements Environment {
 	static fromEnv(env: Environment, name: string) {
-		return new this(
-			String(env.account!),
-			env.region!,
-			`${name}-${env.account!}-${env.region!}`,
-		)
+		return new this(String(env.account!), env.region!, name)
 	}
 
 	protected constructor(
@@ -52,13 +48,19 @@ export class Pipeline {
 
 	target(target: PipelineTarget): this {
 		const { name, environment, stackBuilder } = target
-		const env = PipelineEnv.fromEnv(environment, `${this.props.id}-${name}`)
+		const env = PipelineEnv.fromEnv(environment, name)
 		const envStackBuilder = stackBuilder
 			.clone(env.region, env.account)
 			.name(env.id)
-		this.pipeline.stage({
+
+		this.pipeline.wave({
 			id: name,
-			stackBuilder: envStackBuilder,
+			stages: [
+				{
+					id: env.id,
+					stackBuilder: envStackBuilder,
+				},
+			],
 		})
 		return this
 	}
