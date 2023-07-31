@@ -1,7 +1,7 @@
 import * as blueprints from '@aws-quickstart/eks-blueprints'
 import { getConfig } from '@crisiscleanup/config'
 import { App } from 'aws-cdk-lib'
-import { buildClusterBuilder, buildEKSStack, buildKarpenter } from './cluster'
+import { buildClusterBuilder, buildEKSStack } from './cluster'
 import { DatabaseProvider, DatabaseSecretProvider } from './database'
 import { KeyProvider } from './kms'
 import { Pipeline } from './pipeline'
@@ -55,20 +55,14 @@ const clusterBuilder = buildClusterBuilder(config)
 const cluster = clusterBuilder.build()
 const eksStackBuilder = buildEKSStack(config).clusterProvider(cluster)
 
-const singleNatStack = eksStackBuilder
-	.resourceProvider(
-		blueprints.GlobalResources.Vpc,
-		new VpcProvider({
-			createIsolatedSubnet: config.apiStack.isolateDatabase,
-			maxAzs: 2,
-			natGateways: 1,
-		}),
-	)
-	.addOns(
-		buildKarpenter('development-blueprint', [
-			'crisiscleanup-infra-pipeline-stack/development/development-blueprint/development-blueprint-vpc/PrivateSubnet*',
-		]),
-	)
+const singleNatStack = eksStackBuilder.resourceProvider(
+	blueprints.GlobalResources.Vpc,
+	new VpcProvider({
+		createIsolatedSubnet: config.apiStack.isolateDatabase,
+		maxAzs: 2,
+		natGateways: 1,
+	}),
+)
 
 export default await Pipeline.builder({
 	id: 'crisiscleanup',

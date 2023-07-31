@@ -38,7 +38,7 @@ export const tagKarpenter = (stack: blueprints.EksBlueprint) => {
 	blueprints.utils.tagSubnets(stack, vpc.privateSubnets, discoveryTag, '*')
 }
 
-export const buildKarpenter = (clusterName: string, subnetNames: string[]) => {
+export const buildKarpenter = (clusterName: string, subnetNames: string) => {
 	const clusterDiscoveryTag = `${Label.CLUSTER_DISCOVERY}/${clusterName}`
 	return new blueprints.KarpenterAddOn({
 		version: 'v0.29.2',
@@ -47,7 +47,7 @@ export const buildKarpenter = (clusterName: string, subnetNames: string[]) => {
 			{ key: Label.CAPACITY_TYPE, op: 'In', vals: ['spot', 'on-demand'] },
 		],
 		subnetTags: {
-			Name: subnetNames.join(','),
+			Name: subnetNames,
 		},
 		securityGroupTags: {
 			[clusterDiscoveryTag]: 'owned',
