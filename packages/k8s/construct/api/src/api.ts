@@ -77,8 +77,8 @@ export abstract class ApiComponent<
 						limit: kplus.Cpu.millis(800),
 					},
 					memory: {
-						request: Size.mebibytes(400),
-						limit: Size.mebibytes(800),
+						request: Size.mebibytes(500),
+						limit: Size.mebibytes(1000),
 					},
 				},
 			},
@@ -143,10 +143,8 @@ export class ApiWSGI
 			command: [
 				'/serve.sh',
 				'wsgi',
-				'--workers',
-				String(props.workers ?? 2),
-				'--threads',
-				String(props.threads ?? 4),
+				`--workers=${props.workers ?? 2}`,
+				`--threads=${props.threads ?? 4}`,
 				'--worker-class=gthread',
 				'--worker-tmp-dir=/worker-tmp',
 				'--timeout=300',
