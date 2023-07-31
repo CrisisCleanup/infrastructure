@@ -88,6 +88,10 @@ export abstract class ApiComponent<
 		const config = props.config ?? ApiConfig.of(scope)
 		if (!config) throw Error('Failed to resolve ApiConfig!')
 		this.config = config
+		this.deployment.scheduling.spread({
+			topology: kplus.Topology.HOSTNAME,
+			weight: 50,
+		})
 	}
 
 	protected createHttpProbes(
