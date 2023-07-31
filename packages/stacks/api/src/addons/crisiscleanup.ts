@@ -23,6 +23,18 @@ export class CrisisCleanupAddOn implements blueprints.ClusterAddOn {
 			disableResourceNameHashes: true,
 		})
 
+		const subCharts = [
+			chart.namespaceChart,
+			chart.configChart,
+			chart.apiChart,
+			chart.celeryChart,
+			chart.webChart,
+		]
+
+		subCharts.forEach((sub) =>
+			clusterInfo.cluster.addCdk8sChart(sub.node.id, sub),
+		)
+
 		return Promise.resolve(
 			clusterInfo.cluster.addCdk8sChart('crisiscleanup', chart),
 		)
