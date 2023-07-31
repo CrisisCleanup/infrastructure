@@ -249,6 +249,7 @@ const Cdk8sDefaultsBuilder = new builders.DefaultOptionsBuilder({
 	k8sMinorVersion: 27,
 	typescriptVersion: '~5.1',
 	prettier: true,
+	unbuild: true,
 })
 
 const CDK8sPlus = `cdk8s-plus-${Cdk8sDefaultsBuilder.defaultOptions
@@ -271,6 +272,7 @@ const Cdk8sAppBuilder = new ProjectBuilder(cdk8s.Cdk8sTypeScriptApp)
 	.add(TsESMBuilder)
 	.add(new tsBuilders.TypescriptLintingBuilder({ useTypeInformation: true }))
 	.add(new tsBuilders.TypescriptESMManifestBuilder())
+	.add(new tsBuilders.TypescriptBundlerBuilder())
 	.add(new builders.OptionsPropertyBuilder<cdk8s.Cdk8sTypeScriptAppOptions>())
 
 const Cdk8sConstructBuilder = new ProjectBuilder(cdk8s.ConstructLibraryCdk8s)
@@ -328,6 +330,14 @@ crisiscleanup.lintConfig.eslint.addIgnorePattern('src/imports')
 crisiscleanup
 	.tryFindObjectFile('cdk8s.yaml')!
 	.addOverride('app', 'tsx src/main.ts')
+crisiscleanup.package.file.addOverride(
+	'exports.\\./crisiscleanup\\.config',
+	'./crisiscleanup.config.ts',
+)
+const postCompile = crisiscleanup.tasks.tryFind('post-compile')!
+postCompile.reset()
+postCompile.exec(crisiscleanup.formatExecCommand('unbuild'))
+postCompile.spawn('synth')
 new Vitest(crisiscleanup)
 
 /**

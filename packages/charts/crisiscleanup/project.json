@@ -93,6 +93,20 @@
         "cwd": "packages/charts/crisiscleanup"
       }
     },
+    "stub": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm exec projen stub",
+        "cwd": "packages/charts/crisiscleanup"
+      }
+    },
+    "post-install": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm exec projen post-install",
+        "cwd": "packages/charts/crisiscleanup"
+      }
+    },
     "test:watch": {
       "executor": "nx:run-commands",
       "options": {

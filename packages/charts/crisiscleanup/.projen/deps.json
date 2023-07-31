@@ -80,6 +80,10 @@
       "type": "build"
     },
     {
+      "name": "unbuild",
+      "type": "build"
+    },
+    {
       "name": "vitest",
       "type": "build"
     },

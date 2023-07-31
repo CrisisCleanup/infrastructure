@@ -9,8 +9,10 @@
     "import": "npx projen import",
     "package": "npx projen package",
     "post-compile": "npx projen post-compile",
+    "post-install": "npx projen post-install",
     "post-upgrade": "npx projen post-upgrade",
     "pre-compile": "npx projen pre-compile",
+    "stub": "npx projen stub",
     "synth": "npx projen synth",
     "test": "npx projen test",
     "test:watch": "npx projen test:watch",
@@ -41,6 +43,7 @@
     "projen": "^0.71.153",
     "tsx": "^3.12.7",
     "typescript": "~5.1",
+    "unbuild": "^2.0.0-rc.0",
     "vitest": "^0.33.0"
   },
   "dependencies": {
@@ -62,6 +65,26 @@
   "version": "0.0.0",
   "type": "module",
   "sideEffects": false,
+  "import": "./dist/index.mjs",
+  "require": "./dist/index.cjs",
+  "types": "./dist/index.d.mts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./package.json": "./package.json",
+    "./crisiscleanup.config": "./crisiscleanup.config.ts"
+  },
+  "files": [
+    "dist"
+  ],
   "packageManager": "pnpm@8.6.9",
   "lint-staged": {
     "*.{ts,tsx,mts,cts,js,jsx,jts,jts}": [

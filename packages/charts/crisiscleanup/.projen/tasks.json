@@ -90,7 +90,15 @@
       "description": "Runs after successful compilation",
       "steps": [
         {
-          "spawn": "synth"
+          "exec": "pnpm exec unbuild"
+        }
+      ]
+    },
+    "post-install": {
+      "name": "post-install",
+      "steps": [
+        {
+          "spawn": "stub"
         }
       ]
     },
@@ -101,6 +109,15 @@
     "pre-compile": {
       "name": "pre-compile",
       "description": "Prepare the project for compilation"
+    },
+    "stub": {
+      "name": "stub",
+      "steps": [
+        {
+          "exec": "pnpm exec unbuild --stub"
+        }
+      ],
+      "condition": "test -z \"$CI\""
     },
     "synth": {
       "name": "synth",

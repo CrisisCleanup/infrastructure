@@ -209,6 +209,26 @@
     },
     {
       "files": [
+        "build.config.ts"
+      ],
+      "rules": {
+        "import/no-extraneous-dependencies": [
+          "off"
+        ]
+      }
+    },
+    {
+      "files": [
+        "build.config.ts"
+      ],
+      "rules": {
+        "import/order": [
+          "off"
+        ]
+      }
+    },
+    {
+      "files": [
         "vitest.config.ts",
         "test/**/*.spec.ts"
       ],
