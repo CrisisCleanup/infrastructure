@@ -152,14 +152,15 @@ export class Pipeline {
 			'cp -r packages/stacks/api/cdk.out ./cdk.out',
 		]
 
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+		const gigetAuth =
+			(scope.node.tryGetContext('giget-auth') as string) ??
+			(await blueprints.utils.getSecretValue('github-token', 'us-east-1'))
+
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
 		pipe.node.tryFindChild(
 			'crisiscleanup-infra-pipeline',
 			// @ts-ignore
-		)!.synth.env.GIGET_AUTH = await blueprints.utils.getSecretValue(
-			'github-token',
-			'us-east-1',
-		)
+		)!.synth.env.GIGET_AUTH = gigetAuth
 		return pipe
 	}
 }
