@@ -8,6 +8,7 @@ export default defineConfig({
 		codeStarConnectionArn: '',
 		isolateDatabase: false,
 		eks: {
+			platformArns: [],
 			defaultSecretsEncryption: true,
 			coreDnsVersion: 'v1.10.1-eksbuild.2',
 			kubeProxyVersion: 'v1.27.3-eksbuild.2',

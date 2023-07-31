@@ -8,6 +8,7 @@ export interface EKSConfig {
 	readonly coreDnsVersion: string
 	readonly kubeProxyVersion: string
 	readonly vpcCniVersion: string
+	readonly platformArns: string[]
 }
 
 export interface DatabaseConfig {

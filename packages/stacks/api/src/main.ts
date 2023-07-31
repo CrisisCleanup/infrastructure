@@ -1,6 +1,7 @@
 import * as blueprints from '@aws-quickstart/eks-blueprints'
 import { getConfig } from '@crisiscleanup/config'
 import { App } from 'aws-cdk-lib'
+import * as iam from 'aws-cdk-lib/aws-iam'
 import { buildClusterBuilder, buildEKSStack } from './cluster'
 import { DatabaseProvider, DatabaseSecretProvider } from './database'
 import { KeyProvider } from './kms'
@@ -72,6 +73,12 @@ export default await Pipeline.builder({
 		name: 'development',
 		stackBuilder: provideDatabase(singleNatStack),
 		environment: config.$env.development.cdkEnvironment,
+		platformTeam: new blueprints.PlatformTeam({
+			name: 'platform',
+			users: config.$env.development.apiStack.eks.platformArns.map(
+				(arn) => new iam.ArnPrincipal(arn),
+			),
+		}),
 	})
 	.build(app, {
 		env: {

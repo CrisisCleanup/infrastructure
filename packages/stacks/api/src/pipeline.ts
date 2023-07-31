@@ -8,7 +8,6 @@ import {
 } from 'aws-cdk-lib'
 import { type Construct } from 'constructs'
 import { buildKarpenter } from './cluster'
-import { VpcProvider } from './vpc'
 
 export interface PipelineProps {
 	readonly id: string
@@ -19,6 +18,7 @@ export interface PipelineTarget {
 	readonly name: string
 	readonly environment: Environment
 	readonly stackBuilder: blueprints.BlueprintBuilder
+	readonly platformTeam: blueprints.PlatformTeam
 }
 
 class PipelineEnv implements Environment {
@@ -73,10 +73,11 @@ export class Pipeline {
 	) {}
 
 	target(target: PipelineTarget): this {
-		const { name, environment, stackBuilder } = target
+		const { name, environment, stackBuilder, platformTeam } = target
 		const env = PipelineEnv.fromEnv(environment, name)
 		const envStackBuilder = stackBuilder
 			.clone(env.region, env.account)
+			.teams(platformTeam)
 			.name(this.props.id)
 			.addOns(
 				buildKarpenter(
