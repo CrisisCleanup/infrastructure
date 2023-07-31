@@ -2,6 +2,7 @@ import * as blueprints from '@aws-quickstart/eks-blueprints'
 import { getConfig } from '@crisiscleanup/config'
 import { App } from 'aws-cdk-lib'
 import * as iam from 'aws-cdk-lib/aws-iam'
+import { RedisStackAddOn, CrisisCleanupAddOn } from './addons'
 import { buildClusterBuilder, buildEKSStack } from './cluster'
 import { DatabaseProvider, DatabaseSecretProvider } from './database'
 import { KeyProvider } from './kms'
@@ -65,13 +66,21 @@ const singleNatStack = eksStackBuilder.resourceProvider(
 	}),
 )
 
+const devStack = provideDatabase(singleNatStack).addOns(
+	new RedisStackAddOn(),
+	new CrisisCleanupAddOn({
+		config: config.$env.development,
+		databaseResourceName: ResourceNames.DATABASE,
+	}),
+)
+
 export default await Pipeline.builder({
 	id: 'crisiscleanup',
 	connectionArn: config.apiStack.codeStarConnectionArn,
 })
 	.target({
 		name: 'development',
-		stackBuilder: provideDatabase(singleNatStack),
+		stackBuilder: devStack,
 		environment: config.$env.development.cdkEnvironment,
 		platformTeam: new blueprints.PlatformTeam({
 			name: 'platform',

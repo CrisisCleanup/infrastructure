@@ -12,13 +12,13 @@ export interface EKSConfig {
 }
 
 export interface DatabaseConfig {
-	engineVersion: string
-	ioOptimized: boolean
+	readonly engineVersion: string
+	readonly ioOptimized: boolean
 }
 
 export interface ApiStackConfig {
-	eks: EKSConfig
-	database: DatabaseConfig
-	isolateDatabase: boolean
-	codeStarConnectionArn: string
+	readonly eks: EKSConfig
+	readonly database: DatabaseConfig
+	readonly isolateDatabase: boolean
+	readonly codeStarConnectionArn: string
 }

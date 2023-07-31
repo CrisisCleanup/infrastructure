@@ -16,8 +16,11 @@ const redisStackDefaults: RedisStackAddOnProps = {
 export class RedisStackAddOn extends blueprints.HelmAddOn {
 	readonly props: RedisStackAddOnProps
 
-	constructor(props: Partial<RedisStackAddOnProps>) {
-		const withDefaults = defu(props, redisStackDefaults) as RedisStackAddOnProps
+	constructor(props?: Partial<RedisStackAddOnProps>) {
+		const withDefaults = defu(
+			props ?? {},
+			redisStackDefaults,
+		) as RedisStackAddOnProps
 		super(withDefaults)
 		this.props = withDefaults
 	}
