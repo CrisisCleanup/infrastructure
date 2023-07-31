@@ -1,3 +1,4 @@
+import { KubectlV24Layer } from '@aws-cdk/lambda-layer-kubectl-v24'
 import * as blueprints from '@aws-quickstart/eks-blueprints'
 import { type CrisisCleanupConfig } from '@crisiscleanup/config'
 import type * as ec2 from 'aws-cdk-lib/aws-ec2'
@@ -18,8 +19,9 @@ export const getDefaultAddons = (
 	const { apiStack } = config
 	const { eks } = apiStack
 	return [
-		new blueprints.addons.MetricsServerAddOn(),
 		new blueprints.addons.AwsLoadBalancerControllerAddOn(),
+		new blueprints.addons.CertManagerAddOn(),
+		new blueprints.addons.MetricsServerAddOn(),
 		new blueprints.addons.VpcCniAddOn({
 			enablePrefixDelegation: true,
 			version: eks.vpcCniVersion,
@@ -85,6 +87,9 @@ export const buildClusterBuilder = (
 		.withCommonOptions({
 			clusterName: 'crisiscleanup',
 			version: k8sVersion,
+			kubectlLayer: blueprints.getResource(
+				(context) => new KubectlV24Layer(context.scope, 'kubectllayer24'),
+			),
 		})
 		.fargateProfile('serverless', { selectors: [{ namespace: 'karpenter' }] })
 }
