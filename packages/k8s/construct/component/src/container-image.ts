@@ -1,4 +1,4 @@
-import type * as kplus from 'cdk8s-plus-24'
+import type * as kplus from 'cdk8s-plus-27'
 
 export interface ContainerImageProps {
 	readonly repository: string

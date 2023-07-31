@@ -99,8 +99,8 @@
       "type": "runtime"
     },
     {
-      "name": "cdk8s-plus-24",
-      "version": "^2.12.1",
+      "name": "cdk8s-plus-27",
+      "version": "^2.2.0",
       "type": "runtime"
     },
     {

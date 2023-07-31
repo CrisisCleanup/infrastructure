@@ -1,6 +1,6 @@
 import { baseConfig } from '@crisiscleanup/config'
 import { Testing } from 'cdk8s'
-import { ImagePullPolicy } from 'cdk8s-plus-24'
+import { ImagePullPolicy } from 'cdk8s-plus-27'
 import { test, expect, describe, it } from 'vitest'
 import defaultChartConfig from '../crisiscleanup.config'
 import { CrisisCleanupChart } from '../src'

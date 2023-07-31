@@ -245,8 +245,8 @@ const Cdk8sDefaultsBuilder = new builders.DefaultOptionsBuilder({
 	cdk8sCliVersion: '2.11.0',
 	cdk8sVersion: '2.22.0',
 	cdksPlus: true,
-	cdk8sPlusVersion: '2.12.1',
-	k8sMinorVersion: 24,
+	cdk8sPlusVersion: '2.2.0',
+	k8sMinorVersion: 27,
 	typescriptVersion: '~5.1',
 	prettier: true,
 })

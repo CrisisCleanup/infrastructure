@@ -48,7 +48,7 @@
     "@crisiscleanup/k8s.construct.api": "workspace:*",
     "@crisiscleanup/k8s.construct.component": "workspace:*",
     "cdk8s": "^2.22.0",
-    "cdk8s-plus-24": "^2.12.1",
+    "cdk8s-plus-27": "^2.2.0",
     "constructs": "^10.2.69",
     "debug": "^4.3.4",
     "defu": "^6.1.2",

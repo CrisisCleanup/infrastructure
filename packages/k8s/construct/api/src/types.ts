@@ -5,7 +5,7 @@ import {
 	type ScreamingSnakeCaseProperties,
 } from '@crisiscleanup/config'
 import { type DeploymentProps } from '@crisiscleanup/k8s.construct.component'
-import type * as kplus from 'cdk8s-plus-24'
+import type * as kplus from 'cdk8s-plus-27'
 
 export interface ApiConfigProps {
 	config: ScreamingSnakeCaseProperties<FlattenObject<ApiAppConfig, '_'>>
