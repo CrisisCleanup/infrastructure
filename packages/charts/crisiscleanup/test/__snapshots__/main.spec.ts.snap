@@ -36,16 +36,34 @@ exports[`CrisisCleanupChart > api: matches snapshot > api 1`] = `
           },
         },
         "spec": {
+          "affinity": {
+            "podAntiAffinity": {
+              "preferredDuringSchedulingIgnoredDuringExecution": [
+                {
+                  "podAffinityTerm": {
+                    "labelSelector": {
+                      "matchLabels": {
+                        "cdk8s.io/metadata.addr": "crisiscleanup-api-wsgi-c83e828d",
+                      },
+                    },
+                    "namespaces": [
+                      "test",
+                    ],
+                    "topologyKey": "kubernetes.io/hostname",
+                  },
+                  "weight": 50,
+                },
+              ],
+            },
+          },
           "automountServiceAccountToken": false,
           "containers": [
             {
               "command": [
                 "/serve.sh",
                 "wsgi",
-                "--workers",
-                "2",
-                "--threads",
-                "4",
+                "--workers=2",
+                "--threads=4",
                 "--worker-class=gthread",
                 "--worker-tmp-dir=/worker-tmp",
                 "--timeout=300",
@@ -93,11 +111,11 @@ exports[`CrisisCleanupChart > api: matches snapshot > api 1`] = `
               "resources": {
                 "limits": {
                   "cpu": "800m",
-                  "memory": "800Mi",
+                  "memory": "1000Mi",
                 },
                 "requests": {
                   "cpu": "50m",
-                  "memory": "400Mi",
+                  "memory": "500Mi",
                 },
               },
               "securityContext": {
@@ -203,11 +221,11 @@ exports[`CrisisCleanupChart > api: matches snapshot > api 1`] = `
               "resources": {
                 "limits": {
                   "cpu": "800m",
-                  "memory": "800Mi",
+                  "memory": "1000Mi",
                 },
                 "requests": {
                   "cpu": "50m",
-                  "memory": "400Mi",
+                  "memory": "500Mi",
                 },
               },
               "securityContext": {
@@ -287,11 +305,11 @@ exports[`CrisisCleanupChart > api: matches snapshot > api 1`] = `
               "resources": {
                 "limits": {
                   "cpu": "800m",
-                  "memory": "800Mi",
+                  "memory": "1000Mi",
                 },
                 "requests": {
                   "cpu": "50m",
-                  "memory": "400Mi",
+                  "memory": "500Mi",
                 },
               },
               "securityContext": {
@@ -463,6 +481,26 @@ exports[`CrisisCleanupChart > api: matches snapshot > api 1`] = `
           },
         },
         "spec": {
+          "affinity": {
+            "podAntiAffinity": {
+              "preferredDuringSchedulingIgnoredDuringExecution": [
+                {
+                  "podAffinityTerm": {
+                    "labelSelector": {
+                      "matchLabels": {
+                        "cdk8s.io/metadata.addr": "crisiscleanup-api-asgi-c818ff7e",
+                      },
+                    },
+                    "namespaces": [
+                      "test",
+                    ],
+                    "topologyKey": "kubernetes.io/hostname",
+                  },
+                  "weight": 50,
+                },
+              ],
+            },
+          },
           "automountServiceAccountToken": false,
           "containers": [
             {
@@ -515,11 +553,11 @@ exports[`CrisisCleanupChart > api: matches snapshot > api 1`] = `
               "resources": {
                 "limits": {
                   "cpu": "800m",
-                  "memory": "800Mi",
+                  "memory": "1000Mi",
                 },
                 "requests": {
                   "cpu": "50m",
-                  "memory": "400Mi",
+                  "memory": "500Mi",
                 },
               },
               "securityContext": {
@@ -691,6 +729,26 @@ exports[`CrisisCleanupChart > celery: matches snapshot > celery 1`] = `
           },
         },
         "spec": {
+          "affinity": {
+            "podAntiAffinity": {
+              "preferredDuringSchedulingIgnoredDuringExecution": [
+                {
+                  "podAffinityTerm": {
+                    "labelSelector": {
+                      "matchLabels": {
+                        "cdk8s.io/metadata.addr": "crisiscleanup-celery-celerybeat-c8500419",
+                      },
+                    },
+                    "namespaces": [
+                      "test",
+                    ],
+                    "topologyKey": "kubernetes.io/hostname",
+                  },
+                  "weight": 50,
+                },
+              ],
+            },
+          },
           "automountServiceAccountToken": false,
           "containers": [
             {
@@ -780,6 +838,26 @@ exports[`CrisisCleanupChart > celery: matches snapshot > celery 1`] = `
           },
         },
         "spec": {
+          "affinity": {
+            "podAntiAffinity": {
+              "preferredDuringSchedulingIgnoredDuringExecution": [
+                {
+                  "podAffinityTerm": {
+                    "labelSelector": {
+                      "matchLabels": {
+                        "cdk8s.io/metadata.addr": "crisiscleanup-celery-celery-celery-c8528587",
+                      },
+                    },
+                    "namespaces": [
+                      "test",
+                    ],
+                    "topologyKey": "kubernetes.io/hostname",
+                  },
+                  "weight": 50,
+                },
+              ],
+            },
+          },
           "automountServiceAccountToken": false,
           "containers": [
             {
@@ -947,6 +1025,26 @@ exports[`CrisisCleanupChart > celery: matches snapshot > celery 1`] = `
           },
         },
         "spec": {
+          "affinity": {
+            "podAntiAffinity": {
+              "preferredDuringSchedulingIgnoredDuringExecution": [
+                {
+                  "podAffinityTerm": {
+                    "labelSelector": {
+                      "matchLabels": {
+                        "cdk8s.io/metadata.addr": "crisiscleanup-celery-celery-signal-c80f507d",
+                      },
+                    },
+                    "namespaces": [
+                      "test",
+                    ],
+                    "topologyKey": "kubernetes.io/hostname",
+                  },
+                  "weight": 50,
+                },
+              ],
+            },
+          },
           "automountServiceAccountToken": false,
           "containers": [
             {
