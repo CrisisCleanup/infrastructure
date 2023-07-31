@@ -1,4 +1,6 @@
 import { exec } from 'node:child_process'
+import path from 'node:path'
+import { pathToFileURL } from 'url'
 import { objectKeys, objectMap, objectPick } from '@antfu/utils'
 import {
 	createDefineConfig,
@@ -168,6 +170,38 @@ export const loadEnvOverrides = (): CrisisCleanupConfig => {
 	return pickSubsetDeep(mappedEnv, getConfigDefaults())
 }
 
+/**
+ * Resolve root and attempt to load any metadata from it.
+ */
+const resolveRoot = async () => {
+	let cwd: string
+	try {
+		cwd = await getGitRoot()
+	} catch {
+		cwd = await getPnpmRoot().catch(() => {
+			console.warn(
+				'Failed to resolve both git and pnpm roots, falling back to cwd:',
+				process.cwd(),
+			)
+			return process.cwd()
+		})
+	}
+
+	const rootConfig = pathToFileURL(
+		path.join(cwd, 'crisiscleanup.config.ts'),
+	).toString()
+
+	try {
+		// attempt to populate metadata
+		await import(rootConfig)
+		console.log('successfully loaded metadata: ', rootConfig)
+	} catch (e) {
+		console.warn(`Failed to populate metadata from cwd (${rootConfig}):`, e)
+	}
+
+	return cwd
+}
+
 export interface GetConfigOptions {
 	/**
 	 * Load and override config values from environment variables.
@@ -201,25 +235,7 @@ export const getConfig = async <
 >(
 	options?: T,
 ): Promise<LoadedConfig<T, ResolvedCrisisCleanupConfig>> => {
-	let cwd: string
-	try {
-		cwd = await getGitRoot()
-	} catch {
-		cwd = await getPnpmRoot().catch(() => {
-			console.warn(
-				'Failed to resolve both git and pnpm roots, falling back to cwd:',
-				process.cwd(),
-			)
-			return process.cwd()
-		})
-	}
-
-	// attempt to populate metadata
-	try {
-		await import(`${cwd}/crisiscleanup.config`)
-	} catch (e) {
-		console.warn(e)
-	}
+	const cwd = await resolveRoot()
 
 	const overridesConfig: Partial<
 		LoadConfigOptions<
