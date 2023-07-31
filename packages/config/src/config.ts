@@ -201,6 +201,26 @@ export const getConfig = async <
 >(
 	options?: T,
 ): Promise<LoadedConfig<T, ResolvedCrisisCleanupConfig>> => {
+	let cwd: string
+	try {
+		cwd = await getGitRoot()
+	} catch {
+		cwd = await getPnpmRoot().catch(() => {
+			console.warn(
+				'Failed to resolve both git and pnpm roots, falling back to cwd:',
+				process.cwd(),
+			)
+			return process.cwd()
+		})
+	}
+
+	// attempt to populate metadata
+	try {
+		await import(`${cwd}/crisiscleanup.config`)
+	} catch (e) {
+		console.warn(e)
+	}
+
 	const overridesConfig: Partial<
 		LoadConfigOptions<
 			CrisisCleanupConfig & CrisisCleanupConfigMeta,
@@ -224,19 +244,6 @@ export const getConfig = async <
 				'Resolving config will likely fail; please set GIGET_AUTH to a github auth token in your environment.',
 			)
 		}
-	}
-
-	let cwd: string
-	try {
-		cwd = await getGitRoot()
-	} catch {
-		cwd = await getPnpmRoot().catch(() => {
-			console.warn(
-				'Failed to resolve both git and pnpm roots, falling back to cwd:',
-				process.cwd(),
-			)
-			return process.cwd()
-		})
 	}
 
 	const cfg = (await loadConfig<
