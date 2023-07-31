@@ -1,5 +1,5 @@
 import { exec } from 'node:child_process'
-import { objectKeys, objectPick } from '@antfu/utils'
+import { objectKeys, objectMap, objectPick } from '@antfu/utils'
 import {
 	createDefineConfig,
 	type DefineConfig,
@@ -244,7 +244,7 @@ export const getConfig = async <
 		CrisisCleanupConfigLayerMeta
 	>({
 		name: 'crisiscleanup',
-		defaults: baseConfig,
+		defaults: getConfigDefaults(),
 		envName: process.env.CCU_STAGE ?? 'local',
 		cwd,
 		extend: { extendKey: '$extends' },
@@ -257,6 +257,13 @@ export const getConfig = async <
 		throw new Error(
 			'Failed to resolve config and getConfig was called with strict=true',
 		)
+	}
+
+	if (cfg.config) {
+		cfg.config.$env = objectMap(cfg.config.$env, (key, value) => [
+			key,
+			getConfigDefaults({ ...value, ccuStage: key }),
+		])
 	}
 
 	return cfg as LoadedConfig<T, typeof cfg>
@@ -274,7 +281,16 @@ const getDefaultsMeta = (): Array<CrisisCleanupConfig> =>
 /**
  * Retrieve and merge all defaults.
  */
-export const getConfigDefaults = (): CrisisCleanupConfig => {
+export const getConfigDefaults = (
+	source?: CrisisCleanupConfig,
+): CrisisCleanupConfig => {
+	if (source) {
+		return defu(
+			Object.assign({}, source),
+			Object.assign({}, baseConfig),
+			...getDefaultsMeta(),
+		)
+	}
 	return defu(baseConfig, ...getDefaultsMeta())
 }
 
