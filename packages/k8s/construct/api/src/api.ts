@@ -149,6 +149,7 @@ export class ApiWSGI
 				String(props.threads ?? 4),
 				'--worker-class=gthread',
 				'--worker-tmp-dir=/worker-tmp',
+				'--timeout=300',
 			],
 			...(props.probes ?? this.createHttpProbes(this.httpProbePath)),
 		})

@@ -48,6 +48,7 @@ exports[`CrisisCleanupChart > api: matches snapshot > api 1`] = `
                 "4",
                 "--worker-class=gthread",
                 "--worker-tmp-dir=/worker-tmp",
+                "--timeout=300",
               ],
               "envFrom": [
                 {
