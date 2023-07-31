@@ -3,7 +3,7 @@
 import type * as blueprints from '@aws-quickstart/eks-blueprints'
 import { CrisisCleanupChart } from '@crisiscleanup/charts.crisiscleanup'
 import type { CrisisCleanupConfig } from '@crisiscleanup/config'
-import { App } from 'cdk8s'
+import { App, type Chart } from 'cdk8s'
 import type { Construct } from 'constructs'
 
 export interface CrisisCleanupAddOnProps {
@@ -23,20 +23,23 @@ export class CrisisCleanupAddOn implements blueprints.ClusterAddOn {
 			disableResourceNameHashes: true,
 		})
 
-		const subCharts = [
-			chart.namespaceChart,
-			chart.configChart,
-			chart.apiChart,
-			chart.celeryChart,
-			chart.webChart,
-		]
+		const addChart = (inChart: Chart) =>
+			clusterInfo.cluster.addCdk8sChart(inChart.node.id, inChart)
 
-		subCharts.forEach((sub) =>
-			clusterInfo.cluster.addCdk8sChart(sub.node.id, sub),
-		)
+		const nsChart = addChart(chart.namespaceChart)
+		const configChart = addChart(chart.configChart)
+		const apiChart = addChart(chart.apiChart)
+		const celeryChart = addChart(chart.celeryChart)
+		const webChart = addChart(chart.webChart)
 
-		return Promise.resolve(
-			clusterInfo.cluster.addCdk8sChart('crisiscleanup', chart),
-		)
+		configChart.node.addDependency(nsChart)
+		celeryChart.node.addDependency(configChart)
+		apiChart.node.addDependency(celeryChart)
+		webChart.node.addDependency(nsChart)
+
+		const chartObj = addChart(chart)
+		chartObj.node.addDependency(apiChart, webChart)
+
+		return Promise.resolve(chartObj)
 	}
 }
