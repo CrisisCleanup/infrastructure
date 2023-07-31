@@ -11,6 +11,8 @@ enum Label {
 	CAPACITY_TYPE = 'karpenter.sh/capacity-type',
 	KARPENTER_DISCOVERY = 'karpenter.sh/discovery',
 	CLUSTER_DISCOVERY = 'kubernetes.io/cluster',
+	INSTANCE_CATEGORY = 'karpenter.k8s.aws/instance-category',
+	INSTANCE_HYPERVISOR = 'karpenter.k8s.aws/instance-hypervisor',
 }
 
 export const getDefaultAddons = (
@@ -45,6 +47,8 @@ export const buildKarpenter = (clusterName: string, subnetNames: string) => {
 		requirements: [
 			{ key: Label.ARCH, op: 'In', vals: ['arm64'] },
 			{ key: Label.CAPACITY_TYPE, op: 'In', vals: ['spot', 'on-demand'] },
+			{ key: Label.INSTANCE_CATEGORY, op: 'In', vals: ['c', 'm', 'r', 't'] },
+			{ key: Label.INSTANCE_HYPERVISOR, op: 'In', vals: ['nitro'] },
 		],
 		subnetTags: {
 			Name: subnetNames,
