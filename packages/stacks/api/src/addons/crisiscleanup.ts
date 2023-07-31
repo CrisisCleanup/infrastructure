@@ -1,0 +1,29 @@
+/// <reference types="@crisiscleanup/charts.crisiscleanup/src/config" />
+
+import type * as blueprints from '@aws-quickstart/eks-blueprints'
+import { App, CrisisCleanupChart } from '@crisiscleanup/charts.crisiscleanup'
+import type { CrisisCleanupConfig } from '@crisiscleanup/config'
+import { type Construct } from 'constructs'
+
+export interface CrisisCleanupAddOnProps {
+	readonly databaseResourceName: string
+	readonly config: CrisisCleanupConfig
+}
+
+export class CrisisCleanupAddOn implements blueprints.ClusterAddOn {
+	constructor(readonly props: CrisisCleanupAddOnProps) {}
+
+	deploy(clusterInfo: blueprints.ClusterInfo): Promise<Construct> | void {
+		const cdk8sApp = new App()
+		const chart = CrisisCleanupChart.withDefaults(cdk8sApp, {
+			...this.props.config.chart,
+			apiAppConfig: this.props.config.api.config,
+			apiAppSecrets: this.props.config.api.secrets,
+			disableResourceNameHashes: true,
+		})
+
+		return Promise.resolve(
+			clusterInfo.cluster.addCdk8sChart('crisiscleanup', chart),
+		)
+	}
+}
