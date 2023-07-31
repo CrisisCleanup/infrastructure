@@ -251,13 +251,12 @@ const Cdk8sDefaultsBuilder = new builders.DefaultOptionsBuilder({
 	prettier: true,
 })
 
+const CDK8sPlus = `cdk8s-plus-${Cdk8sDefaultsBuilder.defaultOptions
+	.k8sMinorVersion!}`
+
 const Cdk8sConstructDefaultsBuilder = new builders.DefaultOptionsBuilder({
-	devDeps: [
-		`cdk8s-plus-${Cdk8sDefaultsBuilder.defaultOptions.k8sMinorVersion!}@*`,
-	],
-	peerDeps: [
-		`cdk8s-plus-${Cdk8sDefaultsBuilder.defaultOptions.k8sMinorVersion!}`,
-	],
+	devDeps: [`${CDK8sPlus}@*`],
+	peerDeps: [CDK8sPlus],
 	peerDependencyOptions: { pinnedDevDependency: false },
 	unbuild: true,
 	libdir: 'dist',
@@ -353,6 +352,10 @@ const apiStack = AwsCdkTsAppBuilder.build({
 		'@aws-quickstart/eks-blueprints',
 		'@aws-cdk/lambda-layer-kubectl-v27',
 		'defu',
+		`cdk8s@${crisiscleanup.package.tryResolveDependencyVersion('cdk8s')!}`,
+		`${CDK8sPlus}@${crisiscleanup.package.tryResolveDependencyVersion(
+			CDK8sPlus,
+		)!}`,
 	],
 	// use ts linting builder
 	eslint: false,

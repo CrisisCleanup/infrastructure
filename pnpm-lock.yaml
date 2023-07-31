@@ -510,6 +510,12 @@ importers:
       cdk-sops-secrets:
         specifier: ^1.2.223
         version: 1.2.223(aws-cdk-lib@2.88.0)(constructs@10.2.69)
+      cdk8s:
+        specifier: 2.22.0
+        version: 2.22.0(constructs@10.2.69)(debug@4.3.4)
+      cdk8s-plus-27:
+        specifier: 2.2.0
+        version: 2.2.0(cdk8s@2.22.0)(constructs@10.2.69)(debug@4.3.4)
       constructs:
         specifier: ^10.0.5
         version: 10.2.69

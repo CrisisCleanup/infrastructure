@@ -1,9 +1,10 @@
 /// <reference types="@crisiscleanup/charts.crisiscleanup/src/config" />
 
 import type * as blueprints from '@aws-quickstart/eks-blueprints'
-import { App, CrisisCleanupChart } from '@crisiscleanup/charts.crisiscleanup'
+import { CrisisCleanupChart } from '@crisiscleanup/charts.crisiscleanup'
 import type { CrisisCleanupConfig } from '@crisiscleanup/config'
-import { type Construct } from 'constructs'
+import { App } from 'cdk8s'
+import type { Construct } from 'constructs'
 
 export interface CrisisCleanupAddOnProps {
 	readonly databaseResourceName: string

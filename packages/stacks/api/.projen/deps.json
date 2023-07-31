@@ -125,6 +125,16 @@
       "type": "runtime"
     },
     {
+      "name": "cdk8s-plus-27",
+      "version": "2.2.0",
+      "type": "runtime"
+    },
+    {
+      "name": "cdk8s",
+      "version": "2.22.0",
+      "type": "runtime"
+    },
+    {
       "name": "constructs",
       "version": "^10.0.5",
       "type": "runtime"
