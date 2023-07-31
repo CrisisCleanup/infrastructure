@@ -56,6 +56,16 @@ export const buildKarpenter = (clusterName: string, subnetNames: string) => {
 		consolidation: { enabled: true },
 		interruptionHandling: true,
 		namespace: 'karpenter',
+		values: {
+			controller: {
+				env: [
+					{
+						name: 'AWS_ENI_LIMITED_POD_DENSITY',
+						value: 'false',
+					},
+				],
+			},
+		},
 		// refresh nodes at least every 30 days
 		ttlSecondsUntilExpired: 2592000,
 		// limits: {
