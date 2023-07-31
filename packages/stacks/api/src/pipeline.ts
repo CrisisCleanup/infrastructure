@@ -147,6 +147,7 @@ export class Pipeline {
 			'crisiscleanup-infra-pipeline',
 			// @ts-ignore
 		)!.synth.commands = [
+			'pnpm post-compile',
 			"pnpm -F 'stacks.api' run synth",
 			'cp -r packages/stacks/api/cdk.out ./cdk.out',
 		]
