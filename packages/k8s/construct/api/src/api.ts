@@ -73,12 +73,12 @@ export abstract class ApiComponent<
 			containerDefaults: {
 				resources: {
 					cpu: {
-						request: kplus.Cpu.millis(50),
+						request: kplus.Cpu.millis(100),
 						limit: kplus.Cpu.millis(800),
 					},
 					memory: {
-						request: Size.mebibytes(500),
-						limit: Size.mebibytes(1000),
+						request: Size.mebibytes(650),
+						limit: Size.gibibytes(1),
 					},
 				},
 			},
@@ -90,7 +90,7 @@ export abstract class ApiComponent<
 		this.config = config
 		this.deployment.scheduling.spread({
 			topology: kplus.Topology.HOSTNAME,
-			weight: 50,
+			weight: 25,
 		})
 	}
 
@@ -99,12 +99,14 @@ export abstract class ApiComponent<
 	): Pick<kplus.ContainerProps, 'readiness' | 'liveness' | 'startup'> {
 		const liveProbe = kplus.Probe.fromHttpGet(httpPath, {
 			initialDelaySeconds: Duration.seconds(20),
-			periodSeconds: Duration.seconds(5),
+			periodSeconds: Duration.seconds(10),
+			timeoutSeconds: Duration.seconds(3),
+			failureThreshold: 4,
 		})
 
 		const readyProbe = kplus.Probe.fromHttpGet(httpPath, {
 			initialDelaySeconds: Duration.seconds(20),
-			periodSeconds: Duration.seconds(5),
+			periodSeconds: Duration.seconds(10),
 		})
 
 		const startProbe = kplus.Probe.fromHttpGet(httpPath, {
