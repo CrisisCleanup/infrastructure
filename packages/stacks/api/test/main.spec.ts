@@ -3,6 +3,7 @@ import { getConfigDefaults } from '@crisiscleanup/config'
 import { App } from 'aws-cdk-lib'
 import { Template } from 'aws-cdk-lib/assertions'
 import { test, expect, vi, beforeAll, afterAll } from 'vitest'
+// @ts-ignore
 import stackDefaults from '../crisiscleanup.config'
 import { buildClusterBuilder, buildEKSStack } from '../src/cluster'
 util.inspect.defaultOptions.depth = 6
@@ -17,6 +18,7 @@ afterAll(() => {
 })
 
 test('Snapshot', async () => {
+	// @ts-expect-error non partial
 	const config = getConfigDefaults({
 		...stackDefaults,
 		cdkEnvironment: {
