@@ -51,7 +51,7 @@ exports[`CrisisCleanupChart > api: matches snapshot > api 1`] = `
                     ],
                     "topologyKey": "kubernetes.io/hostname",
                   },
-                  "weight": 50,
+                  "weight": 25,
                 },
               ],
             },
@@ -83,14 +83,15 @@ exports[`CrisisCleanupChart > api: matches snapshot > api 1`] = `
               "image": "test-api:test",
               "imagePullPolicy": "Always",
               "livenessProbe": {
-                "failureThreshold": 3,
+                "failureThreshold": 4,
                 "httpGet": {
                   "path": "/health",
                   "port": 5000,
                   "scheme": "HTTP",
                 },
                 "initialDelaySeconds": 20,
-                "periodSeconds": 5,
+                "periodSeconds": 10,
+                "timeoutSeconds": 3,
               },
               "name": "gunicorn",
               "ports": [
@@ -106,16 +107,16 @@ exports[`CrisisCleanupChart > api: matches snapshot > api 1`] = `
                   "scheme": "HTTP",
                 },
                 "initialDelaySeconds": 20,
-                "periodSeconds": 5,
+                "periodSeconds": 10,
               },
               "resources": {
                 "limits": {
                   "cpu": "800m",
-                  "memory": "1000Mi",
+                  "memory": "1024Mi",
                 },
                 "requests": {
-                  "cpu": "50m",
-                  "memory": "500Mi",
+                  "cpu": "100m",
+                  "memory": "650Mi",
                 },
               },
               "securityContext": {
@@ -221,11 +222,11 @@ exports[`CrisisCleanupChart > api: matches snapshot > api 1`] = `
               "resources": {
                 "limits": {
                   "cpu": "800m",
-                  "memory": "1000Mi",
+                  "memory": "1024Mi",
                 },
                 "requests": {
-                  "cpu": "50m",
-                  "memory": "500Mi",
+                  "cpu": "100m",
+                  "memory": "650Mi",
                 },
               },
               "securityContext": {
@@ -305,11 +306,11 @@ exports[`CrisisCleanupChart > api: matches snapshot > api 1`] = `
               "resources": {
                 "limits": {
                   "cpu": "800m",
-                  "memory": "1000Mi",
+                  "memory": "1024Mi",
                 },
                 "requests": {
-                  "cpu": "50m",
-                  "memory": "500Mi",
+                  "cpu": "100m",
+                  "memory": "650Mi",
                 },
               },
               "securityContext": {
@@ -432,7 +433,7 @@ exports[`CrisisCleanupChart > api: matches snapshot > api 1`] = `
           "resource": {
             "name": "memory",
             "target": {
-              "averageUtilization": 70,
+              "averageUtilization": 85,
               "type": "Utilization",
             },
           },
@@ -496,7 +497,7 @@ exports[`CrisisCleanupChart > api: matches snapshot > api 1`] = `
                     ],
                     "topologyKey": "kubernetes.io/hostname",
                   },
-                  "weight": 50,
+                  "weight": 25,
                 },
               ],
             },
@@ -525,14 +526,15 @@ exports[`CrisisCleanupChart > api: matches snapshot > api 1`] = `
               "image": "test-api:test",
               "imagePullPolicy": "Always",
               "livenessProbe": {
-                "failureThreshold": 3,
+                "failureThreshold": 4,
                 "httpGet": {
                   "path": "/ws/health",
                   "port": 5000,
                   "scheme": "HTTP",
                 },
                 "initialDelaySeconds": 20,
-                "periodSeconds": 5,
+                "periodSeconds": 10,
+                "timeoutSeconds": 3,
               },
               "name": "hypercorn",
               "ports": [
@@ -548,16 +550,16 @@ exports[`CrisisCleanupChart > api: matches snapshot > api 1`] = `
                   "scheme": "HTTP",
                 },
                 "initialDelaySeconds": 20,
-                "periodSeconds": 5,
+                "periodSeconds": 10,
               },
               "resources": {
                 "limits": {
                   "cpu": "800m",
-                  "memory": "1000Mi",
+                  "memory": "1024Mi",
                 },
                 "requests": {
-                  "cpu": "50m",
-                  "memory": "500Mi",
+                  "cpu": "100m",
+                  "memory": "650Mi",
                 },
               },
               "securityContext": {
@@ -674,7 +676,7 @@ exports[`CrisisCleanupChart > api: matches snapshot > api 1`] = `
           "resource": {
             "name": "memory",
             "target": {
-              "averageUtilization": 70,
+              "averageUtilization": 85,
               "type": "Utilization",
             },
           },
@@ -744,7 +746,7 @@ exports[`CrisisCleanupChart > celery: matches snapshot > celery 1`] = `
                     ],
                     "topologyKey": "kubernetes.io/hostname",
                   },
-                  "weight": 50,
+                  "weight": 25,
                 },
               ],
             },
@@ -853,7 +855,7 @@ exports[`CrisisCleanupChart > celery: matches snapshot > celery 1`] = `
                     ],
                     "topologyKey": "kubernetes.io/hostname",
                   },
-                  "weight": 50,
+                  "weight": 25,
                 },
               ],
             },
@@ -892,7 +894,7 @@ exports[`CrisisCleanupChart > celery: matches snapshot > celery 1`] = `
                   "memory": "800Mi",
                 },
                 "requests": {
-                  "cpu": "50m",
+                  "cpu": "100m",
                   "memory": "450Mi",
                 },
               },
@@ -976,7 +978,7 @@ exports[`CrisisCleanupChart > celery: matches snapshot > celery 1`] = `
           "resource": {
             "name": "memory",
             "target": {
-              "averageUtilization": 70,
+              "averageUtilization": 85,
               "type": "Utilization",
             },
           },
@@ -1040,7 +1042,7 @@ exports[`CrisisCleanupChart > celery: matches snapshot > celery 1`] = `
                     ],
                     "topologyKey": "kubernetes.io/hostname",
                   },
-                  "weight": 50,
+                  "weight": 25,
                 },
               ],
             },
@@ -1079,7 +1081,7 @@ exports[`CrisisCleanupChart > celery: matches snapshot > celery 1`] = `
                   "memory": "800Mi",
                 },
                 "requests": {
-                  "cpu": "50m",
+                  "cpu": "100m",
                   "memory": "450Mi",
                 },
               },
@@ -1163,7 +1165,7 @@ exports[`CrisisCleanupChart > celery: matches snapshot > celery 1`] = `
           "resource": {
             "name": "memory",
             "target": {
-              "averageUtilization": 70,
+              "averageUtilization": 85,
               "type": "Utilization",
             },
           },
