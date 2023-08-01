@@ -4,6 +4,7 @@ import { type CrisisCleanupConfig } from '@crisiscleanup/config'
 import { KubecostAddOn } from '@kubecost/kubecost-eks-blueprints-addon'
 import type * as ec2 from 'aws-cdk-lib/aws-ec2'
 import { KubernetesVersion } from 'aws-cdk-lib/aws-eks'
+import * as kms from 'aws-cdk-lib/aws-kms'
 
 enum Label {
 	INSTANCE_TYPE = 'node.kubernetes.io/instance-type',
@@ -28,6 +29,17 @@ export const getDefaultAddons = (
 	return [
 		kubecost,
 		new blueprints.addons.AwsLoadBalancerControllerAddOn(),
+		new blueprints.addons.EbsCsiDriverAddOn({
+			version: eks.ebsCsiVersion,
+			kmsKeys: [
+				blueprints.getResource(
+					(context) =>
+						new kms.Key(context.scope, 'ebs-csi-driver-key', {
+							alias: 'ebs-csi-driver-key',
+						}),
+				),
+			],
+		}),
 		new blueprints.addons.CertManagerAddOn(),
 		new blueprints.addons.MetricsServerAddOn(),
 		new blueprints.addons.VpcCniAddOn({
