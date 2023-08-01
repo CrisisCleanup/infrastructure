@@ -1,6 +1,7 @@
 import { KubectlV27Layer } from '@aws-cdk/lambda-layer-kubectl-v27'
 import * as blueprints from '@aws-quickstart/eks-blueprints'
 import { type CrisisCleanupConfig } from '@crisiscleanup/config'
+import { KubecostAddOn } from '@kubecost/kubecost-eks-blueprints-addon'
 import type * as ec2 from 'aws-cdk-lib/aws-ec2'
 import { KubernetesVersion } from 'aws-cdk-lib/aws-eks'
 
@@ -20,7 +21,12 @@ export const getDefaultAddons = (
 ): Array<blueprints.ClusterAddOn> => {
 	const { apiStack } = config
 	const { eks } = apiStack
+	const kubecost = new KubecostAddOn({
+		kubecostToken: apiStack.kubecostToken,
+		namespace: 'kubecost',
+	})
 	return [
+		kubecost,
 		new blueprints.addons.AwsLoadBalancerControllerAddOn(),
 		new blueprints.addons.CertManagerAddOn(),
 		new blueprints.addons.MetricsServerAddOn(),
@@ -105,5 +111,7 @@ export const buildClusterBuilder = (
 				(context) => new KubectlV27Layer(context.scope, 'kubectllayer24'),
 			),
 		})
-		.fargateProfile('serverless', { selectors: [{ namespace: 'karpenter' }] })
+		.fargateProfile('serverless', {
+			selectors: [{ namespace: 'karpenter' }, { namespace: 'kubecost' }],
+		})
 }

@@ -21,4 +21,5 @@ export interface ApiStackConfig {
 	readonly database: DatabaseConfig
 	readonly isolateDatabase: boolean
 	readonly codeStarConnectionArn: string
+	readonly kubecostToken: string
 }
