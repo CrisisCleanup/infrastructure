@@ -112,6 +112,6 @@ export const buildClusterBuilder = (
 			),
 		})
 		.fargateProfile('serverless', {
-			selectors: [{ namespace: 'karpenter' }, { namespace: 'kubecost' }],
+			selectors: [{ namespace: 'karpenter' }],
 		})
 }
