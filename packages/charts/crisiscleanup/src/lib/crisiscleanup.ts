@@ -148,7 +148,15 @@ export class CrisisCleanupChart extends Chart {
 			labels: this.labels,
 		})
 		const namespace = new kplus.Namespace(this.namespaceChart, 'namespace', {
-			metadata: { name: props.namespace },
+			metadata: {
+				name: props.namespace,
+				labels: {
+					...this.labels,
+					// see:
+					// https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.2/deploy/pod_readiness_gate/
+					'elbv2.k8s.aws/pod-readiness-gate-inject': 'enabled',
+				},
+			},
 		})
 
 		this.configChart = new Chart(this, 'config', {
