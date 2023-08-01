@@ -77,7 +77,7 @@ export abstract class ApiComponent<
 						limit: kplus.Cpu.millis(800),
 					},
 					memory: {
-						request: Size.mebibytes(800),
+						request: Size.gibibytes(1),
 						limit: Size.gibibytes(1.5),
 					},
 				},
@@ -314,8 +314,8 @@ export class CeleryWorker extends ApiComponent<CeleryProps> {
 			resources: {
 				cpu: this.props.containerDefaults!.resources!.cpu!,
 				memory: {
-					limit: Size.mebibytes(800),
-					request: Size.mebibytes(450),
+					limit: Size.gibibytes(1.5),
+					request: Size.mebibytes(800),
 				},
 			},
 		})
