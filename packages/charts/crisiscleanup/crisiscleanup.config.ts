@@ -5,10 +5,10 @@ const celeryScaling = {
 	scaling: {
 		minReplicas: 1,
 		maxReplicas: 2,
+		cpuUtilPercent: 90,
+		memUtilPercent: 90,
 	},
 }
-
-const spread = false
 
 // Chart config defaults for local development.
 export default defineConfig({
@@ -28,34 +28,33 @@ export default defineConfig({
 		},
 		frontend: {
 			web: {
-				spread,
 				replicaCount: 2,
 			},
 		},
 		wsgi: {
-			spread,
 			scaling: {
-				minReplicas: 2,
+				minReplicas: 1,
 				maxReplicas: 3,
+				cpuUtilPercent: 90,
+				memUtilPercent: 90,
 			},
 		},
 		asgi: {
-			spread,
 			scaling: {
 				minReplicas: 1,
 				maxReplicas: 2,
+				cpuUtilPercent: 90,
+				memUtilPercent: 90,
 			},
 		},
 		celeryBeat: {
-			spread,
 			replicaCount: 1,
 		},
 		celery: {
-			celery: { queues: ['celery'], ...celeryScaling, spread },
+			celery: { queues: ['celery'], ...celeryScaling },
 			signal: {
 				queues: ['signal', 'phone', 'metrics'],
 				...celeryScaling,
-				spread,
 			},
 		},
 		ingressAnnotations: {
