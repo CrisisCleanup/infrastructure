@@ -274,6 +274,29 @@ exports[`Snapshot 1`] = `
       "Type": "AWS::CloudFormation::Stack",
       "UpdateReplacePolicy": "Delete",
     },
+    "awsebscsidriveraddOn": {
+      "DependsOn": [
+        "teststackchartawsloadbalancercontrollerF71AE295",
+        "teststackebscsicontrollersasaConditionJson1DADB0FD",
+        "teststackebscsicontrollersasamanifestebscsicontrollersasaServiceAccountResourceEF2D0DF9",
+        "teststackebscsicontrollersasaRole1889A7DF",
+      ],
+      "Properties": {
+        "AddonName": "aws-ebs-csi-driver",
+        "AddonVersion": "v1.21.0-eksbuild.1",
+        "ClusterName": {
+          "Ref": "teststackF0A1F222",
+        },
+        "ResolveConflicts": "OVERWRITE",
+        "ServiceAccountRoleArn": {
+          "Fn::GetAtt": [
+            "teststackebscsicontrollersasaRole1889A7DF",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::EKS::Addon",
+    },
     "certmanagernamespacestruct65ED8E81": {
       "DeletionPolicy": "Delete",
       "DependsOn": [
@@ -343,6 +366,49 @@ exports[`Snapshot 1`] = `
         },
       },
       "Type": "AWS::IAM::Role",
+    },
+    "ebscsidriverkeyAlias8C7B4B6F": {
+      "Properties": {
+        "AliasName": "alias/ebs-csi-driver-key",
+        "TargetKeyId": {
+          "Fn::GetAtt": [
+            "ebscsidriverkeyD1507B74",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::KMS::Alias",
+    },
+    "ebscsidriverkeyD1507B74": {
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "KeyPolicy": {
+          "Statement": [
+            {
+              "Action": "kms:*",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":iam::1234567890:root",
+                    ],
+                  ],
+                },
+              },
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::KMS::Key",
+      "UpdateReplacePolicy": "Retain",
     },
     "kubectllayer24CDE9E540": {
       "Properties": {
@@ -1151,6 +1217,242 @@ exports[`Snapshot 1`] = `
       },
       "Type": "AWS::IAM::Role",
     },
+    "teststackawsebscsidrivermanagedpolicy5C660754": {
+      "DependsOn": [
+        "teststackvpcIGW03B105E6",
+        "teststackvpcPrivateSubnet1DefaultRouteD98CD628",
+        "teststackvpcPrivateSubnet1RouteTable73100B52",
+        "teststackvpcPrivateSubnet1RouteTableAssociation3900E69F",
+        "teststackvpcPrivateSubnet1SubnetF0331D8A",
+        "teststackvpcPrivateSubnet2DefaultRoute134E1612",
+        "teststackvpcPrivateSubnet2RouteTable3A43C01B",
+        "teststackvpcPrivateSubnet2RouteTableAssociation425F10F9",
+        "teststackvpcPrivateSubnet2Subnet3D907BDE",
+        "teststackvpcPublicSubnet1DefaultRoute559FCEC5",
+        "teststackvpcPublicSubnet1EIPD9571571",
+        "teststackvpcPublicSubnet1NATGateway69A82078",
+        "teststackvpcPublicSubnet1RouteTable4A6F7D68",
+        "teststackvpcPublicSubnet1RouteTableAssociation6F4CDBB8",
+        "teststackvpcPublicSubnet1Subnet98CD6475",
+        "teststackvpcPublicSubnet2DefaultRoute6D4EE093",
+        "teststackvpcPublicSubnet2EIP2A9F3E46",
+        "teststackvpcPublicSubnet2NATGateway03687D6F",
+        "teststackvpcPublicSubnet2RouteTable58C7856E",
+        "teststackvpcPublicSubnet2RouteTableAssociationE029BF04",
+        "teststackvpcPublicSubnet2SubnetDEE0C8F7",
+        "teststackvpcAF2EB73C",
+        "teststackvpcVPCGW05B02F5B",
+      ],
+      "Properties": {
+        "Description": "",
+        "Path": "/",
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "ec2:CreateSnapshot",
+                "ec2:AttachVolume",
+                "ec2:DetachVolume",
+                "ec2:ModifyVolume",
+                "ec2:DescribeAvailabilityZones",
+                "ec2:DescribeInstances",
+                "ec2:DescribeSnapshots",
+                "ec2:DescribeTags",
+                "ec2:DescribeVolumes",
+                "ec2:DescribeVolumesModifications",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": "ec2:CreateTags",
+              "Condition": {
+                "StringEquals": {
+                  "ec2:CreateAction": [
+                    "CreateVolume",
+                    "CreateSnapshot",
+                  ],
+                },
+              },
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":ec2:*:*:volume/*",
+                    ],
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":ec2:*:*:snapshot/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": "ec2:DeleteTags",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":ec2:*:*:volume/*",
+                    ],
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":ec2:*:*:snapshot/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": "ec2:CreateVolume",
+              "Condition": {
+                "StringLike": {
+                  "aws:RequestTag/ebs.csi.aws.com/cluster": "true",
+                },
+              },
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": "ec2:CreateVolume",
+              "Condition": {
+                "StringLike": {
+                  "aws:RequestTag/CSIVolumeName": "*",
+                },
+              },
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": "ec2:CreateVolume",
+              "Condition": {
+                "StringLike": {
+                  "aws:RequestTag/kubernetes.io/cluster/*": "owned",
+                },
+              },
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": "ec2:DeleteVolume",
+              "Condition": {
+                "StringLike": {
+                  "ec2:ResourceTag/ebs.csi.aws.com/cluster": "true",
+                },
+              },
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": "ec2:DeleteVolume",
+              "Condition": {
+                "StringLike": {
+                  "ec2:ResourceTag/CSIVolumeName": "*",
+                },
+              },
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": "ec2:DeleteVolume",
+              "Condition": {
+                "StringLike": {
+                  "ec2:ResourceTag/kubernetes.io/cluster/*": "owned",
+                },
+              },
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": "ec2:DeleteSnapshot",
+              "Condition": {
+                "StringLike": {
+                  "ec2:ResourceTag/CSIVolumeSnapshotName": "*",
+                },
+              },
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": "ec2:DeleteSnapshot",
+              "Condition": {
+                "StringLike": {
+                  "ec2:ResourceTag/ebs.csi.aws.com/cluster": "true",
+                },
+              },
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "kms:CreateGrant",
+                "kms:ListGrants",
+                "kms:RevokeGrant",
+              ],
+              "Condition": {
+                "Bool": {
+                  "kms:GrantIsForAWSResource": "true",
+                },
+              },
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "ebscsidriverkeyD1507B74",
+                  "Arn",
+                ],
+              },
+            },
+            {
+              "Action": [
+                "kms:Encrypt",
+                "kms:Decrypt",
+                "kms:ReEncrypt*",
+                "kms:GenerateDataKey*",
+                "kms:DescribeKey",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "ebscsidriverkeyD1507B74",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::ManagedPolicy",
+    },
     "teststackawsloadbalancercontrollerConditionJson572284EF": {
       "DeletionPolicy": "Delete",
       "DependsOn": [
@@ -1888,6 +2190,61 @@ exports[`Snapshot 1`] = `
       "Type": "Custom::AWSCDK-EKS-HelmChart",
       "UpdateReplacePolicy": "Delete",
     },
+    "teststackchartkubecostA8185DB0": {
+      "DeletionPolicy": "Delete",
+      "DependsOn": [
+        "teststackvpcIGW03B105E6",
+        "teststackvpcPrivateSubnet1DefaultRouteD98CD628",
+        "teststackvpcPrivateSubnet1RouteTable73100B52",
+        "teststackvpcPrivateSubnet1RouteTableAssociation3900E69F",
+        "teststackvpcPrivateSubnet1SubnetF0331D8A",
+        "teststackvpcPrivateSubnet2DefaultRoute134E1612",
+        "teststackvpcPrivateSubnet2RouteTable3A43C01B",
+        "teststackvpcPrivateSubnet2RouteTableAssociation425F10F9",
+        "teststackvpcPrivateSubnet2Subnet3D907BDE",
+        "teststackvpcPublicSubnet1DefaultRoute559FCEC5",
+        "teststackvpcPublicSubnet1EIPD9571571",
+        "teststackvpcPublicSubnet1NATGateway69A82078",
+        "teststackvpcPublicSubnet1RouteTable4A6F7D68",
+        "teststackvpcPublicSubnet1RouteTableAssociation6F4CDBB8",
+        "teststackvpcPublicSubnet1Subnet98CD6475",
+        "teststackvpcPublicSubnet2DefaultRoute6D4EE093",
+        "teststackvpcPublicSubnet2EIP2A9F3E46",
+        "teststackvpcPublicSubnet2NATGateway03687D6F",
+        "teststackvpcPublicSubnet2RouteTable58C7856E",
+        "teststackvpcPublicSubnet2RouteTableAssociationE029BF04",
+        "teststackvpcPublicSubnet2SubnetDEE0C8F7",
+        "teststackvpcAF2EB73C",
+        "teststackvpcVPCGW05B02F5B",
+        "teststackKubectlReadyBarrier041D6F85",
+      ],
+      "Properties": {
+        "Chart": "cost-analyzer",
+        "ClusterName": {
+          "Ref": "teststackF0A1F222",
+        },
+        "CreateNamespace": true,
+        "Namespace": "kubecost",
+        "Release": "kubecost-cost-analyzer",
+        "Repository": "https://kubecost.github.io/cost-analyzer/",
+        "RoleArn": {
+          "Fn::GetAtt": [
+            "teststackCreationRole2F53ED2E",
+            "Arn",
+          ],
+        },
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "awscdkawseksKubectlProviderNestedStackawscdkawseksKubectlProviderNestedStackResourceA7AEBA6B",
+            "Outputs.teststackawscdkawseksKubectlProviderframeworkonEventA7D3599FArn",
+          ],
+        },
+        "Values": "{}",
+        "Version": "1.104.0",
+      },
+      "Type": "Custom::AWSCDK-EKS-HelmChart",
+      "UpdateReplacePolicy": "Delete",
+    },
     "teststackchartmetricsserver34B7E84C": {
       "DeletionPolicy": "Delete",
       "DependsOn": [
@@ -1942,6 +2299,201 @@ exports[`Snapshot 1`] = `
         "Version": "3.10.0",
       },
       "Type": "Custom::AWSCDK-EKS-HelmChart",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "teststackebscsicontrollersasaConditionJson1DADB0FD": {
+      "DeletionPolicy": "Delete",
+      "DependsOn": [
+        "teststackvpcIGW03B105E6",
+        "teststackvpcPrivateSubnet1DefaultRouteD98CD628",
+        "teststackvpcPrivateSubnet1RouteTable73100B52",
+        "teststackvpcPrivateSubnet1RouteTableAssociation3900E69F",
+        "teststackvpcPrivateSubnet1SubnetF0331D8A",
+        "teststackvpcPrivateSubnet2DefaultRoute134E1612",
+        "teststackvpcPrivateSubnet2RouteTable3A43C01B",
+        "teststackvpcPrivateSubnet2RouteTableAssociation425F10F9",
+        "teststackvpcPrivateSubnet2Subnet3D907BDE",
+        "teststackvpcPublicSubnet1DefaultRoute559FCEC5",
+        "teststackvpcPublicSubnet1EIPD9571571",
+        "teststackvpcPublicSubnet1NATGateway69A82078",
+        "teststackvpcPublicSubnet1RouteTable4A6F7D68",
+        "teststackvpcPublicSubnet1RouteTableAssociation6F4CDBB8",
+        "teststackvpcPublicSubnet1Subnet98CD6475",
+        "teststackvpcPublicSubnet2DefaultRoute6D4EE093",
+        "teststackvpcPublicSubnet2EIP2A9F3E46",
+        "teststackvpcPublicSubnet2NATGateway03687D6F",
+        "teststackvpcPublicSubnet2RouteTable58C7856E",
+        "teststackvpcPublicSubnet2RouteTableAssociationE029BF04",
+        "teststackvpcPublicSubnet2SubnetDEE0C8F7",
+        "teststackvpcAF2EB73C",
+        "teststackvpcVPCGW05B02F5B",
+      ],
+      "Properties": {
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "AWSCDKCfnUtilsProviderCustomResourceProviderHandlerCF82AA57",
+            "Arn",
+          ],
+        },
+        "Value": {
+          "Fn::Join": [
+            "",
+            [
+              "{\\"",
+              {
+                "Fn::Select": [
+                  1,
+                  {
+                    "Fn::Split": [
+                      ":oidc-provider/",
+                      {
+                        "Ref": "teststackOpenIdConnectProvider7B260D6E",
+                      },
+                    ],
+                  },
+                ],
+              },
+              ":aud\\":\\"sts.amazonaws.com\\",\\"",
+              {
+                "Fn::Select": [
+                  1,
+                  {
+                    "Fn::Split": [
+                      ":oidc-provider/",
+                      {
+                        "Ref": "teststackOpenIdConnectProvider7B260D6E",
+                      },
+                    ],
+                  },
+                ],
+              },
+              ":sub\\":\\"system:serviceaccount:kube-system:ebs-csi-controller-sa\\"}",
+            ],
+          ],
+        },
+      },
+      "Type": "Custom::AWSCDKCfnJson",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "teststackebscsicontrollersasaRole1889A7DF": {
+      "DependsOn": [
+        "teststackvpcIGW03B105E6",
+        "teststackvpcPrivateSubnet1DefaultRouteD98CD628",
+        "teststackvpcPrivateSubnet1RouteTable73100B52",
+        "teststackvpcPrivateSubnet1RouteTableAssociation3900E69F",
+        "teststackvpcPrivateSubnet1SubnetF0331D8A",
+        "teststackvpcPrivateSubnet2DefaultRoute134E1612",
+        "teststackvpcPrivateSubnet2RouteTable3A43C01B",
+        "teststackvpcPrivateSubnet2RouteTableAssociation425F10F9",
+        "teststackvpcPrivateSubnet2Subnet3D907BDE",
+        "teststackvpcPublicSubnet1DefaultRoute559FCEC5",
+        "teststackvpcPublicSubnet1EIPD9571571",
+        "teststackvpcPublicSubnet1NATGateway69A82078",
+        "teststackvpcPublicSubnet1RouteTable4A6F7D68",
+        "teststackvpcPublicSubnet1RouteTableAssociation6F4CDBB8",
+        "teststackvpcPublicSubnet1Subnet98CD6475",
+        "teststackvpcPublicSubnet2DefaultRoute6D4EE093",
+        "teststackvpcPublicSubnet2EIP2A9F3E46",
+        "teststackvpcPublicSubnet2NATGateway03687D6F",
+        "teststackvpcPublicSubnet2RouteTable58C7856E",
+        "teststackvpcPublicSubnet2RouteTableAssociationE029BF04",
+        "teststackvpcPublicSubnet2SubnetDEE0C8F7",
+        "teststackvpcAF2EB73C",
+        "teststackvpcVPCGW05B02F5B",
+      ],
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRoleWithWebIdentity",
+              "Condition": {
+                "StringEquals": {
+                  "Fn::GetAtt": [
+                    "teststackebscsicontrollersasaConditionJson1DADB0FD",
+                    "Value",
+                  ],
+                },
+              },
+              "Effect": "Allow",
+              "Principal": {
+                "Federated": {
+                  "Ref": "teststackOpenIdConnectProvider7B260D6E",
+                },
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Ref": "teststackawsebscsidrivermanagedpolicy5C660754",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "teststackebscsicontrollersasamanifestebscsicontrollersasaServiceAccountResourceEF2D0DF9": {
+      "DeletionPolicy": "Delete",
+      "DependsOn": [
+        "teststackvpcIGW03B105E6",
+        "teststackvpcPrivateSubnet1DefaultRouteD98CD628",
+        "teststackvpcPrivateSubnet1RouteTable73100B52",
+        "teststackvpcPrivateSubnet1RouteTableAssociation3900E69F",
+        "teststackvpcPrivateSubnet1SubnetF0331D8A",
+        "teststackvpcPrivateSubnet2DefaultRoute134E1612",
+        "teststackvpcPrivateSubnet2RouteTable3A43C01B",
+        "teststackvpcPrivateSubnet2RouteTableAssociation425F10F9",
+        "teststackvpcPrivateSubnet2Subnet3D907BDE",
+        "teststackvpcPublicSubnet1DefaultRoute559FCEC5",
+        "teststackvpcPublicSubnet1EIPD9571571",
+        "teststackvpcPublicSubnet1NATGateway69A82078",
+        "teststackvpcPublicSubnet1RouteTable4A6F7D68",
+        "teststackvpcPublicSubnet1RouteTableAssociation6F4CDBB8",
+        "teststackvpcPublicSubnet1Subnet98CD6475",
+        "teststackvpcPublicSubnet2DefaultRoute6D4EE093",
+        "teststackvpcPublicSubnet2EIP2A9F3E46",
+        "teststackvpcPublicSubnet2NATGateway03687D6F",
+        "teststackvpcPublicSubnet2RouteTable58C7856E",
+        "teststackvpcPublicSubnet2RouteTableAssociationE029BF04",
+        "teststackvpcPublicSubnet2SubnetDEE0C8F7",
+        "teststackvpcAF2EB73C",
+        "teststackvpcVPCGW05B02F5B",
+        "teststackKubectlReadyBarrier041D6F85",
+      ],
+      "Properties": {
+        "ClusterName": {
+          "Ref": "teststackF0A1F222",
+        },
+        "Manifest": {
+          "Fn::Join": [
+            "",
+            [
+              "[{\\"apiVersion\\":\\"v1\\",\\"kind\\":\\"ServiceAccount\\",\\"metadata\\":{\\"name\\":\\"ebs-csi-controller-sa\\",\\"namespace\\":\\"kube-system\\",\\"labels\\":{\\"aws.cdk.eks/prune-c83caeeeb11246c51d87ee02376282450e4ef2bbfa\\":\\"\\",\\"app.kubernetes.io/name\\":\\"ebs-csi-controller-sa\\"},\\"annotations\\":{\\"eks.amazonaws.com/role-arn\\":\\"",
+              {
+                "Fn::GetAtt": [
+                  "teststackebscsicontrollersasaRole1889A7DF",
+                  "Arn",
+                ],
+              },
+              "\\"}}}]",
+            ],
+          ],
+        },
+        "PruneLabel": "aws.cdk.eks/prune-c83caeeeb11246c51d87ee02376282450e4ef2bbfa",
+        "RoleArn": {
+          "Fn::GetAtt": [
+            "teststackCreationRole2F53ED2E",
+            "Arn",
+          ],
+        },
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "awscdkawseksKubectlProviderNestedStackawscdkawseksKubectlProviderNestedStackResourceA7AEBA6B",
+            "Outputs.teststackawscdkawseksKubectlProviderframeworkonEventA7D3599FArn",
+          ],
+        },
+      },
+      "Type": "Custom::AWSCDK-EKS-KubernetesResource",
       "UpdateReplacePolicy": "Delete",
     },
     "teststackfargateprofileserverless8C3BB3C4": {
