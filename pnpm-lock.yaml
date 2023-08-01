@@ -507,6 +507,9 @@ importers:
       '@crisiscleanup/k8s.construct.api':
         specifier: workspace:*
         version: link:../../k8s/construct/api
+      '@kubecost/kubecost-eks-blueprints-addon':
+        specifier: ^0.1.8
+        version: 0.1.8
       aws-cdk-lib:
         specifier: ^2.88.0
         version: 2.88.0(constructs@10.2.69)
@@ -2867,6 +2870,21 @@ packages:
     dependencies:
       ajv: 8.12.0
     dev: true
+
+  /@kubecost/kubecost-eks-blueprints-addon@0.1.8:
+    resolution:
+      {
+        integrity: sha512-d+pAmODkHZTyw0KNSOjqws3r7hjAWG5Cj33enBYO3bu4DcK0FKFTWwVUg1JBdBtoL3sI9wSz1BRw9FsBluGF0g==,
+      }
+    dependencies:
+      '@aws-quickstart/eks-blueprints': 1.10.1
+      aws-cdk: 2.17.0
+      constructs: 10.2.69
+    transitivePeerDependencies:
+      - aws-crt
+      - encoding
+      - supports-color
+    dev: false
 
   /@mapbox/node-pre-gyp@1.0.11:
     resolution:
@@ -5414,6 +5432,17 @@ packages:
       - table
       - yaml
 
+  /aws-cdk@2.17.0:
+    resolution:
+      {
+        integrity: sha512-gRPPpTONOjtQ40A8sc2SzXPGDzFlVbSPPts1pjOx4VBJ2S91A0ON3Fkby+XX/Xqdo1GITTWAk5Va4PnoYyUhmA==,
+      }
+    engines: { node: '>= 14.15.0' }
+    hasBin: true
+    optionalDependencies:
+      fsevents: 2.3.2
+    dev: false
+
   /aws-cdk@2.88.0:
     resolution:
       {
@@ -7138,7 +7167,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230731
+      typescript: 5.2.0-dev.20230801
     dev: true
 
   /duplexer@0.1.2:
@@ -14048,10 +14077,10 @@ packages:
     hasBin: true
     dev: true
 
-  /typescript@5.2.0-dev.20230731:
+  /typescript@5.2.0-dev.20230801:
     resolution:
       {
-        integrity: sha512-RJVLgnDgu67ZrohYy0aBea+5TICfRod36+24zw0bR/KJDQJO9mlIjTC0k+/PKw87fXP5JuUHqepEk15PvFya7A==,
+        integrity: sha512-f8FmzL+1+agawPPUzsd38vTiZD/z+RtGax/3+tzxsBP15O/4lMsliTEXRXF7ESC7a1s/f9HsNNRMne438PPZsw==,
       }
     engines: { node: '>=14.17' }
     hasBin: true

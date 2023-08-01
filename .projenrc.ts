@@ -360,6 +360,7 @@ const apiStack = AwsCdkTsAppBuilder.build({
 	deps: [
 		'cdk-sops-secrets',
 		'@aws-quickstart/eks-blueprints',
+		'@kubecost/kubecost-eks-blueprints-addon',
 		'@aws-cdk/lambda-layer-kubectl-v27',
 		'defu',
 		`cdk8s@${crisiscleanup.package.tryResolveDependencyVersion('cdk8s')!}`,

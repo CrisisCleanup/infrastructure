@@ -52,6 +52,7 @@
     "@crisiscleanup/charts.crisiscleanup": "workspace:*",
     "@crisiscleanup/config": "workspace:*",
     "@crisiscleanup/k8s.construct.api": "workspace:*",
+    "@kubecost/kubecost-eks-blueprints-addon": "^0.1.8",
     "aws-cdk-lib": "^2.88.0",
     "cdk-sops-secrets": "^1.2.223",
     "cdk8s": "2.22.0",

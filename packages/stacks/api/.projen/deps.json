@@ -103,6 +103,10 @@
       "type": "runtime"
     },
     {
+      "name": "@kubecost/kubecost-eks-blueprints-addon",
+      "type": "runtime"
+    },
+    {
       "name": "aws-cdk-lib",
       "version": "^2.88.0",
       "type": "runtime"
