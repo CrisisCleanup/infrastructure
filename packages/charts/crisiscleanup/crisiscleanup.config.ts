@@ -5,8 +5,6 @@ const celeryScaling = {
 	scaling: {
 		minReplicas: 1,
 		maxReplicas: 2,
-		cpuUtilPercent: 90,
-		memUtilPercent: 90,
 	},
 }
 
@@ -35,16 +33,12 @@ export default defineConfig({
 			scaling: {
 				minReplicas: 1,
 				maxReplicas: 3,
-				cpuUtilPercent: 90,
-				memUtilPercent: 90,
 			},
 		},
 		asgi: {
 			scaling: {
 				minReplicas: 1,
 				maxReplicas: 2,
-				cpuUtilPercent: 90,
-				memUtilPercent: 90,
 			},
 		},
 		celeryBeat: {

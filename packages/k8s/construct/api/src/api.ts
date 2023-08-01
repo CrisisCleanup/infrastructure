@@ -77,8 +77,8 @@ export abstract class ApiComponent<
 						limit: kplus.Cpu.millis(800),
 					},
 					memory: {
-						request: Size.mebibytes(650),
-						limit: Size.gibibytes(1),
+						request: Size.mebibytes(800),
+						limit: Size.gibibytes(1.5),
 					},
 				},
 			},
