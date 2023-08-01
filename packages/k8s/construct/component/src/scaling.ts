@@ -35,7 +35,7 @@ export class ComponentScaling {
 				kplus.MetricTarget.averageUtilization(this.props.cpuUtilPercent ?? 70),
 			),
 			kplus.Metric.resourceMemory(
-				kplus.MetricTarget.averageUtilization(this.props.memUtilPercent ?? 70),
+				kplus.MetricTarget.averageUtilization(this.props.memUtilPercent ?? 85),
 			),
 		]
 		const defaults: kplus.HorizontalPodAutoscalerProps = {
