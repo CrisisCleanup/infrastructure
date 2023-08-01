@@ -46,7 +46,6 @@ export class Component<PropsT extends DeploymentProps = DeploymentProps> {
 					[Label.NAME]: componentName,
 				},
 			},
-			spread: props.spread ?? false,
 		})
 		this.deployment = this.createDeployment(
 			mergedProps as kplus.DeploymentProps,
