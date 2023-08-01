@@ -97,7 +97,7 @@ const tools = new ToolVersions(monorepo, {
 		awscli: ['2.13.0'],
 		sops: ['3.7.3'],
 		helm: ['3.12.2'],
-		kubectl: ['1.24.12'],
+		kubectl: ['1.27.3'],
 		kubectx: ['0.9.5'],
 	},
 })
