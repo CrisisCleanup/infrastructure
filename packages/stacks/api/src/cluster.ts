@@ -79,13 +79,11 @@ export const buildKarpenter = (clusterName: string, subnetNames: string) => {
 		interruptionHandling: true,
 		namespace: 'karpenter',
 		values: {
-			controller: {
-				env: [
-					{
-						name: 'AWS_ENI_LIMITED_POD_DENSITY',
-						value: 'false',
-					},
-				],
+			settings: {
+				aws: {
+					// informs karpenter to expect prefix delegation.
+					enableENILimitedPodDensity: false,
+				},
 			},
 		},
 		// refresh nodes at least every 30 days
