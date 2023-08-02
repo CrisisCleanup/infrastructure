@@ -71,7 +71,7 @@ export const buildKarpenter = (clusterName?: string, subnetNames?: string) => {
 		Lazy.uncachedString(
 			lazyClusterInfo(
 				(clusterInfo) =>
-					`${Label.CLUSTER_DISCOVERY}/${clusterInfo.cluster.clusterName}}`,
+					`${Label.CLUSTER_DISCOVERY}/${clusterInfo.cluster.clusterName}`,
 			),
 		)
 
