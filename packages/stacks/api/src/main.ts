@@ -3,7 +3,7 @@ import { getConfig } from '@crisiscleanup/config'
 import { App } from 'aws-cdk-lib'
 import * as iam from 'aws-cdk-lib/aws-iam'
 import { RedisStackAddOn, CrisisCleanupAddOn } from './addons'
-import { buildClusterBuilder, buildEKSStack } from './cluster'
+import { buildClusterBuilder, buildEKSStack, buildKarpenter } from './cluster'
 import { DatabaseProvider, DatabaseSecretProvider } from './database'
 import { KeyProvider } from './kms'
 import { Pipeline } from './pipeline'
@@ -67,6 +67,7 @@ const singleNatStack = eksStackBuilder.resourceProvider(
 )
 
 const devStack = provideDatabase(singleNatStack).addOns(
+	buildKarpenter(),
 	new RedisStackAddOn(),
 	new CrisisCleanupAddOn({
 		config: config.$env.development,

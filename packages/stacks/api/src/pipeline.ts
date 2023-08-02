@@ -1,13 +1,6 @@
 import * as blueprints from '@aws-quickstart/eks-blueprints'
-import {
-	type Environment,
-	type IAnyProducer,
-	type IResolveContext,
-	Lazy,
-	type StackProps,
-} from 'aws-cdk-lib'
-import { type Construct } from 'constructs'
-import { buildKarpenter } from './cluster'
+import type { Environment, StackProps } from 'aws-cdk-lib'
+import type { Construct } from 'constructs'
 
 export interface PipelineProps {
 	readonly id: string
@@ -31,24 +24,6 @@ class PipelineEnv implements Environment {
 		readonly region: string,
 		readonly id: string,
 	) {}
-}
-
-function lazyClusterInfo<T>(
-	fn: (context: IResolveContext, clusterInfo: blueprints.ClusterInfo) => T,
-): IAnyProducer {
-	let value: T | undefined = undefined
-	return {
-		produce(context: IResolveContext): T {
-			if (value) return value
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-			const clusterInfo: blueprints.ClusterInfo =
-				// @ts-ignore
-				// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
-				context.scope.node.host.stack.clusterInfo
-			value = fn(context, clusterInfo)
-			return value
-		},
-	}
 }
 
 export class Pipeline {
@@ -79,22 +54,6 @@ export class Pipeline {
 			.clone(env.region, env.account)
 			.teams(platformTeam)
 			.name(this.props.id)
-			.addOns(
-				buildKarpenter(
-					Lazy.uncachedString(
-						lazyClusterInfo(
-							(_, clusterInfo) => clusterInfo.cluster.clusterName,
-						),
-					),
-					Lazy.uncachedString(
-						lazyClusterInfo((_, clusterInfo) =>
-							clusterInfo.cluster.vpc.privateSubnets
-								.map((subnet) => subnet.node.path)
-								.join(','),
-						),
-					),
-				),
-			)
 		this.pipeline.wave({
 			id: name,
 			stages: [

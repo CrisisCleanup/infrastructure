@@ -2,9 +2,11 @@ import { KubectlV27Layer } from '@aws-cdk/lambda-layer-kubectl-v27'
 import * as blueprints from '@aws-quickstart/eks-blueprints'
 import { type CrisisCleanupConfig } from '@crisiscleanup/config'
 import { KubecostAddOn } from '@kubecost/kubecost-eks-blueprints-addon'
+import { Lazy } from 'aws-cdk-lib'
 import type * as ec2 from 'aws-cdk-lib/aws-ec2'
 import { KubernetesVersion } from 'aws-cdk-lib/aws-eks'
 import * as kms from 'aws-cdk-lib/aws-kms'
+import { lazyClusterInfo } from './util'
 
 enum Label {
 	INSTANCE_TYPE = 'node.kubernetes.io/instance-type',
@@ -58,8 +60,31 @@ export const tagKarpenter = (stack: blueprints.EksBlueprint) => {
 	blueprints.utils.tagSubnets(stack, vpc.privateSubnets, discoveryTag, '*')
 }
 
-export const buildKarpenter = (clusterName: string, subnetNames: string) => {
-	const clusterDiscoveryTag = `${Label.CLUSTER_DISCOVERY}/${clusterName}`
+/**
+ * Karpenter addon
+ * @param clusterName Cluster name to target. Defaults to lazy lookup.
+ * @param subnetNames Subnet names to target. Defaults to lazy lookup.
+ */
+export const buildKarpenter = (clusterName?: string, subnetNames?: string) => {
+	const sgTag =
+		clusterName ??
+		Lazy.uncachedString(
+			lazyClusterInfo(
+				(clusterInfo) =>
+					`${Label.CLUSTER_DISCOVERY}/${clusterInfo.cluster.clusterName}}`,
+			),
+		)
+
+	const subnetTags =
+		subnetNames ??
+		Lazy.uncachedString(
+			lazyClusterInfo((clusterInfo) =>
+				clusterInfo.cluster.vpc.privateSubnets
+					.map((sn) => sn.node.path)
+					.join(','),
+			),
+		)
+
 	return new blueprints.KarpenterAddOn({
 		version: 'v0.29.2',
 		requirements: [
@@ -69,10 +94,10 @@ export const buildKarpenter = (clusterName: string, subnetNames: string) => {
 			{ key: Label.INSTANCE_HYPERVISOR, op: 'In', vals: ['nitro'] },
 		],
 		subnetTags: {
-			Name: subnetNames,
+			Name: subnetTags,
 		},
 		securityGroupTags: {
-			[clusterDiscoveryTag]: 'owned',
+			[sgTag]: 'owned',
 		},
 		amiFamily: 'AL2',
 		consolidation: { enabled: true },
