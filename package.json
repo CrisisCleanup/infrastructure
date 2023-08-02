@@ -83,6 +83,9 @@
       "@zkochan/js-yaml": "npm:js-yaml@4.1.0",
       "unbuild": "^2.0.0-rc.0",
       "wrap-ansi": "^7.0.0"
+    },
+    "patchedDependencies": {
+      "@aws-quickstart/eks-blueprints@1.10.1": "patches/@aws-quickstart__eks-blueprints@1.10.1.patch"
     }
   },
   "engines": {
