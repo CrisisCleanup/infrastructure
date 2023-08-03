@@ -1,10 +1,13 @@
-import * as blueprints from '@aws-quickstart/eks-blueprints'
+import type * as blueprints from '@aws-quickstart/eks-blueprints'
 import type { Environment, StackProps } from 'aws-cdk-lib'
+import type { GitHubEnvironment } from 'cdk-pipelines-github'
 import type { Construct } from 'constructs'
+import { GithubCodePipelineStack, type GithubCodePipelineBuilder } from './gh'
 
 export interface PipelineProps {
 	readonly id: string
 	readonly connectionArn: string
+	readonly rootDir?: string
 }
 
 export interface PipelineTarget {
@@ -12,6 +15,7 @@ export interface PipelineTarget {
 	readonly environment: Environment
 	readonly stackBuilder: blueprints.BlueprintBuilder
 	readonly platformTeam: blueprints.PlatformTeam
+	readonly githubEnvironment: GitHubEnvironment
 }
 
 class PipelineEnv implements Environment {
@@ -28,98 +32,55 @@ class PipelineEnv implements Environment {
 
 export class Pipeline {
 	static builder(props: PipelineProps): Pipeline {
-		const pipe = blueprints.CodePipelineStack.builder()
-			.application('npx tsx src/main.ts')
+		const pipe = GithubCodePipelineStack.builder()
+			.owner('CrisisCleanup')
+			.githubRepo(
+				'infrastructure',
+				'crisiscleanup-3-api',
+				'crisiscleanup-4-web',
+				'configs',
+			)
+			.rootDir(props.rootDir ?? process.cwd())
+			.application('pnpm tsx src/main.ts')
 			.name('crisiscleanup-infra-pipeline')
-			.owner('crisiscleanup')
-			.codeBuildPolicies(blueprints.DEFAULT_BUILD_POLICIES)
-			.enableCrossAccountKeys()
-			.repository({
-				repoUrl: 'infrastructure',
-				targetRevision: 'main',
-				codeStarConnectionArn: props.connectionArn,
-			})
-		return new Pipeline(props, pipe)
+		return new Pipeline(props, pipe as GithubCodePipelineBuilder)
 	}
 
 	protected constructor(
 		readonly props: PipelineProps,
-		readonly pipeline: blueprints.CodePipelineBuilder,
+		readonly pipeline: GithubCodePipelineBuilder,
 	) {}
 
 	target(target: PipelineTarget): this {
-		const { name, environment, stackBuilder, platformTeam } = target
+		const { name, environment, stackBuilder, platformTeam, githubEnvironment } =
+			target
 		const env = PipelineEnv.fromEnv(environment, name)
 		const envStackBuilder = stackBuilder
 			.clone(env.region, env.account)
 			.teams(platformTeam)
 			.name(this.props.id)
-		this.pipeline.wave({
+		this.pipeline.githubWave({
 			id: name,
 			stages: [
 				{
 					id: env.id,
 					stackBuilder: envStackBuilder,
+					stageProps: {
+						gitHubEnvironment: githubEnvironment,
+					},
 				},
 			],
 		})
 		return this
 	}
 
-	async build(scope: Construct, props?: StackProps) {
+	build(scope: Construct, props?: StackProps) {
 		const pipe = this.pipeline.build(
 			scope,
 			'crisiscleanup-infra-pipeline-stack',
 			props,
 		)
 
-		const sopsInstall = [
-			'echo Installing Sops...',
-			'curl -L https://github.com/mozilla/sops/releases/download/v3.7.3/sops-v3.7.3.linux -o sops',
-			'chmod 755 sops',
-			'mv sops /usr/local/bin',
-			'sops --version',
-		]
-
-		const helmInstall = [
-			'echo Installing Helm...',
-			'curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3',
-			'chmod 700 get_helm.sh',
-			'./get_helm.sh',
-			'helm version',
-		]
-
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-		pipe.node.tryFindChild(
-			'crisiscleanup-infra-pipeline',
-			// @ts-ignore
-		)!.synth.installCommands = [
-			'n stable',
-			...sopsInstall,
-			...helmInstall,
-			'npm install -g pnpm aws-cdk@2.88.0',
-			'pnpm install',
-		]
-
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-		pipe.node.tryFindChild(
-			'crisiscleanup-infra-pipeline',
-			// @ts-ignore
-		)!.synth.commands = [
-			'pnpm post-compile',
-			"pnpm -F 'stacks.api' run synth",
-			'cp -r packages/stacks/api/cdk.out ./cdk.out',
-		]
-
-		const gigetAuth =
-			(scope.node.tryGetContext('giget-auth') as string) ??
-			(await blueprints.utils.getSecretValue('github-token', 'us-east-1'))
-
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
-		pipe.node.tryFindChild(
-			'crisiscleanup-infra-pipeline',
-			// @ts-ignore
-		)!.synth.env.GIGET_AUTH = gigetAuth
 		return pipe
 	}
 }
