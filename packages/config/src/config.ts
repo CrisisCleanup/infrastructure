@@ -213,6 +213,10 @@ export interface GetConfigOptions {
 	 * @default true
 	 */
 	strict: boolean
+	/**
+	 * Attempt to decrypt secret values.
+	 */
+	decrypt: boolean
 }
 
 type LoadedConfig<
@@ -231,6 +235,7 @@ export const getConfig = async <
 	T extends Exact<GetConfigOptions, T> = {
 		useEnvOverrides: true
 		strict: true
+		decrypt: true
 	},
 >(
 	options?: T,
@@ -260,6 +265,10 @@ export const getConfig = async <
 				'Resolving config will likely fail; please set GIGET_AUTH to a github auth token in your environment.',
 			)
 		}
+	}
+
+	if (options?.decrypt ?? true) {
+		process.env.CCU_CONFIGS_DECRYPT = 'true'
 	}
 
 	const cfg = (await loadConfig<
