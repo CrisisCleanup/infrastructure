@@ -3,7 +3,7 @@ import {
 	Component,
 	ContainerImage,
 } from '@crisiscleanup/k8s.construct.component'
-import { Chart, Duration, Lazy, Size } from 'cdk8s'
+import { Chart, Duration, Size } from 'cdk8s'
 import * as kplus from 'cdk8s-plus-27'
 import { Construct } from 'constructs'
 import createDebug from 'debug'
