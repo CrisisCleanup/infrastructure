@@ -38,15 +38,19 @@ export class Component<PropsT extends DeploymentProps = DeploymentProps> {
 		const componentName = Object.getPrototypeOf(this).constructor
 			.componentName as string
 		const deploymentProps = this.createDeploymentProps()
-		const mergedProps = defu(deploymentProps, {
-			...(props.replicaCount ? { replicas: props.replicaCount } : {}),
-			metadata: {
-				labels: {
-					...Chart.of(scope).labels,
-					[Label.NAME]: componentName,
+		const mergedProps = defu(
+			deploymentProps,
+			{
+				...(props.replicaCount ? { replicas: props.replicaCount } : {}),
+				metadata: {
+					labels: {
+						...Chart.of(scope).labels,
+						[Label.NAME]: componentName,
+					},
 				},
 			},
-		})
+			props,
+		)
 		this.deployment = this.createDeployment(
 			mergedProps as kplus.DeploymentProps,
 		)
