@@ -539,7 +539,13 @@ importers:
       defu:
         specifier: ^6.1.2
         version: 6.1.2
+      flat:
+        specifier: ^5.0.2
+        version: 5.0.2
     devDependencies:
+      '@types/flat':
+        specifier: ^5.0.2
+        version: 5.0.2
       '@types/node':
         specifier: ^18
         version: 18.16.19

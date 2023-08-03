@@ -1,6 +1,10 @@
 {
   "dependencies": [
     {
+      "name": "@types/flat",
+      "type": "build"
+    },
+    {
       "name": "@types/node",
       "version": "^18",
       "type": "build"
@@ -141,6 +145,10 @@
     },
     {
       "name": "defu",
+      "type": "runtime"
+    },
+    {
+      "name": "flat",
       "type": "runtime"
     }
   ],

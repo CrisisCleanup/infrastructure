@@ -371,11 +371,13 @@ const apiStack = AwsCdkTsAppBuilder.build({
 		'@aws-cdk/lambda-layer-kubectl-v27',
 		'defu',
 		'cdk-pipelines-github',
+		'flat',
 		`cdk8s@${crisiscleanup.package.tryResolveDependencyVersion('cdk8s')!}`,
 		`${CDK8sPlus}@${crisiscleanup.package.tryResolveDependencyVersion(
 			CDK8sPlus,
 		)!}`,
 	],
+	devDeps: ['@types/flat'],
 	// use ts linting builder
 	prettier: true,
 	jest: false,
