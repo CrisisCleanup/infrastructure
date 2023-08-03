@@ -183,16 +183,8 @@ class GithubCodePipeline {
 			'helm version',
 		]
 
-		const repoNames = props.repos ?? [
-			'infrastructure',
-			'configs',
-			'crisiscleanup-3-api',
-			'crisiscleanup-4-web',
-		]
-		const repos = repoNames.map((name) => [props.owner, name].join('/'))
-
 		new ghpipelines.GitHubActionRole(scope, 'github-action-role', {
-			repos,
+			repos: props.repos ?? [],
 		})
 
 		const installCommands = [
