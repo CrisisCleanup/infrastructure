@@ -26,7 +26,7 @@ jobs:
           aws-region: us-east-1
           role-duration-seconds: 1800
           role-skip-session-tagging: true
-          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionsRole
+          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionRole
           role-session-name: gh-actions-infrastructure
       - name: Install
         run: >-
@@ -89,7 +89,7 @@ jobs:
           aws-region: us-east-1
           role-duration-seconds: 1800
           role-skip-session-tagging: true
-          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionsRole
+          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionRole
           role-session-name: gh-actions-infrastructure
       - id: Publish
         name: Publish Assets-FileAsset1
@@ -118,7 +118,7 @@ jobs:
           aws-region: us-east-1
           role-duration-seconds: 1800
           role-skip-session-tagging: true
-          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionsRole
+          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionRole
           role-session-name: gh-actions-infrastructure
       - id: Publish
         name: Publish Assets-FileAsset10
@@ -147,7 +147,7 @@ jobs:
           aws-region: us-east-1
           role-duration-seconds: 1800
           role-skip-session-tagging: true
-          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionsRole
+          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionRole
           role-session-name: gh-actions-infrastructure
       - id: Publish
         name: Publish Assets-FileAsset11
@@ -176,7 +176,7 @@ jobs:
           aws-region: us-east-1
           role-duration-seconds: 1800
           role-skip-session-tagging: true
-          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionsRole
+          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionRole
           role-session-name: gh-actions-infrastructure
       - id: Publish
         name: Publish Assets-FileAsset12
@@ -205,7 +205,7 @@ jobs:
           aws-region: us-east-1
           role-duration-seconds: 1800
           role-skip-session-tagging: true
-          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionsRole
+          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionRole
           role-session-name: gh-actions-infrastructure
       - id: Publish
         name: Publish Assets-FileAsset13
@@ -234,7 +234,7 @@ jobs:
           aws-region: us-east-1
           role-duration-seconds: 1800
           role-skip-session-tagging: true
-          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionsRole
+          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionRole
           role-session-name: gh-actions-infrastructure
       - id: Publish
         name: Publish Assets-FileAsset2
@@ -263,7 +263,7 @@ jobs:
           aws-region: us-east-1
           role-duration-seconds: 1800
           role-skip-session-tagging: true
-          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionsRole
+          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionRole
           role-session-name: gh-actions-infrastructure
       - id: Publish
         name: Publish Assets-FileAsset3
@@ -292,7 +292,7 @@ jobs:
           aws-region: us-east-1
           role-duration-seconds: 1800
           role-skip-session-tagging: true
-          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionsRole
+          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionRole
           role-session-name: gh-actions-infrastructure
       - id: Publish
         name: Publish Assets-FileAsset4
@@ -321,7 +321,7 @@ jobs:
           aws-region: us-east-1
           role-duration-seconds: 1800
           role-skip-session-tagging: true
-          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionsRole
+          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionRole
           role-session-name: gh-actions-infrastructure
       - id: Publish
         name: Publish Assets-FileAsset5
@@ -350,7 +350,7 @@ jobs:
           aws-region: us-east-1
           role-duration-seconds: 1800
           role-skip-session-tagging: true
-          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionsRole
+          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionRole
           role-session-name: gh-actions-infrastructure
       - id: Publish
         name: Publish Assets-FileAsset6
@@ -379,7 +379,7 @@ jobs:
           aws-region: us-east-1
           role-duration-seconds: 1800
           role-skip-session-tagging: true
-          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionsRole
+          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionRole
           role-session-name: gh-actions-infrastructure
       - id: Publish
         name: Publish Assets-FileAsset7
@@ -408,7 +408,7 @@ jobs:
           aws-region: us-east-1
           role-duration-seconds: 1800
           role-skip-session-tagging: true
-          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionsRole
+          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionRole
           role-session-name: gh-actions-infrastructure
       - id: Publish
         name: Publish Assets-FileAsset8
@@ -437,7 +437,7 @@ jobs:
           aws-region: us-east-1
           role-duration-seconds: 1800
           role-skip-session-tagging: true
-          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionsRole
+          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionRole
           role-session-name: gh-actions-infrastructure
       - id: Publish
         name: Publish Assets-FileAsset9
@@ -474,7 +474,7 @@ jobs:
           aws-region: us-east-1
           role-duration-seconds: 1800
           role-skip-session-tagging: true
-          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionsRole
+          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionRole
           role-session-name: gh-actions-infrastructure
       - name: Assume CDK Deploy Role
         uses: aws-actions/configure-aws-credentials@v1-node16
