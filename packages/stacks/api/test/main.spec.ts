@@ -1,10 +1,13 @@
 import util from 'node:util'
+import * as blueprints from '@aws-quickstart/eks-blueprints'
+import chartDefaults from '@crisiscleanup/charts.crisiscleanup/crisiscleanup.config'
 import { getConfigDefaults } from '@crisiscleanup/config'
 import { App } from 'aws-cdk-lib'
 import { Template } from 'aws-cdk-lib/assertions'
 import { test, expect, vi, beforeAll, afterAll } from 'vitest'
 // @ts-ignore
 import stackDefaults from '../crisiscleanup.config'
+import { CrisisCleanupAddOn } from '../src/addons'
 import { buildClusterBuilder, buildEKSStack } from '../src/cluster'
 util.inspect.defaultOptions.depth = 6
 util.inspect.defaultOptions.colors = true
@@ -18,9 +21,9 @@ afterAll(() => {
 })
 
 test('Snapshot', async () => {
-	// @ts-expect-error non partial
 	const config = getConfigDefaults({
 		...stackDefaults,
+		...chartDefaults,
 		cdkEnvironment: {
 			account: '1234567890',
 			region: 'us-east-1',
@@ -36,6 +39,15 @@ test('Snapshot', async () => {
 	const cluster = buildClusterBuilder(config).build()
 	const stack = await buildEKSStack(config)
 		.clusterProvider(cluster)
+		.addOns(
+			new CrisisCleanupAddOn({
+				config,
+				databaseResourceName: '',
+				secretsProvider: new blueprints.LookupSecretsManagerSecretByName(
+					'test-name',
+				),
+			}),
+		)
 		.buildAsync(app, 'test-stack')
 
 	const template = Template.fromStack(stack)
