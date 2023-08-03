@@ -29,6 +29,7 @@ export const getDefaultAddons = (
 		namespace: 'kubecost',
 	})
 	return [
+		new blueprints.SecretsStoreAddOn({ syncSecrets: true }),
 		kubecost,
 		new blueprints.addons.AwsLoadBalancerControllerAddOn(),
 		new blueprints.addons.EbsCsiDriverAddOn({
