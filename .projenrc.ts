@@ -179,6 +179,7 @@ monorepo.applyRecursive(
 	},
 	{ immediate: false, includeSelf: true },
 )
+monorepo.lintConfig.prettier.addIgnorePattern('.github/workflows/deploy.yml')
 
 new GitHooks(monorepo, {
 	hooks: {
