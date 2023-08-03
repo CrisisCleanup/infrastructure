@@ -64,6 +64,9 @@ export type ScreamingSnakeCaseProperties<T> = T extends object
 	? { [Key in keyof T as ScreamingSnakeCase<Key>]: T[Key] }
 	: never
 
+type FlatOptions = Parameters<typeof flatten>[1]
+type UnFlatOptions = Parameters<typeof flatten.unflatten>[1]
+
 interface TransformedEnv {
 	[key: string]: string | boolean | string[] | TransformedEnv
 }
@@ -139,9 +142,50 @@ function parseValue(value: string): string | boolean | string[] {
 	return destr(value)
 }
 
+/**
+ * Key-value transformer for {@link mapFlatten}.
+ */
+export interface MapFlattenTransformer {
+	(key: string, value: string | string[]): [string, string | string[]]
+}
+
+/**
+ * Apply a key-value transformer to a flattened object.
+ * @param obj input object.
+ * @param transform key-value transformer.
+ * @param options options for {@link flatten}.
+ */
+export const mapFlatten = <ObjT>(
+	obj: ObjT,
+	transform: MapFlattenTransformer,
+	options?: FlatOptions,
+) => {
+	const result: Record<string, unknown> = {}
+	const flatObj: Record<string, string | string[]> = flatten(obj, {
+		safe: true,
+		...(options ?? {}),
+	})
+	for (const key in flatObj) {
+		const [newKey, newValue] = transform(key, flatObj[key])
+		result[newKey] = newValue
+	}
+	return result
+}
+
 interface FlattenToScreamingSnakeCaseOptions {
 	nestedDelimiter: string
 }
+
+/**
+ * Flatten an object into a single level object using 'SCREAMING_SNAKE_CASE'.
+ * @param key input key.
+ * @param nestedDelimiter delimiter for nested keys.
+ */
+const toScreamingSnakeCase = (key: string, nestedDelimiter: string = '__') =>
+	key
+		.replaceAll(/([A-Z])+/g, '_$1')
+		.toUpperCase()
+		.replace(/\./g, nestedDelimiter ?? '__')
 
 /**
  * Flatten a nested object into a single level object using 'SCREAMING_SNAKE_CASE'.
@@ -183,25 +227,18 @@ export const flattenToScreamingSnakeCase = <
 ): ScreamingSnakeCaseProperties<
 	FlattenObject<ObjT, OptionsT['nestedDelimiter']>
 > => {
-	const result: Record<string, string> = {}
-	const flatObj: Record<string, string | string[]> = flatten(obj, {
-		safe: true,
-	})
-	for (const key in flatObj) {
-		const newKey = key
-			.replaceAll(/([A-Z])+/g, '_$1')
-			.toUpperCase()
-			.replace(/\./g, options?.nestedDelimiter ?? '__')
-		result[newKey] = Array.isArray(flatObj[key])
-			? (flatObj[key] as string[]).join(',')
-			: (flatObj[key] as string)
-	}
+	const valueTransformer = (value: unknown) =>
+		Array.isArray(value) ? (value as string[]).join(',') : (value as string)
+
+	const result = mapFlatten(obj, (key, value) => [
+		toScreamingSnakeCase(key, options?.nestedDelimiter),
+		valueTransformer(value),
+	])
+
 	return result as ScreamingSnakeCaseProperties<
 		FlattenObject<ObjT, OptionsT['nestedDelimiter']>
 	>
 }
-type FlatOptions = Parameters<typeof flatten>[1]
-type UnFlatOptions = Parameters<typeof flatten.unflatten>[1]
 
 /**
  * Pick a deep subset of an object filtered by key paths of another object.
