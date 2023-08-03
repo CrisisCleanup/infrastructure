@@ -227,6 +227,7 @@ class GithubCodePipeline {
 			awsCreds,
 			synth,
 			publishAssetsAuthRegion: 'us-east-1',
+			preBuildSteps: [...awsCreds.credentialSteps('us-east-1')],
 			workflowPath: props.rootDir
 				? path.join(props.rootDir, '.github', 'workflows', 'deploy.yml')
 				: undefined,

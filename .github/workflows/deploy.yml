@@ -20,6 +20,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Authenticate Via OIDC Role
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-region: us-east-1
+          role-duration-seconds: 1800
+          role-skip-session-tagging: true
+          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionsRole
+          role-session-name: gh-actions-infrastructure
       - name: Install
         run: >-
           n stable
