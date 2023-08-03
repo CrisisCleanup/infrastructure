@@ -53,10 +53,10 @@ jspm_packages/
 .idea/**
 !/.ncurc.json
 !/tsconfig/tsconfig.base.json
-!/tsconfig/tsconfig.esm.json
 !/tsconfig/tsconfig.bundler.json
 !/tsconfig.json
 !/tsconfig.dev.json
+!/tsconfig/tsconfig.esm.json
 !/vitest.config.ts
 !/vitest.workspace.json
 !/.tool-versions

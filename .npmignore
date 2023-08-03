@@ -15,7 +15,7 @@ dist
 tsconfig.tsbuildinfo
 /.eslintrc.json
 /tsconfig/tsconfig.base.json
-/tsconfig/tsconfig.esm.json
 /tsconfig/tsconfig.bundler.json
 /tsconfig.json
 /tsconfig.dev.json
+/tsconfig/tsconfig.esm.json

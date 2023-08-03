@@ -85,6 +85,13 @@ const monorepo = MonorepoBuilder.build({
 		packagesDir: 'packages',
 	},
 })
+const esmTsConfig = monorepo.tsconfigContainer.configs.get(TSConfig.ESM)!
+monorepo.tryRemoveFile(esmTsConfig.file.path)
+monorepo.tsconfigContainer.defineConfig(TSConfig.ESM, {
+	...esmTsConfig.compilerOptions,
+	emitDecoratorMetadata: true,
+	experimentalDecorators: true,
+})
 monorepo.package.addPackageResolutions('unbuild@^2.0.0-rc.0')
 new Vitest(monorepo, { configType: VitestConfigType.WORKSPACE })
 
