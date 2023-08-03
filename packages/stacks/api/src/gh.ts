@@ -209,16 +209,17 @@ class GithubCodePipeline {
 			},
 		})
 
+		const actionsRoleArn =
+			'arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionRole'
 		const awsCreds = ghpipelines.AwsCredentials.fromOpenIdConnect({
-			gitHubActionRoleArn:
-				'arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionRole',
+			gitHubActionRoleArn: actionsRoleArn,
 		})
 
 		const workflow = new ghpipelines.GitHubWorkflow(scope, props.name, {
 			awsCreds,
 			synth,
 			publishAssetsAuthRegion: 'us-east-1',
-			preBuildSteps: [...awsCreds.credentialSteps('us-east-1')],
+			preBuildSteps: [...awsCreds.credentialSteps('us-east-1', actionsRoleArn)],
 			workflowPath: props.rootDir
 				? path.join(props.rootDir, '.github', 'workflows', 'deploy.yml')
 				: undefined,
