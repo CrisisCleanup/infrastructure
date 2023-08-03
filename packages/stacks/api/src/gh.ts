@@ -212,7 +212,6 @@ class GithubCodePipeline {
 		const awsCreds = ghpipelines.AwsCredentials.fromOpenIdConnect({
 			gitHubActionRoleArn:
 				'arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionRole',
-			roleSessionName: 'gh-actions-infrastructure',
 		})
 
 		const workflow = new ghpipelines.GitHubWorkflow(scope, props.name, {
