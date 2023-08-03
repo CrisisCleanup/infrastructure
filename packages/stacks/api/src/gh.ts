@@ -6,6 +6,7 @@ import * as cdk from 'aws-cdk-lib'
 import * as cdkpipelines from 'aws-cdk-lib/pipelines'
 import * as ghpipelines from 'cdk-pipelines-github'
 import type { Construct } from 'constructs'
+import flat from 'flat'
 
 export interface GithubPipelineProps {
 	repos?: string[]
@@ -60,7 +61,7 @@ export class GithubCodePipelineBuilder extends blueprints.CodePipelineBuilder {
 		return this
 	}
 
-	githubWave(...waves: PipelineWave[]): GithubCodePipelineBuilder {
+	githubWave(...waves: PipelineWave[]): this {
 		super.wave(...(waves as blueprints.PipelineWave[]))
 		return this
 	}
@@ -106,7 +107,7 @@ export class GithubCodePipelineStack extends cdk.Stack {
 		}
 
 		void Promise.all(promises).then((stages) => {
-			let currentWave: cdkpipelines.Wave | undefined
+			let currentWave: ghpipelines.GitHubWave | undefined
 
 			// eslint-disable-next-line @typescript-eslint/no-for-in-array
 			for (const i in stages) {
@@ -120,9 +121,11 @@ export class GithubCodePipelineStack extends cdk.Stack {
 							waveProps,
 							`Specified wave ${stage.waveId} is not found in the pipeline definition ${id}`,
 						)
-						currentWave = pipeline.addWave(stage.waveId, { ...waveProps.props })
+						currentWave = pipeline.addGitHubWave(stage.waveId, {
+							...waveProps.props,
+						})
 					}
-					currentWave.addStage(stages[i], stage.stageProps)
+					currentWave.addStageWithGitHubOptions(stages[i], stage.stageProps)
 				} else {
 					pipeline.addStage(stages[i], stage.stageProps)
 				}
@@ -188,13 +191,9 @@ class GithubCodePipeline {
 		]
 		const repos = repoNames.map((name) => [props.owner, name].join('/'))
 
-		const creds = new ghpipelines.GitHubActionRole(
-			scope,
-			'github-action-role',
-			{
-				repos,
-			},
-		)
+		new ghpipelines.GitHubActionRole(scope, 'github-action-role', {
+			repos,
+		})
 
 		const installCommands = [
 			'n stable',
@@ -220,11 +219,11 @@ class GithubCodePipeline {
 
 		const awsCreds = ghpipelines.AwsCredentials.fromOpenIdConnect({
 			gitHubActionRoleArn:
-				'arn:aws:iam::${{ secrets.AWS_PIPELINE_ACCOUNT_ID }}:role/GithubActionsRole',
+				'arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionsRole',
 			roleSessionName: 'gh-actions-infrastructure',
 		})
 
-		return new ghpipelines.GitHubWorkflow(scope, props.name, {
+		const workflow = new ghpipelines.GitHubWorkflow(scope, props.name, {
 			awsCreds,
 			synth,
 			publishAssetsAuthRegion: 'us-east-1',
@@ -232,5 +231,40 @@ class GithubCodePipeline {
 				? path.join(props.rootDir, '.github', 'workflows', 'deploy.yml')
 				: undefined,
 		})
+
+		// nothing to see here...
+		// just a gross hack to mask account ids (for what little its worth)...
+
+		// @ts-ignore
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
+		const jobForDeploy = workflow.jobForDeploy.bind(workflow)
+		// @ts-ignore
+		workflow.jobForDeploy = (node, stack, _captureOutputs) => {
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+			const account = String(stack.account)
+			// stack.account = '${{secrets.DEV_ACCOUNT_ID}}'
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-assignment
+			const job = jobForDeploy(node, stack, _captureOutputs)
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
+			const envName = job.definition.environment.name.toUpperCase()
+			const accountSecretName = `secrets.AWS_ACCOUNT_ID_${envName as string}`
+			const accountSecret = '${{' + accountSecretName + '}}'
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+			const flatDef: Record<string, string | number> = flat.flatten(
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+				job.definition,
+			)
+			Object.keys(flatDef).forEach((key) => {
+				const value = flatDef[key]
+				if (typeof value === 'string' && value.includes(account)) {
+					flatDef[key] = value.replaceAll(account, accountSecret)
+				}
+			})
+			const newDef = flat.unflatten(flatDef)
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-return
+			return { ...job, definition: newDef }
+		}
+
+		return workflow
 	}
 }
