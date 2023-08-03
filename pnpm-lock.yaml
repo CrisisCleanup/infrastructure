@@ -512,12 +512,18 @@ importers:
       '@crisiscleanup/k8s.construct.api':
         specifier: workspace:*
         version: link:../../k8s/construct/api
+      '@crisiscleanup/k8s.construct.component':
+        specifier: workspace:*
+        version: link:../../k8s/construct/component
       '@kubecost/kubecost-eks-blueprints-addon':
         specifier: ^0.1.8
         version: 0.1.8
       aws-cdk-lib:
         specifier: ^2.88.0
         version: 2.88.0(constructs@10.2.69)
+      cdk-pipelines-github:
+        specifier: ^0.4.103
+        version: 0.4.103(aws-cdk-lib@2.88.0)(constructs@10.2.69)
       cdk-sops-secrets:
         specifier: ^1.2.223
         version: 1.2.223(aws-cdk-lib@2.88.0)(constructs@10.2.69)
@@ -5866,6 +5872,27 @@ packages:
       constructs: 10.2.69
     dev: false
 
+  /cdk-pipelines-github@0.4.103(aws-cdk-lib@2.88.0)(constructs@10.2.69):
+    resolution:
+      {
+        integrity: sha512-Gl/wUJhBtzmrsxrEZO4bq2dx7CDBVGeuOixIVZlVAo+9I+wDxw9Ba7KHaTaGxW5l80xAabpf+wrpb9AeMEx5OQ==,
+      }
+    engines: { node: '>= 16.13.0' }
+    peerDependencies:
+      aws-cdk-lib: ^2.9.0
+      constructs: ^10.0.46
+    dependencies:
+      aws-cdk-lib: 2.88.0(constructs@10.2.69)
+      constructs: 10.2.69
+      decamelize: 5.0.1
+      fast-json-patch: 3.1.1
+      yaml: 2.3.1
+    dev: false
+    bundledDependencies:
+      - decamelize
+      - fast-json-patch
+      - yaml
+
   /cdk-sops-secrets@1.2.223(aws-cdk-lib@2.88.0)(constructs@10.2.69):
     resolution:
       {
@@ -6836,7 +6863,6 @@ packages:
         integrity: sha512-VfxadyCECXgQlkoEAjeghAr5gY3Hf+IKjKb+X8tGVDtveCjN+USwprd2q3QXBR9T1+x2DG0XZF5/w+7HAtSaXA==,
       }
     engines: { node: '>=10' }
-    dev: true
 
   /decompress-response@6.0.0:
     resolution:
@@ -7173,7 +7199,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230801
+      typescript: 5.2.0-dev.20230803
     dev: true
 
   /duplexer@0.1.2:
@@ -14083,10 +14109,10 @@ packages:
     hasBin: true
     dev: true
 
-  /typescript@5.2.0-dev.20230801:
+  /typescript@5.2.0-dev.20230803:
     resolution:
       {
-        integrity: sha512-f8FmzL+1+agawPPUzsd38vTiZD/z+RtGax/3+tzxsBP15O/4lMsliTEXRXF7ESC7a1s/f9HsNNRMne438PPZsw==,
+        integrity: sha512-DwCyutWHyT7Il7xpJCxtx4/S5F4qjAo2SE6QDRSLhEUtBFGwGHTHCvuyfm9KNrdwn67jGitdlw4gpbSTVVjoww==,
       }
     engines: { node: '>=14.17' }
     hasBin: true

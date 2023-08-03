@@ -363,13 +363,14 @@ const apiStack = AwsCdkTsAppBuilder.build({
 	name: 'stacks.api',
 	cdkVersion: '2.88.0',
 	integrationTestAutoDiscover: true,
-	workspaceDeps: [config, crisiscleanup, apiConstruct],
+	workspaceDeps: [config, crisiscleanup, apiConstruct, k8sComponentConstruct],
 	deps: [
 		'cdk-sops-secrets',
 		'@aws-quickstart/eks-blueprints',
 		'@kubecost/kubecost-eks-blueprints-addon',
 		'@aws-cdk/lambda-layer-kubectl-v27',
 		'defu',
+		'cdk-pipelines-github',
 		`cdk8s@${crisiscleanup.package.tryResolveDependencyVersion('cdk8s')!}`,
 		`${CDK8sPlus}@${crisiscleanup.package.tryResolveDependencyVersion(
 			CDK8sPlus,
