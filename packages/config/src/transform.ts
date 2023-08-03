@@ -7,6 +7,7 @@ import type {
 	ScreamingSnakeCase,
 	Split,
 	Stringified,
+	Join,
 } from 'type-fest'
 
 /**
@@ -237,6 +238,50 @@ export const flattenToScreamingSnakeCase = <
 
 	return result as ScreamingSnakeCaseProperties<
 		FlattenObject<ObjT, OptionsT['nestedDelimiter']>
+	>
+}
+
+export type KeyToScreamingSnakeCaseKey<
+	T,
+	ValueDelimiter = '__',
+> = T extends object
+	? {
+			[Key in keyof T]: Key extends string
+				? Join<
+						Split<ScreamingSnakeCase<Key>, '.'> extends string[]
+							? Split<ScreamingSnakeCase<Key>, '.'>
+							: never,
+						ValueDelimiter extends string ? ValueDelimiter : never
+				  >
+				: never
+	  }
+	: never
+
+/**
+ * Create mapping of flattened keys to flattened screaming snake case keys.
+ * @param obj input object.
+ * @param options screaming snake case options.
+ */
+export const flatKeysToFlatScreamingSnakeCaseKeys = <
+	ObjT,
+	OptionsT extends Exact<FlattenToScreamingSnakeCaseOptions, OptionsT> = {
+		nestedDelimiter: '__'
+	},
+>(
+	obj: ObjT,
+	options?: OptionsT,
+): KeyToScreamingSnakeCaseKey<
+	FlattenObject<ObjT, '.'>,
+	OptionsT['nestedDelimiter']
+> => {
+	const result = mapFlatten(
+		obj,
+		(key, _) => [key, toScreamingSnakeCase(key, options?.nestedDelimiter)],
+		{ delimiter: '.' },
+	)
+	return result as KeyToScreamingSnakeCaseKey<
+		FlattenObject<ObjT, '.'>,
+		OptionsT['nestedDelimiter']
 	>
 }
 
