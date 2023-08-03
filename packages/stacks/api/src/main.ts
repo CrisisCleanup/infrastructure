@@ -93,9 +93,10 @@ const devStack = provideDatabase(singleNatStack).addOns(
 	}),
 )
 
-export default await Pipeline.builder({
+export default Pipeline.builder({
 	id: 'crisiscleanup',
 	connectionArn: config.apiStack.codeStarConnectionArn,
+	rootDir: cwd,
 })
 	.target({
 		name: 'development',
@@ -107,6 +108,10 @@ export default await Pipeline.builder({
 				(arn) => new iam.ArnPrincipal(arn),
 			),
 		}),
+		githubEnvironment: {
+			name: 'development',
+			url: 'https://app.dev.crisiscleanup.io',
+		},
 	})
 	.build(app, {
 		env: {
