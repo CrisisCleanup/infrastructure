@@ -26,18 +26,7 @@ jobs:
           aws-region: us-east-1
           role-duration-seconds: 1800
           role-skip-session-tagging: true
-          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionRole
-      - name: Assume CDK Deploy Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
-        with:
-          aws-region: us-east-1
-          role-duration-seconds: 1800
-          role-skip-session-tagging: true
-          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
-          aws-session-token: ${{ env.AWS_SESSION_TOKEN }}
-          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionRole
-          role-external-id: Pipeline
+          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
       - name: Install
         run: >-
           n stable
@@ -99,7 +88,7 @@ jobs:
           aws-region: us-east-1
           role-duration-seconds: 1800
           role-skip-session-tagging: true
-          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionRole
+          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
       - id: Publish
         name: Publish Assets-FileAsset1
         run: /bin/bash ./cdk.out/publish-Assets-FileAsset1-step.sh
@@ -127,7 +116,7 @@ jobs:
           aws-region: us-east-1
           role-duration-seconds: 1800
           role-skip-session-tagging: true
-          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionRole
+          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
       - id: Publish
         name: Publish Assets-FileAsset10
         run: /bin/bash ./cdk.out/publish-Assets-FileAsset10-step.sh
@@ -155,7 +144,7 @@ jobs:
           aws-region: us-east-1
           role-duration-seconds: 1800
           role-skip-session-tagging: true
-          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionRole
+          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
       - id: Publish
         name: Publish Assets-FileAsset11
         run: /bin/bash ./cdk.out/publish-Assets-FileAsset11-step.sh
@@ -183,7 +172,7 @@ jobs:
           aws-region: us-east-1
           role-duration-seconds: 1800
           role-skip-session-tagging: true
-          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionRole
+          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
       - id: Publish
         name: Publish Assets-FileAsset12
         run: /bin/bash ./cdk.out/publish-Assets-FileAsset12-step.sh
@@ -211,7 +200,7 @@ jobs:
           aws-region: us-east-1
           role-duration-seconds: 1800
           role-skip-session-tagging: true
-          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionRole
+          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
       - id: Publish
         name: Publish Assets-FileAsset13
         run: /bin/bash ./cdk.out/publish-Assets-FileAsset13-step.sh
@@ -239,7 +228,7 @@ jobs:
           aws-region: us-east-1
           role-duration-seconds: 1800
           role-skip-session-tagging: true
-          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionRole
+          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
       - id: Publish
         name: Publish Assets-FileAsset2
         run: /bin/bash ./cdk.out/publish-Assets-FileAsset2-step.sh
@@ -267,7 +256,7 @@ jobs:
           aws-region: us-east-1
           role-duration-seconds: 1800
           role-skip-session-tagging: true
-          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionRole
+          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
       - id: Publish
         name: Publish Assets-FileAsset3
         run: /bin/bash ./cdk.out/publish-Assets-FileAsset3-step.sh
@@ -295,7 +284,7 @@ jobs:
           aws-region: us-east-1
           role-duration-seconds: 1800
           role-skip-session-tagging: true
-          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionRole
+          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
       - id: Publish
         name: Publish Assets-FileAsset4
         run: /bin/bash ./cdk.out/publish-Assets-FileAsset4-step.sh
@@ -323,7 +312,7 @@ jobs:
           aws-region: us-east-1
           role-duration-seconds: 1800
           role-skip-session-tagging: true
-          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionRole
+          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
       - id: Publish
         name: Publish Assets-FileAsset5
         run: /bin/bash ./cdk.out/publish-Assets-FileAsset5-step.sh
@@ -351,7 +340,7 @@ jobs:
           aws-region: us-east-1
           role-duration-seconds: 1800
           role-skip-session-tagging: true
-          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionRole
+          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
       - id: Publish
         name: Publish Assets-FileAsset6
         run: /bin/bash ./cdk.out/publish-Assets-FileAsset6-step.sh
@@ -379,7 +368,7 @@ jobs:
           aws-region: us-east-1
           role-duration-seconds: 1800
           role-skip-session-tagging: true
-          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionRole
+          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
       - id: Publish
         name: Publish Assets-FileAsset7
         run: /bin/bash ./cdk.out/publish-Assets-FileAsset7-step.sh
@@ -407,7 +396,7 @@ jobs:
           aws-region: us-east-1
           role-duration-seconds: 1800
           role-skip-session-tagging: true
-          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionRole
+          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
       - id: Publish
         name: Publish Assets-FileAsset8
         run: /bin/bash ./cdk.out/publish-Assets-FileAsset8-step.sh
@@ -435,7 +424,7 @@ jobs:
           aws-region: us-east-1
           role-duration-seconds: 1800
           role-skip-session-tagging: true
-          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionRole
+          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
       - id: Publish
         name: Publish Assets-FileAsset9
         run: /bin/bash ./cdk.out/publish-Assets-FileAsset9-step.sh
@@ -471,7 +460,7 @@ jobs:
           aws-region: us-east-1
           role-duration-seconds: 1800
           role-skip-session-tagging: true
-          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GithubActionRole
+          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
       - name: Assume CDK Deploy Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
