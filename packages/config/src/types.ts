@@ -141,6 +141,14 @@ export interface CrisisCleanupConfigInput
 		{ recurseIntoArrays: true }
 	> {}
 
+export interface CrisisCleanupConfigLayerMetaSources {
+	name: string
+	configPath: string
+	secretsPath: string
+}
+
 export interface CrisisCleanupConfigLayerMeta extends ConfigLayerMeta {
 	name: 'crisiscleanup'
+	repo?: string
+	sources?: CrisisCleanupConfigLayerMetaSources[]
 }
