@@ -3,7 +3,7 @@ import {
 	Component,
 	ContainerImage,
 } from '@crisiscleanup/k8s.construct.component'
-import { Chart, Duration, Size } from 'cdk8s'
+import { Chart, Duration, Lazy, Size } from 'cdk8s'
 import * as kplus from 'cdk8s-plus-27'
 import { Construct } from 'constructs'
 import createDebug from 'debug'
@@ -30,6 +30,9 @@ export class ApiConfig extends Construct implements IApiConfig {
 	readonly configMap: kplus.ConfigMap
 	readonly configSecret: kplus.Secret
 
+	private envFroms: kplus.EnvFrom[]
+	private envVars: { [key: string]: kplus.EnvValue }
+
 	constructor(scope: Construct, id: string, props: ApiConfigProps) {
 		super(scope, id)
 		this.configMap = new kplus.ConfigMap(this, 'config', {
@@ -39,13 +42,29 @@ export class ApiConfig extends Construct implements IApiConfig {
 		this.configSecret = new kplus.Secret(this, 'config-secret', {
 			stringData: stringifyObjectValues(props.secrets),
 		})
-	}
 
-	get envFrom(): kplus.EnvFrom[] {
-		return [
+		this.envFroms = [
 			new kplus.EnvFrom(this.configMap),
 			new kplus.EnvFrom(undefined, undefined, this.configSecret),
 		]
+		this.envVars = {}
+	}
+
+	addEnvFrom(envFrom: kplus.EnvFrom): this {
+		this.envFroms = [...this.envFroms, envFrom]
+		return this
+	}
+
+	addEnvVars(vars: { [key: string]: kplus.EnvValue }): this {
+		this.envVars = {
+			...this.envVars,
+			...vars,
+		}
+		return this
+	}
+
+	get env(): kplus.Env {
+		return new kplus.Env(this.envFroms, this.envVars)
 	}
 }
 
@@ -128,6 +147,9 @@ export class ApiWSGI
 	static componentName = 'wsgi'
 	readonly httpProbePath = '/health'
 
+	readonly migrateJob: kplus.Job
+	readonly collectStaticJob: kplus.Job
+
 	constructor(scope: Construct, id: string, props: ApiWSGIProps) {
 		const securityContext = new kplus.ContainerSecurityContext({
 			readOnlyRootFilesystem: false,
@@ -145,7 +167,8 @@ export class ApiWSGI
 		const backend = this.addContainer({
 			name: 'gunicorn',
 			portNumber: 5000,
-			envFrom: this.config.envFrom,
+			envFrom: this.config.env.sources,
+			envVariables: this.config.env.variables,
 			command: [
 				'/serve.sh',
 				'wsgi',
@@ -178,7 +201,7 @@ export class ApiWSGI
 		}
 
 		// migrate + collectstatic jobs
-		const migrateJob = new kplus.Job(this, 'migrate', {
+		this.migrateJob = new kplus.Job(this, 'migrate', {
 			securityContext,
 			podMetadata: { labels: { component: 'api-migrate' } },
 			terminationGracePeriod: Duration.minutes(5),
@@ -186,16 +209,17 @@ export class ApiWSGI
 			ttlAfterFinished: Duration.minutes(2),
 		})
 
-		migrateJob.addContainer({
+		this.migrateJob.addContainer({
 			name: 'migrate',
 			command: ['python', 'manage.py', 'migrate', '--noinput', '--verbosity=1'],
-			envFrom: this.config.envFrom,
+			envFrom: this.config.env.sources,
+			envVariables: this.config.env.variables,
 			securityContext,
 			...ContainerImage.fromProps(props.image!).containerProps,
 			resources: jobResources,
 		})
 
-		const staticJob = new kplus.Job(this, 'collectstatic', {
+		this.collectStaticJob = new kplus.Job(this, 'collectstatic', {
 			securityContext,
 			volumes: [staticVolume],
 			podMetadata: { labels: { component: 'api-static' } },
@@ -203,7 +227,7 @@ export class ApiWSGI
 			activeDeadline: Duration.minutes(10),
 			ttlAfterFinished: Duration.minutes(2),
 		})
-		const staticJobContainer = staticJob.addContainer({
+		const staticJobContainer = this.collectStaticJob.addContainer({
 			name: 'collectstatic',
 			...ContainerImage.fromProps(props.image!).containerProps,
 			command: [
@@ -215,7 +239,8 @@ export class ApiWSGI
 				'--noinput',
 				'--verbosity=2',
 			],
-			envFrom: this.config.envFrom,
+			envFrom: this.config.env.sources,
+			envVariables: this.config.env.variables,
 			securityContext,
 			resources: jobResources,
 		})
@@ -240,7 +265,8 @@ export class ApiASGI
 			name: 'hypercorn',
 			command: ['/serve.sh', 'asgi', '--workers', String(props.workers ?? 2)],
 			portNumber: 5000,
-			envFrom: this.config.envFrom,
+			envFrom: this.config.env.sources,
+			envVariables: this.config.env.variables,
 			...(props.probes ?? this.createHttpProbes(this.httpProbePath)),
 			securityContext: {
 				readOnlyRootFilesystem: false,
@@ -259,7 +285,8 @@ export class CeleryBeat extends ApiComponent {
 		this.addContainer({
 			name: 'celerybeat',
 			command: ['/serve.sh', 'celerybeat'],
-			envFrom: this.config.envFrom,
+			envFrom: this.config.env.sources,
+			envVariables: this.config.env.variables,
 			securityContext: {
 				readOnlyRootFilesystem: false,
 				user: 1000,
@@ -305,7 +332,8 @@ export class CeleryWorker extends ApiComponent<CeleryProps> {
 				hostname,
 				...(props.args ?? []),
 			],
-			envFrom: this.config.envFrom,
+			envFrom: this.config.env.sources,
+			envVariables: this.config.env.variables,
 			securityContext: {
 				readOnlyRootFilesystem: false,
 				user: 1000,
@@ -330,7 +358,8 @@ export class AdminWebSocket extends ApiComponent {
 		this.addContainer({
 			name: 'adminwebsocket',
 			command: ['/serve.sh', 'adminwebsocket'],
-			envFrom: this.config.envFrom,
+			envFrom: this.config.env.sources,
+			envVariables: this.config.env.variables,
 			securityContext: {
 				readOnlyRootFilesystem: false,
 				user: 1000,

@@ -39,7 +39,7 @@ export interface IHttpProbable {
 export interface IApiConfig {
 	configMap: kplus.ConfigMap
 	configSecret: kplus.Secret
-	readonly envFrom: kplus.EnvFrom[]
+	readonly env: kplus.Env
 }
 
 export interface ApiConstructConfig {
