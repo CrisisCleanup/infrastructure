@@ -14,7 +14,11 @@ import { Pipeline } from './pipeline'
 import { SopsSecretProvider } from './secrets'
 import { VpcProvider } from './vpc'
 
-const { config, cwd, layers } = await getConfig()
+const { config, cwd, layers } = await getConfig({
+	decrypt: false,
+	strict: true,
+	useEnvOverrides: true,
+})
 const configsLayer = layers!.find(
 	(layer) => layer.meta?.repo === 'configs' && 'sources' in layer.meta,
 )
@@ -87,7 +91,14 @@ const devStack = provideDatabase(singleNatStack).addOns(
 	buildKarpenter(),
 	new RedisStackAddOn(),
 	new CrisisCleanupAddOn({
-		config: config.$env.development,
+		config: {
+			...config.$env.development,
+			api: {
+				...config.$env.development.api,
+				// use defaults just to get the keys
+				secrets: config.api.secrets,
+			},
+		},
 		databaseResourceName: ResourceNames.DATABASE,
 		secretsProvider: devSecretsProvider,
 	}),
