@@ -3,6 +3,7 @@ import path from 'node:path'
 import * as blueprints from '@aws-quickstart/eks-blueprints'
 import type { Stack, StackProps } from 'aws-cdk-lib'
 import * as cdk from 'aws-cdk-lib'
+import * as s3 from 'aws-cdk-lib/aws-s3'
 import * as cdkpipelines from 'aws-cdk-lib/pipelines'
 import * as ghpipelines from 'cdk-pipelines-github'
 import type { Construct } from 'constructs'
@@ -189,8 +190,29 @@ class GithubCodePipeline {
 			'helm version',
 		]
 
-		new ghpipelines.GitHubActionRole(scope, 'github-action-role', {
-			repos: props.repos ?? [],
+		const actionsRole = new ghpipelines.GitHubActionRole(
+			scope,
+			'github-action-role',
+			{
+				repos: props.repos ?? [],
+			},
+		)
+
+		const pipelineS3BucketName = 'crisiscleanup-pipeline-assets'
+		const pipelineS3 = new s3.Bucket(scope, 'pipeline-assets', {
+			autoDeleteObjects: true,
+			removalPolicy: cdk.RemovalPolicy.DESTROY,
+			transferAcceleration: true,
+			blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+			bucketName: pipelineS3BucketName,
+		})
+		pipelineS3.grantReadWrite(actionsRole.role)
+		pipelineS3.addLifecycleRule({
+			id: 'cleanup-stale-assets',
+			enabled: true,
+			expiration: cdk.Duration.days(30),
+			abortIncompleteMultipartUploadAfter: cdk.Duration.days(7),
+			prefix: 'cdk-assets',
 		})
 
 		const installCommands = [
