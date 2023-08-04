@@ -9,7 +9,7 @@ import type * as kplus from 'cdk8s-plus-27'
 
 export interface ApiConfigProps {
 	config: ScreamingSnakeCaseProperties<FlattenObject<ApiAppConfig, '_'>>
-	secrets: ScreamingSnakeCaseProperties<FlattenObject<ApiAppSecrets, '_'>>
+	secrets?: ScreamingSnakeCaseProperties<FlattenObject<ApiAppSecrets, '_'>>
 }
 
 export interface ApiProps extends DeploymentProps {
@@ -38,7 +38,7 @@ export interface IHttpProbable {
 
 export interface IApiConfig {
 	configMap: kplus.ConfigMap
-	configSecret: kplus.Secret
+	configSecret?: kplus.Secret
 	readonly env: kplus.Env
 }
 

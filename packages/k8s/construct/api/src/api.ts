@@ -28,30 +28,33 @@ export class ApiConfig extends Construct implements IApiConfig {
 	}
 
 	readonly configMap: kplus.ConfigMap
-	readonly configSecret: kplus.Secret
+	readonly configSecret?: kplus.Secret
 
-	private envFroms: kplus.EnvFrom[]
+	private readonly envFroms: kplus.EnvFrom[]
 	private envVars: { [key: string]: kplus.EnvValue }
 
 	constructor(scope: Construct, id: string, props: ApiConfigProps) {
 		super(scope, id)
+		this.envFroms = []
+		this.envVars = {}
+
 		this.configMap = new kplus.ConfigMap(this, 'config', {
 			data: stringifyObjectValues(props.config),
 		})
+		this.addEnvFrom(new kplus.EnvFrom(this.configMap))
 
-		this.configSecret = new kplus.Secret(this, 'config-secret', {
-			stringData: stringifyObjectValues(props.secrets),
-		})
-
-		this.envFroms = [
-			new kplus.EnvFrom(this.configMap),
-			new kplus.EnvFrom(undefined, undefined, this.configSecret),
-		]
-		this.envVars = {}
+		if (props.secrets && Object.keys(props.secrets).length) {
+			this.configSecret = new kplus.Secret(this, 'config-secret', {
+				stringData: stringifyObjectValues(props.secrets),
+			})
+			this.addEnvFrom(
+				new kplus.EnvFrom(undefined, undefined, this.configSecret),
+			)
+		}
 	}
 
 	addEnvFrom(envFrom: kplus.EnvFrom): this {
-		this.envFroms = [...this.envFroms, envFrom]
+		this.envFroms.push(envFrom)
 		return this
 	}
 
