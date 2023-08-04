@@ -11,11 +11,19 @@ import { App, type Chart } from 'cdk8s'
 import * as kplus from 'cdk8s-plus-27'
 import type { Construct } from 'constructs'
 import defu from 'defu'
+import { type NamedSecretsProvider } from '../secrets'
 
 export interface CrisisCleanupAddOnProps {
 	readonly databaseResourceName: string
-	readonly secretsProvider: blueprints.SecretProvider
 	readonly config: CrisisCleanupConfig
+	/**
+	 * Secret provider for CSI driver.
+	 */
+	readonly secretsProvider: blueprints.SecretProvider | NamedSecretsProvider
+	/**
+	 * Name of secret provided via secrets provider.
+	 */
+	readonly secretName?: string
 }
 
 export class CrisisCleanupAddOn implements blueprints.ClusterAddOn {
@@ -56,6 +64,12 @@ export class CrisisCleanupAddOn implements blueprints.ClusterAddOn {
 			),
 		})
 
+		let secretName = this.props.secretName
+		if ('secretName' in this.props.secretsProvider) {
+			secretName = secretName ?? this.props.secretsProvider.secretName
+		}
+		if (!secretName) throw new Error('Must provide secret name!')
+
 		const secretKeys = flatKeysToFlatScreamingSnakeCaseKeys(
 			this.props.config.api.secrets,
 			{ nestedDelimiter: '_' },
@@ -74,8 +88,13 @@ export class CrisisCleanupAddOn implements blueprints.ClusterAddOn {
 			{
 				secretProvider: this.props.secretsProvider,
 				jmesPath: secretPaths,
+				// sync provided secrets to a k8s secret named 'crisiscleanup-api-secrets'
 				kubernetesSecret: {
 					secretName: 'crisiscleanup-api-secrets',
+					data: secretPaths.map((secretObj) => ({
+						key: secretObj.objectAlias,
+						objectName: secretObj.objectAlias,
+					})),
 				},
 			},
 		)
