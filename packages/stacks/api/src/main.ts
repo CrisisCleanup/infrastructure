@@ -83,7 +83,7 @@ const singleNatStack = eksStackBuilder.resourceProvider(
 )
 
 const devSecretsProvider = new SopsSecretProvider({
-	secretName: 'ccu-development-api',
+	secretName: 'crisiscleanup-development-api',
 	sopsFilePath: configsSources.development.secretsPath,
 })
 const devStack = provideDatabase(singleNatStack).addOns(
