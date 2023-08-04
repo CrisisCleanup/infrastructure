@@ -233,7 +233,7 @@ class GithubCodePipeline {
 			installCommands,
 			commands,
 			env: {
-				GIGET_AUTH: '${{ secrets.GIGET_AUTH }}',
+				GIGET_AUTH: '${{ secrets.GH_CONFIGS_RO_PAT }}',
 			},
 		})
 
