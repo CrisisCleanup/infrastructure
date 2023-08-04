@@ -131,7 +131,7 @@ const pipeline = Pipeline.builder({
 		crossRegionReferences: true,
 	})
 
-await pipeline.waitAsyncTasks()
+await pipeline.waitForAsyncTasks()
 app.synth({ validateOnSynthesis: true })
 
 export default pipeline

@@ -20,6 +20,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Mask values
+        run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_development}}
+          echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -59,11 +63,11 @@ jobs:
           pnpm build
           pnpm -F 'stacks.api' run synth:silent
           cp -r packages/stacks/api/cdk.out ./cdk.out
-      - name: Upload cdk.out
-        uses: actions/upload-artifact@v3
-        with:
-          name: cdk.out
-          path: cdk.out
+      - name: Push assets
+        env:
+          SOURCE: cdk.out
+          DESTINATION: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
+        run: aws s3 sync $SOURCE $DESTINATION
   Assets-FileAsset1:
     name: Publish Assets Assets-FileAsset1
     needs:
@@ -75,13 +79,6 @@ jobs:
     outputs:
       asset-hash: ${{ steps.Publish.outputs.asset-hash }}
     steps:
-      - name: Download cdk.out
-        uses: actions/download-artifact@v3
-        with:
-          name: cdk.out
-          path: cdk.out
-      - name: Install
-        run: npm install --no-save cdk-assets
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -89,6 +86,13 @@ jobs:
           role-duration-seconds: 1800
           role-skip-session-tagging: true
           role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
+      - name: Pull assets
+        env:
+          SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
+          DESTINATION: cdk.out
+        run: aws s3 sync $SOURCE $DESTINATION
+      - name: Install
+        run: npm install --no-save cdk-assets
       - id: Publish
         name: Publish Assets-FileAsset1
         run: /bin/bash ./cdk.out/publish-Assets-FileAsset1-step.sh
@@ -103,13 +107,6 @@ jobs:
     outputs:
       asset-hash: ${{ steps.Publish.outputs.asset-hash }}
     steps:
-      - name: Download cdk.out
-        uses: actions/download-artifact@v3
-        with:
-          name: cdk.out
-          path: cdk.out
-      - name: Install
-        run: npm install --no-save cdk-assets
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -117,6 +114,13 @@ jobs:
           role-duration-seconds: 1800
           role-skip-session-tagging: true
           role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
+      - name: Pull assets
+        env:
+          SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
+          DESTINATION: cdk.out
+        run: aws s3 sync $SOURCE $DESTINATION
+      - name: Install
+        run: npm install --no-save cdk-assets
       - id: Publish
         name: Publish Assets-FileAsset10
         run: /bin/bash ./cdk.out/publish-Assets-FileAsset10-step.sh
@@ -131,13 +135,6 @@ jobs:
     outputs:
       asset-hash: ${{ steps.Publish.outputs.asset-hash }}
     steps:
-      - name: Download cdk.out
-        uses: actions/download-artifact@v3
-        with:
-          name: cdk.out
-          path: cdk.out
-      - name: Install
-        run: npm install --no-save cdk-assets
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -145,6 +142,13 @@ jobs:
           role-duration-seconds: 1800
           role-skip-session-tagging: true
           role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
+      - name: Pull assets
+        env:
+          SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
+          DESTINATION: cdk.out
+        run: aws s3 sync $SOURCE $DESTINATION
+      - name: Install
+        run: npm install --no-save cdk-assets
       - id: Publish
         name: Publish Assets-FileAsset11
         run: /bin/bash ./cdk.out/publish-Assets-FileAsset11-step.sh
@@ -159,13 +163,6 @@ jobs:
     outputs:
       asset-hash: ${{ steps.Publish.outputs.asset-hash }}
     steps:
-      - name: Download cdk.out
-        uses: actions/download-artifact@v3
-        with:
-          name: cdk.out
-          path: cdk.out
-      - name: Install
-        run: npm install --no-save cdk-assets
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -173,6 +170,13 @@ jobs:
           role-duration-seconds: 1800
           role-skip-session-tagging: true
           role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
+      - name: Pull assets
+        env:
+          SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
+          DESTINATION: cdk.out
+        run: aws s3 sync $SOURCE $DESTINATION
+      - name: Install
+        run: npm install --no-save cdk-assets
       - id: Publish
         name: Publish Assets-FileAsset12
         run: /bin/bash ./cdk.out/publish-Assets-FileAsset12-step.sh
@@ -187,13 +191,6 @@ jobs:
     outputs:
       asset-hash: ${{ steps.Publish.outputs.asset-hash }}
     steps:
-      - name: Download cdk.out
-        uses: actions/download-artifact@v3
-        with:
-          name: cdk.out
-          path: cdk.out
-      - name: Install
-        run: npm install --no-save cdk-assets
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -201,6 +198,13 @@ jobs:
           role-duration-seconds: 1800
           role-skip-session-tagging: true
           role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
+      - name: Pull assets
+        env:
+          SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
+          DESTINATION: cdk.out
+        run: aws s3 sync $SOURCE $DESTINATION
+      - name: Install
+        run: npm install --no-save cdk-assets
       - id: Publish
         name: Publish Assets-FileAsset13
         run: /bin/bash ./cdk.out/publish-Assets-FileAsset13-step.sh
@@ -215,13 +219,6 @@ jobs:
     outputs:
       asset-hash: ${{ steps.Publish.outputs.asset-hash }}
     steps:
-      - name: Download cdk.out
-        uses: actions/download-artifact@v3
-        with:
-          name: cdk.out
-          path: cdk.out
-      - name: Install
-        run: npm install --no-save cdk-assets
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -229,6 +226,13 @@ jobs:
           role-duration-seconds: 1800
           role-skip-session-tagging: true
           role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
+      - name: Pull assets
+        env:
+          SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
+          DESTINATION: cdk.out
+        run: aws s3 sync $SOURCE $DESTINATION
+      - name: Install
+        run: npm install --no-save cdk-assets
       - id: Publish
         name: Publish Assets-FileAsset2
         run: /bin/bash ./cdk.out/publish-Assets-FileAsset2-step.sh
@@ -243,13 +247,6 @@ jobs:
     outputs:
       asset-hash: ${{ steps.Publish.outputs.asset-hash }}
     steps:
-      - name: Download cdk.out
-        uses: actions/download-artifact@v3
-        with:
-          name: cdk.out
-          path: cdk.out
-      - name: Install
-        run: npm install --no-save cdk-assets
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -257,6 +254,13 @@ jobs:
           role-duration-seconds: 1800
           role-skip-session-tagging: true
           role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
+      - name: Pull assets
+        env:
+          SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
+          DESTINATION: cdk.out
+        run: aws s3 sync $SOURCE $DESTINATION
+      - name: Install
+        run: npm install --no-save cdk-assets
       - id: Publish
         name: Publish Assets-FileAsset3
         run: /bin/bash ./cdk.out/publish-Assets-FileAsset3-step.sh
@@ -271,13 +275,6 @@ jobs:
     outputs:
       asset-hash: ${{ steps.Publish.outputs.asset-hash }}
     steps:
-      - name: Download cdk.out
-        uses: actions/download-artifact@v3
-        with:
-          name: cdk.out
-          path: cdk.out
-      - name: Install
-        run: npm install --no-save cdk-assets
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -285,6 +282,13 @@ jobs:
           role-duration-seconds: 1800
           role-skip-session-tagging: true
           role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
+      - name: Pull assets
+        env:
+          SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
+          DESTINATION: cdk.out
+        run: aws s3 sync $SOURCE $DESTINATION
+      - name: Install
+        run: npm install --no-save cdk-assets
       - id: Publish
         name: Publish Assets-FileAsset4
         run: /bin/bash ./cdk.out/publish-Assets-FileAsset4-step.sh
@@ -299,13 +303,6 @@ jobs:
     outputs:
       asset-hash: ${{ steps.Publish.outputs.asset-hash }}
     steps:
-      - name: Download cdk.out
-        uses: actions/download-artifact@v3
-        with:
-          name: cdk.out
-          path: cdk.out
-      - name: Install
-        run: npm install --no-save cdk-assets
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -313,6 +310,13 @@ jobs:
           role-duration-seconds: 1800
           role-skip-session-tagging: true
           role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
+      - name: Pull assets
+        env:
+          SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
+          DESTINATION: cdk.out
+        run: aws s3 sync $SOURCE $DESTINATION
+      - name: Install
+        run: npm install --no-save cdk-assets
       - id: Publish
         name: Publish Assets-FileAsset5
         run: /bin/bash ./cdk.out/publish-Assets-FileAsset5-step.sh
@@ -327,13 +331,6 @@ jobs:
     outputs:
       asset-hash: ${{ steps.Publish.outputs.asset-hash }}
     steps:
-      - name: Download cdk.out
-        uses: actions/download-artifact@v3
-        with:
-          name: cdk.out
-          path: cdk.out
-      - name: Install
-        run: npm install --no-save cdk-assets
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -341,6 +338,13 @@ jobs:
           role-duration-seconds: 1800
           role-skip-session-tagging: true
           role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
+      - name: Pull assets
+        env:
+          SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
+          DESTINATION: cdk.out
+        run: aws s3 sync $SOURCE $DESTINATION
+      - name: Install
+        run: npm install --no-save cdk-assets
       - id: Publish
         name: Publish Assets-FileAsset6
         run: /bin/bash ./cdk.out/publish-Assets-FileAsset6-step.sh
@@ -355,13 +359,6 @@ jobs:
     outputs:
       asset-hash: ${{ steps.Publish.outputs.asset-hash }}
     steps:
-      - name: Download cdk.out
-        uses: actions/download-artifact@v3
-        with:
-          name: cdk.out
-          path: cdk.out
-      - name: Install
-        run: npm install --no-save cdk-assets
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -369,6 +366,13 @@ jobs:
           role-duration-seconds: 1800
           role-skip-session-tagging: true
           role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
+      - name: Pull assets
+        env:
+          SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
+          DESTINATION: cdk.out
+        run: aws s3 sync $SOURCE $DESTINATION
+      - name: Install
+        run: npm install --no-save cdk-assets
       - id: Publish
         name: Publish Assets-FileAsset7
         run: /bin/bash ./cdk.out/publish-Assets-FileAsset7-step.sh
@@ -383,13 +387,6 @@ jobs:
     outputs:
       asset-hash: ${{ steps.Publish.outputs.asset-hash }}
     steps:
-      - name: Download cdk.out
-        uses: actions/download-artifact@v3
-        with:
-          name: cdk.out
-          path: cdk.out
-      - name: Install
-        run: npm install --no-save cdk-assets
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -397,6 +394,13 @@ jobs:
           role-duration-seconds: 1800
           role-skip-session-tagging: true
           role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
+      - name: Pull assets
+        env:
+          SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
+          DESTINATION: cdk.out
+        run: aws s3 sync $SOURCE $DESTINATION
+      - name: Install
+        run: npm install --no-save cdk-assets
       - id: Publish
         name: Publish Assets-FileAsset8
         run: /bin/bash ./cdk.out/publish-Assets-FileAsset8-step.sh
@@ -411,13 +415,6 @@ jobs:
     outputs:
       asset-hash: ${{ steps.Publish.outputs.asset-hash }}
     steps:
-      - name: Download cdk.out
-        uses: actions/download-artifact@v3
-        with:
-          name: cdk.out
-          path: cdk.out
-      - name: Install
-        run: npm install --no-save cdk-assets
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -425,6 +422,13 @@ jobs:
           role-duration-seconds: 1800
           role-skip-session-tagging: true
           role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
+      - name: Pull assets
+        env:
+          SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
+          DESTINATION: cdk.out
+        run: aws s3 sync $SOURCE $DESTINATION
+      - name: Install
+        run: npm install --no-save cdk-assets
       - id: Publish
         name: Publish Assets-FileAsset9
         run: /bin/bash ./cdk.out/publish-Assets-FileAsset9-step.sh

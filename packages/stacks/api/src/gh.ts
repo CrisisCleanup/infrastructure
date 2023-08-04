@@ -136,7 +136,7 @@ export class GithubCodePipelineStack extends cdk.Stack {
 		})
 	}
 
-	async waitAsyncTasks() {
+	async waitForAsyncTasks() {
 		await this.asyncTask
 	}
 }
@@ -243,49 +243,223 @@ class GithubCodePipeline {
 			gitHubActionRoleArn: actionsRoleArn,
 		})
 
-		const workflow = new ghpipelines.GitHubWorkflow(scope, props.name, {
+		const maskValues: [ActionsContext, string][] = props.stages.map((stage) => [
+			ActionsContext.SECRET,
+			`AWS_ACCOUNT_ID_${stage.waveId ?? stage.id}`,
+		])
+		const maskStep = MaskValueStep.values('Mask IDs', ...maskValues, [
+			ActionsContext.SECRET,
+			'AWS_PIPELINE_ACCOUNT_ID',
+		])
+
+		const workflow = new PipelineWorkflow(scope, props.name, {
 			awsCreds,
 			synth,
 			publishAssetsAuthRegion: 'us-east-1',
-			preBuildSteps: [...awsCreds.credentialSteps('us-east-1')],
+			preBuildSteps: [
+				...maskStep.jobSteps,
+				...awsCreds.credentialSteps('us-east-1'),
+			],
 			workflowPath: props.rootDir
 				? path.join(props.rootDir, '.github', 'workflows', 'deploy.yml')
 				: undefined,
+			assetsS3Bucket: pipelineS3BucketName,
+			assetsS3Prefix: 'cdk-assets',
 		})
 
-		// nothing to see here...
-		// just a gross hack to mask account ids (for what little its worth)...
-
-		// @ts-ignore
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
-		const jobForDeploy = workflow.jobForDeploy.bind(workflow)
-		// @ts-ignore
-		workflow.jobForDeploy = (node, stack, _captureOutputs) => {
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-			const account = String(stack.account)
-			// stack.account = '${{secrets.DEV_ACCOUNT_ID}}'
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-assignment
-			const job = jobForDeploy(node, stack, _captureOutputs)
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
-			const envName = job.definition.environment.name.toUpperCase()
-			const accountSecretName = `secrets.AWS_ACCOUNT_ID_${envName as string}`
-			const accountSecret = '${{' + accountSecretName + '}}'
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-			const flatDef: Record<string, string | number> = flat.flatten(
-				// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-				job.definition,
-			)
-			Object.keys(flatDef).forEach((key) => {
-				const value = flatDef[key]
-				if (typeof value === 'string' && value.includes(account)) {
-					flatDef[key] = value.replaceAll(account, accountSecret)
-				}
-			})
-			const newDef = flat.unflatten(flatDef)
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-return
-			return { ...job, definition: newDef }
-		}
-
 		return workflow
+	}
+}
+
+enum ActionsContext {
+	GITHUB = 'github',
+	SECRET = 'secrets',
+	ENV = 'env',
+	INTERPOLATE = 'interpolate',
+}
+
+interface ActionsContextValue {
+	context: ActionsContext
+	key: string
+}
+
+/**
+ * Interpolate a value for use in a workflow file.
+ * @param value ActionsContextValue
+ */
+function interpolateValue(value: ActionsContextValue): string
+function interpolateValue(context: ActionsContext, key: string): string
+function interpolateValue(
+	...args: [ActionsContextValue] | [ActionsContext, string]
+): string {
+	let [context, key] = args
+	if (typeof context === 'object') {
+		key = context.key
+		context = context.context
+	}
+	const wrap = (inner: string) => '${{' + inner + '}}'
+	if (context === ActionsContext.INTERPOLATE) {
+		return wrap(key as string)
+	}
+	const body = [context, key].join('.')
+	return wrap(body)
+}
+
+/**
+ * Mask given values from workflow logs.
+ */
+class MaskValueStep extends ghpipelines.GitHubActionStep {
+	/**
+	 * Create job steps from given values.
+	 * @param id Step id.
+	 * @param values Values to mask.
+	 */
+	static values(
+		id: string,
+		...values: [context: ActionsContext, key: string][]
+	): MaskValueStep {
+		return new this(
+			id,
+			values.map(([context, key]) => ({ context, key })),
+		)
+	}
+
+	constructor(
+		id: string,
+		values: ActionsContextValue[],
+		props?: Omit<ghpipelines.GitHubActionStepProps, 'jobSteps'>,
+	) {
+		const mask = (value: string) => `echo ::add-mask::${value}`
+		const steps: ghpipelines.JobStep[] = [
+			{
+				name: 'Mask values',
+				run: values.map((value) => mask(interpolateValue(value))).join('\n'),
+			},
+		]
+		super(id, {
+			...(props ?? {}),
+			jobSteps: steps,
+		})
+	}
+}
+
+interface PipelineWorkflowProps extends ghpipelines.GitHubWorkflowProps {
+	assetsS3Bucket: string
+	assetsS3Prefix: string
+}
+
+class PipelineWorkflow extends ghpipelines.GitHubWorkflow {
+	constructor(
+		scope: Construct,
+		id: string,
+		readonly props: PipelineWorkflowProps,
+	) {
+		super(scope, id, props)
+	}
+
+	getStageAccountIds(): Record<string, string> {
+		const accountIds: [string, string][] = this.waves.map((wave) => [
+			wave.stages[0].stacks[0].account!,
+			wave.id,
+		])
+		return Object.fromEntries(accountIds)
+	}
+
+	protected doBuildPipeline() {
+		super.doBuildPipeline()
+		const patches = Array.from(this.iterPatches())
+		console.log(patches)
+		this.workflowFile.patch(...patches)
+		this.workflowFile.writeFile()
+	}
+
+	buildAssetsS3Path(): string {
+		const assetsRun = [
+			interpolateValue(ActionsContext.GITHUB, 'run_id'),
+			interpolateValue(ActionsContext.GITHUB, 'run_attempt'),
+		].join('-')
+		return [
+			`s3://${this.props.assetsS3Bucket}`,
+			this.props.assetsS3Prefix,
+			assetsRun,
+			'cdk.out',
+		].join('/')
+	}
+
+	buildAssetsSync(
+		target: string,
+		direction: 'pull' | 'push',
+	): ghpipelines.JobStep[] {
+		const s3Path = this.buildAssetsS3Path()
+		const source = direction === 'pull' ? s3Path : target
+		const dest = direction === 'pull' ? target : s3Path
+		return [
+			{
+				name: `${
+					direction.charAt(0).toUpperCase() + direction.slice(1)
+				} assets`,
+				env: {
+					SOURCE: source,
+					DESTINATION: dest,
+				},
+				run: 'aws s3 sync $SOURCE $DESTINATION',
+			},
+		]
+	}
+
+	protected stepsToSyncAssemblyPatch(key: string, value: string | number) {
+		const isUpload = String(value).startsWith('actions/upload-artifact')
+		const isDownload = String(value).startsWith('actions/download-artifact')
+		if (!isUpload && !isDownload) return
+		const direction = isUpload ? 'push' : 'pull'
+		// drop the '/uses'
+		const targetKey = '/' + key.split('/').slice(0, -1).join('/')
+		const newStep = this.buildAssetsSync('cdk.out', direction)
+		return ghpipelines.JsonPatch.replace(targetKey, newStep[0])
+	}
+
+	protected moveAssetAuthenticationPatch(key: string, value: string | number) {
+		// move asset authenticate step to start of job
+		const isAssetsJob = key.startsWith('jobs/Assets-')
+		const isUsesKey = key.endsWith('uses')
+		const isUsesConfigure = String(value).startsWith('aws-actions/configure')
+		const isTarget = isAssetsJob && isUsesKey && isUsesConfigure
+		if (!isTarget) return
+		// '/jobs/Assets-FileAsset5/2' -> '/jobs/Assets-FileAsset5/0'
+		const fromKey = `/${key.split('/uses')[0]}`
+		const toKey = fromKey.split('/').slice(0, -1).join('/') + '/0'
+		return ghpipelines.JsonPatch.move(fromKey, toKey)
+	}
+
+	protected maskAccountIdPatch(key: string, value: string | number) {
+		const stageAccountIds = this.getStageAccountIds()
+		const accountIds = Object.keys(stageAccountIds)
+		const aidFound = accountIds.find((aid) => String(value).includes(aid))
+		if (!aidFound) return
+		// mask account ids
+		const envName = stageAccountIds[aidFound]
+		const inter = interpolateValue(
+			ActionsContext.SECRET,
+			`AWS_ACCOUNT_ID_${envName.toUpperCase()}`,
+		)
+		const newValue = String(value).replaceAll(aidFound, inter)
+		return ghpipelines.JsonPatch.replace(`/${key}`, newValue)
+	}
+
+	*iterPatches() {
+		// @ts-expect-error - private property
+		const workflowObj = this.workflowFile.obj as object
+		const flatWorkflow: Record<string, string | number> = flat.flatten(
+			workflowObj,
+			{ delimiter: '/' },
+		)
+		for (const [key, value] of Object.entries(flatWorkflow)) {
+			const patches: ghpipelines.JsonPatch[] = [
+				this.stepsToSyncAssemblyPatch(key, value),
+				this.moveAssetAuthenticationPatch(key, value),
+				this.maskAccountIdPatch(key, value),
+			].filter(Boolean) as ghpipelines.JsonPatch[]
+			yield* patches
+		}
 	}
 }
