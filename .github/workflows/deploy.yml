@@ -6,6 +6,7 @@ on:
   push:
     branches:
       - main
+  workflow_run: {}
   workflow_dispatch: {}
 jobs:
   Build-crisiscleanup-infra-pipeline-synth:

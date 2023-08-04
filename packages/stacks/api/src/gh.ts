@@ -265,6 +265,11 @@ class GithubCodePipeline {
 				: undefined,
 			assetsS3Bucket: pipelineS3BucketName,
 			assetsS3Prefix: 'cdk-assets',
+			workflowTriggers: {
+				push: { branches: ['main'] },
+				workflowRun: {},
+				workflowDispatch: {},
+			},
 		})
 
 		return workflow
