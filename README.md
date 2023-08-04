@@ -2,6 +2,14 @@
 
 Projen powered IaC for CrisisCleanup.
 
+## Stacks
+
+### Overview
+
+Collapsed overview of a single stage.
+
+<img src=".github/img/stacks-api-development-overview.png" align="center"  />
+
 ## Charts
 
 ### CrisisCleanup
