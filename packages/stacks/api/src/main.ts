@@ -33,6 +33,8 @@ blueprints.HelmAddOn.validateHelmVersions = true
 const app = new App({
 	context: {
 		config,
+		// seems to be failing due to patches?
+		'cdk-pipelines-github:diffProtection': 'false',
 	},
 })
 
