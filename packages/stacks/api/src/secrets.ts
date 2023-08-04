@@ -26,6 +26,7 @@ export class SopsSecretProvider implements NamedSecretsProvider {
 		return new SopsSecret(stack, this.props.secretName, {
 			sopsFilePath: this.props.sopsFilePath,
 			secretName: this.props.secretName,
+			flatten: false,
 		})
 	}
 }
