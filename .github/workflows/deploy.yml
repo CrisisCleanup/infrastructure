@@ -67,7 +67,10 @@ jobs:
         env:
           SOURCE: cdk.out
           DESTINATION: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
-        run: aws s3 sync $SOURCE $DESTINATION
+        run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
+          echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
+          aws s3 sync $SOURCE $DESTINATION
   Assets-FileAsset1:
     name: Publish Assets Assets-FileAsset1
     needs:
@@ -90,7 +93,10 @@ jobs:
         env:
           SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
           DESTINATION: cdk.out
-        run: aws s3 sync $SOURCE $DESTINATION
+        run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
+          echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
+          aws s3 sync $SOURCE $DESTINATION
       - name: Install
         run: npm install --no-save cdk-assets
       - id: Publish
@@ -118,7 +124,10 @@ jobs:
         env:
           SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
           DESTINATION: cdk.out
-        run: aws s3 sync $SOURCE $DESTINATION
+        run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
+          echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
+          aws s3 sync $SOURCE $DESTINATION
       - name: Install
         run: npm install --no-save cdk-assets
       - id: Publish
@@ -146,7 +155,10 @@ jobs:
         env:
           SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
           DESTINATION: cdk.out
-        run: aws s3 sync $SOURCE $DESTINATION
+        run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
+          echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
+          aws s3 sync $SOURCE $DESTINATION
       - name: Install
         run: npm install --no-save cdk-assets
       - id: Publish
@@ -174,7 +186,10 @@ jobs:
         env:
           SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
           DESTINATION: cdk.out
-        run: aws s3 sync $SOURCE $DESTINATION
+        run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
+          echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
+          aws s3 sync $SOURCE $DESTINATION
       - name: Install
         run: npm install --no-save cdk-assets
       - id: Publish
@@ -202,7 +217,10 @@ jobs:
         env:
           SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
           DESTINATION: cdk.out
-        run: aws s3 sync $SOURCE $DESTINATION
+        run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
+          echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
+          aws s3 sync $SOURCE $DESTINATION
       - name: Install
         run: npm install --no-save cdk-assets
       - id: Publish
@@ -230,7 +248,10 @@ jobs:
         env:
           SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
           DESTINATION: cdk.out
-        run: aws s3 sync $SOURCE $DESTINATION
+        run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
+          echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
+          aws s3 sync $SOURCE $DESTINATION
       - name: Install
         run: npm install --no-save cdk-assets
       - id: Publish
@@ -258,7 +279,10 @@ jobs:
         env:
           SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
           DESTINATION: cdk.out
-        run: aws s3 sync $SOURCE $DESTINATION
+        run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
+          echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
+          aws s3 sync $SOURCE $DESTINATION
       - name: Install
         run: npm install --no-save cdk-assets
       - id: Publish
@@ -286,7 +310,10 @@ jobs:
         env:
           SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
           DESTINATION: cdk.out
-        run: aws s3 sync $SOURCE $DESTINATION
+        run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
+          echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
+          aws s3 sync $SOURCE $DESTINATION
       - name: Install
         run: npm install --no-save cdk-assets
       - id: Publish
@@ -314,7 +341,10 @@ jobs:
         env:
           SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
           DESTINATION: cdk.out
-        run: aws s3 sync $SOURCE $DESTINATION
+        run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
+          echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
+          aws s3 sync $SOURCE $DESTINATION
       - name: Install
         run: npm install --no-save cdk-assets
       - id: Publish
@@ -342,7 +372,10 @@ jobs:
         env:
           SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
           DESTINATION: cdk.out
-        run: aws s3 sync $SOURCE $DESTINATION
+        run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
+          echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
+          aws s3 sync $SOURCE $DESTINATION
       - name: Install
         run: npm install --no-save cdk-assets
       - id: Publish
@@ -370,7 +403,10 @@ jobs:
         env:
           SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
           DESTINATION: cdk.out
-        run: aws s3 sync $SOURCE $DESTINATION
+        run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
+          echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
+          aws s3 sync $SOURCE $DESTINATION
       - name: Install
         run: npm install --no-save cdk-assets
       - id: Publish
@@ -398,7 +434,10 @@ jobs:
         env:
           SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
           DESTINATION: cdk.out
-        run: aws s3 sync $SOURCE $DESTINATION
+        run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
+          echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
+          aws s3 sync $SOURCE $DESTINATION
       - name: Install
         run: npm install --no-save cdk-assets
       - id: Publish
@@ -426,7 +465,10 @@ jobs:
         env:
           SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
           DESTINATION: cdk.out
-        run: aws s3 sync $SOURCE $DESTINATION
+        run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
+          echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
+          aws s3 sync $SOURCE $DESTINATION
       - name: Install
         run: npm install --no-save cdk-assets
       - id: Publish

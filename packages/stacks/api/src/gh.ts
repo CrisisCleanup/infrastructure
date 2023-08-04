@@ -392,6 +392,18 @@ class PipelineWorkflow extends ghpipelines.GitHubWorkflow {
 		const s3Path = this.buildAssetsS3Path()
 		const source = direction === 'pull' ? s3Path : target
 		const dest = direction === 'pull' ? target : s3Path
+		const stageAccountIds = this.getStageAccountIds()
+		const maskValues: [ActionsContext, string][] = Object.values(
+			stageAccountIds,
+		).map((envName) => [
+			ActionsContext.SECRET,
+			`AWS_ACCOUNT_ID_${envName.toUpperCase()}`,
+		])
+		const maskStep = MaskValueStep.values('Mask IDs', ...maskValues, [
+			ActionsContext.SECRET,
+			'AWS_PIPELINE_ACCOUNT_ID',
+		])
+		const maskRun = maskStep.jobSteps[0].run!
 		return [
 			{
 				name: `${
@@ -401,7 +413,7 @@ class PipelineWorkflow extends ghpipelines.GitHubWorkflow {
 					SOURCE: source,
 					DESTINATION: dest,
 				},
-				run: 'aws s3 sync $SOURCE $DESTINATION',
+				run: [maskRun, 'aws s3 sync $SOURCE $DESTINATION'].join('\n'),
 			},
 		]
 	}
