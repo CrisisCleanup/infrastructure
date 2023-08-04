@@ -1,8 +1,8 @@
 import type * as blueprints from '@aws-quickstart/eks-blueprints'
 import type { Environment, StackProps } from 'aws-cdk-lib'
-import type { GitHubEnvironment } from 'cdk-pipelines-github'
+import { StackCapabilities, type GitHubEnvironment } from 'cdk-pipelines-github'
 import type { Construct } from 'constructs'
-import { GithubCodePipelineStack, type GithubCodePipelineBuilder } from './gh'
+import { type GithubCodePipelineBuilder, GithubCodePipelineStack } from './gh'
 
 export interface PipelineProps {
 	readonly id: string
@@ -67,6 +67,10 @@ export class Pipeline {
 					stackBuilder: envStackBuilder,
 					stageProps: {
 						gitHubEnvironment: githubEnvironment,
+						stackCapabilities: [
+							StackCapabilities.IAM,
+							StackCapabilities.NAMED_IAM,
+						],
 					},
 				},
 			],
