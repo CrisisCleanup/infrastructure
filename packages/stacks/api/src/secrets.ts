@@ -8,8 +8,16 @@ export interface SopsSecretProviderProps {
 	readonly secretName: string
 }
 
-export class SopsSecretProvider implements blueprints.SecretProvider {
+export interface NamedSecretsProvider extends blueprints.SecretProvider {
+	readonly secretName: string
+}
+
+export class SopsSecretProvider implements NamedSecretsProvider {
 	constructor(readonly props: SopsSecretProviderProps) {}
+
+	get secretName(): string {
+		return this.props.secretName
+	}
 
 	provide(
 		clusterInfo: blueprints.ClusterInfo,
