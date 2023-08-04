@@ -63,7 +63,7 @@ export class CrisisCleanupAddOn implements blueprints.ClusterAddOn {
 		const secretPaths: blueprints.JmesPathObject[] = Object.entries(
 			secretKeys,
 		).map(([key, value]) => ({
-			path: key,
+			path: ['api', 'secrets', key].join('.'),
 			objectAlias: value,
 		}))
 
