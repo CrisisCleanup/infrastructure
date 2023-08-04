@@ -89,6 +89,8 @@ export class GithubCodePipelineStack extends cdk.Stack {
 		return new GithubCodePipelineBuilder()
 	}
 
+	private asyncTask: Promise<any>
+
 	constructor(
 		scope: Construct,
 		pipelineProps: PipelineProps,
@@ -106,7 +108,7 @@ export class GithubCodePipelineStack extends cdk.Stack {
 			promises.push(appStage.waitForAsyncTasks())
 		}
 
-		void Promise.all(promises).then((stages) => {
+		this.asyncTask = Promise.all(promises).then((stages) => {
 			let currentWave: ghpipelines.GitHubWave | undefined
 
 			// eslint-disable-next-line @typescript-eslint/no-for-in-array
@@ -131,6 +133,10 @@ export class GithubCodePipelineStack extends cdk.Stack {
 				}
 			}
 		})
+	}
+
+	async waitAsyncTasks() {
+		await this.asyncTask
 	}
 }
 

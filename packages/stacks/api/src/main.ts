@@ -6,7 +6,7 @@ import {
 } from '@crisiscleanup/config'
 import { App } from 'aws-cdk-lib'
 import * as iam from 'aws-cdk-lib/aws-iam'
-import { RedisStackAddOn, CrisisCleanupAddOn } from './addons'
+import { CrisisCleanupAddOn, RedisStackAddOn } from './addons'
 import { buildClusterBuilder, buildEKSStack, buildKarpenter } from './cluster'
 import { DatabaseProvider, DatabaseSecretProvider } from './database'
 import { KeyProvider } from './kms'
@@ -31,7 +31,6 @@ const configsSources: Record<ConfigStage, CrisisCleanupConfigLayerMetaSources> =
 blueprints.HelmAddOn.validateHelmVersions = true
 
 const app = new App({
-	autoSynth: true,
 	context: {
 		config,
 	},
@@ -95,7 +94,7 @@ const devStack = provideDatabase(singleNatStack).addOns(
 			...config.$env.development,
 			api: {
 				...config.$env.development.api,
-				// use defaults just to get the keys
+				// use defaults just to get the keys (nothing confidential here)
 				secrets: config.api.secrets,
 			},
 		},
@@ -104,7 +103,7 @@ const devStack = provideDatabase(singleNatStack).addOns(
 	}),
 )
 
-export default Pipeline.builder({
+const pipeline = Pipeline.builder({
 	id: 'crisiscleanup',
 	connectionArn: config.apiStack.codeStarConnectionArn,
 	rootDir: cwd,
@@ -131,3 +130,8 @@ export default Pipeline.builder({
 		},
 		crossRegionReferences: true,
 	})
+
+await pipeline.waitAsyncTasks()
+app.synth({ validateOnSynthesis: true })
+
+export default pipeline
