@@ -368,7 +368,6 @@ class PipelineWorkflow extends ghpipelines.GitHubWorkflow {
 	protected doBuildPipeline() {
 		super.doBuildPipeline()
 		const patches = Array.from(this.iterPatches())
-		console.log(patches)
 		this.workflowFile.patch(...patches)
 		this.workflowFile.writeFile()
 	}
