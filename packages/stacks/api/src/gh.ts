@@ -265,12 +265,10 @@ class GithubCodePipeline {
 				: undefined,
 			assetsS3Bucket: pipelineS3BucketName,
 			assetsS3Prefix: 'cdk-assets',
-			workflowTriggers: {
-				push: { branches: ['main'] },
-				workflowRun: {},
-				workflowDispatch: {},
-			},
 		})
+		workflow.workflowFile.patch(
+			ghpipelines.JsonPatch.add('/on/workflow_call', {}),
+		)
 
 		return workflow
 	}
