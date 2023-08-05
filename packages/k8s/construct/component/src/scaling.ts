@@ -2,7 +2,7 @@ import * as kplus from 'cdk8s-plus-27'
 import { type Construct, type Node } from 'constructs'
 import defu from 'defu'
 
-export interface HorizontalPodAutoscalerProps {
+export interface ComponentScalingProps {
 	readonly target: kplus.HorizontalPodAutoscalerProps['target']
 	readonly maxReplicas: kplus.HorizontalPodAutoscalerProps['maxReplicas']
 	readonly minReplicas?: kplus.HorizontalPodAutoscalerProps['minReplicas']
@@ -21,7 +21,7 @@ export class ComponentScaling {
 	constructor(
 		readonly scope: Construct,
 		readonly id: string,
-		readonly props: HorizontalPodAutoscalerProps,
+		readonly props: ComponentScalingProps,
 	) {
 		this.node = scope.node
 		this.hpa = this.createHPA(this.createHPAProps(props.target))

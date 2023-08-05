@@ -5,7 +5,7 @@ import createDebug from 'debug'
 import defu from 'defu'
 import { ContainerImage, type ContainerImageProps } from './container-image'
 import { Label } from './labels'
-import { ComponentScaling, type HorizontalPodAutoscalerProps } from './scaling'
+import { ComponentScaling, type ComponentScalingProps } from './scaling'
 
 const debug = createDebug('@crisiscleanup:k8s.construct.component')
 
@@ -13,7 +13,7 @@ export interface DeploymentProps extends kplus.WorkloadProps {
 	replicaCount?: number
 	image?: ContainerImageProps
 	probes?: Pick<kplus.ContainerProps, 'liveness' | 'startup' | 'readiness'>
-	scaling?: HorizontalPodAutoscalerProps
+	scaling?: ComponentScalingProps
 	containerDefaults?: Partial<kplus.ContainerProps>
 }
 
