@@ -31,16 +31,12 @@ const baseAppConfig: ApiAppConfig = {
 	},
 	django: {
 		accountAllowRegistration: 'True',
-		adminUrl: '^ccadmin/',
 		allowedHosts: '*',
 		csrfCookieSecure: false,
 		secureSslRedirect: false,
 		sessionCookieSecure: false,
 		emailBackend: 'django.core.mail.backends.dummy.EmailBackend',
 		settingsModule: 'config.settings.local',
-		mandrill: {
-			apiKey: '',
-		},
 	},
 	ccu: {
 		forceDocker: true,
@@ -49,10 +45,10 @@ const baseAppConfig: ApiAppConfig = {
 		newrelicDisable: true,
 	},
 	connect: {
-		instanceId: '87fbcad4-9f58-4153-84e8-d5b7202693e8',
+		instanceId: '',
 	},
 	elasticSearch: {
-		host: 'https://search-crisiscleanup-weyohcdj6uiduuj65scqkmxxjy.us-east-1.es.amazonaws.com/',
+		host: '',
 	},
 	newRelic: {
 		configFile: '/app/newrelic.ini',
@@ -113,6 +109,13 @@ const baseAppSecrets: ApiAppSecrets = {
 	saml: {
 		awsProvider: '',
 		awsRole: '',
+	},
+	django: {
+		adminUrl: '^admin/',
+		secretKey: 'a_very_secret_key',
+		mandrill: {
+			apiKey: '',
+		},
 	},
 }
 

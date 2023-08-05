@@ -7,13 +7,17 @@ interface Celery {
 
 interface Django {
 	accountAllowRegistration: string
-	adminUrl: string
 	allowedHosts: string
 	csrfCookieSecure: boolean
 	secureSslRedirect: boolean
 	sessionCookieSecure: boolean
 	emailBackend: string
 	settingsModule: string
+}
+
+interface DjangoSecrets {
+	adminUrl: string
+	secretKey: string
 	mandrill: DjangoMandrill
 }
 
@@ -111,6 +115,7 @@ export interface ApiAppSecrets {
 	aws: AWS
 	cloudfront: Cloudfront
 	saml: Saml
+	django: DjangoSecrets
 }
 
 export interface ApiConfig {
