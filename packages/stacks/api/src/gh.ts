@@ -278,6 +278,12 @@ class GithubCodePipeline {
 				},
 			}),
 		)
+		workflow.workflowFile.patch(
+			ghpipelines.JsonPatch.add('concurrency', {
+				group: 'deploy-infra',
+				'cancel-in-progress': false,
+			}),
+		)
 
 		return workflow
 	}
