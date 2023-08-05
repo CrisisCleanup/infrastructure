@@ -250,6 +250,13 @@ class GithubCodePipeline {
 					},
 				},
 				{
+					name: 'Install Sops',
+					uses: 'mdgreenwald/mozilla-sops-action@v1.4.1',
+					with: {
+						version: '3.7.3',
+					},
+				},
+				{
 					name: 'Install AWS CLI',
 					uses: 'unfor19/install-aws-cli-action@v1',
 					if: "inputs.runner == 'self-hosted'",
