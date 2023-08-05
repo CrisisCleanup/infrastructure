@@ -245,7 +245,7 @@ class GithubCodePipeline {
 
 		const maskValues: [ActionsContext, string][] = props.stages.map((stage) => [
 			ActionsContext.SECRET,
-			`AWS_ACCOUNT_ID_${stage.waveId ?? stage.id}`,
+			`AWS_ACCOUNT_ID_${(stage.waveId ?? stage.id).toUpperCase()}`,
 		])
 		const maskStep = MaskValueStep.values('Mask IDs', ...maskValues, [
 			ActionsContext.SECRET,
@@ -267,7 +267,16 @@ class GithubCodePipeline {
 			assetsS3Prefix: 'cdk-assets',
 		})
 		workflow.workflowFile.patch(
-			ghpipelines.JsonPatch.add('/on/workflow_call', {}),
+			ghpipelines.JsonPatch.add('/on/workflow_call', {
+				inputs: {
+					runner: {
+						description: 'Runner to use.',
+						type: 'string',
+						default: 'ubuntu-latest',
+						required: false,
+					},
+				},
+			}),
 		)
 
 		return workflow
@@ -278,6 +287,7 @@ enum ActionsContext {
 	GITHUB = 'github',
 	SECRET = 'secrets',
 	ENV = 'env',
+	INPUTS = 'inputs',
 	INTERPOLATE = 'interpolate',
 }
 
@@ -460,6 +470,34 @@ class PipelineWorkflow extends ghpipelines.GitHubWorkflow {
 		return ghpipelines.JsonPatch.replace(`/${key}`, newValue)
 	}
 
+	protected runnerPatch(key: string, _: string | number) {
+		if (!key.endsWith('runs-on')) return
+		return ghpipelines.JsonPatch.replace(
+			`/${key}`,
+			interpolateValue(
+				ActionsContext.INTERPOLATE,
+				`inputs.runner || 'ubuntu-latest'`,
+			),
+		)
+	}
+
+	protected checkoutPatch(key: string, value: string | number) {
+		const isUses = key.endsWith('uses')
+		const isCheckoutAction = String(value).startsWith('actions/checkout')
+		const isTarget = isUses && isCheckoutAction
+		if (!isTarget) return
+		const stepKey = '/' + key.split('/').slice(0, -1).join('/')
+		return ghpipelines.JsonPatch.replace(stepKey, {
+			name: 'Checkout',
+			uses: value,
+			with: {
+				// for use with workflow_call event.
+				repository: 'CrisisCleanup/infrastructure',
+				ref: 'main',
+			},
+		})
+	}
+
 	*iterPatches() {
 		// @ts-expect-error - private property
 		const workflowObj = this.workflowFile.obj as object
@@ -469,6 +507,8 @@ class PipelineWorkflow extends ghpipelines.GitHubWorkflow {
 		)
 		for (const [key, value] of Object.entries(flatWorkflow)) {
 			const patches: ghpipelines.JsonPatch[] = [
+				this.runnerPatch(key, value),
+				this.checkoutPatch(key, value),
 				this.stepsToSyncAssemblyPatch(key, value),
 				this.moveAssetAuthenticationPatch(key, value),
 				this.maskAccountIdPatch(key, value),

@@ -7,23 +7,32 @@ on:
     branches:
       - main
   workflow_dispatch: {}
-  workflow_call: {}
+  workflow_call:
+    inputs:
+      runner:
+        description: Runner to use.
+        type: string
+        default: ubuntu-latest
+        required: false
 jobs:
   Build-crisiscleanup-infra-pipeline-synth:
     name: Synthesize
     permissions:
       contents: read
       id-token: write
-    runs-on: ubuntu-latest
+    runs-on: ${{inputs.runner || 'ubuntu-latest'}}
     needs: []
     env:
       GIGET_AUTH: ${{ secrets.GH_CONFIGS_RO_PAT }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          repository: CrisisCleanup/infrastructure
+          ref: main
       - name: Mask values
         run: |-
-          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_development}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
@@ -79,7 +88,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    runs-on: ubuntu-latest
+    runs-on: ${{inputs.runner || 'ubuntu-latest'}}
     outputs:
       asset-hash: ${{ steps.Publish.outputs.asset-hash }}
     steps:
@@ -110,7 +119,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    runs-on: ubuntu-latest
+    runs-on: ${{inputs.runner || 'ubuntu-latest'}}
     outputs:
       asset-hash: ${{ steps.Publish.outputs.asset-hash }}
     steps:
@@ -141,7 +150,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    runs-on: ubuntu-latest
+    runs-on: ${{inputs.runner || 'ubuntu-latest'}}
     outputs:
       asset-hash: ${{ steps.Publish.outputs.asset-hash }}
     steps:
@@ -172,7 +181,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    runs-on: ubuntu-latest
+    runs-on: ${{inputs.runner || 'ubuntu-latest'}}
     outputs:
       asset-hash: ${{ steps.Publish.outputs.asset-hash }}
     steps:
@@ -203,7 +212,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    runs-on: ubuntu-latest
+    runs-on: ${{inputs.runner || 'ubuntu-latest'}}
     outputs:
       asset-hash: ${{ steps.Publish.outputs.asset-hash }}
     steps:
@@ -234,7 +243,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    runs-on: ubuntu-latest
+    runs-on: ${{inputs.runner || 'ubuntu-latest'}}
     outputs:
       asset-hash: ${{ steps.Publish.outputs.asset-hash }}
     steps:
@@ -265,7 +274,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    runs-on: ubuntu-latest
+    runs-on: ${{inputs.runner || 'ubuntu-latest'}}
     outputs:
       asset-hash: ${{ steps.Publish.outputs.asset-hash }}
     steps:
@@ -296,7 +305,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    runs-on: ubuntu-latest
+    runs-on: ${{inputs.runner || 'ubuntu-latest'}}
     outputs:
       asset-hash: ${{ steps.Publish.outputs.asset-hash }}
     steps:
@@ -327,7 +336,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    runs-on: ubuntu-latest
+    runs-on: ${{inputs.runner || 'ubuntu-latest'}}
     outputs:
       asset-hash: ${{ steps.Publish.outputs.asset-hash }}
     steps:
@@ -358,7 +367,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    runs-on: ubuntu-latest
+    runs-on: ${{inputs.runner || 'ubuntu-latest'}}
     outputs:
       asset-hash: ${{ steps.Publish.outputs.asset-hash }}
     steps:
@@ -389,7 +398,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    runs-on: ubuntu-latest
+    runs-on: ${{inputs.runner || 'ubuntu-latest'}}
     outputs:
       asset-hash: ${{ steps.Publish.outputs.asset-hash }}
     steps:
@@ -420,7 +429,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    runs-on: ubuntu-latest
+    runs-on: ${{inputs.runner || 'ubuntu-latest'}}
     outputs:
       asset-hash: ${{ steps.Publish.outputs.asset-hash }}
     steps:
@@ -451,7 +460,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    runs-on: ubuntu-latest
+    runs-on: ${{inputs.runner || 'ubuntu-latest'}}
     outputs:
       asset-hash: ${{ steps.Publish.outputs.asset-hash }}
     steps:
@@ -499,7 +508,7 @@ jobs:
       - Assets-FileAsset11
       - Assets-FileAsset12
       - Assets-FileAsset13
-    runs-on: ubuntu-latest
+    runs-on: ${{inputs.runner || 'ubuntu-latest'}}
     steps:
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
