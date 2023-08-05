@@ -1,11 +1,13 @@
 import * as blueprints from '@aws-quickstart/eks-blueprints'
 import {
+	type CrisisCleanupConfig,
 	type CrisisCleanupConfigLayerMetaSources,
 	getConfig,
 	type Stage as ConfigStage,
 } from '@crisiscleanup/config'
 import { App } from 'aws-cdk-lib'
 import * as iam from 'aws-cdk-lib/aws-iam'
+import destr from 'destr'
 import { CrisisCleanupAddOn, RedisStackAddOn } from './addons'
 import { buildClusterBuilder, buildEKSStack, buildKarpenter } from './cluster'
 import { DatabaseProvider, DatabaseSecretProvider } from './database'
@@ -15,7 +17,7 @@ import { SopsSecretProvider } from './secrets'
 import { VpcProvider } from './vpc'
 
 const { config, cwd, layers } = await getConfig({
-	decrypt: false,
+	decrypt: Boolean(destr(process.env.CCU_CONFIGS_DECRYPT)),
 	strict: true,
 	useEnvOverrides: true,
 })
@@ -46,6 +48,7 @@ enum ResourceNames {
 
 const provideDatabase = (
 	builder: blueprints.BlueprintBuilder,
+	stageConfig: CrisisCleanupConfig,
 ): blueprints.BlueprintBuilder => {
 	return builder
 		.resourceProvider(
@@ -61,9 +64,8 @@ const provideDatabase = (
 		.resourceProvider(
 			ResourceNames.DATABASE,
 			new DatabaseProvider({
-				isolated: config.apiStack.isolateDatabase,
-				ioOptimized: config.apiStack.database.ioOptimized,
-				engineVersion: config.apiStack.database.engineVersion,
+				...stageConfig.apiStack.database,
+				isolated: stageConfig.apiStack.isolateDatabase,
 				vpcResourceName: blueprints.GlobalResources.Vpc,
 				databaseSecretResourceName: ResourceNames.DATABASE_SECRET,
 				databaseKeyResourceName: ResourceNames.DATABASE_KEY,
@@ -71,24 +73,41 @@ const provideDatabase = (
 		)
 }
 
-const clusterBuilder = buildClusterBuilder(config)
-const cluster = clusterBuilder.build()
-const eksStackBuilder = buildEKSStack(config).clusterProvider(cluster)
+const buildStack = (stageConfig: CrisisCleanupConfig) => {
+	const clusterBuilder = buildClusterBuilder(stageConfig)
+	const cluster = clusterBuilder.build()
+	const withVpc = provideVPC(
+		buildEKSStack(stageConfig).clusterProvider(cluster),
+		stageConfig,
+	)
+	return provideDatabase(withVpc, stageConfig)
+}
 
-const singleNatStack = eksStackBuilder.resourceProvider(
-	blueprints.GlobalResources.Vpc,
-	new VpcProvider({
-		createIsolatedSubnet: config.apiStack.isolateDatabase,
-		maxAzs: 2,
-		natGateways: 1,
-	}),
-)
+const provideVPC = (
+	builder: blueprints.BlueprintBuilder,
+	stageConfig: CrisisCleanupConfig,
+) => {
+	return builder.resourceProvider(
+		blueprints.GlobalResources.Vpc,
+		new VpcProvider({
+			createIsolatedSubnet: stageConfig.apiStack.isolateDatabase,
+			maxAzs: 2,
+			natGateways: 1,
+		}),
+	)
+}
 
 const devSecretsProvider = new SopsSecretProvider({
 	secretName: 'crisiscleanup-development-api',
 	sopsFilePath: configsSources.development.secretsPath,
 })
-const devStack = provideDatabase(singleNatStack).addOns(
+
+const stagingSecretsProvider = new SopsSecretProvider({
+	secretName: 'crisiscleanup-staging-api',
+	sopsFilePath: configsSources.staging.secretsPath,
+})
+
+const devStack = buildStack(config.$env.development).addOns(
 	buildKarpenter(),
 	new RedisStackAddOn(),
 	new CrisisCleanupAddOn({
@@ -97,11 +116,29 @@ const devStack = provideDatabase(singleNatStack).addOns(
 			api: {
 				...config.$env.development.api,
 				// use defaults just to get the keys (nothing confidential here)
-				secrets: config.api.secrets,
+				secrets: config.$env.development.api.secrets ?? config.api.secrets,
+			},
+		},
+		databaseSecretResourceName: ResourceNames.DATABASE_SECRET,
+		databaseResourceName: ResourceNames.DATABASE,
+		secretsProvider: devSecretsProvider,
+	}),
+)
+
+const stagingStack = buildStack(config.$env.staging).addOns(
+	buildKarpenter(),
+	new RedisStackAddOn(),
+	new CrisisCleanupAddOn({
+		config: {
+			...config.$env.staging,
+			api: {
+				...config.$env.staging.api,
+				secrets: config.$env.staging.api.secrets ?? config.api.secrets,
 			},
 		},
 		databaseResourceName: ResourceNames.DATABASE,
-		secretsProvider: devSecretsProvider,
+		databaseSecretResourceName: ResourceNames.DATABASE_SECRET,
+		secretsProvider: stagingSecretsProvider,
 	}),
 )
 
@@ -123,6 +160,21 @@ const pipeline = Pipeline.builder({
 		githubEnvironment: {
 			name: 'development',
 			url: 'https://app.dev.crisiscleanup.io',
+		},
+	})
+	.target({
+		name: 'staging',
+		stackBuilder: stagingStack,
+		environment: config.$env.staging.cdkEnvironment,
+		platformTeam: new blueprints.PlatformTeam({
+			name: 'platform',
+			users: config.$env.development.apiStack.eks.platformArns.map(
+				(arn) => new iam.ArnPrincipal(arn),
+			),
+		}),
+		githubEnvironment: {
+			name: 'staging',
+			url: 'https://app.staging.crisiscleanup.io',
 		},
 	})
 	.build(app, {
