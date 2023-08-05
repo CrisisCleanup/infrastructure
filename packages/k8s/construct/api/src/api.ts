@@ -205,6 +205,7 @@ export class ApiWSGI
 
 		// migrate + collectstatic jobs
 		this.migrateJob = new kplus.Job(this, 'migrate', {
+			serviceAccount: this.props.serviceAccount,
 			securityContext,
 			podMetadata: { labels: { component: 'api-migrate' } },
 			terminationGracePeriod: Duration.minutes(5),
@@ -223,6 +224,7 @@ export class ApiWSGI
 		})
 
 		this.collectStaticJob = new kplus.Job(this, 'collectstatic', {
+			serviceAccount: this.props.serviceAccount,
 			securityContext,
 			volumes: [staticVolume],
 			podMetadata: { labels: { component: 'api-static' } },
