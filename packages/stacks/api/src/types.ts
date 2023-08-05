@@ -15,6 +15,7 @@ export interface EKSConfig {
 export interface DatabaseConfig {
 	readonly engineVersion: string
 	readonly ioOptimized: boolean
+	readonly maxAcu: number
 }
 
 export interface ApiStackConfig {

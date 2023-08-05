@@ -4,15 +4,13 @@ import * as ec2 from 'aws-cdk-lib/aws-ec2'
 import type * as kms from 'aws-cdk-lib/aws-kms'
 import * as rds from 'aws-cdk-lib/aws-rds'
 import { type ISecret, Secret } from 'aws-cdk-lib/aws-secretsmanager'
+import type { DatabaseConfig } from './types'
 
-export interface DatabaseProviderProps {
+export interface DatabaseProviderProps extends DatabaseConfig {
 	vpcResourceName: string
 	databaseSecretResourceName: string
 	databaseKeyResourceName: string
-
-	engineVersion: string
 	isolated: boolean
-	ioOptimized: boolean
 
 	databasePort?: number
 }
@@ -98,7 +96,7 @@ export class DatabaseProvider
 				? rds.DBClusterStorageType.AURORA_IOPT1
 				: rds.DBClusterStorageType.AURORA,
 			storageEncrypted: true,
-			serverlessV2MaxCapacity: 1,
+			serverlessV2MaxCapacity: this.props.maxAcu,
 			writer,
 			readers: [rds.ClusterInstance.serverlessV2(id + '-cluster-reader-1')],
 			storageEncryptionKey: dbKey,

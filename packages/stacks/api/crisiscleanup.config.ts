@@ -22,6 +22,7 @@ export default defineConfig({
 		database: {
 			engineVersion: '15.3',
 			ioOptimized: false,
+			maxAcu: 1,
 		},
 	},
 })
