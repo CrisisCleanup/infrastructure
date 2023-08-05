@@ -661,9 +661,6 @@ jobs:
       - Assets-FileAsset6
       - Assets-FileAsset7
       - Assets-FileAsset8
-      - Assets-FileAsset9
-      - Assets-FileAsset10
-      - Assets-FileAsset11
       - Assets-FileAsset15
       - Assets-FileAsset16
       - development-development-blueprint-Deploy
