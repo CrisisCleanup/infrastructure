@@ -329,9 +329,6 @@ exports[`Snapshot 1`] = `
       "UpdateReplacePolicy": "Delete",
     },
     "corednsaddOn": {
-      "DependsOn": [
-        "teststackchartawsloadbalancercontrollerF71AE295",
-      ],
       "Properties": {
         "AddonName": "coredns",
         "AddonVersion": "v1.10.1-eksbuild.2",
@@ -440,9 +437,6 @@ exports[`Snapshot 1`] = `
       "Type": "AWS::Lambda::LayerVersion",
     },
     "kubeproxyaddOn": {
-      "DependsOn": [
-        "teststackchartawsloadbalancercontrollerF71AE295",
-      ],
       "Properties": {
         "AddonName": "kube-proxy",
         "AddonVersion": "v1.27.3-eksbuild.2",
@@ -2442,7 +2436,6 @@ exports[`Snapshot 1`] = `
         "teststackvpcPublicSubnet2SubnetDEE0C8F7",
         "teststackvpcAF2EB73C",
         "teststackvpcVPCGW05B02F5B",
-        "teststackchartawsloadbalancercontrollerF71AE295",
         "teststackKubectlReadyBarrier041D6F85",
       ],
       "Properties": {
@@ -3897,9 +3890,6 @@ exports[`Snapshot 1`] = `
       "UpdateReplacePolicy": "Delete",
     },
     "vpccniaddOn": {
-      "DependsOn": [
-        "teststackchartawsloadbalancercontrollerF71AE295",
-      ],
       "Properties": {
         "AddonName": "vpc-cni",
         "AddonVersion": "v1.13.3-eksbuild.1",

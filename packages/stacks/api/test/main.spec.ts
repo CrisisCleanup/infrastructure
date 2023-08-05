@@ -10,7 +10,11 @@ import { test, expect, vi, beforeAll, afterAll } from 'vitest'
 // @ts-ignore
 import stackDefaults from '../crisiscleanup.config'
 import { CrisisCleanupAddOn } from '../src/addons'
-import { buildClusterBuilder, buildEKSStack } from '../src/cluster'
+import {
+	buildClusterBuilder,
+	buildEKSStack,
+	getDefaultAddons,
+} from '../src/cluster'
 util.inspect.defaultOptions.depth = 6
 util.inspect.defaultOptions.colors = true
 
@@ -40,6 +44,7 @@ test('Snapshot', async () => {
 	})
 	const cluster = buildClusterBuilder(config).build()
 	const stack = await buildEKSStack(config)
+		.addOns(...getDefaultAddons(config))
 		.clusterProvider(cluster)
 		.resourceProvider('db-secret', {
 			provide(context: ResourceContext): IConstruct {
