@@ -39,10 +39,6 @@ jobs:
         uses: azure/setup-helm@v3
         with:
           version: 3.12.2
-      - name: Install Sops
-        uses: mdgreenwald/mozilla-sops-action@v1.4.1
-        with:
-          version: 3.7.3
       - name: Install AWS CLI
         uses: unfor19/install-aws-cli-action@v1
         if: inputs.runner == 'self-hosted'
@@ -63,7 +59,24 @@ jobs:
           role-skip-session-tagging: true
           role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
       - name: Install
-        run: pnpm install
+        run: >-
+          echo Installing Sops...
+
+          ARCH=$(uname -m)
+
+          if [ "$ARCH" = "aarch64" ]; then
+            curl -L https://github.com/mozilla/sops/releases/download/v3.7.3/sops-v3.7.3.linux.arm64 -o sops
+          else
+            curl -L https://github.com/mozilla/sops/releases/download/v3.7.3/sops-v3.7.3.linux -o sops
+          fi
+
+          chmod 755 sops
+
+          mv sops /usr/local/bin
+
+          sops --version
+
+          pnpm install
       - name: Build
         run: |-
           pnpm build
@@ -661,6 +674,9 @@ jobs:
       - Assets-FileAsset6
       - Assets-FileAsset7
       - Assets-FileAsset8
+      - Assets-FileAsset9
+      - Assets-FileAsset10
+      - Assets-FileAsset11
       - Assets-FileAsset15
       - Assets-FileAsset16
       - development-development-blueprint-Deploy

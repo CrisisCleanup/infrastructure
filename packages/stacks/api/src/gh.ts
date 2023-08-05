@@ -205,7 +205,20 @@ class GithubCodePipeline {
 		})
 		pipelineKms.grantDecrypt(actionsRole.role)
 
-		const installCommands = ['pnpm install']
+		const sopsInstall = [
+			'echo Installing Sops...',
+			'ARCH=$(uname -m)',
+			'if [ "$ARCH" = "aarch64" ]; then',
+			'  curl -L https://github.com/mozilla/sops/releases/download/v3.7.3/sops-v3.7.3.linux.arm64 -o sops',
+			'else',
+			'  curl -L https://github.com/mozilla/sops/releases/download/v3.7.3/sops-v3.7.3.linux -o sops',
+			'fi',
+			'chmod 755 sops',
+			'mv sops /usr/local/bin',
+			'sops --version',
+		]
+
+		const installCommands = [...sopsInstall, 'pnpm install']
 
 		const commands = [
 			'pnpm build',
@@ -247,13 +260,6 @@ class GithubCodePipeline {
 					uses: 'azure/setup-helm@v3',
 					with: {
 						version: '3.12.2',
-					},
-				},
-				{
-					name: 'Install Sops',
-					uses: 'mdgreenwald/mozilla-sops-action@v1.4.1',
-					with: {
-						version: '3.7.3',
 					},
 				},
 				{
