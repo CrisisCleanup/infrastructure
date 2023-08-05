@@ -43,7 +43,13 @@ export const getDefaultAddons = (
 				),
 			],
 		}),
-		new blueprints.addons.CertManagerAddOn(),
+		new blueprints.addons.CertManagerAddOn({
+			values: {
+				webhook: {
+					securePort: 10260,
+				},
+			},
+		}),
 	]
 }
 
@@ -157,6 +163,6 @@ export const buildClusterBuilder = (
 			),
 		})
 		.fargateProfile('serverless', {
-			selectors: [{ namespace: 'karpenter' }],
+			selectors: [{ namespace: 'karpenter' }, { namespace: 'cert-manager' }],
 		})
 }
