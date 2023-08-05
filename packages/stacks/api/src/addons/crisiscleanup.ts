@@ -93,7 +93,6 @@ export class CrisisCleanupAddOn implements blueprints.ClusterAddOn {
 			{ path: 'username', objectAlias: 'POSTGRES_USER' },
 			{ path: 'password', objectAlias: 'POSTGRES_PASSWORD' },
 			{ path: 'host', objectAlias: 'POSTGRES_HOST' },
-			{ path: 'port', objectAlias: 'POSTGRES_PORT' },
 		]
 
 		const csiProvider = new blueprints.SecretProviderClass(
@@ -157,11 +156,12 @@ export class CrisisCleanupAddOn implements blueprints.ClusterAddOn {
 			'crisiscleanup-db-secrets',
 			'crisiscleanup-db-secrets',
 		)
+		const dbAliases = dbSecretPaths.map(({ objectAlias }) => objectAlias)
 		const secretEnvsValues = Object.values(secretKeys).map((key) => [
 			key,
 			kplus.EnvValue.fromSecretValue({
 				key: key,
-				secret: key.startsWith('POSTGRES') ? dbSecretLookup : secretLookup,
+				secret: dbAliases.includes(key) ? dbSecretLookup : secretLookup,
 			}),
 		])
 
