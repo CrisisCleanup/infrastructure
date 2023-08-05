@@ -33,6 +33,7 @@ jobs:
       - name: Mask values
         run: |-
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
       - name: Install Helm
         uses: azure/setup-helm@v3
@@ -70,6 +71,7 @@ jobs:
           DESTINATION: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
         run: |-
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
           aws s3 sync $SOURCE $DESTINATION
   Assets-FileAsset1:
@@ -96,6 +98,7 @@ jobs:
           DESTINATION: cdk.out
         run: |-
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
           aws s3 sync $SOURCE $DESTINATION
       - name: Install
@@ -127,6 +130,7 @@ jobs:
           DESTINATION: cdk.out
         run: |-
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
           aws s3 sync $SOURCE $DESTINATION
       - name: Install
@@ -158,6 +162,7 @@ jobs:
           DESTINATION: cdk.out
         run: |-
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
           aws s3 sync $SOURCE $DESTINATION
       - name: Install
@@ -189,6 +194,7 @@ jobs:
           DESTINATION: cdk.out
         run: |-
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
           aws s3 sync $SOURCE $DESTINATION
       - name: Install
@@ -220,6 +226,7 @@ jobs:
           DESTINATION: cdk.out
         run: |-
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
           aws s3 sync $SOURCE $DESTINATION
       - name: Install
@@ -227,6 +234,102 @@ jobs:
       - id: Publish
         name: Publish Assets-FileAsset13
         run: /bin/bash ./cdk.out/publish-Assets-FileAsset13-step.sh
+  Assets-FileAsset14:
+    name: Publish Assets Assets-FileAsset14
+    needs:
+      - Build-crisiscleanup-infra-pipeline-synth
+    permissions:
+      contents: read
+      id-token: write
+    runs-on: ubuntu-latest
+    outputs:
+      asset-hash: ${{ steps.Publish.outputs.asset-hash }}
+    steps:
+      - name: Authenticate Via OIDC Role
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-region: us-east-1
+          role-duration-seconds: 1800
+          role-skip-session-tagging: true
+          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
+      - name: Pull assets
+        env:
+          SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
+          DESTINATION: cdk.out
+        run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
+          echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
+          aws s3 sync $SOURCE $DESTINATION
+      - name: Install
+        run: npm install --no-save cdk-assets
+      - id: Publish
+        name: Publish Assets-FileAsset14
+        run: /bin/bash ./cdk.out/publish-Assets-FileAsset14-step.sh
+  Assets-FileAsset15:
+    name: Publish Assets Assets-FileAsset15
+    needs:
+      - Build-crisiscleanup-infra-pipeline-synth
+    permissions:
+      contents: read
+      id-token: write
+    runs-on: ubuntu-latest
+    outputs:
+      asset-hash: ${{ steps.Publish.outputs.asset-hash }}
+    steps:
+      - name: Authenticate Via OIDC Role
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-region: us-east-1
+          role-duration-seconds: 1800
+          role-skip-session-tagging: true
+          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
+      - name: Pull assets
+        env:
+          SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
+          DESTINATION: cdk.out
+        run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
+          echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
+          aws s3 sync $SOURCE $DESTINATION
+      - name: Install
+        run: npm install --no-save cdk-assets
+      - id: Publish
+        name: Publish Assets-FileAsset15
+        run: /bin/bash ./cdk.out/publish-Assets-FileAsset15-step.sh
+  Assets-FileAsset16:
+    name: Publish Assets Assets-FileAsset16
+    needs:
+      - Build-crisiscleanup-infra-pipeline-synth
+    permissions:
+      contents: read
+      id-token: write
+    runs-on: ubuntu-latest
+    outputs:
+      asset-hash: ${{ steps.Publish.outputs.asset-hash }}
+    steps:
+      - name: Authenticate Via OIDC Role
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-region: us-east-1
+          role-duration-seconds: 1800
+          role-skip-session-tagging: true
+          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
+      - name: Pull assets
+        env:
+          SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
+          DESTINATION: cdk.out
+        run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
+          echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
+          aws s3 sync $SOURCE $DESTINATION
+      - name: Install
+        run: npm install --no-save cdk-assets
+      - id: Publish
+        name: Publish Assets-FileAsset16
+        run: /bin/bash ./cdk.out/publish-Assets-FileAsset16-step.sh
   Assets-FileAsset2:
     name: Publish Assets Assets-FileAsset2
     needs:
@@ -251,6 +354,7 @@ jobs:
           DESTINATION: cdk.out
         run: |-
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
           aws s3 sync $SOURCE $DESTINATION
       - name: Install
@@ -282,6 +386,7 @@ jobs:
           DESTINATION: cdk.out
         run: |-
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
           aws s3 sync $SOURCE $DESTINATION
       - name: Install
@@ -313,6 +418,7 @@ jobs:
           DESTINATION: cdk.out
         run: |-
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
           aws s3 sync $SOURCE $DESTINATION
       - name: Install
@@ -344,6 +450,7 @@ jobs:
           DESTINATION: cdk.out
         run: |-
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
           aws s3 sync $SOURCE $DESTINATION
       - name: Install
@@ -375,6 +482,7 @@ jobs:
           DESTINATION: cdk.out
         run: |-
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
           aws s3 sync $SOURCE $DESTINATION
       - name: Install
@@ -406,6 +514,7 @@ jobs:
           DESTINATION: cdk.out
         run: |-
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
           aws s3 sync $SOURCE $DESTINATION
       - name: Install
@@ -437,6 +546,7 @@ jobs:
           DESTINATION: cdk.out
         run: |-
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
           aws s3 sync $SOURCE $DESTINATION
       - name: Install
@@ -468,6 +578,7 @@ jobs:
           DESTINATION: cdk.out
         run: |-
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
           aws s3 sync $SOURCE $DESTINATION
       - name: Install
@@ -528,6 +639,59 @@ jobs:
           no-fail-on-empty-changeset: "1"
           capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM
           role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}-us-east-1
+  staging-staging-blueprint-Deploy:
+    name: Deploy crisiscleanupinfrapipelinestackstagingstagingblueprint5D1F778A
+    permissions:
+      contents: read
+      id-token: write
+    environment:
+      name: staging
+      url: https://app.staging.crisiscleanup.io
+    needs:
+      - Build-crisiscleanup-infra-pipeline-synth
+      - Assets-FileAsset14
+      - Assets-FileAsset2
+      - Assets-FileAsset3
+      - Assets-FileAsset4
+      - Assets-FileAsset5
+      - Assets-FileAsset6
+      - Assets-FileAsset7
+      - Assets-FileAsset8
+      - Assets-FileAsset9
+      - Assets-FileAsset10
+      - Assets-FileAsset11
+      - Assets-FileAsset15
+      - Assets-FileAsset16
+      - development-development-blueprint-Deploy
+    runs-on: ${{inputs.runner || 'ubuntu-latest'}}
+    steps:
+      - name: Authenticate Via OIDC Role
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-region: us-east-1
+          role-duration-seconds: 1800
+          role-skip-session-tagging: true
+          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
+      - name: Assume CDK Deploy Role
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-region: us-east-1
+          role-duration-seconds: 1800
+          role-skip-session-tagging: true
+          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ env.AWS_SESSION_TOKEN }}
+          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_STAGING}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_STAGING}}-us-east-1
+          role-external-id: Pipeline
+      - id: Deploy
+        uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
+        with:
+          name: staging-staging-blueprint
+          template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_STAGING}}-us-east-1.s3.us-east-1.amazonaws.com/${{
+            needs.Assets-FileAsset14.outputs.asset-hash }}.json
+          no-fail-on-empty-changeset: "1"
+          capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM
+          role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_STAGING}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_STAGING}}-us-east-1
 concurrency:
   group: deploy-infra
   cancel-in-progress: false
