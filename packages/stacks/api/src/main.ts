@@ -8,7 +8,12 @@ import {
 import { App } from 'aws-cdk-lib'
 import * as iam from 'aws-cdk-lib/aws-iam'
 import { CrisisCleanupAddOn, RedisStackAddOn } from './addons'
-import { buildClusterBuilder, buildEKSStack, buildKarpenter } from './cluster'
+import {
+	buildClusterBuilder,
+	buildEKSStack,
+	buildKarpenter,
+	getDefaultAddons,
+} from './cluster'
 import { DatabaseProvider, DatabaseSecretProvider } from './database'
 import { KeyProvider } from './kms'
 import { Pipeline } from './pipeline'
@@ -71,13 +76,17 @@ const provideDatabase = (
 		)
 }
 
-const buildStack = (stageConfig: CrisisCleanupConfig) => {
+const buildStack = (
+	stageConfig: CrisisCleanupConfig,
+	defaultAddons: boolean = true,
+) => {
 	const clusterBuilder = buildClusterBuilder(stageConfig)
 	const cluster = clusterBuilder.build()
-	const withVpc = provideVPC(
-		buildEKSStack(stageConfig).clusterProvider(cluster),
-		stageConfig,
-	)
+	let stack = buildEKSStack(stageConfig).clusterProvider(cluster)
+	if (defaultAddons) {
+		stack = stack.addOns(...getDefaultAddons(stageConfig))
+	}
+	const withVpc = provideVPC(stack, stageConfig)
 	return provideDatabase(withVpc, stageConfig)
 }
 
@@ -123,22 +132,23 @@ const devStack = buildStack(config.$env.development).addOns(
 	}),
 )
 
-const stagingStack = buildStack(config.$env.staging).addOns(
-	buildKarpenter(),
-	new RedisStackAddOn(),
-	new CrisisCleanupAddOn({
-		config: {
-			...config.$env.staging,
-			api: {
-				...config.$env.staging.api,
-				secrets: config.$env.staging.api.secrets ?? config.api.secrets,
-			},
-		},
-		databaseResourceName: ResourceNames.DATABASE,
-		databaseSecretResourceName: ResourceNames.DATABASE_SECRET,
-		secretsProvider: stagingSecretsProvider,
-	}),
-)
+const stagingStack = buildStack(config.$env.staging, false)
+// const stagingStack = buildStack(config.$env.staging).addOns(
+// 	buildKarpenter(),
+// 	new RedisStackAddOn(),
+// 	new CrisisCleanupAddOn({
+// 		config: {
+// 			...config.$env.staging,
+// 			api: {
+// 				...config.$env.staging.api,
+// 				secrets: config.$env.staging.api.secrets ?? config.api.secrets,
+// 			},
+// 		},
+// 		databaseResourceName: ResourceNames.DATABASE,
+// 		databaseSecretResourceName: ResourceNames.DATABASE_SECRET,
+// 		secretsProvider: stagingSecretsProvider,
+// 	}),
+// )
 
 const pipeline = Pipeline.builder({
 	id: 'crisiscleanup',
