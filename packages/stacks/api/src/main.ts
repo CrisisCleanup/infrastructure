@@ -132,7 +132,7 @@ const devStack = buildStack(config.$env.development).addOns(
 	}),
 )
 
-const stagingStack = buildStack(config.$env.staging, false).addOns(
+const stagingStack = buildStack(config.$env.staging).addOns(
 	buildKarpenter(),
 	// new RedisStackAddOn(),
 	// new CrisisCleanupAddOn({
