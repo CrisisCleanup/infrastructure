@@ -174,22 +174,6 @@ export class ApplicationStage extends ghpipelines.GitHubStage {
 
 class GithubCodePipeline {
 	static build(scope: Construct, props: PipelineProps) {
-		const sopsInstall = [
-			'echo Installing Sops...',
-			'curl -L https://github.com/mozilla/sops/releases/download/v3.7.3/sops-v3.7.3.linux -o sops',
-			'chmod 755 sops',
-			'mv sops /usr/local/bin',
-			'sops --version',
-		]
-
-		const helmInstall = [
-			'echo Installing Helm...',
-			'curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3',
-			'chmod 700 get_helm.sh',
-			'./get_helm.sh',
-			'helm version',
-		]
-
 		const actionsRole = new ghpipelines.GitHubActionRole(
 			scope,
 			'github-action-role',
@@ -215,13 +199,7 @@ class GithubCodePipeline {
 			prefix: 'cdk-assets',
 		})
 
-		const installCommands = [
-			'n stable',
-			...sopsInstall,
-			...helmInstall,
-			'npm install -g pnpm aws-cdk@2.88.0',
-			'pnpm install',
-		]
+		const installCommands = ['pnpm install']
 
 		const commands = [
 			'pnpm build',
@@ -258,6 +236,25 @@ class GithubCodePipeline {
 			publishAssetsAuthRegion: 'us-east-1',
 			preBuildSteps: [
 				...maskStep.jobSteps,
+				{
+					name: 'Install Helm',
+					uses: 'azure/setup-helm@v3',
+					with: {
+						version: '3.12.2',
+					},
+				},
+				{
+					name: 'Setup PNPM',
+					uses: 'pnpm/action-setup@v2.4.0',
+				},
+				{
+					name: 'Setup Node',
+					uses: 'actions/setup-node@v3',
+					with: {
+						'node-version': '18',
+						cache: 'pnpm',
+					},
+				},
 				...awsCreds.credentialSteps('us-east-1'),
 			],
 			workflowPath: props.rootDir
@@ -279,7 +276,7 @@ class GithubCodePipeline {
 			}),
 		)
 		workflow.workflowFile.patch(
-			ghpipelines.JsonPatch.add('concurrency', {
+			ghpipelines.JsonPatch.add('/concurrency', {
 				group: 'deploy-infra',
 				'cancel-in-progress': false,
 			}),

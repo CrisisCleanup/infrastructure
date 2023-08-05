@@ -34,6 +34,17 @@ jobs:
         run: |-
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
+      - name: Install Helm
+        uses: azure/setup-helm@v3
+        with:
+          version: 3.12.2
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v2.4.0
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+          cache: pnpm
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -42,32 +53,7 @@ jobs:
           role-skip-session-tagging: true
           role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
       - name: Install
-        run: >-
-          n stable
-
-          echo Installing Sops...
-
-          curl -L https://github.com/mozilla/sops/releases/download/v3.7.3/sops-v3.7.3.linux -o sops
-
-          chmod 755 sops
-
-          mv sops /usr/local/bin
-
-          sops --version
-
-          echo Installing Helm...
-
-          curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
-
-          chmod 700 get_helm.sh
-
-          ./get_helm.sh
-
-          helm version
-
-          npm install -g pnpm aws-cdk@2.88.0
-
-          pnpm install
+        run: pnpm install
       - name: Build
         run: |-
           pnpm build
@@ -537,3 +523,6 @@ jobs:
           no-fail-on-empty-changeset: "1"
           capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM
           role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}-us-east-1
+concurrency:
+  group: deploy-infra
+  cancel-in-progress: false
