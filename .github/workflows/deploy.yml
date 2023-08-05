@@ -38,6 +38,11 @@ jobs:
         uses: azure/setup-helm@v3
         with:
           version: 3.12.2
+      - name: Install AWS CLI
+        uses: unfor19/install-aws-cli-action@v1
+        if: inputs.runner == 'self-hosted'
+        with:
+          arch: arm64
       - name: Setup PNPM
         uses: pnpm/action-setup@v2.4.0
       - name: Setup Node
@@ -74,7 +79,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    runs-on: ${{inputs.runner || 'ubuntu-latest'}}
+    runs-on: ubuntu-latest
     outputs:
       asset-hash: ${{ steps.Publish.outputs.asset-hash }}
     steps:
@@ -105,7 +110,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    runs-on: ${{inputs.runner || 'ubuntu-latest'}}
+    runs-on: ubuntu-latest
     outputs:
       asset-hash: ${{ steps.Publish.outputs.asset-hash }}
     steps:
@@ -136,7 +141,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    runs-on: ${{inputs.runner || 'ubuntu-latest'}}
+    runs-on: ubuntu-latest
     outputs:
       asset-hash: ${{ steps.Publish.outputs.asset-hash }}
     steps:
@@ -167,7 +172,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    runs-on: ${{inputs.runner || 'ubuntu-latest'}}
+    runs-on: ubuntu-latest
     outputs:
       asset-hash: ${{ steps.Publish.outputs.asset-hash }}
     steps:
@@ -198,7 +203,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    runs-on: ${{inputs.runner || 'ubuntu-latest'}}
+    runs-on: ubuntu-latest
     outputs:
       asset-hash: ${{ steps.Publish.outputs.asset-hash }}
     steps:
@@ -229,7 +234,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    runs-on: ${{inputs.runner || 'ubuntu-latest'}}
+    runs-on: ubuntu-latest
     outputs:
       asset-hash: ${{ steps.Publish.outputs.asset-hash }}
     steps:
@@ -260,7 +265,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    runs-on: ${{inputs.runner || 'ubuntu-latest'}}
+    runs-on: ubuntu-latest
     outputs:
       asset-hash: ${{ steps.Publish.outputs.asset-hash }}
     steps:
@@ -291,7 +296,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    runs-on: ${{inputs.runner || 'ubuntu-latest'}}
+    runs-on: ubuntu-latest
     outputs:
       asset-hash: ${{ steps.Publish.outputs.asset-hash }}
     steps:
@@ -322,7 +327,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    runs-on: ${{inputs.runner || 'ubuntu-latest'}}
+    runs-on: ubuntu-latest
     outputs:
       asset-hash: ${{ steps.Publish.outputs.asset-hash }}
     steps:
@@ -353,7 +358,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    runs-on: ${{inputs.runner || 'ubuntu-latest'}}
+    runs-on: ubuntu-latest
     outputs:
       asset-hash: ${{ steps.Publish.outputs.asset-hash }}
     steps:
@@ -384,7 +389,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    runs-on: ${{inputs.runner || 'ubuntu-latest'}}
+    runs-on: ubuntu-latest
     outputs:
       asset-hash: ${{ steps.Publish.outputs.asset-hash }}
     steps:
@@ -415,7 +420,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    runs-on: ${{inputs.runner || 'ubuntu-latest'}}
+    runs-on: ubuntu-latest
     outputs:
       asset-hash: ${{ steps.Publish.outputs.asset-hash }}
     steps:
@@ -446,7 +451,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    runs-on: ${{inputs.runner || 'ubuntu-latest'}}
+    runs-on: ubuntu-latest
     outputs:
       asset-hash: ${{ steps.Publish.outputs.asset-hash }}
     steps:

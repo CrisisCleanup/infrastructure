@@ -244,6 +244,14 @@ class GithubCodePipeline {
 					},
 				},
 				{
+					name: 'Install AWS CLI',
+					uses: 'unfor19/install-aws-cli-action@v1',
+					if: "inputs.runner == 'self-hosted'",
+					with: {
+						arch: 'arm64',
+					},
+				},
+				{
 					name: 'Setup PNPM',
 					uses: 'pnpm/action-setup@v2.4.0',
 				},
@@ -474,7 +482,11 @@ class PipelineWorkflow extends ghpipelines.GitHubWorkflow {
 	}
 
 	protected runnerPatch(key: string, _: string | number) {
-		if (!key.endsWith('runs-on')) return
+		const isRunsOn = key.endsWith('runs-on')
+		const isAssetJob = key.startsWith('jobs/Assets-')
+		const isTarget = isRunsOn && !isAssetJob
+		// always use ubuntu-latest for asset jobs
+		if (!isTarget) return
 		return ghpipelines.JsonPatch.replace(
 			`/${key}`,
 			interpolateValue(
