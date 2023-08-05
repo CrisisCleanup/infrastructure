@@ -3,6 +3,7 @@ import path from 'node:path'
 import * as blueprints from '@aws-quickstart/eks-blueprints'
 import type { Stack, StackProps } from 'aws-cdk-lib'
 import * as cdk from 'aws-cdk-lib'
+import * as kms from 'aws-cdk-lib/aws-kms'
 import * as s3 from 'aws-cdk-lib/aws-s3'
 import * as cdkpipelines from 'aws-cdk-lib/pipelines'
 import * as ghpipelines from 'cdk-pipelines-github'
@@ -198,6 +199,11 @@ class GithubCodePipeline {
 			abortIncompleteMultipartUploadAfter: cdk.Duration.days(7),
 			prefix: 'cdk-assets',
 		})
+
+		const pipelineKms = new kms.Key(scope, 'pipeline-kms', {
+			alias: 'pipeline-key',
+		})
+		pipelineKms.grantDecrypt(actionsRole.role)
 
 		const installCommands = ['pnpm install']
 
