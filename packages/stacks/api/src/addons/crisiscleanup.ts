@@ -79,7 +79,7 @@ export class CrisisCleanupAddOn implements blueprints.ClusterAddOn {
 			{ nestedDelimiter: '_' },
 		)
 		const secretPaths: blueprints.JmesPathObject[] = Object.entries(secretKeys)
-			.filter(([key, _]) => !key.startsWith('POSTGRES'))
+			.filter(([key, _]) => !key.startsWith('postgres'))
 			.map(([key, value]) => ({
 				path: ['api', 'secrets', key].join('.'),
 				objectAlias: value,
