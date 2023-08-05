@@ -148,10 +148,6 @@
       "type": "runtime"
     },
     {
-      "name": "destr",
-      "type": "runtime"
-    },
-    {
       "name": "flat",
       "type": "runtime"
     }

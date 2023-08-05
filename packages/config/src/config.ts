@@ -219,7 +219,7 @@ export interface GetConfigOptions {
 	/**
 	 * Attempt to decrypt secret values.
 	 */
-	decrypt: boolean
+	decrypt?: boolean
 }
 
 type LoadedConfig<
@@ -238,7 +238,7 @@ export const getConfig = async <
 	T extends Exact<GetConfigOptions, T> = {
 		useEnvOverrides: true
 		strict: true
-		decrypt: true
+		decrypt?: true
 	},
 >(
 	options?: T,

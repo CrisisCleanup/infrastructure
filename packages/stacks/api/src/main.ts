@@ -7,7 +7,6 @@ import {
 } from '@crisiscleanup/config'
 import { App } from 'aws-cdk-lib'
 import * as iam from 'aws-cdk-lib/aws-iam'
-import destr from 'destr'
 import { CrisisCleanupAddOn, RedisStackAddOn } from './addons'
 import { buildClusterBuilder, buildEKSStack, buildKarpenter } from './cluster'
 import { DatabaseProvider, DatabaseSecretProvider } from './database'
@@ -17,7 +16,6 @@ import { SopsSecretProvider } from './secrets'
 import { VpcProvider } from './vpc'
 
 const { config, cwd, layers } = await getConfig({
-	decrypt: Boolean(destr(process.env.CCU_CONFIGS_DECRYPT)),
 	strict: true,
 	useEnvOverrides: true,
 })
