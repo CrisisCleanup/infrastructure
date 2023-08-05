@@ -132,21 +132,21 @@ const devStack = buildStack(config.$env.development).addOns(
 	}),
 )
 
-const stagingStack = buildStack(config.$env.staging).addOns(
+const stagingStack = buildStack(config.$env.staging, false).addOns(
 	buildKarpenter(),
-	new RedisStackAddOn(),
-	new CrisisCleanupAddOn({
-		config: {
-			...config.$env.staging,
-			api: {
-				...config.$env.staging.api,
-				secrets: config.$env.staging.api.secrets ?? config.api.secrets,
-			},
-		},
-		databaseResourceName: ResourceNames.DATABASE,
-		databaseSecretResourceName: ResourceNames.DATABASE_SECRET,
-		secretsProvider: stagingSecretsProvider,
-	}),
+	// new RedisStackAddOn(),
+	// new CrisisCleanupAddOn({
+	// 	config: {
+	// 		...config.$env.staging,
+	// 		api: {
+	// 			...config.$env.staging.api,
+	// 			secrets: config.$env.staging.api.secrets ?? config.api.secrets,
+	// 		},
+	// 	},
+	// 	databaseResourceName: ResourceNames.DATABASE,
+	// 	databaseSecretResourceName: ResourceNames.DATABASE_SECRET,
+	// 	secretsProvider: stagingSecretsProvider,
+	// }),
 )
 
 const pipeline = Pipeline.builder({
