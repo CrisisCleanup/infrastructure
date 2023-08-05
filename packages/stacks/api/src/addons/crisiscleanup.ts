@@ -1,12 +1,15 @@
 /// <reference types="@crisiscleanup/charts.crisiscleanup/src/config" />
 
 import * as blueprints from '@aws-quickstart/eks-blueprints'
+import { ClusterInfo } from '@aws-quickstart/eks-blueprints'
 import { CrisisCleanupChart } from '@crisiscleanup/charts.crisiscleanup'
 import {
 	flatKeysToFlatScreamingSnakeCaseKeys,
 	type CrisisCleanupConfig,
 } from '@crisiscleanup/config'
 import type { Component } from '@crisiscleanup/k8s.construct.component'
+import type { ISecret } from 'aws-cdk-lib/aws-secretsmanager'
+import { type IStringParameter } from 'aws-cdk-lib/aws-ssm'
 import { App, type Chart } from 'cdk8s'
 import * as kplus from 'cdk8s-plus-27'
 import type { Construct } from 'constructs'
@@ -15,6 +18,7 @@ import { type NamedSecretsProvider } from '../secrets'
 
 export interface CrisisCleanupAddOnProps {
 	readonly databaseResourceName: string
+	readonly databaseSecretResourceName: string
 	readonly config: CrisisCleanupConfig
 	/**
 	 * Secret provider for CSI driver.
@@ -81,6 +85,17 @@ export class CrisisCleanupAddOn implements blueprints.ClusterAddOn {
 			objectAlias: value,
 		}))
 
+		const databaseSecret = clusterInfo.getResource<ISecret>(
+			this.props.databaseSecretResourceName,
+		)
+		if (!databaseSecret) throw new Error('Missing database secret!')
+		const dbSecretPaths: blueprints.JmesPathObject[] = [
+			{ path: 'username', objectAlias: 'POSTGRES_USER' },
+			{ path: 'password', objectAlias: 'POSTGRES_PASSWORD' },
+			{ path: 'host', objectAlias: 'POSTGRES_HOST' },
+			{ path: 'port', objectAlias: 'POSTGRES_PORT' },
+		]
+
 		const csiProvider = new blueprints.SecretProviderClass(
 			clusterInfo,
 			sa,
@@ -92,6 +107,21 @@ export class CrisisCleanupAddOn implements blueprints.ClusterAddOn {
 				kubernetesSecret: {
 					secretName: 'crisiscleanup-api-secrets',
 					data: secretPaths.map((secretObj) => ({
+						key: secretObj.objectAlias,
+						objectName: secretObj.objectAlias,
+					})),
+				},
+			},
+			{
+				secretProvider: {
+					provide(_): ISecret | IStringParameter {
+						return databaseSecret
+					},
+				},
+				jmesPath: dbSecretPaths,
+				kubernetesSecret: {
+					secretName: 'crisiscleanup-db-secrets',
+					data: dbSecretPaths.map((secretObj) => ({
 						key: secretObj.objectAlias,
 						objectName: secretObj.objectAlias,
 					})),
@@ -122,11 +152,16 @@ export class CrisisCleanupAddOn implements blueprints.ClusterAddOn {
 			'crisiscleanup-api-secrets',
 			'crisiscleanup-api-secrets',
 		)
+		const dbSecretLookup = kplus.Secret.fromSecretName(
+			chart.configChart,
+			'crisiscleanup-db-secrets',
+			'crisiscleanup-db-secrets',
+		)
 		const secretEnvsValues = Object.values(secretKeys).map((key) => [
 			key,
 			kplus.EnvValue.fromSecretValue({
 				key: key,
-				secret: secretLookup,
+				secret: key.startsWith('POSTGRES') ? dbSecretLookup : secretLookup,
 			}),
 		])
 
