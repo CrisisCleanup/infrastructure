@@ -5,6 +5,7 @@ import { KubecostAddOn } from '@kubecost/kubecost-eks-blueprints-addon'
 import { Lazy } from 'aws-cdk-lib'
 import type * as ec2 from 'aws-cdk-lib/aws-ec2'
 import { KubernetesVersion } from 'aws-cdk-lib/aws-eks'
+import * as iam from 'aws-cdk-lib/aws-iam'
 import * as kms from 'aws-cdk-lib/aws-kms'
 import { lazyClusterInfo } from './util'
 
@@ -145,6 +146,18 @@ export const buildEKSStack = (
 	if (!apiStack) throw Error('No apistack config found.')
 	return blueprints.EksBlueprint.builder()
 		.version(KubernetesVersion.of(apiStack.eks.k8s.version))
+		.resourceProvider(
+			'spot-service-role',
+			new blueprints.CreateRoleProvider(
+				'SpotServiceRole',
+				new iam.ServicePrincipal('ec2.amazonaws.com'),
+				[
+					iam.ManagedPolicy.fromAwsManagedPolicyName(
+						'AWSEC2SpotServiceRolePolicy',
+					),
+				],
+			),
+		)
 		.addOns(...getCoreAddons(config))
 		.useDefaultSecretEncryption(apiStack.eks.defaultSecretsEncryption)
 }
