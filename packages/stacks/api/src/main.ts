@@ -132,23 +132,22 @@ const devStack = buildStack(config.$env.development).addOns(
 	}),
 )
 
-const stagingStack = buildStack(config.$env.staging, false)
-// const stagingStack = buildStack(config.$env.staging).addOns(
-// 	buildKarpenter(),
-// 	new RedisStackAddOn(),
-// 	new CrisisCleanupAddOn({
-// 		config: {
-// 			...config.$env.staging,
-// 			api: {
-// 				...config.$env.staging.api,
-// 				secrets: config.$env.staging.api.secrets ?? config.api.secrets,
-// 			},
-// 		},
-// 		databaseResourceName: ResourceNames.DATABASE,
-// 		databaseSecretResourceName: ResourceNames.DATABASE_SECRET,
-// 		secretsProvider: stagingSecretsProvider,
-// 	}),
-// )
+const stagingStack = buildStack(config.$env.staging).addOns(
+	buildKarpenter(),
+	new RedisStackAddOn(),
+	new CrisisCleanupAddOn({
+		config: {
+			...config.$env.staging,
+			api: {
+				...config.$env.staging.api,
+				secrets: config.$env.staging.api.secrets ?? config.api.secrets,
+			},
+		},
+		databaseResourceName: ResourceNames.DATABASE,
+		databaseSecretResourceName: ResourceNames.DATABASE_SECRET,
+		secretsProvider: stagingSecretsProvider,
+	}),
+)
 
 const pipeline = Pipeline.builder({
 	id: 'crisiscleanup',
@@ -176,7 +175,7 @@ const pipeline = Pipeline.builder({
 		environment: config.$env.staging.cdkEnvironment,
 		platformTeam: new blueprints.PlatformTeam({
 			name: 'platform',
-			users: config.$env.development.apiStack.eks.platformArns.map(
+			users: config.$env.staging.apiStack.eks.platformArns.map(
 				(arn) => new iam.ArnPrincipal(arn),
 			),
 		}),
