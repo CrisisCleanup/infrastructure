@@ -146,18 +146,6 @@ export const buildEKSStack = (
 	if (!apiStack) throw Error('No apistack config found.')
 	return blueprints.EksBlueprint.builder()
 		.version(KubernetesVersion.of(apiStack.eks.k8s.version))
-		.resourceProvider(
-			'spot-service-role',
-			new blueprints.CreateRoleProvider(
-				'SpotServiceRole',
-				new iam.ServicePrincipal('ec2.amazonaws.com'),
-				[
-					iam.ManagedPolicy.fromAwsManagedPolicyName(
-						'AWSEC2SpotServiceRolePolicy',
-					),
-				],
-			),
-		)
 		.addOns(...getCoreAddons(config))
 		.useDefaultSecretEncryption(apiStack.eks.defaultSecretsEncryption)
 }
