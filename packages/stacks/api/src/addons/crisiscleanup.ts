@@ -78,12 +78,12 @@ export class CrisisCleanupAddOn implements blueprints.ClusterAddOn {
 			this.props.config.api.secrets,
 			{ nestedDelimiter: '_' },
 		)
-		const secretPaths: blueprints.JmesPathObject[] = Object.entries(
-			secretKeys,
-		).map(([key, value]) => ({
-			path: ['api', 'secrets', key].join('.'),
-			objectAlias: value,
-		}))
+		const secretPaths: blueprints.JmesPathObject[] = Object.entries(secretKeys)
+			.filter(([key, _]) => !key.startsWith('POSTGRES'))
+			.map(([key, value]) => ({
+				path: ['api', 'secrets', key].join('.'),
+				objectAlias: value,
+			}))
 
 		const databaseSecret = clusterInfo.getResource<ISecret>(
 			this.props.databaseSecretResourceName,
