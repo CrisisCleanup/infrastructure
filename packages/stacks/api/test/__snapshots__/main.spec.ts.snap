@@ -2349,7 +2349,7 @@ exports[`Snapshot 1`] = `
             "Outputs.teststackawscdkawseksKubectlProviderframeworkonEventA7D3599FArn",
           ],
         },
-        "Values": "{\\"installCRDs\\":true}",
+        "Values": "{\\"webhook\\":{\\"securePort\\":10260},\\"installCRDs\\":true}",
         "Version": "1.12.2",
       },
       "Type": "Custom::AWSCDK-EKS-HelmChart",
@@ -3081,6 +3081,9 @@ exports[`Snapshot 1`] = `
           "selectors": [
             {
               "namespace": "karpenter",
+            },
+            {
+              "namespace": "cert-manager",
             },
           ],
         },
