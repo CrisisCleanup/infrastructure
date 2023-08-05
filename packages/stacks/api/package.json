@@ -62,6 +62,7 @@
     "cdk8s-plus-27": "2.2.0",
     "constructs": "^10.0.5",
     "defu": "^6.1.2",
+    "destr": "^2.0.0",
     "flat": "^5.0.2"
   },
   "engines": {

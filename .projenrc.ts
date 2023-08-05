@@ -373,6 +373,7 @@ const apiStack = AwsCdkTsAppBuilder.build({
 		'defu',
 		'cdk-pipelines-github',
 		'flat',
+		'destr',
 		`cdk8s@${crisiscleanup.package.tryResolveDependencyVersion('cdk8s')!}`,
 		`${CDK8sPlus}@${crisiscleanup.package.tryResolveDependencyVersion(
 			CDK8sPlus,

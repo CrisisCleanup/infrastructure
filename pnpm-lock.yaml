@@ -539,6 +539,9 @@ importers:
       defu:
         specifier: ^6.1.2
         version: 6.1.2
+      destr:
+        specifier: ^2.0.0
+        version: 2.0.0
       flat:
         specifier: ^5.0.2
         version: 5.0.2
@@ -7205,7 +7208,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230803
+      typescript: 5.2.0-dev.20230805
     dev: true
 
   /duplexer@0.1.2:
@@ -14115,10 +14118,10 @@ packages:
     hasBin: true
     dev: true
 
-  /typescript@5.2.0-dev.20230803:
+  /typescript@5.2.0-dev.20230805:
     resolution:
       {
-        integrity: sha512-DwCyutWHyT7Il7xpJCxtx4/S5F4qjAo2SE6QDRSLhEUtBFGwGHTHCvuyfm9KNrdwn67jGitdlw4gpbSTVVjoww==,
+        integrity: sha512-7WQVs+Bx10F/0wuAO6+4raW6bvWnZ723Hrm6RdTof2L8dO0vsUDdxg0gpoEHL1tJ+Z3llQ8bOdxpliBVevvofQ==,
       }
     engines: { node: '>=14.17' }
     hasBin: true
