@@ -44,6 +44,15 @@ export const getDefaultAddons = (
 			],
 		}),
 		new blueprints.addons.CertManagerAddOn(),
+	]
+}
+
+export const getCoreAddons = (
+	config: CrisisCleanupConfig,
+): Array<blueprints.ClusterAddOn> => {
+	const { apiStack } = config
+	const { eks } = apiStack
+	return [
 		new blueprints.addons.MetricsServerAddOn(),
 		new blueprints.addons.VpcCniAddOn({
 			enablePrefixDelegation: true,
@@ -130,7 +139,7 @@ export const buildEKSStack = (
 	if (!apiStack) throw Error('No apistack config found.')
 	return blueprints.EksBlueprint.builder()
 		.version(KubernetesVersion.of(apiStack.eks.k8s.version))
-		.addOns(...getDefaultAddons(config))
+		.addOns(...getCoreAddons(config))
 		.useDefaultSecretEncryption(apiStack.eks.defaultSecretsEncryption)
 }
 
