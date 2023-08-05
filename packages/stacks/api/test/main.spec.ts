@@ -1,9 +1,11 @@
 import util from 'node:util'
 import * as blueprints from '@aws-quickstart/eks-blueprints'
+import { type ResourceContext } from '@aws-quickstart/eks-blueprints'
 import chartDefaults from '@crisiscleanup/charts.crisiscleanup/crisiscleanup.config'
 import { getConfigDefaults } from '@crisiscleanup/config'
-import { App } from 'aws-cdk-lib'
+import { App, aws_secretsmanager } from 'aws-cdk-lib'
 import { Template } from 'aws-cdk-lib/assertions'
+import { type IConstruct } from 'constructs'
 import { test, expect, vi, beforeAll, afterAll } from 'vitest'
 // @ts-ignore
 import stackDefaults from '../crisiscleanup.config'
@@ -39,10 +41,18 @@ test('Snapshot', async () => {
 	const cluster = buildClusterBuilder(config).build()
 	const stack = await buildEKSStack(config)
 		.clusterProvider(cluster)
+		.resourceProvider('db-secret', {
+			provide(context: ResourceContext): IConstruct {
+				return new aws_secretsmanager.Secret(context.scope, 'test-secret', {
+					secretName: 'test-secret',
+				})
+			},
+		})
 		.addOns(
 			new CrisisCleanupAddOn({
 				config,
 				databaseResourceName: '',
+				databaseSecretResourceName: 'db-secret',
 				secretsProvider: new blueprints.LookupSecretsManagerSecretByName(
 					'test-name',
 				),
