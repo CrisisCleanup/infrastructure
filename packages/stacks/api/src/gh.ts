@@ -205,20 +205,7 @@ class GithubCodePipeline {
 		})
 		pipelineKms.grantDecrypt(actionsRole.role)
 
-		const sopsInstall = [
-			'echo Installing Sops...',
-			'ARCH=$(uname -m)',
-			'if [ "$ARCH" = "aarch64" ]; then',
-			'  curl -L https://github.com/mozilla/sops/releases/download/v3.7.3/sops-v3.7.3.linux.arm64 -o sops',
-			'else',
-			'  curl -L https://github.com/mozilla/sops/releases/download/v3.7.3/sops-v3.7.3.linux -o sops',
-			'fi',
-			'chmod 755 sops',
-			'mv sops /usr/local/bin',
-			'sops --version',
-		]
-
-		const installCommands = [...sopsInstall, 'pnpm install']
+		const installCommands = ['pnpm install']
 
 		const commands = [
 			'pnpm build',
@@ -268,6 +255,13 @@ class GithubCodePipeline {
 					if: "inputs.runner == 'self-hosted'",
 					with: {
 						arch: 'arm64',
+					},
+				},
+				{
+					name: 'Install SOPs',
+					uses: 'CrisisCleanup/mozilla-sops-action@main',
+					with: {
+						version: '3.7.3',
 					},
 				},
 				{
