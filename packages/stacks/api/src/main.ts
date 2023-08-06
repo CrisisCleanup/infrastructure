@@ -169,21 +169,21 @@ const pipeline = Pipeline.builder({
 			url: 'https://app.dev.crisiscleanup.io',
 		},
 	})
-	.target({
-		name: 'staging',
-		stackBuilder: stagingStack,
-		environment: config.$env.staging.cdkEnvironment,
-		platformTeam: new blueprints.PlatformTeam({
-			name: 'platform',
-			users: config.$env.staging.apiStack.eks.platformArns.map(
-				(arn) => new iam.ArnPrincipal(arn),
-			),
-		}),
-		githubEnvironment: {
-			name: 'staging',
-			url: 'https://app.staging.crisiscleanup.io',
-		},
-	})
+	// .target({
+	// 	name: 'staging',
+	// 	stackBuilder: stagingStack,
+	// 	environment: config.$env.staging.cdkEnvironment,
+	// 	platformTeam: new blueprints.PlatformTeam({
+	// 		name: 'platform',
+	// 		users: config.$env.staging.apiStack.eks.platformArns.map(
+	// 			(arn) => new iam.ArnPrincipal(arn),
+	// 		),
+	// 	}),
+	// 	githubEnvironment: {
+	// 		name: 'staging',
+	// 		url: 'https://app.staging.crisiscleanup.io',
+	// 	},
+	// })
 	.build(app, {
 		env: {
 			account: String(config.cdkEnvironment.account),
