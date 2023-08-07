@@ -243,9 +243,6 @@ exports[`Snapshot 1`] = `
               "Arn",
             ],
           },
-          "referencetoteststackkubectllayer2754468B74Ref": {
-            "Ref": "kubectllayer275BD88CD2",
-          },
           "referencetoteststackteststackvpcPrivateSubnet1Subnet81882649Ref": {
             "Ref": "teststackvpcPrivateSubnet1SubnetF0331D8A",
           },
@@ -269,7 +266,7 @@ exports[`Snapshot 1`] = `
               {
                 "Fn::Sub": "cdk-hnb659fds-assets-1234567890-\${AWS::Region}",
               },
-              "/9f7dc42ceee4ddd9d653afb9a9ffdfa8738cb9f30df80f87e2c4c6d7f79fc3f7.json",
+              "/e51a1ea8f7866368346d1851a1fd805fce46045496f79c639e061319c38ead4c.json",
             ],
           ],
         },
@@ -351,19 +348,6 @@ exports[`Snapshot 1`] = `
           "S3Key": "2873922b2920bdb6f113a1deaf12a0572a881113a1d89d7b328db438adead07f.zip",
         },
         "Description": "/opt/kubectl/kubectl 1.26; /opt/helm/helm 3.11",
-        "LicenseInfo": "Apache-2.0",
-      },
-      "Type": "AWS::Lambda::LayerVersion",
-    },
-    "kubectllayer275BD88CD2": {
-      "Properties": {
-        "Content": {
-          "S3Bucket": {
-            "Fn::Sub": "cdk-hnb659fds-assets-1234567890-\${AWS::Region}",
-          },
-          "S3Key": "8e18eb5caccd2617fb76e648fa6a35dc0ece98c4681942bc6861f41afdff6a1b.zip",
-        },
-        "Description": "/opt/kubectl/kubectl 1.27; /opt/helm/helm 3.12",
         "LicenseInfo": "Apache-2.0",
       },
       "Type": "AWS::Lambda::LayerVersion",
@@ -2993,6 +2977,14 @@ exports[`Snapshot 1`] = `
             },
             {
               "namespace": "cert-manager",
+            },
+          ],
+          "subnets": [
+            {
+              "Ref": "teststackvpcPrivateSubnet1SubnetF0331D8A",
+            },
+            {
+              "Ref": "teststackvpcPrivateSubnet2Subnet3D907BDE",
             },
           ],
         },
