@@ -7,7 +7,7 @@ import type { Environment, Stack, StackProps } from 'aws-cdk-lib'
 import { type GitHubEnvironment, StackCapabilities } from 'cdk-pipelines-github'
 import type { Construct } from 'constructs'
 import { CrisisCleanupAddOn } from './addons'
-import { buildKarpenter, ResourceNames } from './cluster'
+import { buildKarpenter, getDefaultAddons, ResourceNames } from './cluster'
 import { type GithubCodePipelineBuilder, GithubCodePipelineStack } from './gh'
 import { NetworkStack, DataStack } from './stacks'
 
@@ -21,6 +21,7 @@ export interface PipelineTarget {
 	readonly name: string
 	readonly environment: Environment
 	readonly stackBuilder: blueprints.BlueprintBuilder
+	readonly clusterBuilder: blueprints.ClusterBuilder
 	readonly platformTeam: blueprints.PlatformTeam
 	readonly githubEnvironment: GitHubEnvironment
 	readonly config: CrisisCleanupConfig
@@ -69,6 +70,7 @@ export class Pipeline {
 			name,
 			environment,
 			stackBuilder,
+			clusterBuilder,
 			platformTeam,
 			githubEnvironment,
 			config,
@@ -77,6 +79,12 @@ export class Pipeline {
 		const env = PipelineEnv.fromEnv(environment, name)
 		const envStackBuilder = stackBuilder
 			.clone(env.region, env.account)
+			.resourceProvider(
+				ResourceNames.EBS_KEY,
+				new blueprints.CreateKmsKeyProvider('ebs-csi-key'),
+			)
+			.clusterProvider(clusterBuilder.build())
+			.addOns(...getDefaultAddons(config.apiStack.eks))
 			.teams(platformTeam)
 
 		this.pipeline.githubWave({

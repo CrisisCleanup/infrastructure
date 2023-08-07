@@ -1,14 +1,14 @@
 import * as blueprints from '@aws-quickstart/eks-blueprints'
 import {
-	type CrisisCleanupConfig,
 	type CrisisCleanupConfigLayerMetaSources,
 	getConfig,
 	type Stage as ConfigStage,
 } from '@crisiscleanup/config'
 import { App } from 'aws-cdk-lib'
+import { KubernetesVersion } from 'aws-cdk-lib/aws-eks'
 import * as iam from 'aws-cdk-lib/aws-iam'
 import { RedisStackAddOn } from './addons'
-import { buildClusterBuilder, buildEKSStack, getDefaultAddons } from './cluster'
+import { buildClusterBuilder, getCoreAddons } from './cluster'
 import { Pipeline } from './pipeline'
 import { SopsSecretProvider } from './secrets'
 
@@ -35,18 +35,13 @@ const app = new App({
 	},
 })
 
-const buildStack = (
-	stageConfig: CrisisCleanupConfig,
-	defaultAddons: boolean = true,
-) => {
-	const clusterBuilder = buildClusterBuilder(stageConfig)
-	const cluster = clusterBuilder.build()
-	let stack = buildEKSStack(stageConfig).clusterProvider(cluster)
-	if (defaultAddons) {
-		stack = stack.addOns(...getDefaultAddons(stageConfig))
-	}
-	return stack
-}
+const clusterBuilder = buildClusterBuilder(config.apiStack.eks.k8s.version)
+const stack = blueprints.EksBlueprint.builder()
+	.version(KubernetesVersion.of(config.apiStack.eks.k8s.version))
+	.useDefaultSecretEncryption(config.apiStack.eks.defaultSecretsEncryption)
+	.addOns(...getCoreAddons(config.apiStack.eks))
+
+const withRedisStack = stack.clone().addOns(new RedisStackAddOn())
 
 const devSecretsProvider = new SopsSecretProvider({
 	secretName: 'crisiscleanup-development-api',
@@ -65,9 +60,8 @@ const pipeline = Pipeline.builder({
 })
 	.target({
 		name: 'development',
-		stackBuilder: buildStack(config.$env.development).addOns(
-			new RedisStackAddOn(),
-		),
+		stackBuilder: withRedisStack,
+		clusterBuilder,
 		environment: config.$env.development.cdkEnvironment,
 		platformTeam: new blueprints.PlatformTeam({
 			name: 'platform',
@@ -84,7 +78,8 @@ const pipeline = Pipeline.builder({
 	})
 	.target({
 		name: 'staging',
-		stackBuilder: buildStack(config.$env.staging).addOns(new RedisStackAddOn()),
+		stackBuilder: withRedisStack,
+		clusterBuilder,
 		environment: config.$env.staging.cdkEnvironment,
 		platformTeam: new blueprints.PlatformTeam({
 			name: 'platform',

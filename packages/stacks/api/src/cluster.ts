@@ -1,10 +1,9 @@
 import { KubectlV27Layer } from '@aws-cdk/lambda-layer-kubectl-v27'
 import * as blueprints from '@aws-quickstart/eks-blueprints'
-import { type CrisisCleanupConfig } from '@crisiscleanup/config'
 import { Lazy } from 'aws-cdk-lib'
 import type * as ec2 from 'aws-cdk-lib/aws-ec2'
 import { KubernetesVersion } from 'aws-cdk-lib/aws-eks'
-import * as kms from 'aws-cdk-lib/aws-kms'
+import { type EKSAddonConfig } from './types'
 import { lazyClusterInfo } from './util'
 
 enum Label {
@@ -19,11 +18,8 @@ enum Label {
 }
 
 export const getDefaultAddons = (
-	config: CrisisCleanupConfig,
+	addonConfig: EKSAddonConfig,
 ): Array<blueprints.ClusterAddOn> => {
-	const { apiStack } = config
-	const { eks } = apiStack
-	// const kubecost = new KubecostAddOn({
 	// 	kubecostToken: apiStack.kubecostToken,
 	// 	namespace: 'kubecost',
 	// })
@@ -32,18 +28,8 @@ export const getDefaultAddons = (
 		// kubecost,
 		new blueprints.addons.AwsLoadBalancerControllerAddOn(),
 		new blueprints.addons.EbsCsiDriverAddOn({
-			version: eks.ebsCsiVersion,
-			kmsKeys: [
-				blueprints.getResource((context) => {
-					return new kms.Key(
-						context.scope,
-						config.ccuStage + '-ebs-csi-driver-key',
-						{
-							alias: 'ebs-csi-driver-key',
-						},
-					)
-				}),
-			],
+			version: addonConfig.ebsCsiVersion,
+			kmsKeys: [blueprints.getNamedResource(ResourceNames.EBS_KEY)],
 		}),
 		new blueprints.addons.CertManagerAddOn({
 			values: {
@@ -56,18 +42,16 @@ export const getDefaultAddons = (
 }
 
 export const getCoreAddons = (
-	config: CrisisCleanupConfig,
+	addonConfig: EKSAddonConfig,
 ): Array<blueprints.ClusterAddOn> => {
-	const { apiStack } = config
-	const { eks } = apiStack
 	return [
 		new blueprints.addons.MetricsServerAddOn(),
 		new blueprints.addons.VpcCniAddOn({
 			enablePrefixDelegation: true,
-			version: eks.vpcCniVersion,
+			version: addonConfig.vpcCniVersion,
 		}),
-		new blueprints.addons.CoreDnsAddOn(eks.coreDnsVersion),
-		new blueprints.addons.KubeProxyAddOn(eks.kubeProxyVersion),
+		new blueprints.addons.CoreDnsAddOn(addonConfig.coreDnsVersion),
+		new blueprints.addons.KubeProxyAddOn(addonConfig.kubeProxyVersion),
 	]
 }
 
@@ -140,33 +124,16 @@ export const buildKarpenter = (clusterName?: string, subnetNames?: string) => {
 	})
 }
 
-export const buildEKSStack = (
-	config: CrisisCleanupConfig,
-): blueprints.BlueprintBuilder => {
-	const { apiStack } = config
-	if (!apiStack) throw Error('No apistack config found.')
-	return blueprints.EksBlueprint.builder()
-		.id(config.ccuStage)
-		.version(KubernetesVersion.of(apiStack.eks.k8s.version))
-		.addOns(...getCoreAddons(config))
-		.useDefaultSecretEncryption(apiStack.eks.defaultSecretsEncryption)
-}
-
 export const buildClusterBuilder = (
-	config: CrisisCleanupConfig,
+	k8sVersion: string,
 ): blueprints.ClusterBuilder => {
-	const k8sVersion = KubernetesVersion.of(config.apiStack.eks.k8s.version)
+	const version = KubernetesVersion.of(k8sVersion)
 	return blueprints.clusters
 		.clusterBuilder()
 		.withCommonOptions({
-			clusterName: 'crisiscleanup',
-			version: k8sVersion,
+			version,
 			kubectlLayer: blueprints.getResource(
-				(context) =>
-					new KubectlV27Layer(
-						context.scope,
-						config.ccuStage + '-kubectllayer24',
-					),
+				(context) => new KubectlV27Layer(context.scope, 'kubectllayer27'),
 			),
 		})
 		.fargateProfile('serverless', {
@@ -178,4 +145,5 @@ export enum ResourceNames {
 	DATABASE = 'database',
 	DATABASE_SECRET = 'database-secret',
 	DATABASE_KEY = 'database-key',
+	EBS_KEY = 'ebs-key',
 }
