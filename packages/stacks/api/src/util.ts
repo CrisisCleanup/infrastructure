@@ -1,5 +1,6 @@
 import type * as blueprints from '@aws-quickstart/eks-blueprints'
 import { type IAnyProducer, type IResolveContext, Stack } from 'aws-cdk-lib'
+import type { IConstruct } from 'constructs'
 
 /**
  * Create a producer with cluster info.
@@ -17,4 +18,15 @@ export function lazyClusterInfo<T>(
 			return value
 		},
 	}
+}
+
+export function getRequiredResource<T extends IConstruct = IConstruct>(
+	resourceContext: blueprints.ResourceContext,
+	name: string,
+): T {
+	const resource = resourceContext.get<T>(name)
+	if (!resource) {
+		throw new Error('Missing required resource: ' + name)
+	}
+	return resource
 }
