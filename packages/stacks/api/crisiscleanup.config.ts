@@ -7,7 +7,6 @@ export default defineConfig({
 	apiStack: {
 		kubecostToken: '',
 		codeStarConnectionArn: '',
-		isolateDatabase: false,
 		eks: {
 			platformArns: [],
 			defaultSecretsEncryption: true,
@@ -19,10 +18,17 @@ export default defineConfig({
 				version: '1.27',
 			},
 		},
+		network: {
+			maxAzs: 2,
+			natGateways: 1,
+			createIsolatedSubnet: false,
+		},
 		database: {
 			engineVersion: '15.3',
-			ioOptimized: false,
-			maxAcu: 1,
+			ioOptimized: true,
+			minAcu: 0.5,
+			maxAcu: 1.5,
+			isolated: false,
 		},
 	},
 })
