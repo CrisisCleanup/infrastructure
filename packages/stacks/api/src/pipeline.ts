@@ -78,7 +78,6 @@ export class Pipeline {
 		const envStackBuilder = stackBuilder
 			.clone(env.region, env.account)
 			.teams(platformTeam)
-			.name(this.props.id)
 
 		this.pipeline.githubWave({
 			id: name,

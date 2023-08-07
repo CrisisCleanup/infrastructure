@@ -34,12 +34,15 @@ export const getDefaultAddons = (
 		new blueprints.addons.EbsCsiDriverAddOn({
 			version: eks.ebsCsiVersion,
 			kmsKeys: [
-				blueprints.getResource(
-					(context) =>
-						new kms.Key(context.scope, 'ebs-csi-driver-key', {
+				blueprints.getResource((context) => {
+					return new kms.Key(
+						context.scope,
+						config.ccuStage + '-ebs-csi-driver-key',
+						{
 							alias: 'ebs-csi-driver-key',
-						}),
-				),
+						},
+					)
+				}),
 			],
 		}),
 		new blueprints.addons.CertManagerAddOn({
@@ -143,6 +146,7 @@ export const buildEKSStack = (
 	const { apiStack } = config
 	if (!apiStack) throw Error('No apistack config found.')
 	return blueprints.EksBlueprint.builder()
+		.id(config.ccuStage)
 		.version(KubernetesVersion.of(apiStack.eks.k8s.version))
 		.addOns(...getCoreAddons(config))
 		.useDefaultSecretEncryption(apiStack.eks.defaultSecretsEncryption)
@@ -158,7 +162,11 @@ export const buildClusterBuilder = (
 			clusterName: 'crisiscleanup',
 			version: k8sVersion,
 			kubectlLayer: blueprints.getResource(
-				(context) => new KubectlV27Layer(context.scope, 'kubectllayer24'),
+				(context) =>
+					new KubectlV27Layer(
+						context.scope,
+						config.ccuStage + '-kubectllayer24',
+					),
 			),
 		})
 		.fargateProfile('serverless', {

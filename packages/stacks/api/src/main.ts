@@ -82,21 +82,23 @@ const pipeline = Pipeline.builder({
 		config: config.$env.development,
 		secretsProvider: devSecretsProvider,
 	})
-	// .target({
-	// 	name: 'staging',
-	// 	stackBuilder: stagingStack,
-	// 	environment: config.$env.staging.cdkEnvironment,
-	// 	platformTeam: new blueprints.PlatformTeam({
-	// 		name: 'platform',
-	// 		users: config.$env.staging.apiStack.eks.platformArns.map(
-	// 			(arn) => new iam.ArnPrincipal(arn),
-	// 		),
-	// 	}),
-	// 	githubEnvironment: {
-	// 		name: 'staging',
-	// 		url: 'https://app.staging.crisiscleanup.io',
-	// 	},
-	// })
+	.target({
+		name: 'staging',
+		stackBuilder: buildStack(config.$env.staging).addOns(new RedisStackAddOn()),
+		environment: config.$env.staging.cdkEnvironment,
+		platformTeam: new blueprints.PlatformTeam({
+			name: 'platform',
+			users: config.$env.staging.apiStack.eks.platformArns.map(
+				(arn) => new iam.ArnPrincipal(arn),
+			),
+		}),
+		githubEnvironment: {
+			name: 'staging',
+			url: 'https://app.staging.crisiscleanup.io',
+		},
+		config: config.$env.staging,
+		secretsProvider: stagingSecretsProvider,
+	})
 	.build(app, {
 		env: {
 			account: String(config.cdkEnvironment.account),
