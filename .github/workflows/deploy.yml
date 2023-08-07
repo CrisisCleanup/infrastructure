@@ -718,7 +718,7 @@ jobs:
       - id: Publish
         name: Publish Assets-FileAsset9
         run: /bin/bash ./cdk.out/publish-Assets-FileAsset9-step.sh
-  development-development-network-Deploy:
+  deploy-development-development-network-Deploy:
     name: Deploy crisiscleanupinfrapipelinestackdevelopmentdevelopmentnetwork9BE60577
     permissions:
       contents: read
@@ -758,103 +758,7 @@ jobs:
           no-fail-on-empty-changeset: "1"
           capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM
           role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}-us-east-1
-  development-development-data-Deploy:
-    name: Deploy crisiscleanupinfrapipelinestackdevelopmentdevelopmentdataE98C910D
-    permissions:
-      contents: read
-      id-token: write
-    environment:
-      name: development
-      url: https://app.dev.crisiscleanup.io
-    needs:
-      - Build-crisiscleanup-infra-pipeline-synth
-      - Assets-FileAsset2
-      - development-development-network-Deploy
-    runs-on: ${{inputs.runner || 'ubuntu-latest'}}
-    steps:
-      - name: Authenticate Via OIDC Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
-        with:
-          aws-region: us-east-1
-          role-duration-seconds: 1800
-          role-skip-session-tagging: true
-          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
-      - name: Assume CDK Deploy Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
-        with:
-          aws-region: us-east-1
-          role-duration-seconds: 1800
-          role-skip-session-tagging: true
-          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
-          aws-session-token: ${{ env.AWS_SESSION_TOKEN }}
-          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}-us-east-1
-          role-external-id: Pipeline
-      - id: Deploy
-        uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
-        with:
-          name: development-development-data
-          template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}-us-east-1.s3.us-east-1.amazonaws.com/${{
-            needs.Assets-FileAsset2.outputs.asset-hash }}.json
-          no-fail-on-empty-changeset: "1"
-          capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM
-          role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}-us-east-1
-  development-development-blueprint-Deploy:
-    name: Deploy
-      crisiscleanupinfrapipelinestackdevelopmentdevelopmentblueprint44D37614
-    permissions:
-      contents: read
-      id-token: write
-    environment:
-      name: development
-      url: https://app.dev.crisiscleanup.io
-    needs:
-      - Build-crisiscleanup-infra-pipeline-synth
-      - Assets-FileAsset3
-      - Assets-FileAsset4
-      - Assets-FileAsset5
-      - Assets-FileAsset6
-      - Assets-FileAsset7
-      - Assets-FileAsset8
-      - Assets-FileAsset9
-      - Assets-FileAsset10
-      - Assets-FileAsset11
-      - Assets-FileAsset12
-      - Assets-FileAsset13
-      - Assets-FileAsset14
-      - Assets-FileAsset15
-      - development-development-network-Deploy
-      - development-development-data-Deploy
-    runs-on: ${{inputs.runner || 'ubuntu-latest'}}
-    steps:
-      - name: Authenticate Via OIDC Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
-        with:
-          aws-region: us-east-1
-          role-duration-seconds: 1800
-          role-skip-session-tagging: true
-          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
-      - name: Assume CDK Deploy Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
-        with:
-          aws-region: us-east-1
-          role-duration-seconds: 1800
-          role-skip-session-tagging: true
-          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
-          aws-session-token: ${{ env.AWS_SESSION_TOKEN }}
-          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}-us-east-1
-          role-external-id: Pipeline
-      - id: Deploy
-        uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
-        with:
-          name: development-development-blueprint
-          template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}-us-east-1.s3.us-east-1.amazonaws.com/${{
-            needs.Assets-FileAsset3.outputs.asset-hash }}.json
-          no-fail-on-empty-changeset: "1"
-          capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM
-          role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}-us-east-1
-  staging-staging-network-Deploy:
+  deploy-staging-staging-network-Deploy:
     name: Deploy crisiscleanupinfrapipelinestackstagingstagingnetworkF6BE5B3F
     permissions:
       contents: read
@@ -865,9 +769,6 @@ jobs:
     needs:
       - Build-crisiscleanup-infra-pipeline-synth
       - Assets-FileAsset16
-      - development-development-network-Deploy
-      - development-development-data-Deploy
-      - development-development-blueprint-Deploy
     runs-on: ${{inputs.runner || 'ubuntu-latest'}}
     steps:
       - name: Authenticate Via OIDC Role
@@ -897,7 +798,48 @@ jobs:
           no-fail-on-empty-changeset: "1"
           capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM
           role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_STAGING}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_STAGING}}-us-east-1
-  staging-staging-data-Deploy:
+  deploy-development-development-data-Deploy:
+    name: Deploy crisiscleanupinfrapipelinestackdevelopmentdevelopmentdataE98C910D
+    permissions:
+      contents: read
+      id-token: write
+    environment:
+      name: development
+      url: https://app.dev.crisiscleanup.io
+    needs:
+      - Build-crisiscleanup-infra-pipeline-synth
+      - Assets-FileAsset2
+      - deploy-development-development-network-Deploy
+    runs-on: ${{inputs.runner || 'ubuntu-latest'}}
+    steps:
+      - name: Authenticate Via OIDC Role
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-region: us-east-1
+          role-duration-seconds: 1800
+          role-skip-session-tagging: true
+          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
+      - name: Assume CDK Deploy Role
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-region: us-east-1
+          role-duration-seconds: 1800
+          role-skip-session-tagging: true
+          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ env.AWS_SESSION_TOKEN }}
+          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}-us-east-1
+          role-external-id: Pipeline
+      - id: Deploy
+        uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
+        with:
+          name: development-development-data
+          template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}-us-east-1.s3.us-east-1.amazonaws.com/${{
+            needs.Assets-FileAsset2.outputs.asset-hash }}.json
+          no-fail-on-empty-changeset: "1"
+          capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM
+          role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}-us-east-1
+  deploy-staging-staging-data-Deploy:
     name: Deploy crisiscleanupinfrapipelinestackstagingstagingdataE88954EF
     permissions:
       contents: read
@@ -908,10 +850,7 @@ jobs:
     needs:
       - Build-crisiscleanup-infra-pipeline-synth
       - Assets-FileAsset17
-      - staging-staging-network-Deploy
-      - development-development-network-Deploy
-      - development-development-data-Deploy
-      - development-development-blueprint-Deploy
+      - deploy-staging-staging-network-Deploy
     runs-on: ${{inputs.runner || 'ubuntu-latest'}}
     steps:
       - name: Authenticate Via OIDC Role
@@ -941,7 +880,62 @@ jobs:
           no-fail-on-empty-changeset: "1"
           capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM
           role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_STAGING}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_STAGING}}-us-east-1
-  staging-staging-blueprint-Deploy:
+  deploy-development-development-blueprint-Deploy:
+    name: Deploy
+      crisiscleanupinfrapipelinestackdevelopmentdevelopmentblueprint44D37614
+    permissions:
+      contents: read
+      id-token: write
+    environment:
+      name: development
+      url: https://app.dev.crisiscleanup.io
+    needs:
+      - Build-crisiscleanup-infra-pipeline-synth
+      - Assets-FileAsset3
+      - Assets-FileAsset4
+      - Assets-FileAsset5
+      - Assets-FileAsset6
+      - Assets-FileAsset7
+      - Assets-FileAsset8
+      - Assets-FileAsset9
+      - Assets-FileAsset10
+      - Assets-FileAsset11
+      - Assets-FileAsset12
+      - Assets-FileAsset13
+      - Assets-FileAsset14
+      - Assets-FileAsset15
+      - deploy-development-development-network-Deploy
+      - deploy-development-development-data-Deploy
+    runs-on: ${{inputs.runner || 'ubuntu-latest'}}
+    steps:
+      - name: Authenticate Via OIDC Role
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-region: us-east-1
+          role-duration-seconds: 1800
+          role-skip-session-tagging: true
+          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
+      - name: Assume CDK Deploy Role
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-region: us-east-1
+          role-duration-seconds: 1800
+          role-skip-session-tagging: true
+          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ env.AWS_SESSION_TOKEN }}
+          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}-us-east-1
+          role-external-id: Pipeline
+      - id: Deploy
+        uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
+        with:
+          name: development-development-blueprint
+          template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}-us-east-1.s3.us-east-1.amazonaws.com/${{
+            needs.Assets-FileAsset3.outputs.asset-hash }}.json
+          no-fail-on-empty-changeset: "1"
+          capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM
+          role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}-us-east-1
+  deploy-staging-staging-blueprint-Deploy:
     name: Deploy crisiscleanupinfrapipelinestackstagingstagingblueprint5D1F778A
     permissions:
       contents: read
@@ -964,11 +958,8 @@ jobs:
       - Assets-FileAsset13
       - Assets-FileAsset19
       - Assets-FileAsset20
-      - staging-staging-network-Deploy
-      - staging-staging-data-Deploy
-      - development-development-network-Deploy
-      - development-development-data-Deploy
-      - development-development-blueprint-Deploy
+      - deploy-staging-staging-network-Deploy
+      - deploy-staging-staging-data-Deploy
     runs-on: ${{inputs.runner || 'ubuntu-latest'}}
     steps:
       - name: Authenticate Via OIDC Role
