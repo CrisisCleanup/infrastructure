@@ -131,7 +131,7 @@ export class GithubCodePipelineStack extends cdk.Stack {
 					}
 					currentWave.addStageWithGitHubOptions(stages[i], stage.stageProps)
 				} else {
-					pipeline.addStage(stages[i], stage.stageProps)
+					pipeline.addStageWithGitHubOptions(stages[i], stage.stageProps)
 				}
 			}
 		})
