@@ -1,8 +1,8 @@
-import { KubectlV27Layer } from '@aws-cdk/lambda-layer-kubectl-v27'
 import * as blueprints from '@aws-quickstart/eks-blueprints'
 import { Lazy } from 'aws-cdk-lib'
 import type * as ec2 from 'aws-cdk-lib/aws-ec2'
 import { KubernetesVersion } from 'aws-cdk-lib/aws-eks'
+import { type ILayerVersion } from 'aws-cdk-lib/aws-lambda'
 import { type EKSAddonConfig } from './types'
 import { lazyClusterInfo } from './util'
 
@@ -132,11 +132,17 @@ export const buildClusterBuilder = (
 		.clusterBuilder()
 		.withCommonOptions({
 			version,
-			kubectlLayer: blueprints.getResource(
-				(context) => new KubectlV27Layer(context.scope, 'kubectllayer27'),
+			kubectlLayer: blueprints.getNamedResource<ILayerVersion>(
+				ResourceNames.KUBE_LAYER,
+			),
+			vpc: blueprints.getNamedResource<ec2.IVpc>(
+				blueprints.GlobalResources.Vpc,
 			),
 		})
 		.fargateProfile('serverless', {
+			vpc: blueprints.getNamedResource<ec2.IVpc>(
+				blueprints.GlobalResources.Vpc,
+			),
 			selectors: [{ namespace: 'karpenter' }, { namespace: 'cert-manager' }],
 		})
 }
@@ -146,4 +152,5 @@ export enum ResourceNames {
 	DATABASE_SECRET = 'database-secret',
 	DATABASE_KEY = 'database-key',
 	EBS_KEY = 'ebs-key',
+	KUBE_LAYER = 'kube-layer',
 }
