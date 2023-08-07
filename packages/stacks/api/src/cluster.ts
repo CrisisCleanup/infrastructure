@@ -1,11 +1,9 @@
 import { KubectlV27Layer } from '@aws-cdk/lambda-layer-kubectl-v27'
 import * as blueprints from '@aws-quickstart/eks-blueprints'
 import { type CrisisCleanupConfig } from '@crisiscleanup/config'
-import { KubecostAddOn } from '@kubecost/kubecost-eks-blueprints-addon'
 import { Lazy } from 'aws-cdk-lib'
 import type * as ec2 from 'aws-cdk-lib/aws-ec2'
 import { KubernetesVersion } from 'aws-cdk-lib/aws-eks'
-import * as iam from 'aws-cdk-lib/aws-iam'
 import * as kms from 'aws-cdk-lib/aws-kms'
 import { lazyClusterInfo } from './util'
 
@@ -25,13 +23,13 @@ export const getDefaultAddons = (
 ): Array<blueprints.ClusterAddOn> => {
 	const { apiStack } = config
 	const { eks } = apiStack
-	const kubecost = new KubecostAddOn({
-		kubecostToken: apiStack.kubecostToken,
-		namespace: 'kubecost',
-	})
+	// const kubecost = new KubecostAddOn({
+	// 	kubecostToken: apiStack.kubecostToken,
+	// 	namespace: 'kubecost',
+	// })
 	return [
 		new blueprints.SecretsStoreAddOn({ syncSecrets: true }),
-		kubecost,
+		// kubecost,
 		new blueprints.addons.AwsLoadBalancerControllerAddOn(),
 		new blueprints.addons.EbsCsiDriverAddOn({
 			version: eks.ebsCsiVersion,
