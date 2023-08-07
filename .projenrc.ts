@@ -334,7 +334,8 @@ const crisiscleanup = Cdk8sAppBuilder.build({
 	jest: false,
 })
 crisiscleanup.tsconfig.addInclude('crisiscleanup.config.ts')
-crisiscleanup.lintConfig.eslint.addIgnorePattern('src/imports')
+crisiscleanup.lintConfig.eslint.addIgnorePattern('src/imports/**')
+crisiscleanup.lintConfig.prettier.addIgnorePattern('src/imports/**')
 crisiscleanup
 	.tryFindObjectFile('cdk8s.yaml')!
 	.addOverride('app', 'tsx src/main.ts')

@@ -65,7 +65,7 @@
     "node_modules/",
     "*.generated.ts",
     "coverage",
-    "src/imports",
+    "src/imports/**",
     ".eslintrc.json",
     ".gitattributes",
     ".gitignore",
