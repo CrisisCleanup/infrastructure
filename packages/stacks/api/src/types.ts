@@ -13,15 +13,25 @@ export interface EKSConfig {
 }
 
 export interface DatabaseConfig {
+	readonly username?: string
 	readonly engineVersion: string
 	readonly ioOptimized: boolean
+	readonly minAcu: number
 	readonly maxAcu: number
+	readonly isolated?: boolean
+}
+
+export interface NetworkConfig {
+	readonly maxAzs?: number
+	readonly natGateways?: number
+	readonly cidr?: string
+	readonly createIsolatedSubnet?: boolean
 }
 
 export interface ApiStackConfig {
 	readonly eks: EKSConfig
 	readonly database: DatabaseConfig
-	readonly isolateDatabase: boolean
+	readonly network: NetworkConfig
 	readonly codeStarConnectionArn: string
 	readonly kubecostToken: string
 }
