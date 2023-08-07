@@ -2,13 +2,16 @@ export interface KubeConfig {
 	readonly version: string
 }
 
-export interface EKSConfig {
-	readonly defaultSecretsEncryption: boolean
-	readonly k8s: KubeConfig
+export interface EKSAddonConfig {
 	readonly coreDnsVersion: string
 	readonly kubeProxyVersion: string
 	readonly vpcCniVersion: string
 	readonly ebsCsiVersion: string
+}
+
+export interface EKSConfig extends EKSAddonConfig {
+	readonly defaultSecretsEncryption: boolean
+	readonly k8s: KubeConfig
 	readonly platformArns: string[]
 }
 
