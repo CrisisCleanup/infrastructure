@@ -14,6 +14,7 @@ import * as kplus from 'cdk8s-plus-27'
 import type { Construct } from 'constructs'
 import defu from 'defu'
 import { type NamedSecretsProvider } from '../secrets'
+import { getRequiredResource } from '../util'
 
 export interface CrisisCleanupAddOnProps {
 	readonly databaseResourceName: string
@@ -84,10 +85,10 @@ export class CrisisCleanupAddOn implements blueprints.ClusterAddOn {
 				objectAlias: value,
 			}))
 
-		const databaseSecret = clusterInfo.getResource<ISecret>(
+		const databaseSecret = getRequiredResource<ISecret>(
+			clusterInfo.getResourceContext(),
 			this.props.databaseSecretResourceName,
 		)
-		if (!databaseSecret) throw new Error('Missing database secret!')
 		const dbSecretPaths: blueprints.JmesPathObject[] = [
 			{ path: 'username', objectAlias: 'POSTGRES_USER' },
 			{ path: 'password', objectAlias: 'POSTGRES_PASSWORD' },
