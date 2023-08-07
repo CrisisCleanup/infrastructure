@@ -64,6 +64,7 @@ export class Database extends Construct {
 				? rds.DBClusterStorageType.AURORA_IOPT1
 				: rds.DBClusterStorageType.AURORA,
 			storageEncrypted: true,
+			serverlessV2MinCapacity: this.props.minAcu,
 			serverlessV2MaxCapacity: this.props.maxAcu,
 			writer,
 			readers: [rds.ClusterInstance.serverlessV2(id + '-cluster-reader-1')],
