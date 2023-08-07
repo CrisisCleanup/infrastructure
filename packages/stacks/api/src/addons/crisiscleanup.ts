@@ -1,7 +1,6 @@
 /// <reference types="@crisiscleanup/charts.crisiscleanup/src/config" />
 
 import * as blueprints from '@aws-quickstart/eks-blueprints'
-import { ClusterInfo } from '@aws-quickstart/eks-blueprints'
 import { CrisisCleanupChart } from '@crisiscleanup/charts.crisiscleanup'
 import {
 	flatKeysToFlatScreamingSnakeCaseKeys,

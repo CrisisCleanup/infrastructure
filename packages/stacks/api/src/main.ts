@@ -7,18 +7,10 @@ import {
 } from '@crisiscleanup/config'
 import { App } from 'aws-cdk-lib'
 import * as iam from 'aws-cdk-lib/aws-iam'
-import { CrisisCleanupAddOn, RedisStackAddOn } from './addons'
-import {
-	buildClusterBuilder,
-	buildEKSStack,
-	buildKarpenter,
-	getDefaultAddons,
-} from './cluster'
-import { DatabaseProvider, DatabaseSecretProvider } from './database'
-import { KeyProvider } from './kms'
+import { RedisStackAddOn } from './addons'
+import { buildClusterBuilder, buildEKSStack, getDefaultAddons } from './cluster'
 import { Pipeline } from './pipeline'
 import { SopsSecretProvider } from './secrets'
-import { VpcProvider } from './vpc'
 
 const { config, cwd, layers } = await getConfig({
 	strict: true,
@@ -43,39 +35,6 @@ const app = new App({
 	},
 })
 
-enum ResourceNames {
-	DATABASE = 'database',
-	DATABASE_SECRET = 'database-secret',
-	DATABASE_KEY = 'database-key',
-}
-
-const provideDatabase = (
-	builder: blueprints.BlueprintBuilder,
-	stageConfig: CrisisCleanupConfig,
-): blueprints.BlueprintBuilder => {
-	return builder
-		.resourceProvider(
-			ResourceNames.DATABASE_KEY,
-			new KeyProvider({
-				name: 'crisiscleanup-database-key',
-			}),
-		)
-		.resourceProvider(
-			ResourceNames.DATABASE_SECRET,
-			new DatabaseSecretProvider(),
-		)
-		.resourceProvider(
-			ResourceNames.DATABASE,
-			new DatabaseProvider({
-				...stageConfig.apiStack.database,
-				isolated: stageConfig.apiStack.isolateDatabase,
-				vpcResourceName: blueprints.GlobalResources.Vpc,
-				databaseSecretResourceName: ResourceNames.DATABASE_SECRET,
-				databaseKeyResourceName: ResourceNames.DATABASE_KEY,
-			}),
-		)
-}
-
 const buildStack = (
 	stageConfig: CrisisCleanupConfig,
 	defaultAddons: boolean = true,
@@ -86,22 +45,7 @@ const buildStack = (
 	if (defaultAddons) {
 		stack = stack.addOns(...getDefaultAddons(stageConfig))
 	}
-	const withVpc = provideVPC(stack, stageConfig)
-	return provideDatabase(withVpc, stageConfig)
-}
-
-const provideVPC = (
-	builder: blueprints.BlueprintBuilder,
-	stageConfig: CrisisCleanupConfig,
-) => {
-	return builder.resourceProvider(
-		blueprints.GlobalResources.Vpc,
-		new VpcProvider({
-			createIsolatedSubnet: stageConfig.apiStack.isolateDatabase,
-			maxAzs: 2,
-			natGateways: 1,
-		}),
-	)
+	return stack
 }
 
 const devSecretsProvider = new SopsSecretProvider({
@@ -114,41 +58,6 @@ const stagingSecretsProvider = new SopsSecretProvider({
 	sopsFilePath: configsSources.staging.secretsPath,
 })
 
-const devStack = buildStack(config.$env.development).addOns(
-	buildKarpenter(),
-	new RedisStackAddOn(),
-	new CrisisCleanupAddOn({
-		config: {
-			...config.$env.development,
-			api: {
-				...config.$env.development.api,
-				// use defaults just to get the keys (nothing confidential here)
-				secrets: config.$env.development.api.secrets ?? config.api.secrets,
-			},
-		},
-		databaseSecretResourceName: ResourceNames.DATABASE_SECRET,
-		databaseResourceName: ResourceNames.DATABASE,
-		secretsProvider: devSecretsProvider,
-	}),
-)
-
-const stagingStack = buildStack(config.$env.staging).addOns(
-	buildKarpenter(),
-	// new RedisStackAddOn(),
-	// new CrisisCleanupAddOn({
-	// 	config: {
-	// 		...config.$env.staging,
-	// 		api: {
-	// 			...config.$env.staging.api,
-	// 			secrets: config.$env.staging.api.secrets ?? config.api.secrets,
-	// 		},
-	// 	},
-	// 	databaseResourceName: ResourceNames.DATABASE,
-	// 	databaseSecretResourceName: ResourceNames.DATABASE_SECRET,
-	// 	secretsProvider: stagingSecretsProvider,
-	// }),
-)
-
 const pipeline = Pipeline.builder({
 	id: 'crisiscleanup',
 	connectionArn: config.apiStack.codeStarConnectionArn,
@@ -156,7 +65,9 @@ const pipeline = Pipeline.builder({
 })
 	.target({
 		name: 'development',
-		stackBuilder: devStack,
+		stackBuilder: buildStack(config.$env.development).addOns(
+			new RedisStackAddOn(),
+		),
 		environment: config.$env.development.cdkEnvironment,
 		platformTeam: new blueprints.PlatformTeam({
 			name: 'platform',
@@ -168,6 +79,8 @@ const pipeline = Pipeline.builder({
 			name: 'development',
 			url: 'https://app.dev.crisiscleanup.io',
 		},
+		config: config.$env.development,
+		secretsProvider: devSecretsProvider,
 	})
 	// .target({
 	// 	name: 'staging',
