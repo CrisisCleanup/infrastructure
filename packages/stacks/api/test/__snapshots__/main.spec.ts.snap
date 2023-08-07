@@ -38,7 +38,7 @@ exports[`Snapshot 1`] = `
             " --role-arn ",
             {
               "Fn::GetAtt": [
-                "crisiscleanupAccessRole7C52BB8F",
+                "teststackAccessRoleC011FEF1",
                 "Arn",
               ],
             },
@@ -62,7 +62,7 @@ exports[`Snapshot 1`] = `
             " --role-arn ",
             {
               "Fn::GetAtt": [
-                "crisiscleanupAccessRole7C52BB8F",
+                "teststackAccessRoleC011FEF1",
                 "Arn",
               ],
             },
@@ -243,8 +243,8 @@ exports[`Snapshot 1`] = `
               "Arn",
             ],
           },
-          "referencetoteststacklocalkubectllayer2465D260EFRef": {
-            "Ref": "localkubectllayer24669C1041",
+          "referencetoteststackkubectllayer2754468B74Ref": {
+            "Ref": "kubectllayer275BD88CD2",
           },
           "referencetoteststackteststackvpcPrivateSubnet1Subnet81882649Ref": {
             "Ref": "teststackvpcPrivateSubnet1SubnetF0331D8A",
@@ -269,7 +269,7 @@ exports[`Snapshot 1`] = `
               {
                 "Fn::Sub": "cdk-hnb659fds-assets-1234567890-\${AWS::Region}",
               },
-              "/371715b69add8e34a335f76b9e1857d03149ca922401b07256774ef112cd78b8.json",
+              "/9f7dc42ceee4ddd9d653afb9a9ffdfa8738cb9f30df80f87e2c4c6d7f79fc3f7.json",
             ],
           ],
         },
@@ -329,6 +329,9 @@ exports[`Snapshot 1`] = `
       "UpdateReplacePolicy": "Delete",
     },
     "corednsaddOn": {
+      "DependsOn": [
+        "teststackchartawsloadbalancercontrollerF71AE295",
+      ],
       "Properties": {
         "AddonName": "coredns",
         "AddonVersion": "v1.10.1-eksbuild.2",
@@ -339,7 +342,56 @@ exports[`Snapshot 1`] = `
       },
       "Type": "AWS::EKS::Addon",
     },
-    "crisiscleanupAccessRole7C52BB8F": {
+    "kubectllayer26F5C262E9": {
+      "Properties": {
+        "Content": {
+          "S3Bucket": {
+            "Fn::Sub": "cdk-hnb659fds-assets-1234567890-\${AWS::Region}",
+          },
+          "S3Key": "2873922b2920bdb6f113a1deaf12a0572a881113a1d89d7b328db438adead07f.zip",
+        },
+        "Description": "/opt/kubectl/kubectl 1.26; /opt/helm/helm 3.11",
+        "LicenseInfo": "Apache-2.0",
+      },
+      "Type": "AWS::Lambda::LayerVersion",
+    },
+    "kubectllayer275BD88CD2": {
+      "Properties": {
+        "Content": {
+          "S3Bucket": {
+            "Fn::Sub": "cdk-hnb659fds-assets-1234567890-\${AWS::Region}",
+          },
+          "S3Key": "8e18eb5caccd2617fb76e648fa6a35dc0ece98c4681942bc6861f41afdff6a1b.zip",
+        },
+        "Description": "/opt/kubectl/kubectl 1.27; /opt/helm/helm 3.12",
+        "LicenseInfo": "Apache-2.0",
+      },
+      "Type": "AWS::Lambda::LayerVersion",
+    },
+    "kubeproxyaddOn": {
+      "DependsOn": [
+        "teststackchartawsloadbalancercontrollerF71AE295",
+      ],
+      "Properties": {
+        "AddonName": "kube-proxy",
+        "AddonVersion": "v1.27.3-eksbuild.2",
+        "ClusterName": {
+          "Ref": "teststackF0A1F222",
+        },
+        "ResolveConflicts": "OVERWRITE",
+      },
+      "Type": "AWS::EKS::Addon",
+    },
+    "testsecretF8BBC644": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "GenerateSecretString": {},
+        "Name": "test-secret",
+      },
+      "Type": "AWS::SecretsManager::Secret",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "teststackAccessRoleC011FEF1": {
       "Properties": {
         "AssumeRolePolicyDocument": {
           "Statement": [
@@ -366,95 +418,6 @@ exports[`Snapshot 1`] = `
         },
       },
       "Type": "AWS::IAM::Role",
-    },
-    "kubectllayer26F5C262E9": {
-      "Properties": {
-        "Content": {
-          "S3Bucket": {
-            "Fn::Sub": "cdk-hnb659fds-assets-1234567890-\${AWS::Region}",
-          },
-          "S3Key": "2873922b2920bdb6f113a1deaf12a0572a881113a1d89d7b328db438adead07f.zip",
-        },
-        "Description": "/opt/kubectl/kubectl 1.26; /opt/helm/helm 3.11",
-        "LicenseInfo": "Apache-2.0",
-      },
-      "Type": "AWS::Lambda::LayerVersion",
-    },
-    "kubeproxyaddOn": {
-      "Properties": {
-        "AddonName": "kube-proxy",
-        "AddonVersion": "v1.27.3-eksbuild.2",
-        "ClusterName": {
-          "Ref": "teststackF0A1F222",
-        },
-        "ResolveConflicts": "OVERWRITE",
-      },
-      "Type": "AWS::EKS::Addon",
-    },
-    "localebscsidriverkey3CB4F8BE": {
-      "DeletionPolicy": "Retain",
-      "Properties": {
-        "KeyPolicy": {
-          "Statement": [
-            {
-              "Action": "kms:*",
-              "Effect": "Allow",
-              "Principal": {
-                "AWS": {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "arn:",
-                      {
-                        "Ref": "AWS::Partition",
-                      },
-                      ":iam::1234567890:root",
-                    ],
-                  ],
-                },
-              },
-              "Resource": "*",
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-      },
-      "Type": "AWS::KMS::Key",
-      "UpdateReplacePolicy": "Retain",
-    },
-    "localebscsidriverkeyAlias21B7BE8C": {
-      "Properties": {
-        "AliasName": "alias/ebs-csi-driver-key",
-        "TargetKeyId": {
-          "Fn::GetAtt": [
-            "localebscsidriverkey3CB4F8BE",
-            "Arn",
-          ],
-        },
-      },
-      "Type": "AWS::KMS::Alias",
-    },
-    "localkubectllayer24669C1041": {
-      "Properties": {
-        "Content": {
-          "S3Bucket": {
-            "Fn::Sub": "cdk-hnb659fds-assets-1234567890-\${AWS::Region}",
-          },
-          "S3Key": "8e18eb5caccd2617fb76e648fa6a35dc0ece98c4681942bc6861f41afdff6a1b.zip",
-        },
-        "Description": "/opt/kubectl/kubectl 1.27; /opt/helm/helm 3.12",
-        "LicenseInfo": "Apache-2.0",
-      },
-      "Type": "AWS::Lambda::LayerVersion",
-    },
-    "testsecretF8BBC644": {
-      "DeletionPolicy": "Delete",
-      "Properties": {
-        "GenerateSecretString": {},
-        "Name": "test-secret",
-      },
-      "Type": "AWS::SecretsManager::Secret",
-      "UpdateReplacePolicy": "Delete",
     },
     "teststackAwsAuthmanifest8285D756": {
       "DeletionPolicy": "Delete",
@@ -495,14 +458,14 @@ exports[`Snapshot 1`] = `
               "[{\\"apiVersion\\":\\"v1\\",\\"kind\\":\\"ConfigMap\\",\\"metadata\\":{\\"name\\":\\"aws-auth\\",\\"namespace\\":\\"kube-system\\",\\"labels\\":{\\"aws.cdk.eks/prune-c8f4e0282059094b08ec2871abcbf3c1c3e3e6a85c\\":\\"\\"}},\\"data\\":{\\"mapRoles\\":\\"[{\\\\\\"rolearn\\\\\\":\\\\\\"",
               {
                 "Fn::GetAtt": [
-                  "crisiscleanupAccessRole7C52BB8F",
+                  "teststackAccessRoleC011FEF1",
                   "Arn",
                 ],
               },
               "\\\\\\",\\\\\\"username\\\\\\":\\\\\\"",
               {
                 "Fn::GetAtt": [
-                  "crisiscleanupAccessRole7C52BB8F",
+                  "teststackAccessRoleC011FEF1",
                   "Arn",
                 ],
               },
@@ -712,7 +675,7 @@ exports[`Snapshot 1`] = `
                       {
                         "Ref": "AWS::Region",
                       },
-                      ":1234567890:cluster/crisiscleanup",
+                      ":1234567890:cluster/test-stack",
                     ],
                   ],
                 },
@@ -728,7 +691,7 @@ exports[`Snapshot 1`] = `
                       {
                         "Ref": "AWS::Region",
                       },
-                      ":1234567890:cluster/crisiscleanup/*",
+                      ":1234567890:cluster/test-stack/*",
                     ],
                   ],
                 },
@@ -752,7 +715,7 @@ exports[`Snapshot 1`] = `
                     {
                       "Ref": "AWS::Region",
                     },
-                    ":1234567890:fargateprofile/crisiscleanup/*",
+                    ":1234567890:fargateprofile/test-stack/*",
                   ],
                 ],
               },
@@ -876,7 +839,7 @@ exports[`Snapshot 1`] = `
           "kubernetesNetworkConfig": {
             "ipFamily": "ipv4",
           },
-          "name": "crisiscleanup",
+          "name": "test-stack",
           "resourcesVpcConfig": {
             "endpointPrivateAccess": true,
             "endpointPublicAccess": true,
@@ -1483,7 +1446,7 @@ exports[`Snapshot 1`] = `
               "Effect": "Allow",
               "Resource": {
                 "Fn::GetAtt": [
-                  "localebscsidriverkey3CB4F8BE",
+                  "teststacktestebskeyKmsKey9F723E9C",
                   "Arn",
                 ],
               },
@@ -1499,7 +1462,7 @@ exports[`Snapshot 1`] = `
               "Effect": "Allow",
               "Resource": {
                 "Fn::GetAtt": [
-                  "localebscsidriverkey3CB4F8BE",
+                  "teststacktestebskeyKmsKey9F723E9C",
                   "Arn",
                 ],
               },
@@ -2381,6 +2344,7 @@ exports[`Snapshot 1`] = `
         "teststackvpcPublicSubnet2SubnetDEE0C8F7",
         "teststackvpcAF2EB73C",
         "teststackvpcVPCGW05B02F5B",
+        "teststackchartawsloadbalancercontrollerF71AE295",
         "teststackKubectlReadyBarrier041D6F85",
       ],
       "Properties": {
@@ -3347,6 +3311,50 @@ exports[`Snapshot 1`] = `
       "Type": "Custom::AWSCDK-EKS-KubernetesResource",
       "UpdateReplacePolicy": "Delete",
     },
+    "teststacktestebskeyKmsKey9F723E9C": {
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "Description": "Key for EKS Cluster 'test-stack'",
+        "KeyPolicy": {
+          "Statement": [
+            {
+              "Action": "kms:*",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":iam::1234567890:root",
+                    ],
+                  ],
+                },
+              },
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::KMS::Key",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "teststacktestebskeyKmsKeyAliasCBADC126": {
+      "Properties": {
+        "AliasName": "alias/test-ebs-key",
+        "TargetKeyId": {
+          "Fn::GetAtt": [
+            "teststacktestebskeyKmsKey9F723E9C",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::KMS::Alias",
+    },
     "teststackvpcAF2EB73C": {
       "Properties": {
         "CidrBlock": "10.0.0.0/16",
@@ -3838,6 +3846,9 @@ exports[`Snapshot 1`] = `
       "UpdateReplacePolicy": "Delete",
     },
     "vpccniaddOn": {
+      "DependsOn": [
+        "teststackchartawsloadbalancercontrollerF71AE295",
+      ],
       "Properties": {
         "AddonName": "vpc-cni",
         "AddonVersion": "v1.13.3-eksbuild.1",

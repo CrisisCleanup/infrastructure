@@ -1,8 +1,12 @@
+/// <reference path="../src/config.d.ts" />
 import util from 'node:util'
 import * as blueprints from '@aws-quickstart/eks-blueprints'
 import { type ResourceContext } from '@aws-quickstart/eks-blueprints'
 import chartDefaults from '@crisiscleanup/charts.crisiscleanup/crisiscleanup.config'
-import { getConfigDefaults } from '@crisiscleanup/config'
+import {
+	type CrisisCleanupConfig,
+	getConfigDefaults,
+} from '@crisiscleanup/config'
 import { App, aws_secretsmanager } from 'aws-cdk-lib'
 import { Template } from 'aws-cdk-lib/assertions'
 import { type IConstruct } from 'constructs'
@@ -12,8 +16,9 @@ import stackDefaults from '../crisiscleanup.config'
 import { CrisisCleanupAddOn } from '../src/addons'
 import {
 	buildClusterBuilder,
-	buildEKSStack,
+	getCoreAddons,
 	getDefaultAddons,
+	ResourceNames,
 } from '../src/cluster'
 util.inspect.defaultOptions.depth = 6
 util.inspect.defaultOptions.colors = true
@@ -27,7 +32,7 @@ afterAll(() => {
 })
 
 test('Snapshot', async () => {
-	const config = getConfigDefaults({
+	const config: CrisisCleanupConfig = getConfigDefaults({
 		...stackDefaults,
 		...chartDefaults,
 		cdkEnvironment: {
@@ -42,9 +47,17 @@ test('Snapshot', async () => {
 			'giget-auth': 'fake-token',
 		},
 	})
-	const cluster = buildClusterBuilder(config).build()
-	const stack = await buildEKSStack(config)
-		.addOns(...getDefaultAddons(config))
+	const cluster = buildClusterBuilder(config.apiStack.eks.k8s.version).build()
+	const stack = await blueprints.EksBlueprint.builder()
+		.version(config.apiStack.eks.k8s.version)
+		.resourceProvider(
+			ResourceNames.EBS_KEY,
+			new blueprints.CreateKmsKeyProvider('test-ebs-key'),
+		)
+		.addOns(
+			...getDefaultAddons(config.apiStack.eks),
+			...getCoreAddons(config.apiStack.eks),
+		)
 		.clusterProvider(cluster)
 		.resourceProvider('db-secret', {
 			provide(context: ResourceContext): IConstruct {
