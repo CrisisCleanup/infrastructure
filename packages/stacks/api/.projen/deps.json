@@ -130,12 +130,12 @@
     },
     {
       "name": "cdk8s-plus-27",
-      "version": "2.2.0",
+      "version": "2.5.0",
       "type": "runtime"
     },
     {
       "name": "cdk8s",
-      "version": "2.22.0",
+      "version": "2.34.0",
       "type": "runtime"
     },
     {

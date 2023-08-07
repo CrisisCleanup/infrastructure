@@ -250,10 +250,10 @@ new Vitest(config)
 const Cdk8sDefaultsBuilder = new builders.DefaultOptionsBuilder({
 	jsiiVersion: '~5',
 	constructsVersion: '10.2.69',
-	cdk8sCliVersion: '2.11.0',
-	cdk8sVersion: '2.22.0',
+	cdk8sCliVersion: '2.23.0',
+	cdk8sVersion: '2.34.0',
 	cdksPlus: true,
-	cdk8sPlusVersion: '2.2.0',
+	cdk8sPlusVersion: '2.5.0',
 	k8sMinorVersion: 27,
 	typescriptVersion: '~5.1',
 	prettier: true,

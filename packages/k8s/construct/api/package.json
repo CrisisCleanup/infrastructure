@@ -54,7 +54,7 @@
     "unbuild": "^1.2.1"
   },
   "peerDependencies": {
-    "cdk8s": "^2.22.0",
+    "cdk8s": "^2.34.0",
     "cdk8s-plus-27": "^2.2.0",
     "constructs": "^10.2.69"
   },
