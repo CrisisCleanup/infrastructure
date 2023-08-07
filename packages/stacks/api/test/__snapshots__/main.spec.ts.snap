@@ -243,8 +243,8 @@ exports[`Snapshot 1`] = `
               "Arn",
             ],
           },
-          "referencetoteststackkubectllayer2441EE2DCERef": {
-            "Ref": "kubectllayer24CDE9E540",
+          "referencetoteststacklocalkubectllayer2465D260EFRef": {
+            "Ref": "localkubectllayer24669C1041",
           },
           "referencetoteststackteststackvpcPrivateSubnet1Subnet81882649Ref": {
             "Ref": "teststackvpcPrivateSubnet1SubnetF0331D8A",
@@ -269,7 +269,7 @@ exports[`Snapshot 1`] = `
               {
                 "Fn::Sub": "cdk-hnb659fds-assets-1234567890-\${AWS::Region}",
               },
-              "/42a6135cbf44ae9fcbbe435e33a65fcd050de9a7756cbeef15bcec8f8b447370.json",
+              "/371715b69add8e34a335f76b9e1857d03149ca922401b07256774ef112cd78b8.json",
             ],
           ],
         },
@@ -367,19 +367,31 @@ exports[`Snapshot 1`] = `
       },
       "Type": "AWS::IAM::Role",
     },
-    "ebscsidriverkeyAlias8C7B4B6F": {
+    "kubectllayer26F5C262E9": {
       "Properties": {
-        "AliasName": "alias/ebs-csi-driver-key",
-        "TargetKeyId": {
-          "Fn::GetAtt": [
-            "ebscsidriverkeyD1507B74",
-            "Arn",
-          ],
+        "Content": {
+          "S3Bucket": {
+            "Fn::Sub": "cdk-hnb659fds-assets-1234567890-\${AWS::Region}",
+          },
+          "S3Key": "2873922b2920bdb6f113a1deaf12a0572a881113a1d89d7b328db438adead07f.zip",
         },
+        "Description": "/opt/kubectl/kubectl 1.26; /opt/helm/helm 3.11",
+        "LicenseInfo": "Apache-2.0",
       },
-      "Type": "AWS::KMS::Alias",
+      "Type": "AWS::Lambda::LayerVersion",
     },
-    "ebscsidriverkeyD1507B74": {
+    "kubeproxyaddOn": {
+      "Properties": {
+        "AddonName": "kube-proxy",
+        "AddonVersion": "v1.27.3-eksbuild.2",
+        "ClusterName": {
+          "Ref": "teststackF0A1F222",
+        },
+        "ResolveConflicts": "OVERWRITE",
+      },
+      "Type": "AWS::EKS::Addon",
+    },
+    "localebscsidriverkey3CB4F8BE": {
       "DeletionPolicy": "Retain",
       "Properties": {
         "KeyPolicy": {
@@ -410,7 +422,19 @@ exports[`Snapshot 1`] = `
       "Type": "AWS::KMS::Key",
       "UpdateReplacePolicy": "Retain",
     },
-    "kubectllayer24CDE9E540": {
+    "localebscsidriverkeyAlias21B7BE8C": {
+      "Properties": {
+        "AliasName": "alias/ebs-csi-driver-key",
+        "TargetKeyId": {
+          "Fn::GetAtt": [
+            "localebscsidriverkey3CB4F8BE",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::KMS::Alias",
+    },
+    "localkubectllayer24669C1041": {
       "Properties": {
         "Content": {
           "S3Bucket": {
@@ -422,30 +446,6 @@ exports[`Snapshot 1`] = `
         "LicenseInfo": "Apache-2.0",
       },
       "Type": "AWS::Lambda::LayerVersion",
-    },
-    "kubectllayer26F5C262E9": {
-      "Properties": {
-        "Content": {
-          "S3Bucket": {
-            "Fn::Sub": "cdk-hnb659fds-assets-1234567890-\${AWS::Region}",
-          },
-          "S3Key": "2873922b2920bdb6f113a1deaf12a0572a881113a1d89d7b328db438adead07f.zip",
-        },
-        "Description": "/opt/kubectl/kubectl 1.26; /opt/helm/helm 3.11",
-        "LicenseInfo": "Apache-2.0",
-      },
-      "Type": "AWS::Lambda::LayerVersion",
-    },
-    "kubeproxyaddOn": {
-      "Properties": {
-        "AddonName": "kube-proxy",
-        "AddonVersion": "v1.27.3-eksbuild.2",
-        "ClusterName": {
-          "Ref": "teststackF0A1F222",
-        },
-        "ResolveConflicts": "OVERWRITE",
-      },
-      "Type": "AWS::EKS::Addon",
     },
     "testsecretF8BBC644": {
       "DeletionPolicy": "Delete",
@@ -1483,7 +1483,7 @@ exports[`Snapshot 1`] = `
               "Effect": "Allow",
               "Resource": {
                 "Fn::GetAtt": [
-                  "ebscsidriverkeyD1507B74",
+                  "localebscsidriverkey3CB4F8BE",
                   "Arn",
                 ],
               },
@@ -1499,7 +1499,7 @@ exports[`Snapshot 1`] = `
               "Effect": "Allow",
               "Resource": {
                 "Fn::GetAtt": [
-                  "ebscsidriverkeyD1507B74",
+                  "localebscsidriverkey3CB4F8BE",
                   "Arn",
                 ],
               },
@@ -2351,61 +2351,6 @@ exports[`Snapshot 1`] = `
         },
         "Values": "{\\"webhook\\":{\\"securePort\\":10260},\\"installCRDs\\":true}",
         "Version": "1.12.2",
-      },
-      "Type": "Custom::AWSCDK-EKS-HelmChart",
-      "UpdateReplacePolicy": "Delete",
-    },
-    "teststackchartkubecostA8185DB0": {
-      "DeletionPolicy": "Delete",
-      "DependsOn": [
-        "teststackvpcIGW03B105E6",
-        "teststackvpcPrivateSubnet1DefaultRouteD98CD628",
-        "teststackvpcPrivateSubnet1RouteTable73100B52",
-        "teststackvpcPrivateSubnet1RouteTableAssociation3900E69F",
-        "teststackvpcPrivateSubnet1SubnetF0331D8A",
-        "teststackvpcPrivateSubnet2DefaultRoute134E1612",
-        "teststackvpcPrivateSubnet2RouteTable3A43C01B",
-        "teststackvpcPrivateSubnet2RouteTableAssociation425F10F9",
-        "teststackvpcPrivateSubnet2Subnet3D907BDE",
-        "teststackvpcPublicSubnet1DefaultRoute559FCEC5",
-        "teststackvpcPublicSubnet1EIPD9571571",
-        "teststackvpcPublicSubnet1NATGateway69A82078",
-        "teststackvpcPublicSubnet1RouteTable4A6F7D68",
-        "teststackvpcPublicSubnet1RouteTableAssociation6F4CDBB8",
-        "teststackvpcPublicSubnet1Subnet98CD6475",
-        "teststackvpcPublicSubnet2DefaultRoute6D4EE093",
-        "teststackvpcPublicSubnet2EIP2A9F3E46",
-        "teststackvpcPublicSubnet2NATGateway03687D6F",
-        "teststackvpcPublicSubnet2RouteTable58C7856E",
-        "teststackvpcPublicSubnet2RouteTableAssociationE029BF04",
-        "teststackvpcPublicSubnet2SubnetDEE0C8F7",
-        "teststackvpcAF2EB73C",
-        "teststackvpcVPCGW05B02F5B",
-        "teststackKubectlReadyBarrier041D6F85",
-      ],
-      "Properties": {
-        "Chart": "cost-analyzer",
-        "ClusterName": {
-          "Ref": "teststackF0A1F222",
-        },
-        "CreateNamespace": true,
-        "Namespace": "kubecost",
-        "Release": "kubecost-cost-analyzer",
-        "Repository": "https://kubecost.github.io/cost-analyzer/",
-        "RoleArn": {
-          "Fn::GetAtt": [
-            "teststackCreationRole2F53ED2E",
-            "Arn",
-          ],
-        },
-        "ServiceToken": {
-          "Fn::GetAtt": [
-            "awscdkawseksKubectlProviderNestedStackawscdkawseksKubectlProviderNestedStackResourceA7AEBA6B",
-            "Outputs.teststackawscdkawseksKubectlProviderframeworkonEventA7D3599FArn",
-          ],
-        },
-        "Values": "{}",
-        "Version": "1.104.0",
       },
       "Type": "Custom::AWSCDK-EKS-HelmChart",
       "UpdateReplacePolicy": "Delete",
