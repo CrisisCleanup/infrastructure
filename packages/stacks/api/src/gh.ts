@@ -229,7 +229,7 @@ class GithubCodePipeline {
 
 		const maskValues: [ActionsContext, string][] = props.stages.map((stage) => [
 			ActionsContext.SECRET,
-			`AWS_ACCOUNT_ID_${(stage.waveId ?? stage.id).toUpperCase()}`,
+			`AWS_ACCOUNT_ID_${stage.id.toUpperCase()}`,
 		])
 		const maskStep = MaskValueStep.values('Mask IDs', ...maskValues, [
 			ActionsContext.SECRET,
@@ -395,10 +395,17 @@ class PipelineWorkflow extends ghpipelines.GitHubWorkflow {
 	}
 
 	getStageAccountIds(): Record<string, string> {
-		const accountIds: [string, string][] = this.waves.map((wave) => [
-			wave.stages[0].stacks[0].account!,
-			wave.id,
-		])
+		const accountIds = this.waves.reduce(
+			(acc, wave) => [
+				...acc,
+				...wave.stages.map(
+					(stage) =>
+						[stage.stacks[0].account!, stage.stageName] as [string, string],
+				),
+			],
+			[] as [string, string][],
+		)
+
 		return Object.fromEntries(accountIds)
 	}
 
