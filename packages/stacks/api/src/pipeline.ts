@@ -1,8 +1,15 @@
-import type * as blueprints from '@aws-quickstart/eks-blueprints'
-import type { Environment, StackProps } from 'aws-cdk-lib'
-import { StackCapabilities, type GitHubEnvironment } from 'cdk-pipelines-github'
+import * as blueprints from '@aws-quickstart/eks-blueprints'
+import {
+	type CdkEnvironment,
+	type CrisisCleanupConfig,
+} from '@crisiscleanup/config'
+import type { Environment, Stack, StackProps } from 'aws-cdk-lib'
+import { type GitHubEnvironment, StackCapabilities } from 'cdk-pipelines-github'
 import type { Construct } from 'constructs'
+import { CrisisCleanupAddOn } from './addons'
+import { buildKarpenter, ResourceNames } from './cluster'
 import { type GithubCodePipelineBuilder, GithubCodePipelineStack } from './gh'
+import { NetworkStack, DataStack } from './stacks'
 
 export interface PipelineProps {
 	readonly id: string
@@ -16,6 +23,8 @@ export interface PipelineTarget {
 	readonly stackBuilder: blueprints.BlueprintBuilder
 	readonly platformTeam: blueprints.PlatformTeam
 	readonly githubEnvironment: GitHubEnvironment
+	readonly config: CrisisCleanupConfig
+	readonly secretsProvider: blueprints.SecretProvider
 }
 
 class PipelineEnv implements Environment {
@@ -28,6 +37,10 @@ class PipelineEnv implements Environment {
 		readonly region: string,
 		readonly id: string,
 	) {}
+
+	get env(): CdkEnvironment {
+		return { account: this.account, region: this.region }
+	}
 }
 
 export class Pipeline {
@@ -52,19 +65,76 @@ export class Pipeline {
 	) {}
 
 	target(target: PipelineTarget): this {
-		const { name, environment, stackBuilder, platformTeam, githubEnvironment } =
-			target
+		const {
+			name,
+			environment,
+			stackBuilder,
+			platformTeam,
+			githubEnvironment,
+			config,
+			secretsProvider,
+		} = target
 		const env = PipelineEnv.fromEnv(environment, name)
 		const envStackBuilder = stackBuilder
 			.clone(env.region, env.account)
 			.teams(platformTeam)
 			.name(this.props.id)
+
 		this.pipeline.githubWave({
 			id: name,
 			stages: [
 				{
-					id: env.id,
-					stackBuilder: envStackBuilder,
+					id: name,
+					stackBuilder: {
+						build(
+							scope: Construct,
+							id: string,
+							stackProps?: StackProps,
+						): Stack {
+							const network = new NetworkStack(
+								scope,
+								env.id + '-network',
+								config.apiStack.network,
+								{
+									env: env.env,
+									...stackProps,
+								},
+							)
+							const data = new DataStack(
+								scope,
+								env.id + '-data',
+								{
+									vpc: network.vpc,
+									clusterProps: config.apiStack.database,
+								},
+								{
+									env: env.env,
+									...stackProps,
+								},
+							)
+							return envStackBuilder
+								.resourceProvider(
+									blueprints.GlobalResources.Vpc,
+									new blueprints.DirectVpcProvider(network.vpc),
+								)
+								.resourceProvider(ResourceNames.DATABASE_SECRET, {
+									provide: () => data.credentialsSecret,
+								})
+								.resourceProvider(ResourceNames.DATABASE_KEY, {
+									provide: () => data.encryptionKey,
+								})
+								.addOns(
+									buildKarpenter(),
+									new CrisisCleanupAddOn({
+										config,
+										secretsProvider,
+										databaseResourceName: ResourceNames.DATABASE,
+										databaseSecretResourceName: ResourceNames.DATABASE_SECRET,
+									}),
+								)
+								.build(scope, id, stackProps)
+						},
+					},
 					stageProps: {
 						gitHubEnvironment: githubEnvironment,
 						stackCapabilities: [

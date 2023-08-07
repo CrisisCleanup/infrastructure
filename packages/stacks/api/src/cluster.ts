@@ -167,3 +167,9 @@ export const buildClusterBuilder = (
 			selectors: [{ namespace: 'karpenter' }, { namespace: 'cert-manager' }],
 		})
 }
+
+export enum ResourceNames {
+	DATABASE = 'database',
+	DATABASE_SECRET = 'database-secret',
+	DATABASE_KEY = 'database-key',
+}
