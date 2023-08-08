@@ -239,7 +239,6 @@ export class ApiWSGI
 				'python',
 				'manage.py',
 				'collectstatic',
-				'--link',
 				'--no-post-process',
 				'--noinput',
 				'--verbosity=2',
