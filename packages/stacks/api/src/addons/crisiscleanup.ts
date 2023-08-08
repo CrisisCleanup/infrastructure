@@ -78,8 +78,19 @@ export class CrisisCleanupAddOn implements blueprints.ClusterAddOn {
 			this.props.config.api.secrets,
 			{ nestedDelimiter: '_' },
 		)
+
+		// paths provided via database secret
+		const dbSecretPaths: blueprints.JmesPathObject[] = [
+			{ path: 'username', objectAlias: 'POSTGRES_USER' },
+			{ path: 'password', objectAlias: 'POSTGRES_PASSWORD' },
+			{ path: 'host', objectAlias: 'POSTGRES_HOST' },
+		]
+
+		const externalDbKeys = dbSecretPaths.map(({ path }) =>
+			['postgres', path].join('.'),
+		)
 		const secretPaths: blueprints.JmesPathObject[] = Object.entries(secretKeys)
-			.filter(([key, _]) => !key.startsWith('postgres'))
+			.filter(([key, _]) => !externalDbKeys.includes(key))
 			.map(([key, value]) => ({
 				path: ['api', 'secrets', key].join('.'),
 				objectAlias: value,
@@ -89,11 +100,6 @@ export class CrisisCleanupAddOn implements blueprints.ClusterAddOn {
 			clusterInfo.getResourceContext(),
 			this.props.databaseSecretResourceName,
 		)
-		const dbSecretPaths: blueprints.JmesPathObject[] = [
-			{ path: 'username', objectAlias: 'POSTGRES_USER' },
-			{ path: 'password', objectAlias: 'POSTGRES_PASSWORD' },
-			{ path: 'host', objectAlias: 'POSTGRES_HOST' },
-		]
 
 		const csiProvider = new blueprints.SecretProviderClass(
 			clusterInfo,
