@@ -283,7 +283,6 @@ exports[`CrisisCleanupChart > api: matches snapshot > api 1`] = `
                 "python",
                 "manage.py",
                 "collectstatic",
-                "--link",
                 "--no-post-process",
                 "--noinput",
                 "--verbosity=2",
