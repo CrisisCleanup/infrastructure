@@ -86,11 +86,11 @@ export class CrisisCleanupAddOn implements blueprints.ClusterAddOn {
 			{ path: 'host', objectAlias: 'POSTGRES_HOST' },
 		]
 
-		const externalDbKeys = dbSecretPaths.map(({ path }) =>
-			['postgres', path].join('.'),
+		const externalDbAliases = dbSecretPaths.map(
+			({ objectAlias }) => objectAlias,
 		)
 		const secretPaths: blueprints.JmesPathObject[] = Object.entries(secretKeys)
-			.filter(([key, _]) => !externalDbKeys.includes(key))
+			.filter(([_, value]) => !externalDbAliases.includes(value))
 			.map(([key, value]) => ({
 				path: ['api', 'secrets', key].join('.'),
 				objectAlias: value,
