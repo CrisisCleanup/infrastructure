@@ -14,7 +14,7 @@ export interface DatabaseProps extends DatabaseConfig {
 
 export class Database extends Construct {
 	readonly securityGroup: ec2.SecurityGroup
-	readonly cluster: rds.DatabaseCluster
+	readonly cluster: rds.DatabaseClusterFromSnapshot
 
 	constructor(
 		scope: Construct,

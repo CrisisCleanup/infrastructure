@@ -145,7 +145,7 @@ export class Pipeline {
 						new blueprints.DirectVpcProvider(network.vpc),
 					)
 					.resourceProvider(ResourceNames.DATABASE_SECRET, {
-						provide: () => data.credentialsSecret,
+						provide: () => data.dbCluster.cluster.secret!,
 					})
 					.resourceProvider(ResourceNames.DATABASE_KEY, {
 						provide: () => data.encryptionKey,
