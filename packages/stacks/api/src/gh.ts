@@ -16,6 +16,32 @@ export interface GithubPipelineProps {
 	owner?: string
 }
 
+enum ActionsContext {
+	GITHUB = 'github',
+	SECRET = 'secrets',
+	ENV = 'env',
+	INPUTS = 'inputs',
+	INTERPOLATE = 'interpolate',
+}
+
+interface ActionsContextValue {
+	context: ActionsContext
+	key: string
+}
+
+interface ActionsWorkflowCallInput {
+	type: 'boolean' | 'number' | 'string'
+	description?: string
+	required?: boolean
+	default?: string | number | boolean
+}
+
+interface ActionsWorkflowDispatchInput
+	extends Omit<ActionsWorkflowCallInput, 'type'> {
+	type: ActionsWorkflowCallInput['type'] | 'choice' | 'environment'
+	options?: string[]
+}
+
 export interface PipelineProps
 	extends Omit<blueprints.PipelineProps, 'repository'>,
 		GithubPipelineProps {}
@@ -283,19 +309,45 @@ class GithubCodePipeline {
 				: undefined,
 			assetsS3Bucket: pipelineS3BucketName,
 			assetsS3Prefix: 'cdk-assets',
+			workflowTriggers: {},
 		})
-		workflow.workflowFile.patch(
-			ghpipelines.JsonPatch.add('/on/workflow_call', {
-				inputs: {
-					runner: {
-						description: 'Runner to use.',
-						type: 'string',
-						default: 'ubuntu-latest',
-						required: false,
-					},
-				},
-			}),
-		)
+
+		workflow.onWorkflowCall({
+			runner: {
+				type: 'string',
+				default: 'ubuntu-latest',
+				description: 'Runner to use.',
+				required: false,
+			},
+			environments: {
+				type: 'string',
+				description: 'Environments to deploy.',
+				default: 'development,staging',
+				required: false,
+			},
+		})
+
+		workflow.onWorkflowDispatch({
+			runner: {
+				type: 'choice',
+				description: 'Runner to use.',
+				options: ['ubuntu-latest', 'self-hosted'],
+				default: 'ubuntu-latest',
+			},
+			environments: {
+				type: 'choice',
+				description: 'Environments to deploy.',
+				options: [
+					'development',
+					'staging',
+					'production',
+					'development,staging',
+					'development,staging,production',
+				],
+				default: 'development,staging',
+			},
+		})
+
 		workflow.workflowFile.patch(
 			ghpipelines.JsonPatch.add('/concurrency', {
 				group: 'deploy-infra',
@@ -305,19 +357,6 @@ class GithubCodePipeline {
 
 		return workflow
 	}
-}
-
-enum ActionsContext {
-	GITHUB = 'github',
-	SECRET = 'secrets',
-	ENV = 'env',
-	INPUTS = 'inputs',
-	INTERPOLATE = 'interpolate',
-}
-
-interface ActionsContextValue {
-	context: ActionsContext
-	key: string
 }
 
 /**
@@ -550,5 +589,23 @@ class PipelineWorkflow extends ghpipelines.GitHubWorkflow {
 			].filter(Boolean) as ghpipelines.JsonPatch[]
 			yield* patches
 		}
+	}
+
+	onWorkflowCall(inputs: Record<string, ActionsWorkflowCallInput>): this {
+		const patch = ghpipelines.JsonPatch.add('/on/workflow_call', {
+			inputs,
+		})
+		this.workflowFile.patch(patch)
+		return this
+	}
+
+	onWorkflowDispatch(
+		inputs: Record<string, ActionsWorkflowDispatchInput>,
+	): this {
+		const patch = ghpipelines.JsonPatch.add('/on/workflow_dispatch', {
+			inputs,
+		})
+		this.workflowFile.patch(patch)
+		return this
 	}
 }

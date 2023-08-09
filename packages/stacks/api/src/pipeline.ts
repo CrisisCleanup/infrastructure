@@ -188,6 +188,9 @@ export class Pipeline {
 					id: name,
 					stackBuilder: stageStackBuilder,
 					stageProps: {
+						jobSettings: {
+							if: `contains((github.event.inputs.environments || inputs.environments), '${name}')`,
+						},
 						gitHubEnvironment: githubEnvironment ?? {
 							name: config.ccuStage,
 							url: config.api.config.ccu.webUrl,

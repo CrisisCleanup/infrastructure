@@ -3,17 +3,37 @@
 
 name: deploy
 on:
-  push:
-    branches:
-      - main
-  workflow_dispatch: {}
   workflow_call:
     inputs:
       runner:
-        description: Runner to use.
         type: string
         default: ubuntu-latest
+        description: Runner to use.
         required: false
+      environments:
+        type: string
+        description: Environments to deploy.
+        default: development,staging
+        required: false
+  workflow_dispatch:
+    inputs:
+      runner:
+        type: choice
+        description: Runner to use.
+        options:
+          - ubuntu-latest
+          - self-hosted
+        default: ubuntu-latest
+      environments:
+        type: choice
+        description: Environments to deploy.
+        options:
+          - development
+          - staging
+          - production
+          - development,staging
+          - development,staging,production
+        default: development,staging
 jobs:
   Build-crisiscleanup-infra-pipeline-synth:
     name: Synthesize
@@ -494,6 +514,38 @@ jobs:
       - id: Publish
         name: Publish Assets-FileAsset20
         run: /bin/bash ./cdk.out/publish-Assets-FileAsset20-step.sh
+  Assets-FileAsset21:
+    name: Publish Assets Assets-FileAsset21
+    needs:
+      - Build-crisiscleanup-infra-pipeline-synth
+    permissions:
+      contents: read
+      id-token: write
+    runs-on: ubuntu-latest
+    outputs:
+      asset-hash: ${{ steps.Publish.outputs.asset-hash }}
+    steps:
+      - name: Authenticate Via OIDC Role
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-region: us-east-1
+          role-duration-seconds: 1800
+          role-skip-session-tagging: true
+          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
+      - name: Pull assets
+        env:
+          SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
+          DESTINATION: cdk.out
+        run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
+          echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
+          aws s3 sync $SOURCE $DESTINATION
+      - name: Install
+        run: npm install --no-save cdk-assets
+      - id: Publish
+        name: Publish Assets-FileAsset21
+        run: /bin/bash ./cdk.out/publish-Assets-FileAsset21-step.sh
   Assets-FileAsset3:
     name: Publish Assets Assets-FileAsset3
     needs:
@@ -720,6 +772,8 @@ jobs:
         run: /bin/bash ./cdk.out/publish-Assets-FileAsset9-step.sh
   deploy-development-development-network-Deploy:
     name: Deploy crisiscleanupinfrapipelinestackdevelopmentdevelopmentnetwork9BE60577
+    if: contains((github.event.inputs.environments || inputs.environments),
+      'development')
     permissions:
       contents: read
       id-token: write
@@ -760,6 +814,8 @@ jobs:
           role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}-us-east-1
   deploy-staging-staging-network-Deploy:
     name: Deploy crisiscleanupinfrapipelinestackstagingstagingnetworkF6BE5B3F
+    if: contains((github.event.inputs.environments || inputs.environments),
+      'staging')
     permissions:
       contents: read
       id-token: write
@@ -768,7 +824,7 @@ jobs:
       url: https://app.staging.crisiscleanup.io
     needs:
       - Build-crisiscleanup-infra-pipeline-synth
-      - Assets-FileAsset16
+      - Assets-FileAsset17
     runs-on: ${{inputs.runner || 'ubuntu-latest'}}
     steps:
       - name: Authenticate Via OIDC Role
@@ -794,12 +850,14 @@ jobs:
         with:
           name: staging-staging-network
           template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_STAGING}}-us-east-1.s3.us-east-1.amazonaws.com/${{
-            needs.Assets-FileAsset16.outputs.asset-hash }}.json
+            needs.Assets-FileAsset17.outputs.asset-hash }}.json
           no-fail-on-empty-changeset: "1"
           capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM
           role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_STAGING}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_STAGING}}-us-east-1
   deploy-development-development-data-Deploy:
     name: Deploy crisiscleanupinfrapipelinestackdevelopmentdevelopmentdataE98C910D
+    if: contains((github.event.inputs.environments || inputs.environments),
+      'development')
     permissions:
       contents: read
       id-token: write
@@ -809,6 +867,7 @@ jobs:
     needs:
       - Build-crisiscleanup-infra-pipeline-synth
       - Assets-FileAsset2
+      - Assets-FileAsset3
       - deploy-development-development-network-Deploy
     runs-on: ${{inputs.runner || 'ubuntu-latest'}}
     steps:
@@ -841,6 +900,8 @@ jobs:
           role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}-us-east-1
   deploy-staging-staging-data-Deploy:
     name: Deploy crisiscleanupinfrapipelinestackstagingstagingdataE88954EF
+    if: contains((github.event.inputs.environments || inputs.environments),
+      'staging')
     permissions:
       contents: read
       id-token: write
@@ -849,7 +910,8 @@ jobs:
       url: https://app.staging.crisiscleanup.io
     needs:
       - Build-crisiscleanup-infra-pipeline-synth
-      - Assets-FileAsset17
+      - Assets-FileAsset18
+      - Assets-FileAsset3
       - deploy-staging-staging-network-Deploy
     runs-on: ${{inputs.runner || 'ubuntu-latest'}}
     steps:
@@ -876,13 +938,15 @@ jobs:
         with:
           name: staging-staging-data
           template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_STAGING}}-us-east-1.s3.us-east-1.amazonaws.com/${{
-            needs.Assets-FileAsset17.outputs.asset-hash }}.json
+            needs.Assets-FileAsset18.outputs.asset-hash }}.json
           no-fail-on-empty-changeset: "1"
           capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM
           role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_STAGING}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_STAGING}}-us-east-1
   deploy-development-development-blueprint-Deploy:
     name: Deploy
       crisiscleanupinfrapipelinestackdevelopmentdevelopmentblueprint44D37614
+    if: contains((github.event.inputs.environments || inputs.environments),
+      'development')
     permissions:
       contents: read
       id-token: write
@@ -891,7 +955,6 @@ jobs:
       url: https://app.dev.crisiscleanup.io
     needs:
       - Build-crisiscleanup-infra-pipeline-synth
-      - Assets-FileAsset3
       - Assets-FileAsset4
       - Assets-FileAsset5
       - Assets-FileAsset6
@@ -904,6 +967,7 @@ jobs:
       - Assets-FileAsset13
       - Assets-FileAsset14
       - Assets-FileAsset15
+      - Assets-FileAsset16
       - deploy-development-development-network-Deploy
       - deploy-development-development-data-Deploy
     runs-on: ${{inputs.runner || 'ubuntu-latest'}}
@@ -931,12 +995,14 @@ jobs:
         with:
           name: development-development-blueprint
           template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}-us-east-1.s3.us-east-1.amazonaws.com/${{
-            needs.Assets-FileAsset3.outputs.asset-hash }}.json
+            needs.Assets-FileAsset4.outputs.asset-hash }}.json
           no-fail-on-empty-changeset: "1"
           capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM
           role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}-us-east-1
   deploy-staging-staging-blueprint-Deploy:
     name: Deploy crisiscleanupinfrapipelinestackstagingstagingblueprint5D1F778A
+    if: contains((github.event.inputs.environments || inputs.environments),
+      'staging')
     permissions:
       contents: read
       id-token: write
@@ -945,8 +1011,7 @@ jobs:
       url: https://app.staging.crisiscleanup.io
     needs:
       - Build-crisiscleanup-infra-pipeline-synth
-      - Assets-FileAsset18
-      - Assets-FileAsset4
+      - Assets-FileAsset19
       - Assets-FileAsset5
       - Assets-FileAsset6
       - Assets-FileAsset7
@@ -956,8 +1021,9 @@ jobs:
       - Assets-FileAsset11
       - Assets-FileAsset12
       - Assets-FileAsset13
-      - Assets-FileAsset19
+      - Assets-FileAsset14
       - Assets-FileAsset20
+      - Assets-FileAsset21
       - deploy-staging-staging-network-Deploy
       - deploy-staging-staging-data-Deploy
     runs-on: ${{inputs.runner || 'ubuntu-latest'}}
@@ -985,7 +1051,7 @@ jobs:
         with:
           name: staging-staging-blueprint
           template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_STAGING}}-us-east-1.s3.us-east-1.amazonaws.com/${{
-            needs.Assets-FileAsset18.outputs.asset-hash }}.json
+            needs.Assets-FileAsset19.outputs.asset-hash }}.json
           no-fail-on-empty-changeset: "1"
           capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM
           role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_STAGING}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_STAGING}}-us-east-1
