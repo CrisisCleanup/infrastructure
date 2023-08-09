@@ -50,14 +50,27 @@ export class Database extends Construct {
 
 		const writer = rds.ClusterInstance.serverlessV2(id + '-cluster-writer')
 
-		const clusterProps: rds.DatabaseClusterProps = {
+		const readers: rds.IClusterInstance[] = []
+		for (let i = 0; i <= this.props.numReplicas; i++) {
+			readers.push(
+				rds.ClusterInstance.serverlessV2(id + `-cluster-reader-${i}`),
+			)
+		}
+
+		const updateBehavior =
+			readers.length >= 1
+				? rds.InstanceUpdateBehaviour.BULK
+				: rds.InstanceUpdateBehaviour.ROLLING
+
+		const clusterProps: rds.DatabaseClusterFromSnapshotProps = {
 			vpc,
 			engine,
 			vpcSubnets: {
 				subnetType,
 			},
 			securityGroups: [this.securityGroup],
-			credentials: rds.Credentials.fromSecret(credentialsSecret),
+			snapshotCredentials:
+				rds.SnapshotCredentials.fromSecret(credentialsSecret),
 			iamAuthentication: true,
 			port: 5432,
 			storageType: this.props.ioOptimized
@@ -67,11 +80,23 @@ export class Database extends Construct {
 			serverlessV2MinCapacity: this.props.minAcu,
 			serverlessV2MaxCapacity: this.props.maxAcu,
 			writer,
-			readers: [rds.ClusterInstance.serverlessV2(id + '-cluster-reader-1')],
+			readers: readers,
 			storageEncryptionKey: encryptionKey,
+			instanceUpdateBehaviour: updateBehavior,
+			cloudwatchLogsExports: ['postgresql'],
+			cloudwatchLogsRetention: this.props.cloudwatchLogsRetentionDays,
+			deletionProtection: this.props.deletionProtection,
+			backup: {
+				retention: cdk.Duration.days(this.props.backupRetentionDays),
+			},
+			defaultDatabaseName: this.props.databaseName,
+			snapshotIdentifier: this.props.snapshotIdentifier,
 		}
-
-		this.cluster = new rds.DatabaseCluster(this, id + '-cluster', clusterProps)
+		this.cluster = new rds.DatabaseClusterFromSnapshot(
+			this,
+			id + '-cluster',
+			clusterProps,
+		)
 	}
 }
 
