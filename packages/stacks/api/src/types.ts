@@ -17,11 +17,19 @@ export interface EKSConfig extends EKSAddonConfig {
 
 export interface DatabaseConfig {
 	readonly username?: string
+	readonly databaseName?: string
+	readonly snapshotIdentifier: string
 	readonly engineVersion: string
 	readonly ioOptimized: boolean
 	readonly minAcu: number
 	readonly maxAcu: number
 	readonly isolated?: boolean
+	readonly numReplicas: number
+	readonly numReplicasScaledWithWriter: number
+	readonly performanceInsights: boolean
+	readonly cloudwatchLogsRetentionDays?: number
+	readonly deletionProtection: boolean
+	readonly backupRetentionDays: number
 }
 
 export interface NetworkConfig {

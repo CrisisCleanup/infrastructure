@@ -29,6 +29,12 @@ export default defineConfig({
 			minAcu: 0.5,
 			maxAcu: 1.5,
 			isolated: false,
+			numReplicas: 0,
+			numReplicasScaledWithWriter: 0,
+			performanceInsights: false,
+			cloudwatchLogsRetentionDays: 30,
+			deletionProtection: false,
+			backupRetentionDays: 1,
 		},
 	},
 })
