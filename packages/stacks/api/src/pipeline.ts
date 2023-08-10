@@ -1,6 +1,5 @@
 import { KubectlV27Layer } from '@aws-cdk/lambda-layer-kubectl-v27'
 import * as blueprints from '@aws-quickstart/eks-blueprints'
-import { clusters } from '@aws-quickstart/eks-blueprints'
 import {
 	type CdkEnvironment,
 	type CrisisCleanupConfig,

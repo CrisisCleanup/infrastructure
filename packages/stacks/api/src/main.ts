@@ -1,6 +1,7 @@
 import * as blueprints from '@aws-quickstart/eks-blueprints'
 import {
-	type CrisisCleanupConfigLayerMetaSources,
+	type CrisisCleanupConfig,
+	type CrisisCleanupConfigLayerMeta,
 	getConfig,
 	type Stage as ConfigStage,
 } from '@crisiscleanup/config'
@@ -17,7 +18,7 @@ const configsLayer = layers!.find(
 	(layer) => layer.meta?.repo === 'configs' && 'sources' in layer.meta,
 )
 // @ts-ignore
-const configsSources: Record<ConfigStage, CrisisCleanupConfigLayerMetaSources> =
+const configsSources: Record<ConfigStage, CrisisCleanupConfigLayerMeta> =
 	Object.fromEntries(
 		configsLayer!.meta!.sources!.map((source) => [source.name, source]),
 	)
@@ -34,12 +35,12 @@ const app = new App({
 
 const devSecretsProvider = new SopsSecretProvider({
 	secretName: 'crisiscleanup-development-api',
-	sopsFilePath: configsSources.development.secretsPath,
+	sopsFilePath: <string>configsSources.development.secretsPath,
 })
 
 const stagingSecretsProvider = new SopsSecretProvider({
 	secretName: 'crisiscleanup-staging-api',
-	sopsFilePath: configsSources.staging.secretsPath,
+	sopsFilePath: <string>configsSources.staging.secretsPath,
 })
 
 const pipeline = Pipeline.builder({
@@ -51,7 +52,7 @@ const pipeline = Pipeline.builder({
 		stackBuilder: blueprints.EksBlueprint.builder()
 			.clone()
 			.addOns(new RedisStackAddOn()),
-		config: config.$env.development,
+		config: config.$env!.development as unknown as CrisisCleanupConfig,
 		secretsProvider: devSecretsProvider,
 	})
 	.target({
@@ -59,7 +60,7 @@ const pipeline = Pipeline.builder({
 		stackBuilder: blueprints.EksBlueprint.builder()
 			.clone()
 			.addOns(new RedisStackAddOn()),
-		config: config.$env.staging,
+		config: config.$env!.staging as unknown as CrisisCleanupConfig,
 		secretsProvider: stagingSecretsProvider,
 	})
 	.build(app, {
