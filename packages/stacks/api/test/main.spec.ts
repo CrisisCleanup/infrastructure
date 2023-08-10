@@ -25,6 +25,7 @@ util.inspect.defaultOptions.colors = true
 
 beforeAll(() => {
 	vi.stubEnv('CDK_DEFAULT_ACCOUNT', '1234567890')
+	vi.stubEnv('CDK_DEFAULT_REGION', 'us-east-1')
 })
 
 afterAll(() => {
@@ -32,6 +33,7 @@ afterAll(() => {
 })
 
 test('Snapshot', async () => {
+	// @ts-ignore
 	const config: CrisisCleanupConfig = getConfigDefaults({
 		...stackDefaults,
 		...chartDefaults,
