@@ -51,10 +51,12 @@ export class Database extends Construct {
 		const writer = rds.ClusterInstance.serverlessV2(id + '-cluster-writer')
 
 		const readers: rds.IClusterInstance[] = []
-		for (let i = 0; i <= this.props.numReplicas; i++) {
-			readers.push(
-				rds.ClusterInstance.serverlessV2(id + `-cluster-reader-${i}`),
-			)
+		if (this.props.numReplicas) {
+			for (let i = 0; i <= this.props.numReplicas; i++) {
+				readers.push(
+					rds.ClusterInstance.serverlessV2(id + `-cluster-reader-${i}`),
+				)
+			}
 		}
 
 		const updateBehavior =
@@ -81,7 +83,7 @@ export class Database extends Construct {
 			serverlessV2MinCapacity: this.props.minAcu,
 			serverlessV2MaxCapacity: this.props.maxAcu,
 			writer,
-			readers: readers,
+			readers,
 			storageEncryptionKey: encryptionKey,
 			instanceUpdateBehaviour: updateBehavior,
 			cloudwatchLogsExports: ['postgresql'],
