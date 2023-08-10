@@ -330,7 +330,7 @@ const crisiscleanup = Cdk8sAppBuilder.build({
 	cdk8sImports: [
 		'https://raw.githubusercontent.com/kubernetes-sigs/secrets-store-csi-driver/main/charts/secrets-store-csi-driver/crds/secrets-store.csi.x-k8s.io_secretproviderclasses.yaml',
 	],
-	deps: ['defu', 'js-yaml', 'debug', 'type-fest'],
+	deps: ['defu', 'js-yaml', 'debug', 'type-fest', 'zod'],
 	devDeps: ['@types/js-yaml', 'tsx', '@types/debug'],
 	workspaceDeps: [k8sComponentConstruct, config, apiConstruct],
 	jest: false,
@@ -369,6 +369,7 @@ const apiStack = AwsCdkTsAppBuilder.build({
 	integrationTestAutoDiscover: true,
 	workspaceDeps: [config, crisiscleanup, apiConstruct, k8sComponentConstruct],
 	deps: [
+		'zod',
 		'cdk-sops-secrets',
 		'@aws-quickstart/eks-blueprints',
 		'@kubecost/kubecost-eks-blueprints-addon',
