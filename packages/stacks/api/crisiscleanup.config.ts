@@ -1,40 +1,9 @@
 /// <reference path="src/config.d.ts" />
 
 import { defineConfig } from '@crisiscleanup/config'
+import { apiStackConfigSchema } from './src/schema'
 
 export default defineConfig({
 	$meta: { name: 'crisiscleanup' },
-	apiStack: {
-		kubecostToken: '',
-		codeStarConnectionArn: '',
-		eks: {
-			platformArns: [],
-			defaultSecretsEncryption: true,
-			coreDnsVersion: 'v1.10.1-eksbuild.2',
-			kubeProxyVersion: 'v1.27.3-eksbuild.2',
-			vpcCniVersion: 'v1.13.3-eksbuild.1',
-			ebsCsiVersion: 'v1.21.0-eksbuild.1',
-			k8s: {
-				version: '1.27',
-			},
-		},
-		network: {
-			maxAzs: 2,
-			natGateways: 1,
-			createIsolatedSubnet: false,
-		},
-		database: {
-			engineVersion: '15.3',
-			ioOptimized: true,
-			minAcu: 0.5,
-			maxAcu: 1.5,
-			isolated: false,
-			numReplicas: 0,
-			numReplicasScaledWithWriter: 0,
-			performanceInsights: false,
-			cloudwatchLogsRetentionDays: 30,
-			deletionProtection: false,
-			backupRetentionDays: 1,
-		},
-	},
+	apiStack: apiStackConfigSchema.parse({}),
 })
