@@ -68,7 +68,7 @@ export type ScreamingSnakeCaseProperties<T> = T extends object
 type FlatOptions = Parameters<typeof flatten>[1]
 type UnFlatOptions = Parameters<typeof flatten.unflatten>[1]
 
-interface TransformedEnv {
+export interface TransformedEnv {
 	[key: string]: string | boolean | string[] | TransformedEnv
 }
 
@@ -135,7 +135,7 @@ export const transformEnvVars = (envVars: {
  * @param value input raw value.
  * @private
  */
-function parseValue(value: string): string | boolean | string[] {
+export function parseValue(value: string): string | boolean | string[] {
 	if (value.includes(',')) {
 		return value.split(',')
 	}
