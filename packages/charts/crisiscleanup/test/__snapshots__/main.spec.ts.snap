@@ -74,11 +74,6 @@ exports[`CrisisCleanupChart > api: matches snapshot > api 1`] = `
                     "name": "crisiscleanup-config-api-config",
                   },
                 },
-                {
-                  "secretRef": {
-                    "name": "crisiscleanup-config-api-config-secret",
-                  },
-                },
               ],
               "image": "test-api:test",
               "imagePullPolicy": "Always",
@@ -210,11 +205,6 @@ exports[`CrisisCleanupChart > api: matches snapshot > api 1`] = `
                     "name": "crisiscleanup-config-api-config",
                   },
                 },
-                {
-                  "secretRef": {
-                    "name": "crisiscleanup-config-api-config-secret",
-                  },
-                },
               ],
               "image": "test-api:test",
               "imagePullPolicy": "Always",
@@ -291,11 +281,6 @@ exports[`CrisisCleanupChart > api: matches snapshot > api 1`] = `
                 {
                   "configMapRef": {
                     "name": "crisiscleanup-config-api-config",
-                  },
-                },
-                {
-                  "secretRef": {
-                    "name": "crisiscleanup-config-api-config-secret",
                   },
                 },
               ],
@@ -507,18 +492,12 @@ exports[`CrisisCleanupChart > api: matches snapshot > api 1`] = `
               "command": [
                 "/serve.sh",
                 "asgi",
-                "--workers",
-                "2",
+                "--workers=1",
               ],
               "envFrom": [
                 {
                   "configMapRef": {
                     "name": "crisiscleanup-config-api-config",
-                  },
-                },
-                {
-                  "secretRef": {
-                    "name": "crisiscleanup-config-api-config-secret",
                   },
                 },
               ],
@@ -763,11 +742,6 @@ exports[`CrisisCleanupChart > celery: matches snapshot > celery 1`] = `
                     "name": "crisiscleanup-config-api-config",
                   },
                 },
-                {
-                  "secretRef": {
-                    "name": "crisiscleanup-config-api-config-secret",
-                  },
-                },
               ],
               "image": "test-api:test",
               "imagePullPolicy": "Always",
@@ -867,8 +841,7 @@ exports[`CrisisCleanupChart > celery: matches snapshot > celery 1`] = `
                 "celeryworker",
                 "-Q",
                 "celery",
-                "--concurrency",
-                "2",
+                "--concurrency=2",
                 "--hostname",
                 "celery@%%h",
               ],
@@ -876,11 +849,6 @@ exports[`CrisisCleanupChart > celery: matches snapshot > celery 1`] = `
                 {
                   "configMapRef": {
                     "name": "crisiscleanup-config-api-config",
-                  },
-                },
-                {
-                  "secretRef": {
-                    "name": "crisiscleanup-config-api-config-secret",
                   },
                 },
               ],
@@ -1054,8 +1022,7 @@ exports[`CrisisCleanupChart > celery: matches snapshot > celery 1`] = `
                 "celeryworker",
                 "-Q",
                 "signal,phone,metrics",
-                "--concurrency",
-                "2",
+                "--concurrency=2",
                 "--hostname",
                 "signal@%%h",
               ],
@@ -1063,11 +1030,6 @@ exports[`CrisisCleanupChart > celery: matches snapshot > celery 1`] = `
                 {
                   "configMapRef": {
                     "name": "crisiscleanup-config-api-config",
-                  },
-                },
-                {
-                  "secretRef": {
-                    "name": "crisiscleanup-config-api-config-secret",
                   },
                 },
               ],
@@ -1310,17 +1272,17 @@ exports[`CrisisCleanupChart > config: matches snapshot > config 1`] = `
       "CCU_WEB_URL": "https://local.crisiscleanup.io",
       "CELERY_ALWAYS_EAGER": "false",
       "CONNECT_INSTANCE_ID": "",
-      "DJANGO_ACCOUNT_ALLOW_REGISTRATION": "True",
+      "DJANGO_ACCOUNT_ALLOW_REGISTRATION": "true",
       "DJANGO_ALLOWED_HOSTS": "*",
-      "DJANGO_CSRF_COOKIE_SECURE": "false",
+      "DJANGO_CSRF_COOKIE_SECURE": "true",
       "DJANGO_EMAIL_BACKEND": "django.core.mail.backends.dummy.EmailBackend",
       "DJANGO_SECURE_SSL_REDIRECT": "false",
-      "DJANGO_SESSION_COOKIE_SECURE": "false",
+      "DJANGO_SESSION_COOKIE_SECURE": "true",
       "DJANGO_SETTINGS_MODULE": "config.settings.local",
       "ELASTIC_SEARCH_HOST": "",
       "NEW_RELIC_CONFIG_FILE": "/app/newrelic.ini",
-      "PHONE_CHECK_TIMEZONE": "false",
-      "SENTRY_TRACE_EXCLUDE_URLS": "/,/health,/health/,/ws/health,/ws/health/,/version,/version/,/{var}health/,/{var}version/,crisiscleanup.common.tasks.get_request_ip,crisiscleanup.common.tasks.create_signal_log,crisiscleanup.common.tasks.create_new_signal_events",
+      "PHONE_CHECK_TIMEZONE": "true",
+      "SENTRY_TRACE_EXCLUDE_URLS": "/,/health,/health/,/ws/health,/ws/health/,/version,/version/,/{var}health/,/{var}version/",
     },
     "immutable": false,
     "kind": "ConfigMap",
@@ -1331,43 +1293,6 @@ exports[`CrisisCleanupChart > config: matches snapshot > config 1`] = `
       },
       "name": "crisiscleanup-config-api-config",
       "namespace": "test",
-    },
-  },
-  {
-    "apiVersion": "v1",
-    "immutable": false,
-    "kind": "Secret",
-    "metadata": {
-      "labels": {
-        "app.kubernetes.io/component": "config",
-        "app.kubernetes.io/part-of": "crisiscleanup",
-      },
-      "name": "crisiscleanup-config-api-config-secret",
-      "namespace": "test",
-    },
-    "stringData": {
-      "AWS_ACCESS_KEY_ID": "",
-      "AWS_DEFAULT_REGION": "us-east-1",
-      "AWS_DYNAMO_STAGE": "local",
-      "AWS_SECRET_ACCESS_KEY": "",
-      "CLOUDFRONT_PRIVATE_KEY": "",
-      "CLOUDFRONT_PUBLIC_KEY": "",
-      "CONNECT_FIRST_PASSWORD": "",
-      "DJANGO_ADMIN_URL": "^admin/",
-      "DJANGO_MANDRILL_API_KEY": "",
-      "DJANGO_SECRET_KEY": "a_very_secret_key",
-      "JWT_PRIVATE_KEY": "",
-      "JWT_PUBLIC_KEY": "",
-      "POSTGRES_DBNAME": "crisiscleanup_dev",
-      "POSTGRES_HOST": "172.17.0.1",
-      "POSTGRES_PASSWORD": "crisiscleanup_dev",
-      "POSTGRES_PORT": "5432",
-      "POSTGRES_USER": "crisiscleanup_dev",
-      "REDIS_HOST": "172.17.0.1",
-      "REDIS_HOST_REPLICAS": "",
-      "SAML_AWS_PROVIDER": "",
-      "SAML_AWS_ROLE": "",
-      "ZENDESK_API_KEY": "",
     },
   },
 ]
