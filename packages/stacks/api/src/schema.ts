@@ -23,6 +23,8 @@ export const eksAddonSchema = z.object({
 		.describe('EBS CSI driver version.'),
 })
 
+export interface EKSAddonConfig extends z.infer<typeof eksAddonSchema> {}
+
 export const eksConfigSchema = eksAddonSchema.extend({
 	defaultSecretsEncryption: z
 		.boolean()
@@ -34,6 +36,8 @@ export const eksConfigSchema = eksAddonSchema.extend({
 		.describe('ARNs to add to platform team.')
 		.default([]),
 })
+
+export interface EKSConfig extends z.infer<typeof eksConfigSchema> {}
 
 export const databaseConfigSchema = z.object({
 	username: z.string().optional(),
@@ -69,6 +73,8 @@ export const databaseConfigSchema = z.object({
 	backupRetentionDays: z.number().default(1),
 })
 
+export interface DatabaseConfig extends z.infer<typeof databaseConfigSchema> {}
+
 export const networkConfigSchema = z.object({
 	maxAzs: z.number().default(2).describe('Maximum availability zones.'),
 	natGateways: z.number().default(1).describe('Number of NAT gateways.'),
@@ -78,6 +84,8 @@ export const networkConfigSchema = z.object({
 		.default(false)
 		.describe('Create isolated /28 subnet.'),
 })
+
+export interface NetworkConfig extends z.infer<typeof networkConfigSchema> {}
 
 export const apiStackConfigSchema = z.object({
 	eks: eksConfigSchema.default({}).describe('EKS configuration.'),

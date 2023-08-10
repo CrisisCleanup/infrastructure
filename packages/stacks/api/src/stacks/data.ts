@@ -4,7 +4,7 @@ import * as kms from 'aws-cdk-lib/aws-kms'
 import * as rds from 'aws-cdk-lib/aws-rds'
 import { type ISecret, Secret } from 'aws-cdk-lib/aws-secretsmanager'
 import { Construct } from 'constructs'
-import { type DatabaseConfig } from '../types'
+import { type DatabaseConfig } from '../schema'
 
 export interface DatabaseProps extends DatabaseConfig {
 	vpc: ec2.IVpc

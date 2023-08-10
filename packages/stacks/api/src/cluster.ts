@@ -3,7 +3,7 @@ import { Lazy } from 'aws-cdk-lib'
 import type * as ec2 from 'aws-cdk-lib/aws-ec2'
 import { KubernetesVersion } from 'aws-cdk-lib/aws-eks'
 import { type ILayerVersion } from 'aws-cdk-lib/aws-lambda'
-import { type EKSAddonConfig } from './types'
+import { type EKSAddonConfig } from './schema'
 import { lazyClusterInfo } from './util'
 
 enum Label {
