@@ -12,16 +12,18 @@ import {
 import createDebug from 'debug'
 import defu from 'defu'
 import type { Exact } from 'type-fest'
+import {
+	configSchema,
+	type ApiAppConfig,
+	type ApiAppSecrets,
+	type ApiConfig,
+	type CrisisCleanupConfig,
+	type CrisisCleanupConfigInput,
+	type CrisisCleanupConfigLayerMeta,
+	type CrisisCleanupConfigMeta,
+	type Stage,
+} from './schema'
 import { pickSubsetDeep, transformEnvVars } from './transform'
-import type {
-	ApiAppConfig,
-	ApiAppSecrets,
-	ApiConfig,
-	CrisisCleanupConfig,
-	CrisisCleanupConfigInput,
-	CrisisCleanupConfigLayerMeta,
-	CrisisCleanupConfigMeta,
-} from './types'
 
 const debug = createDebug('@crisiscleanup:config')
 
@@ -230,7 +232,7 @@ type LoadedConfig<
 	: ResolvedT
 
 type ResolvedCrisisCleanupConfig = ResolvedConfig<
-	CrisisCleanupConfig & Required<CrisisCleanupConfigMeta>,
+	CrisisCleanupConfig,
 	CrisisCleanupConfigLayerMeta
 >
 
@@ -243,10 +245,7 @@ export const getConfig = async <
 >(
 	options?: T,
 	loadOptions?: Partial<
-		LoadConfigOptions<
-			CrisisCleanupConfig & CrisisCleanupConfigMeta,
-			CrisisCleanupConfigLayerMeta
-		>
+		LoadConfigOptions<CrisisCleanupConfig, CrisisCleanupConfigLayerMeta>
 	>,
 ): Promise<LoadedConfig<T, ResolvedCrisisCleanupConfig>> => {
 	const cwd = await resolveRoot()
@@ -283,8 +282,8 @@ export const getConfig = async <
 		process.env.CCU_CONFIGS_DECRYPT = process.env.CCU_CONFIGS_DECRYPT ?? 'true'
 	}
 
-	const cfg = (await loadConfig<
-		CrisisCleanupConfig & CrisisCleanupConfigMeta,
+	const cfg = await loadConfig<
+		CrisisCleanupConfig,
 		CrisisCleanupConfigLayerMeta
 	>({
 		name: 'crisiscleanup',
@@ -294,7 +293,7 @@ export const getConfig = async <
 		extend: { extendKey: '$extends' },
 		...overridesConfig,
 		...loadOptions,
-	})) as unknown as ResolvedCrisisCleanupConfig
+	})
 	process.env = previousEnv
 	debug('resolved config: %O', cfg)
 
@@ -305,15 +304,23 @@ export const getConfig = async <
 	}
 
 	if (cfg.config) {
-		cfg.config.$env = objectMap(cfg.config.$env, (key, value) => [
-			key,
-			getConfigDefaults(
-				useEnvOverrides
-					? defu({ ...envOverrides, ccuStage: key }, value)
-					: { ...value, ccuStage: key },
-			),
-		])
+		cfg.config.$env = objectMap(
+			cfg.config.$env as Record<Stage, CrisisCleanupConfig>,
+			(key, value) => [
+				key,
+				getConfigDefaults(
+					useEnvOverrides
+						? (defu(
+								{ ...envOverrides, ccuStage: key },
+								value,
+						  ) as CrisisCleanupConfig)
+						: ({ ...value, ccuStage: key } as CrisisCleanupConfig),
+				),
+			],
+		)
 	}
+
+	cfg.config = await configSchema.parseAsync(cfg.config)
 
 	return cfg as LoadedConfig<T, typeof cfg>
 }
