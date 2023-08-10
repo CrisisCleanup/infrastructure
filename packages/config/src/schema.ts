@@ -144,8 +144,10 @@ export interface ApiAppConfig extends z.infer<typeof apiAppConfigSchema> {}
 export const cdkEnvironmentSchema = z.object({
 	account: z.coerce
 		.string()
-		.default(() => process.env.CDK_DEFAULT_ACCOUNT as string),
-	region: z.string().default(() => process.env.CDK_DEFAULT_REGION as string),
+		.default(() => (process.env.CDK_DEFAULT_ACCOUNT as string) ?? '123456789'),
+	region: z
+		.string()
+		.default(() => (process.env.CDK_DEFAULT_REGION as string) ?? 'us-east-1'),
 })
 
 export interface CdkEnvironment extends z.infer<typeof cdkEnvironmentSchema> {}
