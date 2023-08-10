@@ -242,15 +242,24 @@ export const getConfig = async <
 	},
 >(
 	options?: T,
+	loadOptions?: Partial<
+		LoadConfigOptions<
+			CrisisCleanupConfig & CrisisCleanupConfigMeta,
+			CrisisCleanupConfigLayerMeta
+		>
+	>,
 ): Promise<LoadedConfig<T, ResolvedCrisisCleanupConfig>> => {
 	const cwd = await resolveRoot()
+
+	const useEnvOverrides = options?.useEnvOverrides ?? true
+	const envOverrides = loadEnvOverrides()
 
 	const overridesConfig: Partial<
 		LoadConfigOptions<
 			CrisisCleanupConfig & CrisisCleanupConfigMeta,
 			CrisisCleanupConfigLayerMeta
 		>
-	> = options?.useEnvOverrides ?? true ? { overrides: loadEnvOverrides() } : {}
+	> = useEnvOverrides ? { overrides: envOverrides } : {}
 	debug('using overrides from env: %O', overridesConfig)
 
 	const previousEnv = process.env
@@ -271,7 +280,7 @@ export const getConfig = async <
 	}
 
 	if (options?.decrypt ?? true) {
-		process.env.CCU_CONFIGS_DECRYPT = 'true'
+		process.env.CCU_CONFIGS_DECRYPT = process.env.CCU_CONFIGS_DECRYPT ?? 'true'
 	}
 
 	const cfg = (await loadConfig<
@@ -284,7 +293,8 @@ export const getConfig = async <
 		cwd,
 		extend: { extendKey: '$extends' },
 		...overridesConfig,
-	})) as ResolvedCrisisCleanupConfig
+		...loadOptions,
+	})) as unknown as ResolvedCrisisCleanupConfig
 	process.env = previousEnv
 	debug('resolved config: %O', cfg)
 
@@ -297,7 +307,11 @@ export const getConfig = async <
 	if (cfg.config) {
 		cfg.config.$env = objectMap(cfg.config.$env, (key, value) => [
 			key,
-			getConfigDefaults({ ...value, ccuStage: key }),
+			getConfigDefaults(
+				useEnvOverrides
+					? defu({ ...envOverrides, ccuStage: key }, value)
+					: { ...value, ccuStage: key },
+			),
 		])
 	}
 
