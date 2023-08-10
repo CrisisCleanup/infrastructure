@@ -14,9 +14,7 @@ import defu from 'defu'
 import type { Exact } from 'type-fest'
 import {
 	configSchema,
-	type ApiAppConfig,
-	type ApiAppSecrets,
-	type ApiConfig,
+	configValuesSchema,
 	type CrisisCleanupConfig,
 	type CrisisCleanupConfigInput,
 	type CrisisCleanupConfigLayerMeta,
@@ -27,116 +25,9 @@ import { pickSubsetDeep, transformEnvVars } from './transform'
 
 const debug = createDebug('@crisiscleanup:config')
 
-const baseAppConfig: ApiAppConfig = {
-	celery: {
-		alwaysEager: false,
-	},
-	django: {
-		accountAllowRegistration: 'True',
-		allowedHosts: '*',
-		csrfCookieSecure: false,
-		secureSslRedirect: false,
-		sessionCookieSecure: false,
-		emailBackend: 'django.core.mail.backends.dummy.EmailBackend',
-		settingsModule: 'config.settings.local',
-	},
-	ccu: {
-		forceDocker: true,
-		apiUrl: 'https://api.local.crisiscleanup.io',
-		webUrl: 'https://local.crisiscleanup.io',
-		newrelicDisable: true,
-	},
-	connect: {
-		instanceId: '',
-	},
-	elasticSearch: {
-		host: '',
-	},
-	newRelic: {
-		configFile: '/app/newrelic.ini',
-	},
-	phone: {
-		checkTimezone: false,
-	},
-	sentry: {
-		traceExcludeUrls: [
-			'/',
-			'/health',
-			'/health/',
-			'/ws/health',
-			'/ws/health/',
-			'/version',
-			'/version/',
-			'/{var}health/',
-			'/{var}version/',
-			'crisiscleanup.common.tasks.get_request_ip',
-			'crisiscleanup.common.tasks.create_signal_log',
-			'crisiscleanup.common.tasks.create_new_signal_events',
-		],
-	},
-}
-
-// Local secrets
-const baseAppSecrets: ApiAppSecrets = {
-	aws: {
-		accessKeyId: '',
-		secretAccessKey: '',
-		defaultRegion: 'us-east-1',
-		dynamoStage: 'local',
-	},
-	cloudfront: {
-		privateKey: '',
-		publicKey: '',
-	},
-	jwt: {
-		privateKey: '',
-		publicKey: '',
-	},
-	connectFirst: { password: '' },
-	postgres: {
-		// local
-		host: '172.17.0.1',
-		password: 'crisiscleanup_dev',
-		dbname: 'crisiscleanup_dev',
-		port: 5432,
-		user: 'crisiscleanup_dev',
-	},
-	redis: {
-		host: '172.17.0.1',
-		hostReplicas: [],
-	},
-	zendesk: {
-		apiKey: '',
-	},
-	saml: {
-		awsProvider: '',
-		awsRole: '',
-	},
-	django: {
-		adminUrl: '^admin/',
-		secretKey: 'a_very_secret_key',
-		mandrill: {
-			apiKey: '',
-		},
-	},
-}
-
-export const baseApiConfig: ApiConfig = {
-	config: baseAppConfig,
-	secrets: baseAppSecrets,
-}
-
-export const baseConfig: CrisisCleanupConfig = {
+export const baseConfig: CrisisCleanupConfig = configValuesSchema.parse({
 	ccuStage: 'local',
-	cdkEnvironment: {
-		region:
-			process.env.CDK_DEFAULT_REGION ??
-			process.env.AWS_DEFAULT_REGION ??
-			'us-east-1',
-		account: process.env.CDK_DEFAULT_ACCOUNT!,
-	},
-	api: baseApiConfig,
-}
+})
 
 const getGitRoot = (): Promise<string> =>
 	new Promise((resolve, reject) => {
