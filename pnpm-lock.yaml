@@ -178,6 +178,9 @@ importers:
       type-fest:
         specifier: ^4.0.0
         version: 4.0.0
+      zod:
+        specifier: ^3.21.4
+        version: 3.21.4
     devDependencies:
       '@types/debug':
         specifier: ^4.1.8
@@ -551,6 +554,9 @@ importers:
       flat:
         specifier: ^5.0.2
         version: 5.0.2
+      zod:
+        specifier: ^3.21.4
+        version: 3.21.4
     devDependencies:
       '@types/flat':
         specifier: ^5.0.2
@@ -7237,7 +7243,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20230808
+      typescript: 5.3.0-dev.20230810
     dev: true
 
   /duplexer@0.1.2:
@@ -14135,10 +14141,10 @@ packages:
     hasBin: true
     dev: true
 
-  /typescript@5.3.0-dev.20230808:
+  /typescript@5.3.0-dev.20230810:
     resolution:
       {
-        integrity: sha512-skwlatDWwjIHttX+Yg1vH1XRyFJWy8m1LxrP+3VEpAso05fW0y61dQbzqDzdtTjPKUDLf5um7IMwWBS6gVx08A==,
+        integrity: sha512-cD+0wvHU1AJDHnbOizHt2iJ9nEpJAa7t5WXbu6NaNeX3ZWO0lIt0A5TFgWsD4ZbXPHdxq6Uw6IKvTn8W0arAmA==,
       }
     engines: { node: '>=14.17' }
     hasBin: true
