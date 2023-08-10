@@ -148,6 +148,8 @@ export const cdkEnvironmentSchema = z.object({
 	region: z.string().default(() => process.env.CDK_DEFAULT_REGION as string),
 })
 
+export interface CdkEnvironment extends z.infer<typeof cdkEnvironmentSchema> {}
+
 const djangoSecretsSchema = z.object({
 	adminUrl: z.string().default('^admin/'),
 	secretKey: z.string().default('local_good_key'),
@@ -207,8 +209,8 @@ const envConfigSchema = z.record(Environment, configValuesSchema)
 
 export const configMetaSchema = z
 	.object({
-		$env: envConfigSchema,
 		$extends: z.array(z.string()),
+		$env: envConfigSchema,
 	})
 	.partial({ $extends: true, $env: true })
 
@@ -232,6 +234,10 @@ export const configLayerMeta = z
 export const configSchemaInput = configSchema.deepPartial().pipe(configSchema)
 
 export interface CrisisCleanupConfig extends z.infer<typeof configSchema> {}
+
+export type EnvConfig = {
+	[key in Stage]: CrisisCleanupConfig
+}
 
 export interface CrisisCleanupConfigInput
 	extends z.input<typeof configSchemaInput> {}

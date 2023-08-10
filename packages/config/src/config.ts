@@ -19,7 +19,7 @@ import {
 	type CrisisCleanupConfigInput,
 	type CrisisCleanupConfigLayerMeta,
 	type CrisisCleanupConfigMeta,
-	type Stage,
+	type EnvConfig,
 } from './schema'
 import { pickSubsetDeep, transformEnvVars } from './transform'
 
@@ -195,20 +195,19 @@ export const getConfig = async <
 	}
 
 	if (cfg.config) {
-		cfg.config.$env = objectMap(
-			cfg.config.$env as Record<Stage, CrisisCleanupConfig>,
-			(key, value) => [
-				key,
-				getConfigDefaults(
-					useEnvOverrides
-						? (defu(
-								{ ...envOverrides, ccuStage: key },
-								value,
-						  ) as CrisisCleanupConfig)
-						: ({ ...value, ccuStage: key } as CrisisCleanupConfig),
-				),
-			],
-		)
+		const $env = cfg.config.$env
+		// @ts-ignore
+		cfg.config.$env = objectMap($env as Required<EnvConfig>, (key, value) => [
+			key,
+			getConfigDefaults(
+				useEnvOverrides
+					? (defu(
+							{ ...envOverrides, ccuStage: key },
+							value,
+					  ) as CrisisCleanupConfig)
+					: ({ ...value, ccuStage: key } as CrisisCleanupConfig),
+			),
+		]) as EnvConfig
 	}
 
 	cfg.config = await configSchema.parseAsync(cfg.config)
