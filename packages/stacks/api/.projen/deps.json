@@ -92,6 +92,10 @@
       "type": "runtime"
     },
     {
+      "name": "@cdklabs/cdk-validator-cfnguard",
+      "type": "runtime"
+    },
+    {
       "name": "@crisiscleanup/charts.crisiscleanup",
       "version": "workspace:*",
       "type": "runtime"

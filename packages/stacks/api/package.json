@@ -50,6 +50,7 @@
   "dependencies": {
     "@aws-cdk/lambda-layer-kubectl-v27": "^2.0.0",
     "@aws-quickstart/eks-blueprints": "^1.10.1",
+    "@cdklabs/cdk-validator-cfnguard": "^0.0.54",
     "@crisiscleanup/charts.crisiscleanup": "workspace:*",
     "@crisiscleanup/config": "workspace:*",
     "@crisiscleanup/k8s.construct.api": "workspace:*",
