@@ -170,16 +170,19 @@ export const apiAppSecretsSchema = z
 		connectFirst: connectFirstSchema,
 		aws: awsSchema,
 		cloudfront: cloudfrontSchema,
-		saml: samlSchema,
-		django: djangoSecretsSchema,
+		saml: samlSchema.default({
+			awsProvider: '',
+			awsRole: '',
+		}),
+		django: djangoSecretsSchema.default({}),
 	})
 	.passthrough()
 
 export interface ApiAppSecrets extends z.infer<typeof apiAppSecretsSchema> {}
 
 export const apiConfigSchema = z.object({
-	config: apiAppConfigSchema,
-	secrets: apiAppSecretsSchema.optional(),
+	config: apiAppConfigSchema.default({}),
+	secrets: apiAppSecretsSchema.partial().default({}),
 })
 
 export interface ApiConfig extends z.infer<typeof apiConfigSchema> {}
@@ -195,8 +198,8 @@ export type Stage = z.infer<typeof Environment>
 
 export const configValuesSchema = z
 	.object({
-		api: apiConfigSchema,
-		cdkEnvironment: cdkEnvironmentSchema,
+		api: apiConfigSchema.default({}),
+		cdkEnvironment: cdkEnvironmentSchema.default({}),
 		ccuStage: Environment,
 	})
 	.passthrough()
@@ -226,10 +229,12 @@ export const configLayerMeta = z
 	.partial()
 	.passthrough()
 
+export const configSchemaInput = configSchema.deepPartial().pipe(configSchema)
+
 export interface CrisisCleanupConfig extends z.infer<typeof configSchema> {}
 
 export interface CrisisCleanupConfigInput
-	extends z.input<typeof configSchema> {}
+	extends z.input<typeof configSchemaInput> {}
 
 export interface CrisisCleanupConfigMeta
 	extends z.infer<typeof configMetaSchema> {}
