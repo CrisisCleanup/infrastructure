@@ -23,7 +23,7 @@ export class Database extends Construct {
 	) {
 		super(scope, id)
 
-		const { vpc, credentialsSecret, encryptionKey } = props
+		const { vpc, encryptionKey } = props
 
 		this.securityGroup = new ec2.SecurityGroup(this, id + '-security-group', {
 			vpc,
@@ -69,8 +69,9 @@ export class Database extends Construct {
 				subnetType,
 			},
 			securityGroups: [this.securityGroup],
-			snapshotCredentials:
-				rds.SnapshotCredentials.fromSecret(credentialsSecret),
+			snapshotCredentials: rds.SnapshotCredentials.fromGeneratedSecret(
+				this.props.username ?? 'postgres',
+			),
 			iamAuthentication: true,
 			port: 5432,
 			storageType: this.props.ioOptimized
