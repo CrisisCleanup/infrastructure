@@ -1,0 +1,238 @@
+import { z } from 'zod'
+
+const stringArray = z
+	.string()
+	.transform((arg) => arg.split(','))
+	.pipe(z.array(z.string()))
+	.or(z.array(z.string()))
+
+const celerySchema = z.object({
+	alwaysEager: z
+		.boolean()
+		.default(false)
+		.describe('Run celery tasks synchronously'),
+})
+
+const djangoSchema = z.object({
+	accountAllowRegistration: z.coerce.boolean().default(true),
+	allowedHosts: stringArray.default(['*']).describe('Django ALLOWED_HOSTS'),
+	csrfCookieSecure: z.coerce
+		.boolean()
+		.default(true)
+		.describe('Secure CSRF cookie'),
+	secureSslRedirect: z.coerce.boolean().default(false),
+	sessionCookieSecure: z.coerce.boolean().default(true),
+	emailBackend: z
+		.string()
+		.default('django.core.mail.backends.dummy.EmailBackend')
+		.describe('Django EMAIL_BACKEND python import path.'),
+	settingsModule: z
+		.string()
+		.default('config.settings.local')
+		.describe('Django settings module'),
+})
+
+const djangoMandrillSchema = z.object({
+	apiKey: z.string(),
+})
+
+const elasticSearchSchema = z.object({
+	host: z.string().default(''),
+})
+
+const newRelicSchema = z.object({
+	configFile: z
+		.string()
+		.default('/app/newrelic.ini')
+		.describe('Path to newrelic.ini file'),
+})
+
+const ccuSchema = z.object({
+	newrelicDisable: z
+		.boolean()
+		.default(true)
+		.describe('Disable new relic integration.'),
+	webUrl: z.string().url().default('https://local.crisiscleanup.io'),
+	apiUrl: z.string().url().default('https://api.local.crisiscleanup.io'),
+	forceDocker: z
+		.boolean()
+		.default(true)
+		.describe('Force assumption of running in docker.'),
+})
+
+const sentrySchema = z.object({
+	traceExcludeUrls: stringArray
+		.default([
+			'/',
+			'/health',
+			'/health/',
+			'/ws/health',
+			'/ws/health/',
+			'/version',
+			'/version/',
+			'/{var}health/',
+			'/{var}version/',
+		])
+		.describe('Sentry trace names to exclude.'),
+})
+
+const postgresSchema = z.object({
+	dbname: z.string(),
+	host: z.string(),
+	password: z.string(),
+	user: z.string(),
+	port: z.coerce.string(),
+})
+
+const redisSchema = z.object({
+	host: z.string(),
+	hostReplicas: stringArray.default([]),
+})
+
+const samlSchema = z.object({
+	awsRole: z.string(),
+	awsProvider: z.string(),
+})
+
+const connectSchema = z.object({
+	instanceId: z.string().default(''),
+})
+
+const awsSchema = z.object({
+	dynamoStage: z.string(),
+	accessKeyId: z.string(),
+	secretAccessKey: z.string(),
+	defaultRegion: z.string(),
+})
+
+const phoneSchema = z.object({
+	checkTimezone: z
+		.boolean()
+		.default(true)
+		.describe('Enable phone system timezone guardrails.'),
+})
+
+const keySchema = z.object({
+	publicKey: z.string(),
+	privateKey: z.string(),
+})
+
+const jwtSchema = keySchema
+
+const cloudfrontSchema = keySchema
+
+const zendeskSchema = z.object({
+	apiKey: z.string(),
+})
+
+const connectFirstSchema = z.object({
+	password: z.string().default(''),
+})
+
+export const apiAppConfigSchema = z.object({
+	celery: celerySchema.default({}),
+	django: djangoSchema.default({}),
+	elasticSearch: elasticSearchSchema.default({}),
+	newRelic: newRelicSchema.default({}),
+	ccu: ccuSchema.default({}),
+	sentry: sentrySchema.default({}),
+	connect: connectSchema.default({}),
+	phone: phoneSchema.default({}),
+})
+export interface ApiAppConfig extends z.infer<typeof apiAppConfigSchema> {}
+
+export const cdkEnvironmentSchema = z.object({
+	account: z.coerce
+		.string()
+		.default(() => process.env.CDK_DEFAULT_ACCOUNT as string),
+	region: z.string().default(() => process.env.CDK_DEFAULT_REGION as string),
+})
+
+const djangoSecretsSchema = z.object({
+	adminUrl: z.string().default('^admin/'),
+	secretKey: z.string().default('local_good_key'),
+	mandrill: djangoMandrillSchema.default({ apiKey: '' }),
+})
+
+export const apiAppSecretsSchema = z
+	.object({
+		postgres: postgresSchema
+			.partial({
+				host: true,
+				password: true,
+				port: true,
+				user: true,
+			})
+			.default({ dbname: 'crisiscleanup_local', port: '5432' }),
+		redis: redisSchema.default({ host: '172.17.0.1' }),
+		jwt: jwtSchema,
+		zendesk: zendeskSchema,
+		connectFirst: connectFirstSchema,
+		aws: awsSchema,
+		cloudfront: cloudfrontSchema,
+		saml: samlSchema,
+		django: djangoSecretsSchema,
+	})
+	.passthrough()
+
+export interface ApiAppSecrets extends z.infer<typeof apiAppSecretsSchema> {}
+
+export const apiConfigSchema = z.object({
+	config: apiAppConfigSchema,
+	secrets: apiAppSecretsSchema.optional(),
+})
+
+export interface ApiConfig extends z.infer<typeof apiConfigSchema> {}
+
+export const Environment = z.enum([
+	'local',
+	'development',
+	'staging',
+	'production',
+	'test',
+])
+export type Stage = z.infer<typeof Environment>
+
+export const configValuesSchema = z
+	.object({
+		api: apiConfigSchema,
+		cdkEnvironment: cdkEnvironmentSchema,
+		ccuStage: Environment,
+	})
+	.passthrough()
+const envConfigSchema = z.record(Environment, configValuesSchema)
+
+export const configMetaSchema = z
+	.object({
+		$env: envConfigSchema,
+		$extends: z.array(z.string()),
+	})
+	.partial({ $extends: true, $env: true })
+
+export const configSchema = configValuesSchema.merge(configMetaSchema)
+
+const configLayerMetaSource = z.object({
+	name: z.string(),
+	configPath: z.string().optional(),
+	secretPath: z.string().optional(),
+})
+
+export const configLayerMeta = z
+	.object({
+		name: z.string(),
+		repo: z.string(),
+		sources: z.array(configLayerMetaSource),
+	})
+	.partial()
+	.passthrough()
+
+export interface CrisisCleanupConfig extends z.infer<typeof configSchema> {}
+
+export interface CrisisCleanupConfigInput
+	extends z.input<typeof configSchema> {}
+
+export interface CrisisCleanupConfigMeta
+	extends z.infer<typeof configMetaSchema> {}
+
+export interface CrisisCleanupConfigLayerMeta
+	extends z.infer<typeof configLayerMeta> {}
