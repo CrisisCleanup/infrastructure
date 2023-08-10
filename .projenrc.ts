@@ -79,6 +79,7 @@ const monorepo = MonorepoBuilder.build({
 		'zx',
 		'defu',
 		'destr',
+		'zod',
 	],
 	namingScheme: {
 		scope: '@crisiscleanup',
@@ -224,6 +225,7 @@ const config = TypescriptProjectBuilder.build({
 		'type-fest',
 		'destr',
 		'reflect-metadata',
+		'zod',
 	],
 	devDeps: ['@types/flat', '@types/debug', 'supports-color'],
 	tsconfigBase: monorepo.tsconfigContainer.buildExtends(
@@ -374,6 +376,7 @@ const apiStack = AwsCdkTsAppBuilder.build({
 		'defu',
 		'cdk-pipelines-github',
 		'flat',
+		'@cdklabs/cdk-validator-cfnguard',
 		`cdk8s@${crisiscleanup.package.tryResolveDependencyVersion('cdk8s')!}`,
 		`${CDK8sPlus}@${crisiscleanup.package.tryResolveDependencyVersion(
 			CDK8sPlus,

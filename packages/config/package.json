@@ -55,7 +55,8 @@
     "destr": "^2.0.0",
     "flat": "^5.0.2",
     "reflect-metadata": "^0.1.13",
-    "type-fest": "^4.0.0"
+    "type-fest": "^4.0.0",
+    "zod": "^3.21.4"
   },
   "engines": {
     "node": ">= 18.16.0"

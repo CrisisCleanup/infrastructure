@@ -135,6 +135,10 @@
       "type": "build"
     },
     {
+      "name": "zod",
+      "type": "build"
+    },
+    {
       "name": "zx",
       "type": "build"
     },
