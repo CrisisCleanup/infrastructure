@@ -267,7 +267,7 @@ export class ApiASGI
 		super(scope, id, props)
 		this.addContainer({
 			name: 'hypercorn',
-			command: ['/serve.sh', 'asgi', '--workers', String(props.workers ?? 2)],
+			command: ['/serve.sh', 'asgi', `--workers=${props.workers ?? 1}`],
 			portNumber: 5000,
 			envFrom: this.config.env.sources,
 			envVariables: this.config.env.variables,
@@ -330,8 +330,7 @@ export class CeleryWorker extends ApiComponent<CeleryProps> {
 				'celeryworker',
 				'-Q',
 				props.queues.join(','),
-				'--concurrency',
-				String(props.concurrency ?? 2),
+				`--concurrency=${props.concurrency ?? 2}`,
 				'--hostname',
 				hostname,
 				...(props.args ?? []),
