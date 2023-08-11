@@ -109,7 +109,8 @@
       "description": "Runs after successful compilation",
       "steps": [
         {
-          "spawn": "synth:silent"
+          "spawn": "synth:silent",
+          "condition": "[[ -z \"$SKIP_SYNTH\" ]]"
         }
       ]
     },
