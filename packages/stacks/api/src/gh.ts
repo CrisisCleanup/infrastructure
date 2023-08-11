@@ -254,7 +254,18 @@ class GithubCodePipeline {
 			installCommands,
 			commands,
 			env: {
-				GIGET_AUTH: '${{ secrets.GH_CONFIGS_RO_PAT }}',
+				GIGET_AUTH: interpolateValue(
+					ActionsContext.SECRET,
+					'GH_CONFIGS_RO_PAT',
+				),
+				CI: 'true',
+				NX_NON_NATIVE_HASHER: 'true',
+				NX_BRANCH: interpolateValue(ActionsContext.GITHUB, 'event.number'),
+				NX_RUN_GROUP: interpolateValue(ActionsContext.GITHUB, 'run_id'),
+				NX_CLOUD_ACCESS_TOKEN: interpolateValue(
+					ActionsContext.SECRET,
+					'NX_CLOUD_ACCESS_TOKEN',
+				),
 			},
 		})
 
