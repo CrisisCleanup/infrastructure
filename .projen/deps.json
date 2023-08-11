@@ -134,6 +134,10 @@
       "type": "build"
     },
     {
+      "name": "typedoc",
+      "type": "build"
+    },
+    {
       "name": "typescript",
       "version": "~5.1",
       "type": "build"

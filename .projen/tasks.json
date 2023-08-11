@@ -69,6 +69,15 @@
         }
       ]
     },
+    "docgen": {
+      "name": "docgen",
+      "description": "Generate TypeScript API reference docs/",
+      "steps": [
+        {
+          "exec": "pnpm exec typedoc"
+        }
+      ]
+    },
     "eject": {
       "name": "eject",
       "description": "Remove projen from the project",

@@ -32,5 +32,19 @@
   ],
   "exclude": [
     "packages/**/*"
-  ]
+  ],
+  "typedocOptions": {
+    "entryPoints": [
+      "./packages/charts/crisiscleanup",
+      "./packages/config",
+      "./packages/k8s/construct/api",
+      "./packages/k8s/construct/component",
+      "./packages/stacks/api"
+    ],
+    "entryPointStrategy": "packages",
+    "out": "docs",
+    "includeVersion": true,
+    "json": "docs/docs.json",
+    "useTsLinkResolution": true
+  }
 }
