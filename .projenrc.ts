@@ -118,11 +118,22 @@ monorepo.tsconfigContainer.defineConfig(TSConfig.ESM, {
 })
 monorepo.package.addPackageResolutions('unbuild@^2.0.0-rc.0')
 new Vitest(monorepo, { configType: VitestConfigType.WORKSPACE })
-applyOverrides(github.GitHub.of(monorepo)!.tryFindWorkflow('build')!.file!, {
-	'jobs.build.env.GIGET_AUTH': secretToString('GH_CONFIGS_RO_PAT'),
-	'jobs.build.env.CCU_CONFIGS_DECRYPT': 'false',
-	'jobs.build.env.SKIP_SYNTH': '1',
-})
+
+const applyWorkflowEnvOverrides = (workflowName: string, jobName: string) => {
+	const workflow = github.GitHub.of(monorepo)!.tryFindWorkflow(workflowName)!
+	monorepo.applyGithubJobNxEnv(workflow, jobName)
+	const overrides = {
+		[`jobs.${jobName}.env.GIGET_AUTH`]: secretToString('GH_CONFIGS_RO_PAT'),
+		[`jobs.${jobName}.env.CCU_CONFIGS_DECRYPT`]: 'false',
+		[`jobs.${jobName}.env.SKIP_SYNTH`]: '1',
+	}
+	applyOverrides(
+		github.GitHub.of(monorepo)!.tryFindWorkflow(workflowName)!.file!,
+		overrides,
+	)
+}
+applyWorkflowEnvOverrides('build', 'build')
+applyWorkflowEnvOverrides('static', 'deploy')
 
 const tools = new ToolVersions(monorepo, {
 	tools: {
