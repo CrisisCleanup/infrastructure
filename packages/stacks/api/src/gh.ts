@@ -54,6 +54,9 @@ export interface PipelineWave extends blueprints.PipelineWave {
 	stages: StackStage[]
 }
 
+/**
+ * Extension of {@link @aws-quickstart/eks-blueprints#CodePipeline} for integration with {@link cdk-pipelines-github}
+ */
 export class GithubCodePipelineBuilder extends blueprints.CodePipelineBuilder {
 	protected githubProps: GithubPipelineProps
 
@@ -112,6 +115,10 @@ export class GithubCodePipelineBuilder extends blueprints.CodePipelineBuilder {
 	}
 }
 
+/**
+ * Adapted from {@link @aws-quickstart/eks-blueprints#CodePipelineStack} for integration with {@link cdk-pipelines-github}
+ * @see https://github.com/aws-quickstart/cdk-eks-blueprints/blob/main/lib/pipelines/code-pipeline.ts
+ */
 export class GithubCodePipelineStack extends cdk.Stack {
 	static builder(): GithubCodePipelineBuilder {
 		return new GithubCodePipelineBuilder()
@@ -168,6 +175,10 @@ export class GithubCodePipelineStack extends cdk.Stack {
 	}
 }
 
+/**
+ * Adaption of {@link @aws-quickstart/eks-blueprints#ApplicationStage} for integration with {@link cdk-pipelines-github}.
+ * @see https://github.com/aws-quickstart/cdk-eks-blueprints/blob/main/lib/pipelines/code-pipeline.ts
+ */
 export class ApplicationStage extends ghpipelines.GitHubStage {
 	private asyncTask: Promise<any> | undefined = undefined
 
