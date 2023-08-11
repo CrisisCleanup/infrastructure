@@ -87,6 +87,10 @@ export const networkConfigSchema = z.object({
 
 export interface NetworkConfig extends z.infer<typeof networkConfigSchema> {}
 
+export const storageConfigSchema = z.object({})
+
+export interface StorageConfig extends z.infer<typeof storageConfigSchema> {}
+
 export const apiStackConfigSchema = z.object({
 	eks: eksConfigSchema.default({}).describe('EKS configuration.'),
 	database: databaseConfigSchema.default({ snapshotIdentifier: '' }),
