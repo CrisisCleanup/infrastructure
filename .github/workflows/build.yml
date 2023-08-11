@@ -19,6 +19,7 @@ jobs:
       NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
       GIGET_AUTH: ${{ secrets.GH_CONFIGS_RO_PAT }}
       CCU_CONFIGS_DECRYPT: "false"
+      SKIP_SYNTH: "1"
     steps:
       - name: Checkout
         uses: actions/checkout@v3

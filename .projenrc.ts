@@ -102,6 +102,7 @@ new Vitest(monorepo, { configType: VitestConfigType.WORKSPACE })
 applyOverrides(GitHub.of(monorepo)!.tryFindWorkflow('build')!.file!, {
 	'jobs.build.env.GIGET_AUTH': secretToString('GH_CONFIGS_RO_PAT'),
 	'jobs.build.env.CCU_CONFIGS_DECRYPT': 'false',
+	'jobs.build.env.SKIP_SYNTH': '1',
 })
 
 const tools = new ToolVersions(monorepo, {
