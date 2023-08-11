@@ -37,8 +37,8 @@ import {
 	javascript,
 	LogLevel,
 	type typescript,
+	github,
 } from 'projen'
-import { GitHub } from 'projen/lib/github'
 import { secretToString } from 'projen/lib/github/util'
 
 const CommonDefaultsBuilder = new builders.DefaultOptionsBuilder({
@@ -58,6 +58,15 @@ const CommonDefaultsBuilder = new builders.DefaultOptionsBuilder({
 	libdir: 'dist',
 } satisfies Partial<typescript.TypeScriptProjectOptions> &
 	Partial<cdk8s.ConstructLibraryCdk8sOptions>)
+
+const crisiscleanupBot = github.GithubCredentials.fromApp({
+	appIdSecret: 'CCU_BOT_APP_ID',
+	privateKeySecret: 'CCU_BOT_PRIVATE_KEY',
+})
+
+// public readonly workspace token.
+const nxReadOnlyPublicToken =
+	'OTZkOWY4NjQtMjlkNS00ODM0LWE2NTktY2YyZGRlMzk3ZTgxfHJlYWQ='
 
 const NameSchemeBuilder = new builders.NameSchemeBuilder({
 	scope: '@crisiscleanup',
@@ -89,7 +98,16 @@ const monorepo = MonorepoBuilder.build({
 		scope: '@crisiscleanup',
 		packagesDir: 'packages',
 	},
+	githubOptions: {
+		projenCredentials: crisiscleanupBot,
+	},
+	projenCredentials: crisiscleanupBot,
+	workspaceConfig: {
+		linkLocalWorkspaceBins: true,
+	},
 })
+monorepo.nx.useNxCloud(nxReadOnlyPublicToken)
+monorepo.nx.npmScope = '@crisiscleanup'
 const esmTsConfig = monorepo.tsconfigContainer.configs.get(TSConfig.ESM)!
 monorepo.tryRemoveFile(esmTsConfig.file.path)
 monorepo.tsconfigContainer.defineConfig(TSConfig.ESM, {
@@ -99,7 +117,7 @@ monorepo.tsconfigContainer.defineConfig(TSConfig.ESM, {
 })
 monorepo.package.addPackageResolutions('unbuild@^2.0.0-rc.0')
 new Vitest(monorepo, { configType: VitestConfigType.WORKSPACE })
-applyOverrides(GitHub.of(monorepo)!.tryFindWorkflow('build')!.file!, {
+applyOverrides(github.GitHub.of(monorepo)!.tryFindWorkflow('build')!.file!, {
 	'jobs.build.env.GIGET_AUTH': secretToString('GH_CONFIGS_RO_PAT'),
 	'jobs.build.env.CCU_CONFIGS_DECRYPT': 'false',
 	'jobs.build.env.SKIP_SYNTH': '1',

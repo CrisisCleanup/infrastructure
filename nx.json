@@ -33,13 +33,14 @@
   },
   "tasksRunnerOptions": {
     "default": {
-      "runner": "nx/tasks-runners/default",
+      "runner": "nx-cloud",
       "options": {
         "useDaemonProcess": false,
         "cacheableOperations": [
           "build",
           "test"
-        ]
+        ],
+        "accessToken": "OTZkOWY4NjQtMjlkNS00ODM0LWE2NTktY2YyZGRlMzk3ZTgxfHJlYWQ="
       }
     },
     "local": {
