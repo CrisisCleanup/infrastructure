@@ -29,6 +29,10 @@
       "type": "build"
     },
     {
+      "name": "@arroyodev-llc/utils.projen",
+      "type": "build"
+    },
+    {
       "name": "@arroyodev-llc/utils.projen-builder",
       "type": "build"
     },

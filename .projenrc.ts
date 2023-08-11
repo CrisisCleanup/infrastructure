@@ -19,6 +19,7 @@ import {
 	builders as tsBuilders,
 	TypescriptBaseBuilder,
 } from '@arroyodev-llc/projen.project.typescript'
+import { applyOverrides } from '@arroyodev-llc/utils.projen'
 import { builders, ProjectBuilder } from '@arroyodev-llc/utils.projen-builder'
 import { NodePackageUtils } from '@aws-prototyping-sdk/nx-monorepo'
 import {
@@ -37,6 +38,8 @@ import {
 	LogLevel,
 	type typescript,
 } from 'projen'
+import { GitHub } from 'projen/lib/github'
+import { secretToString } from 'projen/lib/github/util'
 
 const CommonDefaultsBuilder = new builders.DefaultOptionsBuilder({
 	defaultReleaseBranch: 'main',
@@ -75,6 +78,7 @@ const monorepo = MonorepoBuilder.build({
 		'@arroyodev-llc/projen.component.git-hooks',
 		'@arroyodev-llc/projen.component.vitest',
 		'@arroyodev-llc/utils.projen-builder',
+		'@arroyodev-llc/utils.projen',
 		'@aws-prototyping-sdk/nx-monorepo',
 		'zx',
 		'defu',
@@ -95,6 +99,10 @@ monorepo.tsconfigContainer.defineConfig(TSConfig.ESM, {
 })
 monorepo.package.addPackageResolutions('unbuild@^2.0.0-rc.0')
 new Vitest(monorepo, { configType: VitestConfigType.WORKSPACE })
+applyOverrides(GitHub.of(monorepo)!.tryFindWorkflow('build')!.file!, {
+	'jobs.build.env.GIGET_AUTH': secretToString('GH_CONFIGS_RO_PAT'),
+	'jobs.build.env.CCU_CONFIGS_DECRYPT': 'false',
+})
 
 const tools = new ToolVersions(monorepo, {
 	tools: {

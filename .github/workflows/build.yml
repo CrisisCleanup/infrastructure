@@ -17,6 +17,8 @@ jobs:
       NX_BRANCH: ${{ github.event.number }}
       NX_RUN_GROUP: ${{ github.run_id }}
       NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+      GIGET_AUTH: ${{ secrets.GH_CONFIGS_RO_PAT }}
+      CCU_CONFIGS_DECRYPT: "false"
     steps:
       - name: Checkout
         uses: actions/checkout@v3
