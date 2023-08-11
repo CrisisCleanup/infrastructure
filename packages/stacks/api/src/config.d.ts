@@ -2,9 +2,9 @@ import type {ApiStackConfig, ApiStackConfigInput} from './schema'
 
 declare module '@crisiscleanup/config' {
   export interface CrisisCleanupConfigInput {
-    apiStack: ApiStackConfig
+    apiStack?: ApiStackConfig
   }
   export interface CrisisCleanupConfig {
-    apiStack: ApiStackConfig
+    apiStack?: ApiStackConfig
   }
 }

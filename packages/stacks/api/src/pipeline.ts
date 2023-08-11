@@ -98,14 +98,14 @@ export class Pipeline {
 				new blueprints.CreateKmsKeyProvider('ebs-csi-key'),
 			)
 			.addOns(
-				...getDefaultAddons(config.apiStack.eks),
-				...getCoreAddons(config.apiStack.eks),
+				...getDefaultAddons(config.apiStack!.eks),
+				...getCoreAddons(config.apiStack!.eks),
 			)
 			.teams(
 				platformTeam ??
 					new blueprints.PlatformTeam({
 						name: 'platform',
-						users: config.apiStack.eks.platformArns.map(
+						users: config.apiStack!.eks.platformArns.map(
 							(arn) => new iam.ArnPrincipal(arn),
 						),
 					}),
@@ -120,7 +120,7 @@ export class Pipeline {
 				const network = new NetworkStack(
 					scope,
 					env.id + '-network',
-					config.apiStack.network,
+					config.apiStack!.network,
 					{
 						env: env.env,
 						...stackProps,
@@ -131,7 +131,7 @@ export class Pipeline {
 					env.id + '-data',
 					{
 						vpc: network.vpc,
-						clusterProps: config.apiStack.database,
+						clusterProps: config.apiStack!.database,
 					},
 					{
 						env: env.env,
@@ -152,7 +152,7 @@ export class Pipeline {
 					.clusterProvider(
 						(
 							clusterBuilder ??
-							buildClusterBuilder(config.apiStack.eks.k8s.version)
+							buildClusterBuilder(config.apiStack!.eks.k8s.version)
 						).build(),
 					)
 					.addOns(

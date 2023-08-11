@@ -42,7 +42,7 @@ interface ActionsWorkflowDispatchInput
 	options?: string[]
 }
 
-export interface PipelineProps
+export interface GithubCodePipelineProps
 	extends Omit<blueprints.PipelineProps, 'repository'>,
 		GithubPipelineProps {}
 
@@ -71,7 +71,7 @@ export class GithubCodePipelineBuilder extends blueprints.CodePipelineBuilder {
 		stackProps?: StackProps,
 	): GithubCodePipelineStack {
 		// @ts-ignore
-		const fullProps = this.props as unknown as PipelineProps
+		const fullProps = this.props as unknown as GithubCodePipelineProps
 		const mergedProps = { ...fullProps, ...this.githubProps }
 		return new GithubCodePipelineStack(scope, mergedProps, id, stackProps)
 	}
@@ -128,7 +128,7 @@ export class GithubCodePipelineStack extends cdk.Stack {
 
 	constructor(
 		scope: Construct,
-		pipelineProps: PipelineProps,
+		pipelineProps: GithubCodePipelineProps,
 		id: string,
 		props?: StackProps,
 	) {
@@ -211,7 +211,7 @@ export class ApplicationStage extends ghpipelines.GitHubStage {
 }
 
 class GithubCodePipeline {
-	static build(scope: Construct, props: PipelineProps) {
+	static build(scope: Construct, props: GithubCodePipelineProps) {
 		const actionsRole = new ghpipelines.GitHubActionRole(
 			scope,
 			'github-action-role',
