@@ -28,5 +28,11 @@
   ],
   "exclude": [
     "cdk.out"
-  ]
+  ],
+  "typedocOptions": {
+    "entryPoints": [
+      "src/index.ts"
+    ],
+    "useTsLinkResolution": true
+  }
 }

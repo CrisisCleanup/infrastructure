@@ -23,5 +23,11 @@
     "src/*.ts",
     "crisiscleanup.config.ts"
   ],
-  "exclude": []
+  "exclude": [],
+  "typedocOptions": {
+    "entryPoints": [
+      "src/index.ts"
+    ],
+    "useTsLinkResolution": true
+  }
 }

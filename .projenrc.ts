@@ -105,6 +105,7 @@ const monorepo = MonorepoBuilder.build({
 	workspaceConfig: {
 		linkLocalWorkspaceBins: true,
 	},
+	docgen: true,
 })
 monorepo.nx.useNxCloud(nxReadOnlyPublicToken)
 monorepo.nx.npmScope = '@crisiscleanup'
