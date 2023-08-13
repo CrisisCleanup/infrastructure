@@ -162,14 +162,23 @@ export class CrisisCleanupAddOn implements blueprints.ClusterAddOn {
 			'crisiscleanup-db-secrets',
 			'crisiscleanup-db-secrets',
 		)
-		const dbAliases = dbSecretPaths.map(({ objectAlias }) => objectAlias)
-		const secretEnvsValues = Object.values(secretKeys).map((key) => [
-			key,
+		const apiSecretEnvValues = Object.values(secretKeys)
+			.filter((key) => !externalDbAliases.includes(key))
+			.map((key) => [
+				key,
+				kplus.EnvValue.fromSecretValue({
+					key: key,
+					secret: secretLookup,
+				}),
+			])
+		const dbSecretEnvValues = externalDbAliases.map((dbSecretAlias) => [
+			dbSecretAlias,
 			kplus.EnvValue.fromSecretValue({
-				key: key,
-				secret: dbAliases.includes(key) ? dbSecretLookup : secretLookup,
+				key: dbSecretAlias,
+				secret: dbSecretLookup,
 			}),
 		])
+		const secretEnvsValues = [...apiSecretEnvValues, ...dbSecretEnvValues]
 
 		chart.apiConfig.addEnvVars(
 			Object.fromEntries(secretEnvsValues) as { [p: string]: kplus.EnvValue },
