@@ -186,7 +186,7 @@ export interface ApiAppSecrets extends z.infer<typeof apiAppSecretsSchema> {}
 
 export const apiConfigSchema = z.object({
 	config: apiAppConfigSchema.default({}),
-	secrets: apiAppSecretsSchema.partial().default({}),
+	secrets: apiAppSecretsSchema.passthrough().partial().default({}),
 })
 
 export interface ApiConfig extends z.infer<typeof apiConfigSchema> {}
@@ -216,7 +216,9 @@ export const configMetaSchema = z
 	})
 	.partial({ $extends: true, $env: true })
 
-export const configSchema = configValuesSchema.merge(configMetaSchema)
+export const configSchema = configValuesSchema
+	.merge(configMetaSchema)
+	.passthrough()
 
 const configLayerMetaSource = z.object({
 	name: z.string(),
