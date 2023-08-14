@@ -25,10 +25,10 @@
       "name": "clean",
       "steps": [
         {
-          "exec": "pnpm exec rimraf dist"
+          "exec": "pnpm exec tsc --build --clean"
         },
         {
-          "exec": "pnpm exec rimraf lib"
+          "exec": "pnpm exec rimraf dist lib tsconfig.tsbuildinfo"
         }
       ]
     },
@@ -46,8 +46,11 @@
       "description": "Only compile",
       "steps": [
         {
-          "exec": "pnpm exec tsc --build",
-          "name": "Type check"
+          "exec": "pnpm exec tsc --build --emitDeclarationOnly"
+        },
+        {
+          "exec": "pnpm exec unbuild",
+          "name": "Unbuild"
         }
       ]
     },
@@ -116,8 +119,7 @@
           "spawn": "docgen"
         },
         {
-          "exec": "unbuild",
-          "name": "Unbuild"
+          "exec": "pnpm exec tsc --build --clean"
         }
       ]
     },
@@ -166,25 +168,13 @@
           "exec": "pnpm update npm-check-updates"
         },
         {
-          "exec": "npm-check-updates --dep dev --upgrade --target=minor --reject='cdk8s-plus-27,jsii-rosetta,jsii,typescript'"
-        },
-        {
-          "exec": "npm-check-updates --dep bundle --upgrade --target=minor --reject='cdk8s-plus-27,jsii-rosetta,jsii,typescript'"
-        },
-        {
-          "exec": "npm-check-updates --dep peer --upgrade --target=minor --reject='cdk8s-plus-27,jsii-rosetta,jsii,typescript'"
-        },
-        {
-          "exec": "npm-check-updates --dep prod --upgrade --target=minor --reject='cdk8s-plus-27,jsii-rosetta,jsii,typescript'"
-        },
-        {
-          "exec": "npm-check-updates --dep optional --upgrade --target=minor --reject='cdk8s-plus-27,jsii-rosetta,jsii,typescript'"
+          "exec": "npm-check-updates --upgrade --target=minor --filter=@types/debug,@types/node,@typescript-eslint/eslint-plugin,@typescript-eslint/parser,eslint-config-prettier,eslint-import-resolver-node,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-prettier,eslint,jsii-diff,jsii-docgen,jsii-pacmak,lint-staged,npm-check-updates,prettier,projen,unbuild,cdk8s-plus-27,cdk8s,constructs,debug,defu,js-yaml"
         },
         {
           "exec": "pnpm i --no-frozen-lockfile"
         },
         {
-          "exec": "pnpm update"
+          "exec": "pnpm update @types/debug @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-config-prettier eslint-import-resolver-node eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint jsii-diff jsii-docgen jsii-pacmak lint-staged npm-check-updates prettier projen unbuild cdk8s-plus-27 cdk8s constructs debug defu js-yaml"
         },
         {
           "exec": "npx projen"

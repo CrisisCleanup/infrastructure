@@ -46,5 +46,22 @@
     "includeVersion": true,
     "json": "docs/docs.json",
     "useTsLinkResolution": true
-  }
+  },
+  "references": [
+    {
+      "path": "./packages/config/tsconfig.json"
+    },
+    {
+      "path": "./packages/charts/crisiscleanup/tsconfig.json"
+    },
+    {
+      "path": "./packages/k8s/construct/api/tsconfig.json"
+    },
+    {
+      "path": "./packages/k8s/construct/component/tsconfig.json"
+    },
+    {
+      "path": "./packages/stacks/api/tsconfig.json"
+    }
+  ]
 }
