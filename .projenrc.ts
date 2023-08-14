@@ -360,7 +360,8 @@ const crisiscleanup = Cdk8sAppBuilder.build({
 	workspaceDeps: [k8sComponentConstruct, config, apiConstruct],
 	jest: false,
 })
-crisiscleanup.tsconfig.addInclude('crisiscleanup.config.ts')
+crisiscleanup.addGitIgnore('cdk8s.out')
+crisiscleanup.tsconfigDev.addInclude('crisiscleanup.config.ts')
 crisiscleanup.lintConfig.eslint.addIgnorePattern('src/imports/**')
 crisiscleanup.lintConfig.prettier.addIgnorePattern('src/imports/**')
 crisiscleanup

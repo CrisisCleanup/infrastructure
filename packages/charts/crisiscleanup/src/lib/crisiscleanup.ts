@@ -80,6 +80,9 @@ export interface CrisisCleanupChartProps
 	ingressAnnotations?: Record<string, string>
 }
 
+export interface CrisisCleanupChartConfig
+	extends Omit<CrisisCleanupChartProps, 'apiAppSecrets' | 'apiAppConfig'> {}
+
 export class CrisisCleanupChart extends Chart {
 	static frontendDefaultProps: FrontendProps
 	static backendDefaultProps: ApiConstructConfig

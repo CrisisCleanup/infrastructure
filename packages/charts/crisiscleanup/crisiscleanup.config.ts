@@ -1,4 +1,3 @@
-/// <reference types="@crisiscleanup/charts.crisiscleanup/src/config" />
 import { defineConfig } from '@crisiscleanup/config'
 
 const celeryScaling = {

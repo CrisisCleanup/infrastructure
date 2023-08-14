@@ -34,7 +34,7 @@ export const createLocalChart = (app: App, ccuChart: CrisisCleanupChart) => {
 }
 
 export const createApp = async () => {
-	const app = new App({ recordConstructMetadata: true })
+	const app = new App({ recordConstructMetadata: true, outdir: 'cdk8s.out' })
 	const { config } = await getConfig()
 
 	const ccuChart = createChart(app, config)
