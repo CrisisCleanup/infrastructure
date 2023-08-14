@@ -1,4 +1,4 @@
-import type {ApiStackConfig, ApiStackConfigInput} from './schema'
+import type {ApiStackConfig} from './schema'
 
 declare module '@crisiscleanup/config' {
   export interface CrisisCleanupConfigInput {
