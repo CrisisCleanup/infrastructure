@@ -93,6 +93,7 @@ const monorepo = MonorepoBuilder.build({
 		'defu',
 		'destr',
 		'zod',
+		'zod-to-json-schema',
 	],
 	namingScheme: {
 		scope: '@crisiscleanup',
