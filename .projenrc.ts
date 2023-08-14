@@ -117,6 +117,7 @@ monorepo.tsconfigContainer.defineConfig(TSConfig.ESM, {
 	experimentalDecorators: true,
 })
 monorepo.package.addPackageResolutions('unbuild@^2.0.0-rc.0')
+monorepo.pnpm.addPatch('unbuild@2.0.0-rc.0', 'patches/unbuild@2.0.0-rc.0.patch')
 new Vitest(monorepo, { configType: VitestConfigType.WORKSPACE })
 
 const applyWorkflowEnvOverrides = (workflowName: string, jobName: string) => {
