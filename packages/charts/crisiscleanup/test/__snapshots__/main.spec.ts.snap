@@ -1333,7 +1333,7 @@ exports[`CrisisCleanupChart > web: matches snapshot > web 1`] = `
     "spec": {
       "minReadySeconds": 0,
       "progressDeadlineSeconds": 600,
-      "replicas": 1,
+      "replicas": 2,
       "selector": {
         "matchLabels": {
           "cdk8s.io/metadata.addr": "crisiscleanup-web-frontend-web-c8f1c77c",
