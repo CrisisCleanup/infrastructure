@@ -71,6 +71,7 @@ export const databaseConfigSchema = z.object({
 	cloudwatchLogsRetentionDays: z.number().optional().default(30),
 	deletionProtection: z.boolean().default(false),
 	backupRetentionDays: z.number().default(1),
+	bastionAllowList: z.array(z.string()).default([]),
 })
 
 export interface DatabaseConfig extends z.infer<typeof databaseConfigSchema> {}
