@@ -125,6 +125,10 @@
       "type": "runtime"
     },
     {
+      "name": "cdk-ec2-key-pair",
+      "type": "runtime"
+    },
+    {
       "name": "cdk-pipelines-github",
       "type": "runtime"
     },
