@@ -550,6 +550,9 @@ importers:
       aws-cdk-lib:
         specifier: 2.91.0
         version: 2.91.0(constructs@10.2.69)
+      cdk-ec2-key-pair:
+        specifier: ^3.3.1
+        version: 3.3.1(aws-cdk-lib@2.91.0)(constructs@10.2.69)
       cdk-pipelines-github:
         specifier: ^0.4.103
         version: 0.4.103(aws-cdk-lib@2.91.0)(constructs@10.2.69)
@@ -6197,6 +6200,19 @@ packages:
       }
     dev: false
 
+  /cdk-ec2-key-pair@3.3.1(aws-cdk-lib@2.91.0)(constructs@10.2.69):
+    resolution:
+      {
+        integrity: sha512-CmGy2ebHK+sZYJmylERt5QnsmFm/4Kjuqc0A3DdWTu28j+foAAPF5KjzgwRcNerqnwys56MI4zjWgNBiyXUPpA==,
+      }
+    peerDependencies:
+      aws-cdk-lib: ^2.0.0
+      constructs: ^10.0.0
+    dependencies:
+      aws-cdk-lib: 2.91.0(constructs@10.2.69)
+      constructs: 10.2.69
+    dev: false
+
   /cdk-nag@2.27.99(aws-cdk-lib@2.91.0)(constructs@10.2.69):
     resolution:
       {
@@ -7537,7 +7553,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20230813
+      typescript: 5.3.0-dev.20230814
     dev: true
 
   /duplexer@0.1.2:
@@ -14545,10 +14561,10 @@ packages:
     hasBin: true
     dev: true
 
-  /typescript@5.3.0-dev.20230813:
+  /typescript@5.3.0-dev.20230814:
     resolution:
       {
-        integrity: sha512-iv6t8iq84fZpppblT/HA2ukrJbsL2hoJ2HITVhAPFWcfgaJVjLohJa3h4ancR6/MqitjGllwmUWxg+zCcjQ59g==,
+        integrity: sha512-ztAo8S7pDTqodkSIPPdh4mL5T7+//1xfOP17O2yFW3dx3u/87MG4qsiZ5HIOoV0L9Kkr/fFw5bqGXHcDT/Nclg==,
       }
     engines: { node: '>=14.17' }
     hasBin: true
