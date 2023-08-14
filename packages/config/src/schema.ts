@@ -45,6 +45,7 @@ const newRelicSchema = z.object({
 		.string()
 		.default('/app/newrelic.ini')
 		.describe('Path to newrelic.ini file'),
+	environment: z.lazy(() => Environment).optional(),
 })
 
 const ccuSchema = z.object({
