@@ -2,6 +2,7 @@ import * as blueprints from '@aws-quickstart/eks-blueprints'
 import {
 	CrisisCleanupChart,
 	type CrisisCleanupChartConfig,
+	type CrisisCleanupChartProps,
 } from '@crisiscleanup/charts.crisiscleanup'
 import {
 	flatKeysToFlatScreamingSnakeCaseKeys,
@@ -58,15 +59,19 @@ export class CrisisCleanupAddOn implements blueprints.ClusterAddOn {
 			apiAppConfig: this.props.config.api.config,
 			apiAppSecrets: {},
 			disableResourceNameHashes: true,
-			wsgi: defu(chartConfig.wsgi, saProps),
-			asgi: defu(chartConfig.asgi, saProps),
-			celeryBeat: defu(chartConfig.celeryBeat, saProps),
+			// TODO: better way to accomplish this.
+			wsgi: defu(chartConfig.wsgi, saProps) as CrisisCleanupChartProps['wsgi'],
+			asgi: defu(chartConfig.asgi, saProps) as CrisisCleanupChartProps['asgi'],
+			celeryBeat: defu(
+				chartConfig.celeryBeat,
+				saProps,
+			) as CrisisCleanupChartProps['celeryBeat'],
 			celery: Object.fromEntries(
 				Object.entries(chartConfig.celery).map(([key, values]) => [
 					key,
 					defu(values, saProps),
 				]),
-			),
+			) as CrisisCleanupChartProps['celery'],
 		})
 
 		let secretName = this.props.secretName
