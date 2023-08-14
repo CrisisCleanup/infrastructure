@@ -26,9 +26,7 @@ import type { PartialDeep } from 'type-fest'
 
 const debug = createDebug('@crisiscleanup:charts.crisiscleanup')
 
-export interface FrontendProps {
-	web: DeploymentProps
-}
+export interface FrontendProps extends DeploymentProps {}
 
 export class Web extends Component {
 	static componentName = 'web'
@@ -64,14 +62,14 @@ export class Frontend extends Construct {
 
 	constructor(scope: Construct, id: string, props: FrontendProps) {
 		super(scope, id)
-		this.web = new Web(this, 'web', props.web)
+		this.web = new Web(this, 'web', props)
 	}
 }
 
 export interface CrisisCleanupChartProps
 	extends ChartProps,
 		ApiConstructConfig {
-	frontend: FrontendProps
+	web: FrontendProps
 	domainName: string
 	apiAppConfig: ApiAppConfig
 	apiAppSecrets: ApiAppSecrets
@@ -79,9 +77,6 @@ export interface CrisisCleanupChartProps
 	webImage?: ContainerImageProps
 	ingressAnnotations?: Record<string, string>
 }
-
-export interface CrisisCleanupChartConfig
-	extends Omit<CrisisCleanupChartProps, 'apiAppSecrets' | 'apiAppConfig'> {}
 
 export class CrisisCleanupChart extends Chart {
 	static frontendDefaultProps: FrontendProps
@@ -94,9 +89,7 @@ export class CrisisCleanupChart extends Chart {
 			replicaCount: undefined,
 		}
 		this.frontendDefaultProps = {
-			web: {
-				replicaCount: undefined,
-			},
+			replicaCount: undefined,
 		}
 
 		this.backendDefaultProps = {
@@ -235,10 +228,8 @@ export class CrisisCleanupChart extends Chart {
 				}),
 		)
 		this.frontend = new Frontend(this.webChart, 'frontend', {
-			web: {
-				...props.frontend.web,
-				image: props.frontend.web.image ?? props.webImage,
-			},
+			...props.web,
+			image: props.web.image ?? props.webImage,
 		})
 
 		this.ingress = new kplus.Ingress(
