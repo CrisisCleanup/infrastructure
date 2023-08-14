@@ -246,25 +246,13 @@
           "exec": "pnpm update npm-check-updates"
         },
         {
-          "exec": "npm-check-updates --dep dev --upgrade --target=minor --reject='nx,typescript,@crisiscleanup/charts.crisiscleanup,@crisiscleanup/config,@crisiscleanup/k8s.construct.api,@crisiscleanup/k8s.construct.component,@crisiscleanup/stacks.api'"
-        },
-        {
-          "exec": "npm-check-updates --dep bundle --upgrade --target=minor --reject='nx,typescript,@crisiscleanup/charts.crisiscleanup,@crisiscleanup/config,@crisiscleanup/k8s.construct.api,@crisiscleanup/k8s.construct.component,@crisiscleanup/stacks.api'"
-        },
-        {
-          "exec": "npm-check-updates --dep peer --upgrade --target=minor --reject='nx,typescript,@crisiscleanup/charts.crisiscleanup,@crisiscleanup/config,@crisiscleanup/k8s.construct.api,@crisiscleanup/k8s.construct.component,@crisiscleanup/stacks.api'"
-        },
-        {
-          "exec": "npm-check-updates --dep prod --upgrade --target=minor --reject='nx,typescript,@crisiscleanup/charts.crisiscleanup,@crisiscleanup/config,@crisiscleanup/k8s.construct.api,@crisiscleanup/k8s.construct.component,@crisiscleanup/stacks.api'"
-        },
-        {
-          "exec": "npm-check-updates --dep optional --upgrade --target=minor --reject='nx,typescript,@crisiscleanup/charts.crisiscleanup,@crisiscleanup/config,@crisiscleanup/k8s.construct.api,@crisiscleanup/k8s.construct.component,@crisiscleanup/stacks.api'"
+          "exec": "npm-check-updates --upgrade --target=minor --filter=@arroyodev-llc/projen.component.dir-env,@arroyodev-llc/projen.component.git-hooks,@arroyodev-llc/projen.component.linting,@arroyodev-llc/projen.component.tool-versions,@arroyodev-llc/projen.component.vitest,@arroyodev-llc/projen.project.nx-monorepo,@arroyodev-llc/projen.project.typescript,@arroyodev-llc/utils.projen,@arroyodev-llc/utils.projen-builder,@aws-prototyping-sdk/nx-monorepo,@types/node,@typescript-eslint/eslint-plugin,@typescript-eslint/parser,defu,destr,eslint-config-prettier,eslint-import-resolver-node,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-prettier,eslint,lint-staged,npm-check-updates,nx-cloud,prettier,projen,rimraf,simple-git-hooks,syncpack,ts-node,tsx,typedoc,vitest,zod,zx,nx,aws-cdk-lib,cdk-nag,constructs"
         },
         {
           "exec": "pnpm i --no-frozen-lockfile"
         },
         {
-          "exec": "pnpm update"
+          "exec": "pnpm update @arroyodev-llc/projen.component.dir-env @arroyodev-llc/projen.component.git-hooks @arroyodev-llc/projen.component.linting @arroyodev-llc/projen.component.tool-versions @arroyodev-llc/projen.component.vitest @arroyodev-llc/projen.project.nx-monorepo @arroyodev-llc/projen.project.typescript @arroyodev-llc/utils.projen @arroyodev-llc/utils.projen-builder @aws-prototyping-sdk/nx-monorepo @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser defu destr eslint-config-prettier eslint-import-resolver-node eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint lint-staged npm-check-updates nx-cloud prettier projen rimraf simple-git-hooks syncpack ts-node tsx typedoc vitest zod zx nx aws-cdk-lib cdk-nag constructs"
         },
         {
           "exec": "pnpm exec projen"

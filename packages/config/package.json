@@ -33,29 +33,29 @@
     "@typescript-eslint/eslint-plugin": "^5",
     "@typescript-eslint/parser": "^5",
     "eslint": "^8",
-    "eslint-config-prettier": "^8.9.0",
-    "eslint-import-resolver-node": "^0.3.7",
-    "eslint-import-resolver-typescript": "^3.5.5",
+    "eslint-config-prettier": "^8.10.0",
+    "eslint-import-resolver-node": "^0.3.9",
+    "eslint-import-resolver-typescript": "^3.6.0",
     "eslint-plugin-import": "^2.28.0",
     "eslint-plugin-prettier": "^5.0.0",
     "lint-staged": "^13.2.3",
     "npm-check-updates": "^16",
-    "prettier": "^3.0.0",
+    "prettier": "^3.0.1",
     "standard-version": "^9",
     "supports-color": "^8.1.1",
     "typescript": "~5.1",
     "unbuild": "^2.0.0-rc.0",
-    "vitest": "^0.33.0"
+    "vitest": "^0.34.1"
   },
   "dependencies": {
     "@antfu/utils": "^0.7.5",
     "c12": "^1.4.2",
     "debug": "^4.3.4",
     "defu": "^6.1.2",
-    "destr": "^2.0.0",
+    "destr": "^2.0.1",
     "flat": "^5.0.2",
     "reflect-metadata": "^0.1.13",
-    "type-fest": "^4.0.0",
+    "type-fest": "^4.2.0",
     "zod": "^3.21.4"
   },
   "engines": {
@@ -67,21 +67,13 @@
     "access": "public"
   },
   "version": "0.0.0",
-  "types": "./dist/index.d.mts",
+  "types": "./dist/index.d.ts",
   "type": "module",
   "sideEffects": false,
-  "import": "./dist/index.mjs",
-  "require": "./dist/index.cjs",
   "exports": {
     ".": {
-      "import": {
-        "types": "./dist/index.d.mts",
-        "default": "./dist/index.mjs"
-      },
-      "require": {
-        "types": "./dist/index.d.cts",
-        "default": "./dist/index.cjs"
-      }
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
     },
     "./package.json": "./package.json"
   },
