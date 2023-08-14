@@ -9,6 +9,7 @@
     "src/*.ts",
     "*.ts",
     "**/*.ts",
+    "crisiscleanup.config.ts",
     "vitest.config.ts"
   ],
   "exclude": [
