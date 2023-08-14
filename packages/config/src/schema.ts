@@ -129,7 +129,7 @@ const connectFirstSchema = z.object({
 	password: z.string().default(''),
 })
 
-export const apiAppConfigSchema = z.object({
+const apiAppConfigSchema = z.object({
 	celery: celerySchema.default({}),
 	django: djangoSchema.default({}),
 	elasticSearch: elasticSearchSchema.default({}),
@@ -158,7 +158,7 @@ const djangoSecretsSchema = z.object({
 	mandrill: djangoMandrillSchema.default({ apiKey: '' }),
 })
 
-export const apiAppSecretsSchema = z
+const apiAppSecretsSchema = z
 	.object({
 		postgres: postgresSchema
 			.partial({
@@ -184,7 +184,7 @@ export const apiAppSecretsSchema = z
 
 export interface ApiAppSecrets extends z.infer<typeof apiAppSecretsSchema> {}
 
-export const apiConfigSchema = z.object({
+const apiConfigSchema = z.object({
 	config: apiAppConfigSchema.default({}),
 	secrets: apiAppSecretsSchema.passthrough().partial().default({}),
 })
