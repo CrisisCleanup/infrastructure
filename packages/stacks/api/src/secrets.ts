@@ -20,9 +20,9 @@ export class SopsSecretProvider implements NamedSecretsProvider {
 	}
 
 	provide(
-		clusterInfo: blueprints.ClusterInfo,
+		clusterInfo?: blueprints.ClusterInfo | undefined,
 	): secretsmanager.ISecret | ssm.IStringParameter {
-		const stack = clusterInfo.cluster.stack
+		const stack = clusterInfo!.cluster.stack
 		return new SopsSecret(stack, this.props.secretName, {
 			sopsFilePath: this.props.sopsFilePath,
 			secretName: this.props.secretName,

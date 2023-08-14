@@ -1,7 +1,8 @@
-/// <reference types="@crisiscleanup/charts.crisiscleanup/src/config" />
-
 import * as blueprints from '@aws-quickstart/eks-blueprints'
-import { CrisisCleanupChart } from '@crisiscleanup/charts.crisiscleanup'
+import {
+	CrisisCleanupChart,
+	type CrisisCleanupChartConfig,
+} from '@crisiscleanup/charts.crisiscleanup'
 import {
 	flatKeysToFlatScreamingSnakeCaseKeys,
 	type CrisisCleanupConfig,
@@ -36,8 +37,8 @@ export class CrisisCleanupAddOn implements blueprints.ClusterAddOn {
 	@blueprints.utils.dependable(blueprints.addons.SecretsStoreAddOn.name)
 	deploy(clusterInfo: blueprints.ClusterInfo): Promise<Construct> {
 		const cluster = clusterInfo.cluster
-		const chartConfig = this.props.config.chart
-		if (!chartConfig) throw new Error('Missing chart config!')
+		const chartConfig: CrisisCleanupChartConfig = this.props.config
+			.chart as CrisisCleanupChartConfig
 
 		const sa = cluster.addServiceAccount('crisiscleanup-api', {
 			namespace: chartConfig.namespace,
@@ -53,7 +54,7 @@ export class CrisisCleanupAddOn implements blueprints.ClusterAddOn {
 			),
 		}
 		const chart = CrisisCleanupChart.withDefaults(cdk8sApp, {
-			...this.props.config.chart,
+			...(this.props.config.chart as CrisisCleanupChartConfig),
 			apiAppConfig: this.props.config.api.config,
 			apiAppSecrets: {},
 			disableResourceNameHashes: true,
