@@ -251,7 +251,12 @@ const TypescriptProjectBuilder = TypescriptBaseBuilder.add(
 
 const TsESMBuilder = new tsBuilders.TypescriptConfigBuilder({
 	extendsDefault: (container) =>
-		container.buildExtends(TSConfig.BASE, TSConfig.ESM),
+		container.buildExtends(
+			TSConfig.BASE,
+			TSConfig.ESM,
+			TSConfig.BUNDLER,
+			TSConfig.COMPOSITE,
+		),
 })
 
 const config = TypescriptProjectBuilder.build({
@@ -268,16 +273,6 @@ const config = TypescriptProjectBuilder.build({
 		'zod',
 	],
 	devDeps: ['@types/flat', '@types/debug', 'supports-color'],
-	tsconfigBase: monorepo.tsconfigContainer.buildExtends(
-		TSConfig.BASE,
-		TSConfig.ESM,
-	),
-	tsconfig: {
-		compilerOptions: {
-			experimentalDecorators: true,
-			emitDecoratorMetadata: true,
-		},
-	},
 })
 config.tsconfig.file.addToArray('compilerOptions.types', 'reflect-metadata')
 monorepo.addWorkspaceDeps(
@@ -343,11 +338,6 @@ const k8sComponentConstruct = Cdk8sConstructBuilder.build({
 	devDeps: ['@types/debug'],
 	jest: false,
 })
-k8sComponentConstruct.tasks
-	.tryFind('compile')
-	?.reset?.(k8sComponentConstruct.formatExecCommand('tsc', '--build'), {
-		name: 'Type check',
-	})
 k8sComponentConstruct.tasks.tryFind('docgen')?.reset?.()
 
 const apiConstruct = Cdk8sConstructBuilder.build({
@@ -357,11 +347,6 @@ const apiConstruct = Cdk8sConstructBuilder.build({
 	workspaceDeps: [k8sComponentConstruct, config],
 	jest: false,
 })
-apiConstruct.tasks
-	.tryFind('compile')
-	?.reset?.(apiConstruct.formatExecCommand('tsc', '--build'), {
-		name: 'Type check',
-	})
 apiConstruct.tasks.tryFind('docgen')?.reset?.()
 
 // Charts
@@ -386,9 +371,7 @@ crisiscleanup.package.file.addOverride(
 	'./crisiscleanup.config.ts',
 )
 const postCompile = crisiscleanup.tasks.tryFind('post-compile')!
-postCompile.reset()
-postCompile.exec(crisiscleanup.formatExecCommand('unbuild'))
-postCompile.spawn('synth')
+postCompile.reset(crisiscleanup.formatExecCommand('tsc', '--build', '--clean'))
 new Vitest(crisiscleanup)
 
 /**
