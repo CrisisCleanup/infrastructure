@@ -191,7 +191,7 @@ exports[`Snapshot 1`] = `
               {
                 "Ref": "AWS::URLSuffix",
               },
-              "/cdk-hnb659fds-assets-1234567890-us-east-1/d3857b342f607cba34c450660715a2fd4cbb57cae801223ad06c2cf7e9de2442.json",
+              "/cdk-hnb659fds-assets-1234567890-us-east-1/b8a735c4d20f0153d27f82fed20fdcdb3758a660af988a2c52dd991bde99ebff.json",
             ],
           ],
         },
