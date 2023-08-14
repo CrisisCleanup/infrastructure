@@ -151,6 +151,10 @@
       "type": "build"
     },
     {
+      "name": "zod-to-json-schema",
+      "type": "build"
+    },
+    {
       "name": "zx",
       "type": "build"
     },
