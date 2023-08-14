@@ -1,9 +1,8 @@
-import type {CrisisCleanupChartConfig} from './lib'
-import { PartialDeep } from "type-fest";
+import type { CrisisCleanupChartConfig } from './schema'
 
  declare module '@crisiscleanup/config' {
 	 export interface CrisisCleanupConfigInput {
-		 chart?: PartialDeep<CrisisCleanupChartConfig>
+		 chart?: CrisisCleanupChartConfig
 	 }
  	export interface CrisisCleanupConfig {
  		chart?: CrisisCleanupChartConfig
