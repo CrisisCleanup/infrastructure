@@ -416,7 +416,7 @@ apiStack.cdkConfig.json.addOverride(
 	'app',
 	apiStack.formatExecCommand('tsx', 'src/main.ts'),
 )
-apiStack.tsconfig.addInclude('crisiscleanup.config.ts')
+apiStack.tsconfigDev.addInclude('crisiscleanup.config.ts')
 apiStack.addGitIgnore('cdk.context.json')
 monorepo.pnpm.addPatch(
 	'@aws-quickstart/eks-blueprints@1.10.1',
