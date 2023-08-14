@@ -2,12 +2,14 @@
 {
   "extends": [
     "../../tsconfig/tsconfig.base.json",
-    "../../tsconfig/tsconfig.esm.json"
+    "../../tsconfig/tsconfig.esm.json",
+    "../../tsconfig/tsconfig.bundler.json",
+    "../../tsconfig/tsconfig.composite.json"
   ],
   "compilerOptions": {
+    "rootDir": "src",
     "outDir": "dist",
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
+    "declarationDir": "src",
     "types": [
       "reflect-metadata"
     ]

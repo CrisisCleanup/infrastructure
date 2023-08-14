@@ -42,10 +42,10 @@
       "name": "clean",
       "steps": [
         {
-          "exec": "pnpm exec rimraf dist"
+          "exec": "pnpm exec tsc --build --clean"
         },
         {
-          "exec": "pnpm exec rimraf lib"
+          "exec": "pnpm exec rimraf dist lib tsconfig.tsbuildinfo"
         }
       ]
     },
@@ -54,7 +54,11 @@
       "description": "Only compile",
       "steps": [
         {
-          "exec": "tsc --build"
+          "exec": "pnpm exec tsc --build --emitDeclarationOnly"
+        },
+        {
+          "exec": "pnpm exec unbuild",
+          "name": "Unbuild"
         }
       ]
     },
@@ -98,8 +102,7 @@
       "description": "Runs after successful compilation",
       "steps": [
         {
-          "exec": "unbuild",
-          "name": "Unbuild"
+          "exec": "pnpm exec tsc --build --clean"
         }
       ]
     },
@@ -205,25 +208,13 @@
           "exec": "pnpm update npm-check-updates"
         },
         {
-          "exec": "npm-check-updates --dep dev --upgrade --target=minor --reject='typescript'"
-        },
-        {
-          "exec": "npm-check-updates --dep bundle --upgrade --target=minor --reject='typescript'"
-        },
-        {
-          "exec": "npm-check-updates --dep peer --upgrade --target=minor --reject='typescript'"
-        },
-        {
-          "exec": "npm-check-updates --dep prod --upgrade --target=minor --reject='typescript'"
-        },
-        {
-          "exec": "npm-check-updates --dep optional --upgrade --target=minor --reject='typescript'"
+          "exec": "npm-check-updates --upgrade --target=minor --filter=@types/debug,@types/flat,@types/node,@typescript-eslint/eslint-plugin,@typescript-eslint/parser,eslint-config-prettier,eslint-import-resolver-node,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-prettier,eslint,lint-staged,npm-check-updates,prettier,standard-version,supports-color,unbuild,vitest,@antfu/utils,c12,debug,defu,destr,flat,reflect-metadata,type-fest,zod"
         },
         {
           "exec": "pnpm i --no-frozen-lockfile"
         },
         {
-          "exec": "pnpm update"
+          "exec": "pnpm update @types/debug @types/flat @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-config-prettier eslint-import-resolver-node eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint lint-staged npm-check-updates prettier standard-version supports-color unbuild vitest @antfu/utils c12 debug defu destr flat reflect-metadata type-fest zod"
         },
         {
           "exec": "pnpm exec projen"

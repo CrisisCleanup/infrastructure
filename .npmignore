@@ -16,6 +16,7 @@ tsconfig.tsbuildinfo
 /.eslintrc.json
 /tsconfig/tsconfig.base.json
 /tsconfig/tsconfig.bundler.json
+/tsconfig/tsconfig.composite.json
 /tsconfig.json
 /tsconfig.dev.json
 /tsconfig/tsconfig.esm.json

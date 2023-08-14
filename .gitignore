@@ -32,7 +32,6 @@ jspm_packages/
 .yarn-integrity
 .cache
 .tmp
-.nx/cache
 !/.projenrc.js
 !/.github/workflows/build.yml
 !/.mergify.yml
@@ -46,6 +45,7 @@ jspm_packages/
 /dist
 /dist/
 !/.eslintrc.json
+.nx/cache
 !/nx.json
 !/.nxignore
 !/.syncpackrc.json
@@ -54,6 +54,7 @@ jspm_packages/
 !/.ncurc.json
 !/tsconfig/tsconfig.base.json
 !/tsconfig/tsconfig.bundler.json
+!/tsconfig/tsconfig.composite.json
 !/tsconfig.json
 !/tsconfig.dev.json
 !/.github/workflows/static.yml
