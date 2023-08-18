@@ -7,3 +7,4 @@ packages:
   - packages/k8s/construct/api
   - packages/k8s/construct/component
   - packages/stacks/api
+  - packages/stacks/maintenance-site

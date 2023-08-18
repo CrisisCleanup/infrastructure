@@ -469,6 +469,26 @@ stackPostCompile.spawn(apiStack.tasks.tryFind('synth:silent')!, {
 })
 new Vitest(apiStack)
 
+const maintenanceStack = AwsCdkTsAppBuilder.build({
+	name: 'stacks.maintenance-site',
+	integrationTestAutoDiscover: true,
+	workspaceDeps: [config, ghPipelineConstruct],
+	deps: ['@aws-prototyping-sdk/static-website'],
+	jest: false,
+	prettier: true,
+})
+maintenanceStack.addGitIgnore('cdk.context.json')
+maintenanceStack.cdkConfig.json.addOverride(
+	'app',
+	maintenanceStack.formatExecCommand('tsx', 'src/main.ts'),
+)
+const maintenancePostCompile = maintenanceStack.tasks.tryFind('post-compile')!
+maintenancePostCompile.reset()
+maintenancePostCompile.spawn(maintenanceStack.tasks.tryFind('synth:silent')!, {
+	condition: '[[ -z "$SKIP_SYNTH" ]]',
+})
+new Vitest(maintenanceStack)
+
 monorepo.addWorkspaceDeps(
 	{ depType: DependencyType.DEVENV, addTsPath: true },
 	crisiscleanup,
