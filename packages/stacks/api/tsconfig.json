@@ -36,6 +36,9 @@
     },
     {
       "path": "../../k8s/construct/component/tsconfig.json"
+    },
+    {
+      "path": "../../construct/awscdk/github-pipeline/tsconfig.json"
     }
   ]
 }
