@@ -40,7 +40,8 @@
       "./packages/construct/awscdk/github-pipeline",
       "./packages/k8s/construct/api",
       "./packages/k8s/construct/component",
-      "./packages/stacks/api"
+      "./packages/stacks/api",
+      "./packages/stacks/maintenance-site"
     ],
     "entryPointStrategy": "packages",
     "out": "docs",
