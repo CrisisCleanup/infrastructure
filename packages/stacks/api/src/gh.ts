@@ -5,7 +5,7 @@ import {
 	ActionsContext,
 	interpolateValue,
 	MaskValueStep,
-	PipelineWorkflow,
+	GithubWorkflowPipeline,
 } from '@crisiscleanup/construct.awscdk.github-pipeline'
 import type { Stack, StackProps } from 'aws-cdk-lib'
 import * as cdk from 'aws-cdk-lib'
@@ -263,7 +263,7 @@ class GithubCodePipeline {
 			'AWS_PIPELINE_ACCOUNT_ID',
 		])
 
-		const workflow = new PipelineWorkflow(scope, props.name, {
+		const workflow = new GithubWorkflowPipeline(scope, props.name, {
 			awsCreds,
 			synth,
 			publishAssetsAuthRegion: 'us-east-1',
