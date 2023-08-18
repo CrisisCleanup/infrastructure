@@ -282,23 +282,27 @@ monorepo.addWorkspaceDeps(
 )
 new Vitest(config)
 
-/**
- * CDK8s Charts and Constructs
- */
-const Cdk8sDefaultsBuilder = new builders.DefaultOptionsBuilder({
+const CdkVersionsBuilder = new builders.DefaultOptionsBuilder({
 	jsiiVersion: '~5',
 	constructsVersion: '10.2.69',
+	cdkVersion: '2.91.0',
 	cdk8sCliVersion: '2.38.0',
 	cdk8sVersion: '2.42.0',
 	cdksPlus: true,
 	cdk8sPlusVersion: '2.6.0',
 	k8sMinorVersion: 27,
 	typescriptVersion: '~5.1',
+})
+
+/**
+ * CDK8s Charts and Constructs
+ */
+const Cdk8sDefaultsBuilder = new builders.DefaultOptionsBuilder({
 	prettier: true,
 	unbuild: true,
 })
 
-const CDK8sPlus = `cdk8s-plus-${Cdk8sDefaultsBuilder.defaultOptions
+const CDK8sPlus = `cdk8s-plus-${CdkVersionsBuilder.defaultOptions
 	.k8sMinorVersion!}`
 
 const Cdk8sConstructDefaultsBuilder = new builders.DefaultOptionsBuilder({
@@ -314,6 +318,7 @@ const Cdk8sAppBuilder = new ProjectBuilder(cdk8s.Cdk8sTypeScriptApp)
 	.add(WithParentBuilder)
 	.add(NameSchemeBuilder)
 	.add(CommonDefaultsBuilder)
+	.add(CdkVersionsBuilder)
 	.add(Cdk8sDefaultsBuilder)
 	.add(TsESMBuilder)
 	.add(new tsBuilders.TypescriptLintingBuilder({ useTypeInformation: true }))
@@ -325,6 +330,7 @@ const Cdk8sConstructBuilder = new ProjectBuilder(cdk8s.ConstructLibraryCdk8s)
 	.add(WithParentBuilder)
 	.add(NameSchemeBuilder)
 	.add(CommonDefaultsBuilder)
+	.add(CdkVersionsBuilder)
 	.add(Cdk8sDefaultsBuilder)
 	.add(Cdk8sConstructDefaultsBuilder)
 	.add(TsESMBuilder)
@@ -383,16 +389,47 @@ const AwsCdkTsAppBuilder = new ProjectBuilder(awscdk.AwsCdkTypeScriptApp)
 	.add(WithParentBuilder)
 	.add(NameSchemeBuilder)
 	.add(CommonDefaultsBuilder)
+	.add(CdkVersionsBuilder)
 	.add(TsESMBuilder)
 	.add(new tsBuilders.TypescriptLintingBuilder({ useTypeInformation: true }))
 	.add(new tsBuilders.TypescriptESMManifestBuilder({ sideEffects: true }))
 
+const AwsCdkTsConstructBuilder = new ProjectBuilder(
+	awscdk.AwsCdkConstructLibrary,
+)
+	.add(WithParentBuilder)
+	.add(NameSchemeBuilder)
+	.add(CommonDefaultsBuilder)
+	.add(CdkVersionsBuilder)
+	.add(TsESMBuilder)
+	.add(new tsBuilders.TypescriptLintingBuilder({ useTypeInformation: true }))
+	.add(new tsBuilders.TypescriptESMManifestBuilder({ sideEffects: true }))
+	.add(new tsBuilders.TypescriptBundlerBuilder())
+
+// Constructs
+const ghPipelineConstruct = AwsCdkTsConstructBuilder.build({
+	name: 'construct.awscdk.github-pipeline',
+	deps: ['cdk-pipelines-github', 'flat'],
+	devDeps: ['@types/flat'],
+	workspaceDeps: [config],
+	prettier: true,
+	jest: false,
+	unbuild: true,
+})
+ghPipelineConstruct.package.file.addDeletionOverride('main')
+ghPipelineConstruct.tasks.tryFind('docgen')?.reset?.()
+
 // Stacks
 const apiStack = AwsCdkTsAppBuilder.build({
 	name: 'stacks.api',
-	cdkVersion: '2.91.0',
 	integrationTestAutoDiscover: true,
-	workspaceDeps: [config, crisiscleanup, apiConstruct, k8sComponentConstruct],
+	workspaceDeps: [
+		config,
+		crisiscleanup,
+		apiConstruct,
+		k8sComponentConstruct,
+		ghPipelineConstruct,
+	],
 	deps: [
 		'zod',
 		'cdk-sops-secrets',
@@ -445,7 +482,7 @@ const awsCdkLibVersion =
 	apiStack.package.tryResolveDependencyVersion('aws-cdk-lib')!
 monorepo.package.addPackageResolutions(
 	`aws-cdk-lib@${awsCdkLibVersion}`,
-	`constructs@${Cdk8sDefaultsBuilder.defaultOptions.constructsVersion!}`,
+	`constructs@${CdkVersionsBuilder.defaultOptions.constructsVersion!}`,
 )
 
 monorepo.synth()

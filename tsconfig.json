@@ -37,6 +37,7 @@
     "entryPoints": [
       "./packages/charts/crisiscleanup",
       "./packages/config",
+      "./packages/construct/awscdk/github-pipeline",
       "./packages/k8s/construct/api",
       "./packages/k8s/construct/component",
       "./packages/stacks/api"

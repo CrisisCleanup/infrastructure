@@ -348,6 +348,88 @@ importers:
         specifier: ^0.34.1
         version: 0.34.1(supports-color@8.1.1)
 
+  packages/construct/awscdk/github-pipeline:
+    dependencies:
+      '@crisiscleanup/config':
+        specifier: workspace:*
+        version: link:../../../config
+      cdk-pipelines-github:
+        specifier: ^0.4.103
+        version: 0.4.103(aws-cdk-lib@2.91.0)(constructs@10.2.69)
+      flat:
+        specifier: ^5.0.2
+        version: 5.0.2
+    devDependencies:
+      '@types/flat':
+        specifier: ^5.0.2
+        version: 5.0.2
+      '@types/node':
+        specifier: ^18
+        version: 18.16.19
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^5
+        version: 5.62.0(@typescript-eslint/parser@5.62.0)(eslint@8.45.0)(supports-color@8.1.1)(typescript@5.1.6)
+      '@typescript-eslint/parser':
+        specifier: ^5
+        version: 5.62.0(eslint@8.45.0)(supports-color@8.1.1)(typescript@5.1.6)
+      aws-cdk-lib:
+        specifier: 2.91.0
+        version: 2.91.0(constructs@10.2.69)
+      constructs:
+        specifier: 10.2.69
+        version: 10.2.69
+      eslint:
+        specifier: ^8
+        version: 8.45.0(supports-color@8.1.1)
+      eslint-config-prettier:
+        specifier: ^8.10.0
+        version: 8.10.0(eslint@8.45.0)
+      eslint-import-resolver-node:
+        specifier: ^0.3.9
+        version: 0.3.9(supports-color@8.1.1)
+      eslint-import-resolver-typescript:
+        specifier: ^3.6.0
+        version: 3.6.0(@typescript-eslint/parser@5.62.0)(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.28.0)(eslint@8.45.0)
+      eslint-plugin-import:
+        specifier: ^2.28.0
+        version: 2.28.0(@typescript-eslint/parser@5.62.0)(eslint-import-resolver-typescript@3.6.0)(eslint@8.45.0)
+      eslint-plugin-prettier:
+        specifier: ^5.0.0
+        version: 5.0.0(eslint-config-prettier@8.10.0)(eslint@8.45.0)(prettier@3.0.1)
+      jsii:
+        specifier: ~5
+        version: 5.1.10
+      jsii-diff:
+        specifier: ^1.87.0
+        version: 1.87.0
+      jsii-docgen:
+        specifier: ^9.1.2
+        version: 9.1.2(jsii-rosetta@5.1.7)
+      jsii-pacmak:
+        specifier: ^1.87.0
+        version: 1.87.0
+      jsii-rosetta:
+        specifier: ~5
+        version: 5.1.7
+      lint-staged:
+        specifier: ^13.2.3
+        version: 13.2.3(supports-color@8.1.1)
+      npm-check-updates:
+        specifier: ^16
+        version: 16.11.1(supports-color@8.1.1)
+      prettier:
+        specifier: ^3.0.1
+        version: 3.0.1
+      projen:
+        specifier: ^0.72.11
+        version: 0.72.11
+      typescript:
+        specifier: ~5.1
+        version: 5.1.6
+      unbuild:
+        specifier: ^2.0.0-rc.0
+        version: 2.0.0-rc.0(patch_hash=lulzlhanbemembpay2kcfiuibq)(supports-color@8.1.1)(typescript@5.1.6)
+
   packages/k8s/construct/api:
     dependencies:
       '@crisiscleanup/config':
@@ -538,6 +620,9 @@ importers:
       '@crisiscleanup/config':
         specifier: workspace:*
         version: link:../../config
+      '@crisiscleanup/construct.awscdk.github-pipeline':
+        specifier: workspace:*
+        version: link:../../construct/awscdk/github-pipeline
       '@crisiscleanup/k8s.construct.api':
         specifier: workspace:*
         version: link:../../k8s/construct/api
@@ -952,21 +1037,18 @@ packages:
       {
         integrity: sha512-Kf5J8DfJK4wZFWT2Myca0lhwke7LwHcHBo+4TvWOGJrFVVKVuuiLCkzPPRBQQVDj0Vtn2NBokZAz8pfMpAqAKg==,
       }
-    dev: false
 
   /@aws-cdk/asset-kubectl-v20@2.1.2:
     resolution:
       {
         integrity: sha512-3M2tELJOxQv0apCIiuKQ4pAbncz9GuLwnKFqxifWfe77wuMxyTRPmxssYHs42ePqzap1LT6GDcPygGs+hHstLg==,
       }
-    dev: false
 
   /@aws-cdk/asset-node-proxy-agent-v5@2.0.166:
     resolution:
       {
         integrity: sha512-j0xnccpUQHXJKPgCwQcGGNu4lRiC1PptYfdxBIH1L4dRK91iBxtSQHESRQX+yB47oGLaF/WfNN/aF3WXwlhikg==,
       }
-    dev: false
 
   /@aws-cdk/lambda-layer-kubectl-v23@2.0.8(aws-cdk-lib@2.91.0)(constructs@10.2.69):
     resolution:
@@ -2059,7 +2141,6 @@ packages:
       {
         integrity: sha512-wMue2Sy4GAVTk6Ic4tJVcnfdau+gx2EnG7S+uAEe+TWJFqE4YoWN4/H8MSLj4eYJKxGg26lZwboEniNiNwZQ6Q==,
       }
-    dev: false
 
   /@cdklabs/cdk-validator-cfnguard@0.0.54(aws-cdk-lib@2.91.0):
     resolution:
@@ -5759,7 +5840,6 @@ packages:
       semver: 7.5.4
       table: 6.8.1
       yaml: 1.10.2
-    dev: false
     bundledDependencies:
       - '@balena/dockerignore'
       - case
@@ -7553,7 +7633,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20230814
+      typescript: 5.3.0-dev.20230817
     dev: true
 
   /duplexer@0.1.2:
@@ -10482,7 +10562,6 @@ packages:
       {
         integrity: sha512-S6cATIPVv1z0IlxdN+zUk5EPjkGCdnhN4wVSBlvoUO1tOLJootbo9CquNJmbIh4yikWHiUedhRYrNPn1arpEmQ==,
       }
-    dev: false
 
   /keyv@4.5.3:
     resolution:
@@ -14561,10 +14640,10 @@ packages:
     hasBin: true
     dev: true
 
-  /typescript@5.3.0-dev.20230814:
+  /typescript@5.3.0-dev.20230817:
     resolution:
       {
-        integrity: sha512-ztAo8S7pDTqodkSIPPdh4mL5T7+//1xfOP17O2yFW3dx3u/87MG4qsiZ5HIOoV0L9Kkr/fFw5bqGXHcDT/Nclg==,
+        integrity: sha512-WbPb4NIGIcx8fQG4JPh54lALvzPUJTcDLCP9xVsrfOMrMAWswPqqekMZ7jVpasCOmYtC9e+oUCpW+jgVVcW7UQ==,
       }
     engines: { node: '>=14.17' }
     hasBin: true
@@ -15281,7 +15360,6 @@ packages:
         integrity: sha512-r3vXyErRCYJ7wg28yvBY5VSoAF8ZvlcW9/BwUzEtUsjvX/DKs24dIkuwjtuprwJJHsbyUbLApepYTR1BN4uHrg==,
       }
     engines: { node: '>= 6' }
-    dev: false
 
   /yaml@2.3.1:
     resolution:
