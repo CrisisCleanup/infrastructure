@@ -95,12 +95,24 @@ export class Database extends Construct {
 			},
 			defaultDatabaseName: this.props.databaseName,
 			snapshotIdentifier: this.props.snapshotIdentifier,
+			...(this.props.performanceInsights
+				? {
+						monitoringInterval: cdk.Duration.minutes(1),
+				  }
+				: {}),
 		}
 		this.cluster = new rds.DatabaseClusterFromSnapshot(
 			this,
 			id + '-cluster',
 			clusterProps,
 		)
+		// enable devops guru
+		if (this.props.performanceInsights) {
+			cdk.Tags.of(this.cluster).add(
+				'devops-guru-default',
+				this.props.databaseName ?? 'crisiscleanup',
+			)
+		}
 	}
 }
 
