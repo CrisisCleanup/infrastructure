@@ -5,6 +5,7 @@ import * as rds from 'aws-cdk-lib/aws-rds'
 import { type ISecret, Secret } from 'aws-cdk-lib/aws-secretsmanager'
 import { KeyPair } from 'cdk-ec2-key-pair'
 import { Construct } from 'constructs'
+import defu from 'defu'
 import { type DatabaseConfig } from '../schema'
 
 export interface DatabaseProps extends DatabaseConfig {
@@ -49,13 +50,19 @@ export class Database extends Construct {
 			version: engineVersion,
 		})
 
-		const writer = rds.ClusterInstance.serverlessV2(id + '-cluster-writer')
+		const writer = rds.ClusterInstance.serverlessV2(
+			id + '-cluster-writer',
+			this.clusterInstanceProps(),
+		)
 
 		const readers: rds.IClusterInstance[] = []
 		if (this.props.numReplicas) {
-			for (let i = 0; i <= this.props.numReplicas; i++) {
+			for (let i = 1; i <= this.props.numReplicas; i++) {
 				readers.push(
-					rds.ClusterInstance.serverlessV2(id + `-cluster-reader-${i}`),
+					rds.ClusterInstance.serverlessV2(
+						id + `-cluster-reader-${i}`,
+						this.clusterInstanceProps(i),
+					),
 				)
 			}
 		}
@@ -113,6 +120,41 @@ export class Database extends Construct {
 				this.props.databaseName ?? 'crisiscleanup',
 			)
 		}
+	}
+
+	/**
+	 * Build props for cluster database instance.
+	 * @param replicaIndex optional reader replica index.
+	 */
+	clusterInstanceProps(
+		replicaIndex?: number,
+	): rds.ServerlessV2ClusterInstanceProps | undefined {
+		const props: Partial<rds.ServerlessV2ClusterInstanceProps>[] = []
+		if (this.props.performanceInsights) {
+			props.push({
+				enablePerformanceInsights: this.props.performanceInsights,
+				performanceInsightEncryptionKey: this.props.encryptionKey,
+			})
+		}
+		if (
+			this.props.performanceInsightsRetention !==
+			rds.PerformanceInsightRetention.DEFAULT
+		) {
+			props.push({
+				performanceInsightRetention: this.props.performanceInsightsRetention,
+			})
+		}
+		if (
+			replicaIndex &&
+			replicaIndex <= this.props.numReplicasScaledWithWriter
+		) {
+			props.push({
+				scaleWithWriter: true,
+			})
+		}
+		return props.length
+			? (defu({}, ...props) as rds.ServerlessV2ClusterInstanceProps)
+			: undefined
 	}
 }
 
