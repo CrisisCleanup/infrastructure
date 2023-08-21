@@ -20,8 +20,8 @@ export interface MaintenanceSiteProps {
  * Maintenance site for crisiscleanup.org
  */
 export class MaintenanceSite extends Stack {
-	readonly zone: route53.IHostedZone
-	readonly certificate: acm.ICertificate
+	readonly zone?: route53.IHostedZone
+	readonly certificate?: acm.ICertificate
 	readonly website: StaticWebsite
 
 	constructor(
@@ -32,15 +32,17 @@ export class MaintenanceSite extends Stack {
 	) {
 		super(scope, id, stackProps)
 
-		this.zone = route53.HostedZone.fromLookup(this, id + '-hosted-zone', {
-			domainName: 'crisiscleanup.org',
-		})
+		if (stackProps?.env) {
+			this.zone = route53.HostedZone.fromLookup(this, id + '-hosted-zone', {
+				domainName: 'crisiscleanup.org',
+			})
 
-		this.certificate = new acm.Certificate(this, id + '-certificate', {
-			domainName: 'crisiscleanup.org',
-			validation: acm.CertificateValidation.fromDns(this.zone),
-			subjectAlternativeNames: ['maintenance.crisiscleanup.org'],
-		})
+			this.certificate = new acm.Certificate(this, id + '-certificate', {
+				domainName: 'crisiscleanup.org',
+				validation: acm.CertificateValidation.fromDns(this.zone),
+				subjectAlternativeNames: ['maintenance.crisiscleanup.org'],
+			})
+		}
 
 		this.website = new StaticWebsite(this, id + '-static-site', {
 			webAclProps: { disable: true },
@@ -57,16 +59,18 @@ export class MaintenanceSite extends Stack {
 			},
 		})
 
-		new route53.ARecord(this, id + '-alias-record', {
-			zone: this.zone,
-			comment: 'Maintenance Site',
-			target: route53.RecordTarget.fromAlias(
-				new route53Targets.CloudFrontTarget(
-					this.website.cloudFrontDistribution,
+		if (this.zone) {
+			new route53.ARecord(this, id + '-alias-record', {
+				zone: this.zone,
+				comment: 'Maintenance Site',
+				target: route53.RecordTarget.fromAlias(
+					new route53Targets.CloudFrontTarget(
+						this.website.cloudFrontDistribution,
+					),
 				),
-			),
-			ttl: Duration.seconds(300),
-			recordName: 'maintenance.crisiscleanup.org',
-		})
+				ttl: Duration.seconds(300),
+				recordName: 'maintenance.crisiscleanup.org',
+			})
+		}
 	}
 }
