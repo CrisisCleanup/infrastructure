@@ -17,7 +17,7 @@ import {
 	ResourceNames,
 } from './cluster'
 import { type GithubCodePipelineBuilder, GithubCodePipelineStack } from './gh'
-import { NetworkStack, DataStack } from './stacks'
+import { NetworkStack, DataStack, CacheStack } from './stacks'
 
 export interface PipelineProps {
 	readonly id: string
@@ -138,6 +138,19 @@ export class Pipeline {
 						...stackProps,
 					},
 				)
+
+				if (config.apiStack!.cache.enabled) {
+					new CacheStack(
+						scope,
+						env.id + '-cache',
+						{
+							vpc: network.vpc,
+							...config.apiStack!.cache,
+						},
+						{ env: env.env, ...stackProps },
+					)
+				}
+
 				return envStackBuilder
 					.resourceProvider(
 						blueprints.GlobalResources.Vpc,
