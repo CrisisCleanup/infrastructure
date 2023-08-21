@@ -41,7 +41,7 @@ export interface EKSConfig extends z.infer<typeof eksConfigSchema> {}
 
 export const databaseConfigSchema = z.object({
 	username: z.string().optional(),
-	databaseName: z.string().optional(),
+	databaseName: z.string().optional().nullable().default(null),
 	snapshotIdentifier: z
 		.string()
 		.describe('Snapshot identifier to restore from.'),
@@ -68,6 +68,10 @@ export const databaseConfigSchema = z.object({
 		.boolean()
 		.default(false)
 		.describe('Enable performance insights.'),
+	performanceInsightsRetention: z
+		.number()
+		.default(7)
+		.describe('Number of days to retain performance insights.'),
 	cloudwatchLogsRetentionDays: z.number().optional().default(30),
 	deletionProtection: z.boolean().default(false),
 	backupRetentionDays: z.number().default(1),
