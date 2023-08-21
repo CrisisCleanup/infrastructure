@@ -32,6 +32,7 @@ const mergedSchema = mergedValuesSchema
 
 const jsonSchema = zodToJsonSchema(mergedSchema, {
 	name: 'CrisisCleanupConfig',
+	$refStrategy: 'seen',
 	pipeStrategy: 'all',
 	strictUnions: true,
 	definitions: {
