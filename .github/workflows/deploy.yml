@@ -100,6 +100,7 @@ jobs:
           SOURCE: cdk.out
           DESTINATION: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
         run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
@@ -128,6 +129,7 @@ jobs:
           SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
           DESTINATION: cdk.out
         run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
@@ -161,6 +163,7 @@ jobs:
           SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
           DESTINATION: cdk.out
         run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
@@ -194,6 +197,7 @@ jobs:
           SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
           DESTINATION: cdk.out
         run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
@@ -227,6 +231,7 @@ jobs:
           SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
           DESTINATION: cdk.out
         run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
@@ -260,6 +265,7 @@ jobs:
           SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
           DESTINATION: cdk.out
         run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
@@ -293,6 +299,7 @@ jobs:
           SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
           DESTINATION: cdk.out
         run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
@@ -326,6 +333,7 @@ jobs:
           SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
           DESTINATION: cdk.out
         run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
@@ -359,6 +367,7 @@ jobs:
           SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
           DESTINATION: cdk.out
         run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
@@ -392,6 +401,7 @@ jobs:
           SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
           DESTINATION: cdk.out
         run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
@@ -425,6 +435,7 @@ jobs:
           SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
           DESTINATION: cdk.out
         run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
@@ -458,6 +469,7 @@ jobs:
           SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
           DESTINATION: cdk.out
         run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
@@ -491,6 +503,7 @@ jobs:
           SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
           DESTINATION: cdk.out
         run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
@@ -524,6 +537,7 @@ jobs:
           SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
           DESTINATION: cdk.out
         run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
@@ -557,6 +571,7 @@ jobs:
           SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
           DESTINATION: cdk.out
         run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
@@ -590,6 +605,7 @@ jobs:
           SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
           DESTINATION: cdk.out
         run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
@@ -623,6 +639,7 @@ jobs:
           SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
           DESTINATION: cdk.out
         run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
@@ -656,6 +673,7 @@ jobs:
           SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
           DESTINATION: cdk.out
         run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
@@ -689,6 +707,7 @@ jobs:
           SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
           DESTINATION: cdk.out
         run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
@@ -722,6 +741,7 @@ jobs:
           SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
           DESTINATION: cdk.out
         run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
@@ -755,6 +775,7 @@ jobs:
           SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
           DESTINATION: cdk.out
         run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
@@ -788,6 +809,7 @@ jobs:
           SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
           DESTINATION: cdk.out
         run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
@@ -821,6 +843,7 @@ jobs:
           SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
           DESTINATION: cdk.out
         run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
@@ -854,6 +877,7 @@ jobs:
           SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
           DESTINATION: cdk.out
         run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
@@ -887,6 +911,7 @@ jobs:
           SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
           DESTINATION: cdk.out
         run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
@@ -920,6 +945,7 @@ jobs:
           SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
           DESTINATION: cdk.out
         run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
@@ -953,6 +979,7 @@ jobs:
           SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
           DESTINATION: cdk.out
         run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
@@ -986,6 +1013,7 @@ jobs:
           SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
           DESTINATION: cdk.out
         run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
@@ -1019,6 +1047,7 @@ jobs:
           SOURCE: s3://crisiscleanup-pipeline-assets/cdk-assets/${{github.run_id}}-${{github.run_attempt}}/cdk.out
           DESTINATION: cdk.out
         run: |-
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
