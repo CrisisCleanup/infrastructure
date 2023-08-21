@@ -486,7 +486,7 @@ maintenanceStack.cdkConfig.json.addOverride(
 const maintenancePostCompile = maintenanceStack.tasks.tryFind('post-compile')!
 maintenancePostCompile.reset()
 maintenancePostCompile.spawn(maintenanceStack.tasks.tryFind('synth:silent')!, {
-	condition: '[[ -z "$SKIP_SYNTH" ]]',
+	condition: '[[ -z "$SKIP_SYNTH" ]] && [[ -n "$MAINTENANCE_SITE_SOURCE" ]]',
 })
 new Vitest(maintenanceStack)
 
