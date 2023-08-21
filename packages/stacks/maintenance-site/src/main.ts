@@ -9,7 +9,11 @@ import { GitHubStage, type GitHubStageProps } from 'cdk-pipelines-github'
 import type { Construct } from 'constructs'
 import { MaintenanceSite } from './maintenance-site'
 
-const { config, cwd } = await getConfig({ strict: true, useEnvOverrides: true })
+const { config, cwd } = await getConfig({
+	strict: true,
+	useEnvOverrides: true,
+	decrypt: false,
+})
 
 const app = new App()
 
@@ -26,6 +30,8 @@ class MaintenanceStage extends GitHubStage {
 			},
 			{
 				env: config.cdkEnvironment,
+				description: 'Maintenance Site',
+				stackName: 'maintenance-site',
 			},
 		)
 	}
@@ -45,6 +51,7 @@ GithubCodePipeline.create({
 		path: '.maintenance-site',
 	})
 	.addSynthEnv({
+		CCU_CONFIGS_DECRYPT: 'false',
 		MAINTENANCE_SITE_SOURCE:
 			interpolateValue(ActionsContext.GITHUB, 'workspace') +
 			'/.maintenance-site',

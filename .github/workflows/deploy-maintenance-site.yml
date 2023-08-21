@@ -20,6 +20,7 @@ jobs:
       NX_BRANCH: ${{github.event.number}}
       NX_RUN_GROUP: ${{github.run_id}}
       NX_CLOUD_ACCESS_TOKEN: ${{secrets.NX_CLOUD_ACCESS_TOKEN}}
+      CCU_CONFIGS_DECRYPT: "false"
       MAINTENANCE_SITE_SOURCE: ${{github.workspace}}/.maintenance-site
     steps:
       - name: Checkout
@@ -282,7 +283,7 @@ jobs:
       - id: Deploy
         uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
         with:
-          name: pipeline-maintenance-site
+          name: maintenance-site
           template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PIPELINE}}-us-east-1.s3.us-east-1.amazonaws.com/${{
             needs.Assets-FileAsset1.outputs.asset-hash }}.json
           no-fail-on-empty-changeset: "1"
