@@ -62,8 +62,8 @@ export class Database extends Construct {
 
 		const updateBehavior =
 			readers.length >= 1
-				? rds.InstanceUpdateBehaviour.BULK
-				: rds.InstanceUpdateBehaviour.ROLLING
+				? rds.InstanceUpdateBehaviour.ROLLING
+				: rds.InstanceUpdateBehaviour.BULK
 
 		const clusterProps: rds.DatabaseClusterFromSnapshotProps = {
 			vpc,
