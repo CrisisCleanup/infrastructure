@@ -9,6 +9,7 @@ import {
 } from '@crisiscleanup/config'
 import { App, aws_secretsmanager } from 'aws-cdk-lib'
 import { Template } from 'aws-cdk-lib/assertions'
+import { KubernetesVersion } from 'aws-cdk-lib/aws-eks'
 import { type IConstruct } from 'constructs'
 import { test, expect, vi, beforeAll, afterAll } from 'vitest'
 // @ts-ignore
@@ -49,16 +50,16 @@ test('Snapshot', async () => {
 			'giget-auth': 'fake-token',
 		},
 	})
-	const cluster = buildClusterBuilder(config.apiStack.eks.k8s.version).build()
+	const cluster = buildClusterBuilder(config.apiStack!.eks.k8s.version).build()
 	const stack = await blueprints.EksBlueprint.builder()
-		.version(config.apiStack.eks.k8s.version)
+		.version(KubernetesVersion.of(config.apiStack!.eks.k8s.version))
 		.resourceProvider(
 			ResourceNames.EBS_KEY,
 			new blueprints.CreateKmsKeyProvider('test-ebs-key'),
 		)
 		.addOns(
-			...getDefaultAddons(config.apiStack.eks),
-			...getCoreAddons(config.apiStack.eks),
+			...getDefaultAddons(config.apiStack!.eks),
+			...getCoreAddons(config.apiStack!.eks),
 		)
 		.clusterProvider(cluster)
 		.resourceProvider('db-secret', {
