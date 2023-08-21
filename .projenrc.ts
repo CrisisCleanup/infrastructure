@@ -410,8 +410,9 @@ const AwsCdkTsConstructBuilder = new ProjectBuilder(
 // Constructs
 const ghPipelineConstruct = AwsCdkTsConstructBuilder.build({
 	name: 'construct.awscdk.github-pipeline',
-	deps: ['cdk-pipelines-github', 'flat'],
+	deps: ['flat', 'defu'],
 	devDeps: ['@types/flat'],
+	peerDeps: ['cdk-pipelines-github'],
 	workspaceDeps: [config],
 	prettier: true,
 	jest: false,
@@ -474,7 +475,7 @@ const maintenanceStack = AwsCdkTsAppBuilder.build({
 	name: 'stacks.maintenance-site',
 	integrationTestAutoDiscover: true,
 	workspaceDeps: [config, ghPipelineConstruct],
-	deps: ['@aws-prototyping-sdk/static-website'],
+	deps: ['@aws-prototyping-sdk/static-website', 'cdk-pipelines-github'],
 	jest: false,
 	prettier: true,
 })
