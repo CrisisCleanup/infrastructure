@@ -110,7 +110,7 @@
       "steps": [
         {
           "spawn": "synth:silent",
-          "condition": "[[ -z \"$SKIP_SYNTH\" ]]"
+          "condition": "bash -c '[[ -z \"$SKIP_SYNTH\" ]]'"
         }
       ]
     },

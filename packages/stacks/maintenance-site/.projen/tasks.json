@@ -110,7 +110,7 @@
       "steps": [
         {
           "spawn": "synth:silent",
-          "condition": "[[ -z \"$SKIP_SYNTH\" ]] && [[ -n \"$MAINTENANCE_SITE_SOURCE\" ]]"
+          "condition": "bash -c '[[ -z \"$SKIP_SYNTH\" ]] && [[ -n \"$MAINTENANCE_SITE_SOURCE\" ]]'"
         }
       ]
     },
