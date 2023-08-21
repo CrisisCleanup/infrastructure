@@ -84,9 +84,14 @@ export class Database extends Construct {
 			),
 			iamAuthentication: true,
 			port: 5432,
-			storageType: this.props.ioOptimized
-				? rds.DBClusterStorageType.AURORA_IOPT1
-				: rds.DBClusterStorageType.AURORA,
+			// WARNING:
+			// Setting this property to the same value as what the source snapshot is using
+			// leads to RDS Api ModifyDBEvent failures of 'StorageTypeNotAvailableFault'
+			// despite the fact that no actual storage type change is happening (it should just be ignored...).
+			// The same is true when attempting change ACU values.
+			...(this.props.ioOptimized
+				? {}
+				: { storageType: rds.DBClusterStorageType.AURORA }),
 			storageEncrypted: true,
 			serverlessV2MinCapacity: this.props.minAcu,
 			serverlessV2MaxCapacity: this.props.maxAcu,
@@ -98,9 +103,13 @@ export class Database extends Construct {
 			cloudwatchLogsRetention: this.props.cloudwatchLogsRetentionDays,
 			deletionProtection: this.props.deletionProtection,
 			backup: {
-				retention: cdk.Duration.days(this.props.backupRetentionDays),
+				retention: cdk.Duration.days(props.backupRetentionDays),
 			},
-			defaultDatabaseName: this.props.databaseName,
+			// default: inherit from snapshot.
+			// this is ignored anyways, but changes lead to cluster recreate.
+			...(props.databaseName
+				? { defaultDatabaseName: props.databaseName }
+				: {}),
 			snapshotIdentifier: this.props.snapshotIdentifier,
 			...(this.props.performanceInsights
 				? {
@@ -117,7 +126,7 @@ export class Database extends Construct {
 		if (this.props.performanceInsights) {
 			cdk.Tags.of(this.cluster).add(
 				'devops-guru-default',
-				this.props.databaseName ?? 'crisiscleanup',
+				this.props.databaseName || 'crisiscleanup',
 			)
 		}
 	}
