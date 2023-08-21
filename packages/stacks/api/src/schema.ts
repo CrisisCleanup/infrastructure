@@ -88,10 +88,39 @@ export const networkConfigSchema = z.object({
 
 export interface NetworkConfig extends z.infer<typeof networkConfigSchema> {}
 
+export const cacheConfigSchema = z.object({
+	enabled: z
+		.boolean()
+		.describe('Whether to create managed elasticache instance.')
+		.default(false),
+	nodeType: z
+		.string()
+		.describe('ElastiCache Node Type')
+		.default('cache.m7g.large'),
+	engineVersion: z.string().describe('Redis Engine Version').default('7.0'),
+	nodes: z.number().describe('Number of nodes to create.').default(1),
+	replicas: z.number().describe('Number of replicas to create.').default(1),
+	clusterMode: z
+		.boolean()
+		.describe('Enable redis cluster mode.')
+		.default(false),
+	memoryAutoscalingTarget: z
+		.number()
+		.min(10)
+		.max(100)
+		.optional()
+		.nullable()
+		.describe('Configure autoscaling target for cluster.')
+		.default(null),
+})
+
+export interface CacheConfig extends z.infer<typeof cacheConfigSchema> {}
+
 export const apiStackConfigSchema = z.object({
 	eks: eksConfigSchema.default({}).describe('EKS configuration.'),
 	database: databaseConfigSchema.default({ snapshotIdentifier: '' }),
 	network: networkConfigSchema.default({}),
+	cache: cacheConfigSchema.default({}),
 	codeStarConnectionArn: z.string().optional(),
 	kubecostToken: z.string().optional(),
 })
