@@ -53,6 +53,9 @@ GithubCodePipeline.create({
 		packageName: 'stacks.maintenance-site',
 		workingDirectory: 'packages/stacks/maintenance-site',
 	})
+	.clone({
+		workflowTriggers: {},
+	})
 	.build(app)
 	.onWorkflowCall()
 	.onWorkflowDispatch()

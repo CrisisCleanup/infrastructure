@@ -3,11 +3,8 @@
 
 name: Deploy Maintenance Site
 on:
-  push:
-    branches:
-      - main
-  workflow_dispatch: {}
   workflow_call: {}
+  workflow_dispatch: {}
 jobs:
   Build-deploy-maintenance-site-synth:
     name: Synthesize
