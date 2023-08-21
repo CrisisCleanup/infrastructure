@@ -1,0 +1,288 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`CacheStack > renders expected template with cluster mode 1`] = `
+{
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "testcacheredisScalableTarget51BB6BE3": {
+      "Properties": {
+        "MaxCapacity": 1,
+        "MinCapacity": 1,
+        "ResourceId": {
+          "Fn::Join": [
+            "",
+            [
+              "replication-group/",
+              {
+                "Ref": "testcacheredistestcacheredisRedisDBB8E82A88",
+              },
+            ],
+          ],
+        },
+        "RoleARN": {
+          "Fn::GetAtt": [
+            "testcacheredisScalableTargetRoleA095D194",
+            "Arn",
+          ],
+        },
+        "ScalableDimension": "elasticache:replication-group:NodeGroups",
+        "ServiceNamespace": "elasticache",
+      },
+      "Type": "AWS::ApplicationAutoScaling::ScalableTarget",
+    },
+    "testcacheredisScalableTargetMemTracking667E3C0F": {
+      "Properties": {
+        "PolicyName": "testcachetestcacheredisScalableTargetMemTracking8543E3D8",
+        "PolicyType": "TargetTrackingScaling",
+        "ScalingTargetId": {
+          "Ref": "testcacheredisScalableTarget51BB6BE3",
+        },
+        "TargetTrackingScalingPolicyConfiguration": {
+          "PredefinedMetricSpecification": {
+            "PredefinedMetricType": "ElastiCacheDatabaseMemoryUsageCountedForEvictPercentage",
+          },
+          "TargetValue": 60,
+        },
+      },
+      "Type": "AWS::ApplicationAutoScaling::ScalingPolicy",
+    },
+    "testcacheredisScalableTargetRoleA095D194": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "application-autoscaling.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "testcacheredistestcacheredisRedisDBB8E82A88": {
+      "DependsOn": [
+        "testcacheredistestcacheredisRedisDBSubnetGroup62583AC4",
+      ],
+      "Properties": {
+        "AtRestEncryptionEnabled": true,
+        "AutoMinorVersionUpgrade": false,
+        "CacheNodeType": "cache.m7g.large",
+        "CacheParameterGroupName": "default.redis7.cluster.on",
+        "CacheSubnetGroupName": "RedisDBSubnetGroup",
+        "Engine": "Redis",
+        "EngineVersion": "7.0",
+        "MultiAZEnabled": false,
+        "NumNodeGroups": 1,
+        "ReplicasPerNodeGroup": 3,
+        "ReplicationGroupDescription": "RedisDB setup by CDK",
+        "SecurityGroupIds": [
+          {
+            "Fn::GetAtt": [
+              "testcachesecuritygroup6F4AC382",
+              "GroupId",
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::ElastiCache::ReplicationGroup",
+    },
+    "testcacheredistestcacheredisRedisDBSubnetGroup62583AC4": {
+      "Properties": {
+        "CacheSubnetGroupName": "RedisDBSubnetGroup",
+        "Description": "RedisDB Subnet Group",
+        "SubnetIds": [
+          {
+            "Fn::ImportValue": "test-vpc:ExportsOutputReftestvpcPrivateSubnet1Subnet865FB50A19DF49CF",
+          },
+          {
+            "Fn::ImportValue": "test-vpc:ExportsOutputReftestvpcPrivateSubnet2Subnet23D3396F45FDAD97",
+          },
+        ],
+      },
+      "Type": "AWS::ElastiCache::SubnetGroup",
+    },
+    "testcachesecuritygroup6F4AC382": {
+      "Properties": {
+        "GroupDescription": "Security group for RedisDB",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": {
+              "Fn::ImportValue": "test-vpc:ExportsOutputFnGetAtttestvpc8985080ECidrBlockEB7C13CD",
+            },
+            "Description": "Egress within VPC",
+            "FromPort": 0,
+            "IpProtocol": "tcp",
+            "ToPort": 65535,
+          },
+        ],
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": {
+              "Fn::ImportValue": "test-vpc:ExportsOutputFnGetAtttestvpc8985080ECidrBlockEB7C13CD",
+            },
+            "Description": "Ingress within VPC",
+            "FromPort": 6379,
+            "IpProtocol": "tcp",
+            "ToPort": 6379,
+          },
+        ],
+        "VpcId": {
+          "Fn::ImportValue": "test-vpc:ExportsOutputReftestvpc8985080E5120E245",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`CacheStack > renders expected template with defaults 1`] = `
+{
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "testcacheredistestcacheredisRedisDBB8E82A88": {
+      "DependsOn": [
+        "testcacheredistestcacheredisRedisDBSubnetGroup62583AC4",
+      ],
+      "Properties": {
+        "AtRestEncryptionEnabled": true,
+        "AutoMinorVersionUpgrade": false,
+        "CacheNodeType": "cache.m7g.large",
+        "CacheParameterGroupName": "default.redis7",
+        "CacheSubnetGroupName": "RedisDBSubnetGroup",
+        "Engine": "Redis",
+        "EngineVersion": "7.0",
+        "MultiAZEnabled": false,
+        "NumNodeGroups": 1,
+        "ReplicasPerNodeGroup": 1,
+        "ReplicationGroupDescription": "RedisDB setup by CDK",
+        "SecurityGroupIds": [
+          {
+            "Fn::GetAtt": [
+              "testcachesecuritygroup6F4AC382",
+              "GroupId",
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::ElastiCache::ReplicationGroup",
+    },
+    "testcacheredistestcacheredisRedisDBSubnetGroup62583AC4": {
+      "Properties": {
+        "CacheSubnetGroupName": "RedisDBSubnetGroup",
+        "Description": "RedisDB Subnet Group",
+        "SubnetIds": [
+          {
+            "Fn::ImportValue": "test-vpc:ExportsOutputReftestvpcPrivateSubnet1Subnet865FB50A19DF49CF",
+          },
+          {
+            "Fn::ImportValue": "test-vpc:ExportsOutputReftestvpcPrivateSubnet2Subnet23D3396F45FDAD97",
+          },
+        ],
+      },
+      "Type": "AWS::ElastiCache::SubnetGroup",
+    },
+    "testcachesecuritygroup6F4AC382": {
+      "Properties": {
+        "GroupDescription": "Security group for RedisDB",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": {
+              "Fn::ImportValue": "test-vpc:ExportsOutputFnGetAtttestvpc8985080ECidrBlockEB7C13CD",
+            },
+            "Description": "Egress within VPC",
+            "FromPort": 0,
+            "IpProtocol": "tcp",
+            "ToPort": 65535,
+          },
+        ],
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": {
+              "Fn::ImportValue": "test-vpc:ExportsOutputFnGetAtttestvpc8985080ECidrBlockEB7C13CD",
+            },
+            "Description": "Ingress within VPC",
+            "FromPort": 6379,
+            "IpProtocol": "tcp",
+            "ToPort": 6379,
+          },
+        ],
+        "VpcId": {
+          "Fn::ImportValue": "test-vpc:ExportsOutputReftestvpc8985080E5120E245",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;
