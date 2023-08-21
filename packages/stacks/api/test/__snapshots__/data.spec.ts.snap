@@ -1,0 +1,2741 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`DataStack > renders expected template with defaults 1`] = `
+{
+  "Outputs": {
+    "testdatabasebastiontestdatabasebastionbastionBastionHostIdAC554CEA": {
+      "Description": "Instance ID of the bastion host. Use this to connect via SSM Session Manager",
+      "Value": {
+        "Ref": "testdatabasebastiontestdatabasebastionbastion2B19A139",
+      },
+    },
+  },
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+    "SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amikernel510hvmarm64gp2C96584B6F00A464EAD1953AFF4B05118Parameter": {
+      "Default": "/aws/service/ami-amazon-linux-latest/amzn2-ami-kernel-5.10-hvm-arm64-gp2",
+      "Type": "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>",
+    },
+  },
+  "Resources": {
+    "EC2KeyNameManagerLambdaBE629145": {
+      "DependsOn": [
+        "EC2KeyPairManagerRoleDefaultPolicy04E9D0A2",
+        "EC2KeyPairManagerRoleB243C519",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+          },
+          "S3Key": "4b53adc667dcab419bec9e03553dce125d10f1d9c6ac1d2c082001b9332f150f.zip",
+        },
+        "Description": "Custom CFN resource: Manage EC2 Key Pairs",
+        "FunctionName": "test-database-CFN-Resource-Custom-EC2-Key-Pair",
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "EC2KeyPairManagerRoleB243C519",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs14.x",
+        "Timeout": 180,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "EC2KeyPairManagerPolicyEBBC1576": {
+      "Properties": {
+        "Description": "Used by Lambda CFN-Resource-Custom-EC2-Key-Pair, which is a custom CFN resource, managing EC2 Key Pairs",
+        "ManagedPolicyName": "test-database-CFN-Resource-Custom-EC2-Key-Pair",
+        "Path": "/",
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "ec2:DescribeKeyPairs",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "ec2:CreateKeyPair",
+                "ec2:CreateTags",
+                "ec2:ImportKeyPair",
+              ],
+              "Condition": {
+                "StringLike": {
+                  "aws:RequestTag/CreatedByCfnCustomResource": "CFN::Resource::Custom::EC2-Key-Pair",
+                },
+              },
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":ec2:*:*:key-pair/*",
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": [
+                "ec2:CreateTags",
+                "ec2:DeleteKeyPair",
+                "ec2:DeleteTags",
+              ],
+              "Condition": {
+                "StringLike": {
+                  "ec2:ResourceTag/CreatedByCfnCustomResource": "CFN::Resource::Custom::EC2-Key-Pair",
+                },
+              },
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":ec2:*:*:key-pair/*",
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": "secretsmanager:ListSecrets",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "secretsmanager:CreateSecret",
+                "secretsmanager:TagResource",
+              ],
+              "Condition": {
+                "StringLike": {
+                  "aws:RequestTag/CreatedByCfnCustomResource": "CFN::Resource::Custom::EC2-Key-Pair",
+                },
+              },
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "secretsmanager:DeleteResourcePolicy",
+                "secretsmanager:DeleteSecret",
+                "secretsmanager:DescribeSecret",
+                "secretsmanager:GetResourcePolicy",
+                "secretsmanager:GetSecretValue",
+                "secretsmanager:ListSecretVersionIds",
+                "secretsmanager:PutResourcePolicy",
+                "secretsmanager:PutSecretValue",
+                "secretsmanager:RestoreSecret",
+                "secretsmanager:UntagResource",
+                "secretsmanager:UpdateSecret",
+                "secretsmanager:UpdateSecretVersionStage",
+              ],
+              "Condition": {
+                "StringLike": {
+                  "secretsmanager:ResourceTag/CreatedByCfnCustomResource": "CFN::Resource::Custom::EC2-Key-Pair",
+                },
+              },
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::ManagedPolicy",
+    },
+    "EC2KeyPairManagerRoleB243C519": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Description": "Used by Lambda CFN-Resource-Custom-EC2-Key-Pair, which is a custom CFN resource, managing EC2 Key Pairs",
+        "ManagedPolicyArns": [
+          {
+            "Ref": "EC2KeyPairManagerPolicyEBBC1576",
+          },
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+        "RoleName": "test-database-CFN-Resource-Custom-EC2-Key-Pair",
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "EC2KeyPairManagerRoleDefaultPolicy04E9D0A2": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "kms:Decrypt",
+                "kms:Encrypt",
+                "kms:ReEncrypt*",
+                "kms:GenerateDataKey*",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "testdatabasedatabasekeyC133150D",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "EC2KeyPairManagerRoleDefaultPolicy04E9D0A2",
+        "Roles": [
+          {
+            "Ref": "EC2KeyPairManagerRoleB243C519",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A": {
+      "DependsOn": [
+        "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB",
+        "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+          },
+          "S3Key": "5cc92ed0cea39e2b8de2dbc527dfb5980a3af9564bd1084d840b9787c7d0467e.zip",
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs18.x",
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "logs:PutRetentionPolicy",
+                "logs:DeleteRetentionPolicy",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB",
+        "Roles": [
+          {
+            "Ref": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "testdatabasebastiontestdatabasebastionbastion2B19A139": {
+      "DependsOn": [
+        "testdatabasebastiontestdatabasebastionbastionInstanceRoleDefaultPolicy93B7A917",
+        "testdatabasebastiontestdatabasebastionbastionInstanceRoleCEBCE6C1",
+      ],
+      "Properties": {
+        "AvailabilityZone": {
+          "Fn::Select": [
+            0,
+            {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+        "IamInstanceProfile": {
+          "Ref": "testdatabasebastiontestdatabasebastionbastionInstanceProfile9E4C93C9",
+        },
+        "ImageId": {
+          "Ref": "SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amikernel510hvmarm64gp2C96584B6F00A464EAD1953AFF4B05118Parameter",
+        },
+        "InstanceType": "t4g.nano",
+        "KeyName": {
+          "Fn::GetAtt": [
+            "testdatabasebastiontestdatabasebastionkeypairEC2KeyPairdatabasebastionkeypair915B0D0D",
+            "KeyPairName",
+          ],
+        },
+        "SecurityGroupIds": [
+          {
+            "Fn::GetAtt": [
+              "testdatabasebastiontestdatabasebastionsecuritygroupE303157D",
+              "GroupId",
+            ],
+          },
+        ],
+        "SubnetId": {
+          "Fn::ImportValue": "test-vpc:ExportsOutputReftestvpcPublicSubnet1Subnet01CF7554F3858355",
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "BastionHost",
+          },
+        ],
+        "UserData": {
+          "Fn::Base64": "#!/bin/bash",
+        },
+      },
+      "Type": "AWS::EC2::Instance",
+    },
+    "testdatabasebastiontestdatabasebastionbastionInstanceProfile9E4C93C9": {
+      "Properties": {
+        "Roles": [
+          {
+            "Ref": "testdatabasebastiontestdatabasebastionbastionInstanceRoleCEBCE6C1",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::InstanceProfile",
+    },
+    "testdatabasebastiontestdatabasebastionbastionInstanceRoleCEBCE6C1": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ec2.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "BastionHost",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "testdatabasebastiontestdatabasebastionbastionInstanceRoleDefaultPolicy93B7A917": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "ssmmessages:*",
+                "ssm:UpdateInstanceInformation",
+                "ec2messages:*",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "testdatabasebastiontestdatabasebastionbastionInstanceRoleDefaultPolicy93B7A917",
+        "Roles": [
+          {
+            "Ref": "testdatabasebastiontestdatabasebastionbastionInstanceRoleCEBCE6C1",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "testdatabasebastiontestdatabasebastionkeypairEC2KeyPairdatabasebastionkeypair915B0D0D": {
+      "DeletionPolicy": "Delete",
+      "DependsOn": [
+        "EC2KeyPairManagerRoleDefaultPolicy04E9D0A2",
+        "EC2KeyPairManagerRoleB243C519",
+        "testdatabasedatabasekeyAliasDCEA218D",
+        "testdatabasedatabasekeyC133150D",
+      ],
+      "Properties": {
+        "Description": "SSH key pair for bastion host",
+        "ExposePublicKey": false,
+        "KmsPrivate": {
+          "Fn::GetAtt": [
+            "testdatabasedatabasekeyC133150D",
+            "Arn",
+          ],
+        },
+        "KmsPublic": {
+          "Fn::GetAtt": [
+            "testdatabasedatabasekeyC133150D",
+            "Arn",
+          ],
+        },
+        "Name": "database/bastion/key-pair",
+        "PublicKey": "",
+        "PublicKeyFormat": "OPENSSH",
+        "RemoveKeySecretsAfterDays": 0,
+        "SecretPrefix": "ec2-ssh-key/",
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "EC2KeyNameManagerLambdaBE629145",
+            "Arn",
+          ],
+        },
+        "StackName": "test-database",
+        "StorePublicKey": true,
+        "Tags": {
+          "CreatedByCfnCustomResource": "CFN::Resource::Custom::EC2-Key-Pair",
+        },
+      },
+      "Type": "Custom::EC2-Key-Pair",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "testdatabasebastiontestdatabasebastionprefixlistED69FE4F": {
+      "Properties": {
+        "AddressFamily": "IPv4",
+        "Entries": [],
+        "MaxEntries": 50,
+        "PrefixListName": "testdatabasetestdatabasebastiontestdatabasebastionprefixlist671CB0A5",
+      },
+      "Type": "AWS::EC2::PrefixList",
+    },
+    "testdatabasebastiontestdatabasebastionsecuritygroupE303157D": {
+      "Properties": {
+        "GroupDescription": "Security group for bastion host",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "VpcId": {
+          "Fn::ImportValue": "test-vpc:ExportsOutputReftestvpc8985080E5120E245",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "testdatabasebastiontestdatabasebastionsecuritygroupfromIndirectPeer222D378EB7C": {
+      "Properties": {
+        "Description": "SSH access",
+        "FromPort": 22,
+        "GroupId": {
+          "Fn::GetAtt": [
+            "testdatabasebastiontestdatabasebastionsecuritygroupE303157D",
+            "GroupId",
+          ],
+        },
+        "IpProtocol": "tcp",
+        "SourcePrefixListId": {
+          "Fn::GetAtt": [
+            "testdatabasebastiontestdatabasebastionprefixlistED69FE4F",
+            "PrefixListId",
+          ],
+        },
+        "ToPort": 22,
+      },
+      "Type": "AWS::EC2::SecurityGroupIngress",
+    },
+    "testdatabasebastiontestdatabasebastionsecuritygroupfromIndirectPeer227D6EA649": {
+      "Properties": {
+        "Description": "Bastion Allow list.",
+        "FromPort": 22,
+        "GroupId": {
+          "Fn::GetAtt": [
+            "testdatabasebastiontestdatabasebastionsecuritygroupE303157D",
+            "GroupId",
+          ],
+        },
+        "IpProtocol": "tcp",
+        "SourcePrefixListId": {
+          "Fn::GetAtt": [
+            "testdatabasebastiontestdatabasebastionprefixlistED69FE4F",
+            "PrefixListId",
+          ],
+        },
+        "ToPort": 22,
+      },
+      "Type": "AWS::EC2::SecurityGroupIngress",
+    },
+    "testdatabasecredentialssecret1559329A": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "GenerateSecretString": {
+          "ExcludePunctuation": true,
+          "GenerateStringKey": "password",
+          "IncludeSpace": false,
+          "SecretStringTemplate": "{\\"username\\":\\"postgres\\"}",
+        },
+      },
+      "Type": "AWS::SecretsManager::Secret",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "testdatabasedatabasekeyAliasDCEA218D": {
+      "Properties": {
+        "AliasName": "alias/database-key",
+        "TargetKeyId": {
+          "Fn::GetAtt": [
+            "testdatabasedatabasekeyC133150D",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::KMS::Alias",
+    },
+    "testdatabasedatabasekeyC133150D": {
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "KeyPolicy": {
+          "Statement": [
+            {
+              "Action": "kms:*",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":iam::",
+                      {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":root",
+                    ],
+                  ],
+                },
+              },
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::KMS::Key",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "testdatabasedatabasetestdatabasedatabasecluster5767CD41": {
+      "DeletionPolicy": "Snapshot",
+      "Properties": {
+        "BackupRetentionPeriod": 1,
+        "CopyTagsToSnapshot": true,
+        "DBClusterParameterGroupName": "default.aurora-postgresql15",
+        "DBSubnetGroupName": {
+          "Ref": "testdatabasedatabasetestdatabasedatabaseclusterSubnets5240EB31",
+        },
+        "DeletionProtection": false,
+        "EnableCloudwatchLogsExports": [
+          "postgresql",
+        ],
+        "EnableIAMDatabaseAuthentication": true,
+        "Engine": "aurora-postgresql",
+        "EngineVersion": "15.3",
+        "KmsKeyId": {
+          "Fn::GetAtt": [
+            "testdatabasedatabasekeyC133150D",
+            "Arn",
+          ],
+        },
+        "MasterUserPassword": {
+          "Fn::Join": [
+            "",
+            [
+              "{{resolve:secretsmanager:",
+              {
+                "Ref": "testdatabasetestdatabasedatabasetestdatabasedatabaseclusterSnapshotSecretF8C9CC323fdaad7efa858a3daf9490cf0a702aeb",
+              },
+              ":SecretString:password::}}",
+            ],
+          ],
+        },
+        "Port": 5432,
+        "ServerlessV2ScalingConfiguration": {
+          "MaxCapacity": 1.5,
+          "MinCapacity": 0.5,
+        },
+        "SnapshotIdentifier": "test-identifier",
+        "StorageEncrypted": true,
+        "StorageType": "aurora",
+        "VpcSecurityGroupIds": [
+          {
+            "Fn::GetAtt": [
+              "testdatabasedatabasetestdatabasedatabasesecuritygroup6CD4AEDA",
+              "GroupId",
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::RDS::DBCluster",
+      "UpdateReplacePolicy": "Snapshot",
+    },
+    "testdatabasedatabasetestdatabasedatabaseclusterLogRetentionpostgresqlBF10E9FE": {
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/rds/cluster/",
+              {
+                "Ref": "testdatabasedatabasetestdatabasedatabasecluster5767CD41",
+              },
+              "/postgresql",
+            ],
+          ],
+        },
+        "RetentionInDays": 30,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
+    },
+    "testdatabasedatabasetestdatabasedatabaseclusterSecret1C52C9C8": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "Description": {
+          "Fn::Join": [
+            "",
+            [
+              "Generated by the CDK for stack: ",
+              {
+                "Ref": "AWS::StackName",
+              },
+            ],
+          ],
+        },
+        "GenerateSecretString": {
+          "ExcludeCharacters": " %+~\`#$&*()|[]{}:;<>?!'/@\\"\\\\",
+          "GenerateStringKey": "password",
+          "PasswordLength": 30,
+          "SecretStringTemplate": "{\\"username\\":\\"postgres\\"}",
+        },
+      },
+      "Type": "AWS::SecretsManager::Secret",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "testdatabasedatabasetestdatabasedatabaseclusterSecretAttachmentE5A116CE": {
+      "Properties": {
+        "SecretId": {
+          "Ref": "testdatabasedatabasetestdatabasedatabaseclusterSecret1C52C9C8",
+        },
+        "TargetId": {
+          "Ref": "testdatabasedatabasetestdatabasedatabasecluster5767CD41",
+        },
+        "TargetType": "AWS::RDS::DBCluster",
+      },
+      "Type": "AWS::SecretsManager::SecretTargetAttachment",
+    },
+    "testdatabasedatabasetestdatabasedatabaseclusterSnapshotSecretAttachmentBEC9F61F": {
+      "Properties": {
+        "SecretId": {
+          "Ref": "testdatabasetestdatabasedatabasetestdatabasedatabaseclusterSnapshotSecretF8C9CC323fdaad7efa858a3daf9490cf0a702aeb",
+        },
+        "TargetId": {
+          "Ref": "testdatabasedatabasetestdatabasedatabasecluster5767CD41",
+        },
+        "TargetType": "AWS::RDS::DBCluster",
+      },
+      "Type": "AWS::SecretsManager::SecretTargetAttachment",
+    },
+    "testdatabasedatabasetestdatabasedatabaseclusterSubnets5240EB31": {
+      "Properties": {
+        "DBSubnetGroupDescription": "Subnets for test-database-database-cluster database",
+        "SubnetIds": [
+          {
+            "Fn::ImportValue": "test-vpc:ExportsOutputReftestvpcPrivateSubnet1Subnet865FB50A19DF49CF",
+          },
+          {
+            "Fn::ImportValue": "test-vpc:ExportsOutputReftestvpcPrivateSubnet2Subnet23D3396F45FDAD97",
+          },
+        ],
+      },
+      "Type": "AWS::RDS::DBSubnetGroup",
+    },
+    "testdatabasedatabasetestdatabasedatabaseclustertestdatabasedatabaseclusterwriter76AF6C0A": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "DBClusterIdentifier": {
+          "Ref": "testdatabasedatabasetestdatabasedatabasecluster5767CD41",
+        },
+        "DBInstanceClass": "db.serverless",
+        "Engine": "aurora-postgresql",
+        "PromotionTier": 0,
+        "PubliclyAccessible": false,
+      },
+      "Type": "AWS::RDS::DBInstance",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "testdatabasedatabasetestdatabasedatabasesecuritygroup6CD4AEDA": {
+      "Properties": {
+        "GroupDescription": "test-database/test-database-database/test-database-database-security-group",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": {
+              "Fn::ImportValue": "test-vpc:ExportsOutputFnGetAtttestvpc8985080ECidrBlockEB7C13CD",
+            },
+            "Description": "Ingress within VPC",
+            "FromPort": 5432,
+            "IpProtocol": "tcp",
+            "ToPort": 5432,
+          },
+        ],
+        "VpcId": {
+          "Fn::ImportValue": "test-vpc:ExportsOutputReftestvpc8985080E5120E245",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "testdatabasedatabasetestdatabasedatabasesecuritygroupfromtestdatabasetestdatabasebastiontestdatabasebastionsecuritygroup7992741A5432647FADC9": {
+      "Properties": {
+        "Description": "Allow inbound from bastion host",
+        "FromPort": 5432,
+        "GroupId": {
+          "Fn::GetAtt": [
+            "testdatabasedatabasetestdatabasedatabasesecuritygroup6CD4AEDA",
+            "GroupId",
+          ],
+        },
+        "IpProtocol": "tcp",
+        "SourceSecurityGroupId": {
+          "Fn::GetAtt": [
+            "testdatabasebastiontestdatabasebastionsecuritygroupE303157D",
+            "GroupId",
+          ],
+        },
+        "ToPort": 5432,
+      },
+      "Type": "AWS::EC2::SecurityGroupIngress",
+    },
+    "testdatabasetestdatabasedatabasetestdatabasedatabaseclusterSnapshotSecretF8C9CC323fdaad7efa858a3daf9490cf0a702aeb": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "Description": {
+          "Fn::Join": [
+            "",
+            [
+              "Generated by the CDK for stack: ",
+              {
+                "Ref": "AWS::StackName",
+              },
+            ],
+          ],
+        },
+        "GenerateSecretString": {
+          "ExcludeCharacters": " %+~\`#$&*()|[]{}:;<>?!'/@\\"\\\\",
+          "GenerateStringKey": "password",
+          "PasswordLength": 30,
+          "SecretStringTemplate": "{\\"username\\":\\"postgres\\"}",
+        },
+      },
+      "Type": "AWS::SecretsManager::Secret",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`DataStack > renders expected template with multiple replicas 1`] = `
+{
+  "Outputs": {
+    "testdatabasereplicasbastiontestdatabasereplicasbastionbastionBastionHostId4FC0F7DE": {
+      "Description": "Instance ID of the bastion host. Use this to connect via SSM Session Manager",
+      "Value": {
+        "Ref": "testdatabasereplicasbastiontestdatabasereplicasbastionbastion1EB47433",
+      },
+    },
+  },
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+    "SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amikernel510hvmarm64gp2C96584B6F00A464EAD1953AFF4B05118Parameter": {
+      "Default": "/aws/service/ami-amazon-linux-latest/amzn2-ami-kernel-5.10-hvm-arm64-gp2",
+      "Type": "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>",
+    },
+  },
+  "Resources": {
+    "EC2KeyNameManagerLambdaBE629145": {
+      "DependsOn": [
+        "EC2KeyPairManagerRoleDefaultPolicy04E9D0A2",
+        "EC2KeyPairManagerRoleB243C519",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+          },
+          "S3Key": "4b53adc667dcab419bec9e03553dce125d10f1d9c6ac1d2c082001b9332f150f.zip",
+        },
+        "Description": "Custom CFN resource: Manage EC2 Key Pairs",
+        "FunctionName": "test-database-replicas-CFN-Resource-Custom-EC2-Key-Pair",
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "EC2KeyPairManagerRoleB243C519",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs14.x",
+        "Timeout": 180,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "EC2KeyPairManagerPolicyEBBC1576": {
+      "Properties": {
+        "Description": "Used by Lambda CFN-Resource-Custom-EC2-Key-Pair, which is a custom CFN resource, managing EC2 Key Pairs",
+        "ManagedPolicyName": "test-database-replicas-CFN-Resource-Custom-EC2-Key-Pair",
+        "Path": "/",
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "ec2:DescribeKeyPairs",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "ec2:CreateKeyPair",
+                "ec2:CreateTags",
+                "ec2:ImportKeyPair",
+              ],
+              "Condition": {
+                "StringLike": {
+                  "aws:RequestTag/CreatedByCfnCustomResource": "CFN::Resource::Custom::EC2-Key-Pair",
+                },
+              },
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":ec2:*:*:key-pair/*",
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": [
+                "ec2:CreateTags",
+                "ec2:DeleteKeyPair",
+                "ec2:DeleteTags",
+              ],
+              "Condition": {
+                "StringLike": {
+                  "ec2:ResourceTag/CreatedByCfnCustomResource": "CFN::Resource::Custom::EC2-Key-Pair",
+                },
+              },
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":ec2:*:*:key-pair/*",
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": "secretsmanager:ListSecrets",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "secretsmanager:CreateSecret",
+                "secretsmanager:TagResource",
+              ],
+              "Condition": {
+                "StringLike": {
+                  "aws:RequestTag/CreatedByCfnCustomResource": "CFN::Resource::Custom::EC2-Key-Pair",
+                },
+              },
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "secretsmanager:DeleteResourcePolicy",
+                "secretsmanager:DeleteSecret",
+                "secretsmanager:DescribeSecret",
+                "secretsmanager:GetResourcePolicy",
+                "secretsmanager:GetSecretValue",
+                "secretsmanager:ListSecretVersionIds",
+                "secretsmanager:PutResourcePolicy",
+                "secretsmanager:PutSecretValue",
+                "secretsmanager:RestoreSecret",
+                "secretsmanager:UntagResource",
+                "secretsmanager:UpdateSecret",
+                "secretsmanager:UpdateSecretVersionStage",
+              ],
+              "Condition": {
+                "StringLike": {
+                  "secretsmanager:ResourceTag/CreatedByCfnCustomResource": "CFN::Resource::Custom::EC2-Key-Pair",
+                },
+              },
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::ManagedPolicy",
+    },
+    "EC2KeyPairManagerRoleB243C519": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Description": "Used by Lambda CFN-Resource-Custom-EC2-Key-Pair, which is a custom CFN resource, managing EC2 Key Pairs",
+        "ManagedPolicyArns": [
+          {
+            "Ref": "EC2KeyPairManagerPolicyEBBC1576",
+          },
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+        "RoleName": "test-database-replicas-CFN-Resource-Custom-EC2-Key-Pair",
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "EC2KeyPairManagerRoleDefaultPolicy04E9D0A2": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "kms:Decrypt",
+                "kms:Encrypt",
+                "kms:ReEncrypt*",
+                "kms:GenerateDataKey*",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "testdatabasereplicasdatabasekeyA2179978",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "EC2KeyPairManagerRoleDefaultPolicy04E9D0A2",
+        "Roles": [
+          {
+            "Ref": "EC2KeyPairManagerRoleB243C519",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A": {
+      "DependsOn": [
+        "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB",
+        "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+          },
+          "S3Key": "5cc92ed0cea39e2b8de2dbc527dfb5980a3af9564bd1084d840b9787c7d0467e.zip",
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs18.x",
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "logs:PutRetentionPolicy",
+                "logs:DeleteRetentionPolicy",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB",
+        "Roles": [
+          {
+            "Ref": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "testdatabasereplicasbastiontestdatabasereplicasbastionbastion1EB47433": {
+      "DependsOn": [
+        "testdatabasereplicasbastiontestdatabasereplicasbastionbastionInstanceRoleDefaultPolicyCC9D02B4",
+        "testdatabasereplicasbastiontestdatabasereplicasbastionbastionInstanceRoleF9568520",
+      ],
+      "Properties": {
+        "AvailabilityZone": {
+          "Fn::Select": [
+            0,
+            {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+        "IamInstanceProfile": {
+          "Ref": "testdatabasereplicasbastiontestdatabasereplicasbastionbastionInstanceProfile7D96734B",
+        },
+        "ImageId": {
+          "Ref": "SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amikernel510hvmarm64gp2C96584B6F00A464EAD1953AFF4B05118Parameter",
+        },
+        "InstanceType": "t4g.nano",
+        "KeyName": {
+          "Fn::GetAtt": [
+            "testdatabasereplicasbastiontestdatabasereplicasbastionkeypairEC2KeyPairdatabasebastionkeypair9B12AD17",
+            "KeyPairName",
+          ],
+        },
+        "SecurityGroupIds": [
+          {
+            "Fn::GetAtt": [
+              "testdatabasereplicasbastiontestdatabasereplicasbastionsecuritygroup9F547972",
+              "GroupId",
+            ],
+          },
+        ],
+        "SubnetId": {
+          "Fn::ImportValue": "test-vpc:ExportsOutputReftestvpcPublicSubnet1Subnet01CF7554F3858355",
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "BastionHost",
+          },
+        ],
+        "UserData": {
+          "Fn::Base64": "#!/bin/bash",
+        },
+      },
+      "Type": "AWS::EC2::Instance",
+    },
+    "testdatabasereplicasbastiontestdatabasereplicasbastionbastionInstanceProfile7D96734B": {
+      "Properties": {
+        "Roles": [
+          {
+            "Ref": "testdatabasereplicasbastiontestdatabasereplicasbastionbastionInstanceRoleF9568520",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::InstanceProfile",
+    },
+    "testdatabasereplicasbastiontestdatabasereplicasbastionbastionInstanceRoleDefaultPolicyCC9D02B4": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "ssmmessages:*",
+                "ssm:UpdateInstanceInformation",
+                "ec2messages:*",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "testdatabasereplicasbastiontestdatabasereplicasbastionbastionInstanceRoleDefaultPolicyCC9D02B4",
+        "Roles": [
+          {
+            "Ref": "testdatabasereplicasbastiontestdatabasereplicasbastionbastionInstanceRoleF9568520",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "testdatabasereplicasbastiontestdatabasereplicasbastionbastionInstanceRoleF9568520": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ec2.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "BastionHost",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "testdatabasereplicasbastiontestdatabasereplicasbastionkeypairEC2KeyPairdatabasebastionkeypair9B12AD17": {
+      "DeletionPolicy": "Delete",
+      "DependsOn": [
+        "EC2KeyPairManagerRoleDefaultPolicy04E9D0A2",
+        "EC2KeyPairManagerRoleB243C519",
+        "testdatabasereplicasdatabasekeyAliasA24DF542",
+        "testdatabasereplicasdatabasekeyA2179978",
+      ],
+      "Properties": {
+        "Description": "SSH key pair for bastion host",
+        "ExposePublicKey": false,
+        "KmsPrivate": {
+          "Fn::GetAtt": [
+            "testdatabasereplicasdatabasekeyA2179978",
+            "Arn",
+          ],
+        },
+        "KmsPublic": {
+          "Fn::GetAtt": [
+            "testdatabasereplicasdatabasekeyA2179978",
+            "Arn",
+          ],
+        },
+        "Name": "database/bastion/key-pair",
+        "PublicKey": "",
+        "PublicKeyFormat": "OPENSSH",
+        "RemoveKeySecretsAfterDays": 0,
+        "SecretPrefix": "ec2-ssh-key/",
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "EC2KeyNameManagerLambdaBE629145",
+            "Arn",
+          ],
+        },
+        "StackName": "test-database-replicas",
+        "StorePublicKey": true,
+        "Tags": {
+          "CreatedByCfnCustomResource": "CFN::Resource::Custom::EC2-Key-Pair",
+        },
+      },
+      "Type": "Custom::EC2-Key-Pair",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "testdatabasereplicasbastiontestdatabasereplicasbastionprefixlist8C0085A4": {
+      "Properties": {
+        "AddressFamily": "IPv4",
+        "Entries": [],
+        "MaxEntries": 50,
+        "PrefixListName": "testdatabasereplicastestdatabasereplicasbastiontestdatabasereplicasbastionprefixlistD5C04070",
+      },
+      "Type": "AWS::EC2::PrefixList",
+    },
+    "testdatabasereplicasbastiontestdatabasereplicasbastionsecuritygroup9F547972": {
+      "Properties": {
+        "GroupDescription": "Security group for bastion host",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "VpcId": {
+          "Fn::ImportValue": "test-vpc:ExportsOutputReftestvpc8985080E5120E245",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "testdatabasereplicasbastiontestdatabasereplicasbastionsecuritygroupfromIndirectPeer222BE0CDCAC": {
+      "Properties": {
+        "Description": "SSH access",
+        "FromPort": 22,
+        "GroupId": {
+          "Fn::GetAtt": [
+            "testdatabasereplicasbastiontestdatabasereplicasbastionsecuritygroup9F547972",
+            "GroupId",
+          ],
+        },
+        "IpProtocol": "tcp",
+        "SourcePrefixListId": {
+          "Fn::GetAtt": [
+            "testdatabasereplicasbastiontestdatabasereplicasbastionprefixlist8C0085A4",
+            "PrefixListId",
+          ],
+        },
+        "ToPort": 22,
+      },
+      "Type": "AWS::EC2::SecurityGroupIngress",
+    },
+    "testdatabasereplicasbastiontestdatabasereplicasbastionsecuritygroupfromIndirectPeer228981992B": {
+      "Properties": {
+        "Description": "Bastion Allow list.",
+        "FromPort": 22,
+        "GroupId": {
+          "Fn::GetAtt": [
+            "testdatabasereplicasbastiontestdatabasereplicasbastionsecuritygroup9F547972",
+            "GroupId",
+          ],
+        },
+        "IpProtocol": "tcp",
+        "SourcePrefixListId": {
+          "Fn::GetAtt": [
+            "testdatabasereplicasbastiontestdatabasereplicasbastionprefixlist8C0085A4",
+            "PrefixListId",
+          ],
+        },
+        "ToPort": 22,
+      },
+      "Type": "AWS::EC2::SecurityGroupIngress",
+    },
+    "testdatabasereplicascredentialssecret9E87C240": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "GenerateSecretString": {
+          "ExcludePunctuation": true,
+          "GenerateStringKey": "password",
+          "IncludeSpace": false,
+          "SecretStringTemplate": "{\\"username\\":\\"postgres\\"}",
+        },
+      },
+      "Type": "AWS::SecretsManager::Secret",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "testdatabasereplicasdatabasekeyA2179978": {
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "KeyPolicy": {
+          "Statement": [
+            {
+              "Action": "kms:*",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":iam::",
+                      {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":root",
+                    ],
+                  ],
+                },
+              },
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::KMS::Key",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "testdatabasereplicasdatabasekeyAliasA24DF542": {
+      "Properties": {
+        "AliasName": "alias/database-key",
+        "TargetKeyId": {
+          "Fn::GetAtt": [
+            "testdatabasereplicasdatabasekeyA2179978",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::KMS::Alias",
+    },
+    "testdatabasereplicasdatabasetestdatabasereplicasdatabasecluster444BA6C8": {
+      "DeletionPolicy": "Snapshot",
+      "Properties": {
+        "BackupRetentionPeriod": 1,
+        "CopyTagsToSnapshot": true,
+        "DBClusterParameterGroupName": "default.aurora-postgresql15",
+        "DBSubnetGroupName": {
+          "Ref": "testdatabasereplicasdatabasetestdatabasereplicasdatabaseclusterSubnets3BBCF632",
+        },
+        "DeletionProtection": false,
+        "EnableCloudwatchLogsExports": [
+          "postgresql",
+        ],
+        "EnableIAMDatabaseAuthentication": true,
+        "Engine": "aurora-postgresql",
+        "EngineVersion": "15.3",
+        "KmsKeyId": {
+          "Fn::GetAtt": [
+            "testdatabasereplicasdatabasekeyA2179978",
+            "Arn",
+          ],
+        },
+        "MasterUserPassword": {
+          "Fn::Join": [
+            "",
+            [
+              "{{resolve:secretsmanager:",
+              {
+                "Ref": "testdatabasereplicastestdatabasereplicasdatabasetestdatabasereplicasdatabaseclusterSnapshotSecretC3A7847B3fdaad7efa858a3daf9490cf0a702aeb",
+              },
+              ":SecretString:password::}}",
+            ],
+          ],
+        },
+        "Port": 5432,
+        "ServerlessV2ScalingConfiguration": {
+          "MaxCapacity": 1.5,
+          "MinCapacity": 0.5,
+        },
+        "SnapshotIdentifier": "test-identifier",
+        "StorageEncrypted": true,
+        "StorageType": "aurora",
+        "VpcSecurityGroupIds": [
+          {
+            "Fn::GetAtt": [
+              "testdatabasereplicasdatabasetestdatabasereplicasdatabasesecuritygroupF326E969",
+              "GroupId",
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::RDS::DBCluster",
+      "UpdateReplacePolicy": "Snapshot",
+    },
+    "testdatabasereplicasdatabasetestdatabasereplicasdatabaseclusterLogRetentionpostgresql3E2F28E2": {
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/rds/cluster/",
+              {
+                "Ref": "testdatabasereplicasdatabasetestdatabasereplicasdatabasecluster444BA6C8",
+              },
+              "/postgresql",
+            ],
+          ],
+        },
+        "RetentionInDays": 30,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
+    },
+    "testdatabasereplicasdatabasetestdatabasereplicasdatabaseclusterSecret11F4E0AD": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "Description": {
+          "Fn::Join": [
+            "",
+            [
+              "Generated by the CDK for stack: ",
+              {
+                "Ref": "AWS::StackName",
+              },
+            ],
+          ],
+        },
+        "GenerateSecretString": {
+          "ExcludeCharacters": " %+~\`#$&*()|[]{}:;<>?!'/@\\"\\\\",
+          "GenerateStringKey": "password",
+          "PasswordLength": 30,
+          "SecretStringTemplate": "{\\"username\\":\\"postgres\\"}",
+        },
+      },
+      "Type": "AWS::SecretsManager::Secret",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "testdatabasereplicasdatabasetestdatabasereplicasdatabaseclusterSecretAttachmentD82D121D": {
+      "Properties": {
+        "SecretId": {
+          "Ref": "testdatabasereplicasdatabasetestdatabasereplicasdatabaseclusterSecret11F4E0AD",
+        },
+        "TargetId": {
+          "Ref": "testdatabasereplicasdatabasetestdatabasereplicasdatabasecluster444BA6C8",
+        },
+        "TargetType": "AWS::RDS::DBCluster",
+      },
+      "Type": "AWS::SecretsManager::SecretTargetAttachment",
+    },
+    "testdatabasereplicasdatabasetestdatabasereplicasdatabaseclusterSnapshotSecretAttachmentDCC7E5DD": {
+      "Properties": {
+        "SecretId": {
+          "Ref": "testdatabasereplicastestdatabasereplicasdatabasetestdatabasereplicasdatabaseclusterSnapshotSecretC3A7847B3fdaad7efa858a3daf9490cf0a702aeb",
+        },
+        "TargetId": {
+          "Ref": "testdatabasereplicasdatabasetestdatabasereplicasdatabasecluster444BA6C8",
+        },
+        "TargetType": "AWS::RDS::DBCluster",
+      },
+      "Type": "AWS::SecretsManager::SecretTargetAttachment",
+    },
+    "testdatabasereplicasdatabasetestdatabasereplicasdatabaseclusterSubnets3BBCF632": {
+      "Properties": {
+        "DBSubnetGroupDescription": "Subnets for test-database-replicas-database-cluster database",
+        "SubnetIds": [
+          {
+            "Fn::ImportValue": "test-vpc:ExportsOutputReftestvpcPrivateSubnet1Subnet865FB50A19DF49CF",
+          },
+          {
+            "Fn::ImportValue": "test-vpc:ExportsOutputReftestvpcPrivateSubnet2Subnet23D3396F45FDAD97",
+          },
+        ],
+      },
+      "Type": "AWS::RDS::DBSubnetGroup",
+    },
+    "testdatabasereplicasdatabasetestdatabasereplicasdatabaseclustertestdatabasereplicasdatabaseclusterreader1B0E26AD0": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "DBClusterIdentifier": {
+          "Ref": "testdatabasereplicasdatabasetestdatabasereplicasdatabasecluster444BA6C8",
+        },
+        "DBInstanceClass": "db.serverless",
+        "Engine": "aurora-postgresql",
+        "PromotionTier": 1,
+        "PubliclyAccessible": false,
+      },
+      "Type": "AWS::RDS::DBInstance",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "testdatabasereplicasdatabasetestdatabasereplicasdatabaseclustertestdatabasereplicasdatabaseclusterreader2623A5F76": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "DBClusterIdentifier": {
+          "Ref": "testdatabasereplicasdatabasetestdatabasereplicasdatabasecluster444BA6C8",
+        },
+        "DBInstanceClass": "db.serverless",
+        "Engine": "aurora-postgresql",
+        "PromotionTier": 2,
+        "PubliclyAccessible": false,
+      },
+      "Type": "AWS::RDS::DBInstance",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "testdatabasereplicasdatabasetestdatabasereplicasdatabaseclustertestdatabasereplicasdatabaseclusterreader341339E61": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "DBClusterIdentifier": {
+          "Ref": "testdatabasereplicasdatabasetestdatabasereplicasdatabasecluster444BA6C8",
+        },
+        "DBInstanceClass": "db.serverless",
+        "Engine": "aurora-postgresql",
+        "PromotionTier": 2,
+        "PubliclyAccessible": false,
+      },
+      "Type": "AWS::RDS::DBInstance",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "testdatabasereplicasdatabasetestdatabasereplicasdatabaseclustertestdatabasereplicasdatabaseclusterwriterD3F2A450": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "DBClusterIdentifier": {
+          "Ref": "testdatabasereplicasdatabasetestdatabasereplicasdatabasecluster444BA6C8",
+        },
+        "DBInstanceClass": "db.serverless",
+        "Engine": "aurora-postgresql",
+        "PromotionTier": 0,
+        "PubliclyAccessible": false,
+      },
+      "Type": "AWS::RDS::DBInstance",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "testdatabasereplicasdatabasetestdatabasereplicasdatabasesecuritygroupF326E969": {
+      "Properties": {
+        "GroupDescription": "test-database-replicas/test-database-replicas-database/test-database-replicas-database-security-group",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": {
+              "Fn::ImportValue": "test-vpc:ExportsOutputFnGetAtttestvpc8985080ECidrBlockEB7C13CD",
+            },
+            "Description": "Ingress within VPC",
+            "FromPort": 5432,
+            "IpProtocol": "tcp",
+            "ToPort": 5432,
+          },
+        ],
+        "VpcId": {
+          "Fn::ImportValue": "test-vpc:ExportsOutputReftestvpc8985080E5120E245",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "testdatabasereplicasdatabasetestdatabasereplicasdatabasesecuritygroupfromtestdatabasereplicastestdatabasereplicasbastiontestdatabasereplicasbastionsecuritygroup372ECEFA54320077E072": {
+      "Properties": {
+        "Description": "Allow inbound from bastion host",
+        "FromPort": 5432,
+        "GroupId": {
+          "Fn::GetAtt": [
+            "testdatabasereplicasdatabasetestdatabasereplicasdatabasesecuritygroupF326E969",
+            "GroupId",
+          ],
+        },
+        "IpProtocol": "tcp",
+        "SourceSecurityGroupId": {
+          "Fn::GetAtt": [
+            "testdatabasereplicasbastiontestdatabasereplicasbastionsecuritygroup9F547972",
+            "GroupId",
+          ],
+        },
+        "ToPort": 5432,
+      },
+      "Type": "AWS::EC2::SecurityGroupIngress",
+    },
+    "testdatabasereplicastestdatabasereplicasdatabasetestdatabasereplicasdatabaseclusterSnapshotSecretC3A7847B3fdaad7efa858a3daf9490cf0a702aeb": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "Description": {
+          "Fn::Join": [
+            "",
+            [
+              "Generated by the CDK for stack: ",
+              {
+                "Ref": "AWS::StackName",
+              },
+            ],
+          ],
+        },
+        "GenerateSecretString": {
+          "ExcludeCharacters": " %+~\`#$&*()|[]{}:;<>?!'/@\\"\\\\",
+          "GenerateStringKey": "password",
+          "PasswordLength": 30,
+          "SecretStringTemplate": "{\\"username\\":\\"postgres\\"}",
+        },
+      },
+      "Type": "AWS::SecretsManager::Secret",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`DataStack > renders expected template with performance insights 1`] = `
+{
+  "Outputs": {
+    "testdatabasewithinsightsbastiontestdatabasewithinsightsbastionbastionBastionHostId2E5B894A": {
+      "Description": "Instance ID of the bastion host. Use this to connect via SSM Session Manager",
+      "Value": {
+        "Ref": "testdatabasewithinsightsbastiontestdatabasewithinsightsbastionbastion65829784",
+      },
+    },
+  },
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+    "SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amikernel510hvmarm64gp2C96584B6F00A464EAD1953AFF4B05118Parameter": {
+      "Default": "/aws/service/ami-amazon-linux-latest/amzn2-ami-kernel-5.10-hvm-arm64-gp2",
+      "Type": "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>",
+    },
+  },
+  "Resources": {
+    "EC2KeyNameManagerLambdaBE629145": {
+      "DependsOn": [
+        "EC2KeyPairManagerRoleDefaultPolicy04E9D0A2",
+        "EC2KeyPairManagerRoleB243C519",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+          },
+          "S3Key": "4b53adc667dcab419bec9e03553dce125d10f1d9c6ac1d2c082001b9332f150f.zip",
+        },
+        "Description": "Custom CFN resource: Manage EC2 Key Pairs",
+        "FunctionName": "test-database-with-insights-CFN-Resource-Custom-EC2-Key-Pair",
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "EC2KeyPairManagerRoleB243C519",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs14.x",
+        "Timeout": 180,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "EC2KeyPairManagerPolicyEBBC1576": {
+      "Properties": {
+        "Description": "Used by Lambda CFN-Resource-Custom-EC2-Key-Pair, which is a custom CFN resource, managing EC2 Key Pairs",
+        "ManagedPolicyName": "test-database-with-insights-CFN-Resource-Custom-EC2-Key-Pair",
+        "Path": "/",
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "ec2:DescribeKeyPairs",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "ec2:CreateKeyPair",
+                "ec2:CreateTags",
+                "ec2:ImportKeyPair",
+              ],
+              "Condition": {
+                "StringLike": {
+                  "aws:RequestTag/CreatedByCfnCustomResource": "CFN::Resource::Custom::EC2-Key-Pair",
+                },
+              },
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":ec2:*:*:key-pair/*",
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": [
+                "ec2:CreateTags",
+                "ec2:DeleteKeyPair",
+                "ec2:DeleteTags",
+              ],
+              "Condition": {
+                "StringLike": {
+                  "ec2:ResourceTag/CreatedByCfnCustomResource": "CFN::Resource::Custom::EC2-Key-Pair",
+                },
+              },
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":ec2:*:*:key-pair/*",
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": "secretsmanager:ListSecrets",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "secretsmanager:CreateSecret",
+                "secretsmanager:TagResource",
+              ],
+              "Condition": {
+                "StringLike": {
+                  "aws:RequestTag/CreatedByCfnCustomResource": "CFN::Resource::Custom::EC2-Key-Pair",
+                },
+              },
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "secretsmanager:DeleteResourcePolicy",
+                "secretsmanager:DeleteSecret",
+                "secretsmanager:DescribeSecret",
+                "secretsmanager:GetResourcePolicy",
+                "secretsmanager:GetSecretValue",
+                "secretsmanager:ListSecretVersionIds",
+                "secretsmanager:PutResourcePolicy",
+                "secretsmanager:PutSecretValue",
+                "secretsmanager:RestoreSecret",
+                "secretsmanager:UntagResource",
+                "secretsmanager:UpdateSecret",
+                "secretsmanager:UpdateSecretVersionStage",
+              ],
+              "Condition": {
+                "StringLike": {
+                  "secretsmanager:ResourceTag/CreatedByCfnCustomResource": "CFN::Resource::Custom::EC2-Key-Pair",
+                },
+              },
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::ManagedPolicy",
+    },
+    "EC2KeyPairManagerRoleB243C519": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Description": "Used by Lambda CFN-Resource-Custom-EC2-Key-Pair, which is a custom CFN resource, managing EC2 Key Pairs",
+        "ManagedPolicyArns": [
+          {
+            "Ref": "EC2KeyPairManagerPolicyEBBC1576",
+          },
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+        "RoleName": "test-database-with-insights-CFN-Resource-Custom-EC2-Key-Pair",
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "EC2KeyPairManagerRoleDefaultPolicy04E9D0A2": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "kms:Decrypt",
+                "kms:Encrypt",
+                "kms:ReEncrypt*",
+                "kms:GenerateDataKey*",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "testdatabasewithinsightsdatabasekeyCC33B84B",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "EC2KeyPairManagerRoleDefaultPolicy04E9D0A2",
+        "Roles": [
+          {
+            "Ref": "EC2KeyPairManagerRoleB243C519",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A": {
+      "DependsOn": [
+        "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB",
+        "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+          },
+          "S3Key": "5cc92ed0cea39e2b8de2dbc527dfb5980a3af9564bd1084d840b9787c7d0467e.zip",
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs18.x",
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "logs:PutRetentionPolicy",
+                "logs:DeleteRetentionPolicy",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB",
+        "Roles": [
+          {
+            "Ref": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "testdatabasewithinsightsbastiontestdatabasewithinsightsbastionbastion65829784": {
+      "DependsOn": [
+        "testdatabasewithinsightsbastiontestdatabasewithinsightsbastionbastionInstanceRoleDefaultPolicyD72C7A03",
+        "testdatabasewithinsightsbastiontestdatabasewithinsightsbastionbastionInstanceRoleA5CB7B34",
+      ],
+      "Properties": {
+        "AvailabilityZone": {
+          "Fn::Select": [
+            0,
+            {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+        "IamInstanceProfile": {
+          "Ref": "testdatabasewithinsightsbastiontestdatabasewithinsightsbastionbastionInstanceProfile4105BD73",
+        },
+        "ImageId": {
+          "Ref": "SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amikernel510hvmarm64gp2C96584B6F00A464EAD1953AFF4B05118Parameter",
+        },
+        "InstanceType": "t4g.nano",
+        "KeyName": {
+          "Fn::GetAtt": [
+            "testdatabasewithinsightsbastiontestdatabasewithinsightsbastionkeypairEC2KeyPairdatabasebastionkeypair1B6443A6",
+            "KeyPairName",
+          ],
+        },
+        "SecurityGroupIds": [
+          {
+            "Fn::GetAtt": [
+              "testdatabasewithinsightsbastiontestdatabasewithinsightsbastionsecuritygroup4F5B9DCE",
+              "GroupId",
+            ],
+          },
+        ],
+        "SubnetId": {
+          "Fn::ImportValue": "test-vpc:ExportsOutputReftestvpcPublicSubnet1Subnet01CF7554F3858355",
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "BastionHost",
+          },
+        ],
+        "UserData": {
+          "Fn::Base64": "#!/bin/bash",
+        },
+      },
+      "Type": "AWS::EC2::Instance",
+    },
+    "testdatabasewithinsightsbastiontestdatabasewithinsightsbastionbastionInstanceProfile4105BD73": {
+      "Properties": {
+        "Roles": [
+          {
+            "Ref": "testdatabasewithinsightsbastiontestdatabasewithinsightsbastionbastionInstanceRoleA5CB7B34",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::InstanceProfile",
+    },
+    "testdatabasewithinsightsbastiontestdatabasewithinsightsbastionbastionInstanceRoleA5CB7B34": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ec2.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "BastionHost",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "testdatabasewithinsightsbastiontestdatabasewithinsightsbastionbastionInstanceRoleDefaultPolicyD72C7A03": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "ssmmessages:*",
+                "ssm:UpdateInstanceInformation",
+                "ec2messages:*",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "testdatabasewithinsightsbastiontestdatabasewithinsightsbastionbastionInstanceRoleDefaultPolicyD72C7A03",
+        "Roles": [
+          {
+            "Ref": "testdatabasewithinsightsbastiontestdatabasewithinsightsbastionbastionInstanceRoleA5CB7B34",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "testdatabasewithinsightsbastiontestdatabasewithinsightsbastionkeypairEC2KeyPairdatabasebastionkeypair1B6443A6": {
+      "DeletionPolicy": "Delete",
+      "DependsOn": [
+        "EC2KeyPairManagerRoleDefaultPolicy04E9D0A2",
+        "EC2KeyPairManagerRoleB243C519",
+        "testdatabasewithinsightsdatabasekeyAlias31789079",
+        "testdatabasewithinsightsdatabasekeyCC33B84B",
+      ],
+      "Properties": {
+        "Description": "SSH key pair for bastion host",
+        "ExposePublicKey": false,
+        "KmsPrivate": {
+          "Fn::GetAtt": [
+            "testdatabasewithinsightsdatabasekeyCC33B84B",
+            "Arn",
+          ],
+        },
+        "KmsPublic": {
+          "Fn::GetAtt": [
+            "testdatabasewithinsightsdatabasekeyCC33B84B",
+            "Arn",
+          ],
+        },
+        "Name": "database/bastion/key-pair",
+        "PublicKey": "",
+        "PublicKeyFormat": "OPENSSH",
+        "RemoveKeySecretsAfterDays": 0,
+        "SecretPrefix": "ec2-ssh-key/",
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "EC2KeyNameManagerLambdaBE629145",
+            "Arn",
+          ],
+        },
+        "StackName": "test-database-with-insights",
+        "StorePublicKey": true,
+        "Tags": {
+          "CreatedByCfnCustomResource": "CFN::Resource::Custom::EC2-Key-Pair",
+        },
+      },
+      "Type": "Custom::EC2-Key-Pair",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "testdatabasewithinsightsbastiontestdatabasewithinsightsbastionprefixlist5A7A1966": {
+      "Properties": {
+        "AddressFamily": "IPv4",
+        "Entries": [],
+        "MaxEntries": 50,
+        "PrefixListName": "testdatabasewithinsightstestdatabasewithinsightsbastiontestdatabasewithinsightsbastionprefixlist4C29A706",
+      },
+      "Type": "AWS::EC2::PrefixList",
+    },
+    "testdatabasewithinsightsbastiontestdatabasewithinsightsbastionsecuritygroup4F5B9DCE": {
+      "Properties": {
+        "GroupDescription": "Security group for bastion host",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "VpcId": {
+          "Fn::ImportValue": "test-vpc:ExportsOutputReftestvpc8985080E5120E245",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "testdatabasewithinsightsbastiontestdatabasewithinsightsbastionsecuritygroupfromIndirectPeer222FC154ABB": {
+      "Properties": {
+        "Description": "SSH access",
+        "FromPort": 22,
+        "GroupId": {
+          "Fn::GetAtt": [
+            "testdatabasewithinsightsbastiontestdatabasewithinsightsbastionsecuritygroup4F5B9DCE",
+            "GroupId",
+          ],
+        },
+        "IpProtocol": "tcp",
+        "SourcePrefixListId": {
+          "Fn::GetAtt": [
+            "testdatabasewithinsightsbastiontestdatabasewithinsightsbastionprefixlist5A7A1966",
+            "PrefixListId",
+          ],
+        },
+        "ToPort": 22,
+      },
+      "Type": "AWS::EC2::SecurityGroupIngress",
+    },
+    "testdatabasewithinsightsbastiontestdatabasewithinsightsbastionsecuritygroupfromIndirectPeer2244514895": {
+      "Properties": {
+        "Description": "Bastion Allow list.",
+        "FromPort": 22,
+        "GroupId": {
+          "Fn::GetAtt": [
+            "testdatabasewithinsightsbastiontestdatabasewithinsightsbastionsecuritygroup4F5B9DCE",
+            "GroupId",
+          ],
+        },
+        "IpProtocol": "tcp",
+        "SourcePrefixListId": {
+          "Fn::GetAtt": [
+            "testdatabasewithinsightsbastiontestdatabasewithinsightsbastionprefixlist5A7A1966",
+            "PrefixListId",
+          ],
+        },
+        "ToPort": 22,
+      },
+      "Type": "AWS::EC2::SecurityGroupIngress",
+    },
+    "testdatabasewithinsightscredentialssecretB2878E08": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "GenerateSecretString": {
+          "ExcludePunctuation": true,
+          "GenerateStringKey": "password",
+          "IncludeSpace": false,
+          "SecretStringTemplate": "{\\"username\\":\\"postgres\\"}",
+        },
+      },
+      "Type": "AWS::SecretsManager::Secret",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "testdatabasewithinsightsdatabasekeyAlias31789079": {
+      "Properties": {
+        "AliasName": "alias/database-key",
+        "TargetKeyId": {
+          "Fn::GetAtt": [
+            "testdatabasewithinsightsdatabasekeyCC33B84B",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::KMS::Alias",
+    },
+    "testdatabasewithinsightsdatabasekeyCC33B84B": {
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "KeyPolicy": {
+          "Statement": [
+            {
+              "Action": "kms:*",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":iam::",
+                      {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":root",
+                    ],
+                  ],
+                },
+              },
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::KMS::Key",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "testdatabasewithinsightsdatabasetestdatabasewithinsightsdatabasecluster5B28D5F8": {
+      "DeletionPolicy": "Snapshot",
+      "Properties": {
+        "BackupRetentionPeriod": 1,
+        "CopyTagsToSnapshot": true,
+        "DBClusterParameterGroupName": "default.aurora-postgresql15",
+        "DBSubnetGroupName": {
+          "Ref": "testdatabasewithinsightsdatabasetestdatabasewithinsightsdatabaseclusterSubnetsCCC763F0",
+        },
+        "DeletionProtection": false,
+        "EnableCloudwatchLogsExports": [
+          "postgresql",
+        ],
+        "EnableIAMDatabaseAuthentication": true,
+        "Engine": "aurora-postgresql",
+        "EngineVersion": "15.3",
+        "KmsKeyId": {
+          "Fn::GetAtt": [
+            "testdatabasewithinsightsdatabasekeyCC33B84B",
+            "Arn",
+          ],
+        },
+        "MasterUserPassword": {
+          "Fn::Join": [
+            "",
+            [
+              "{{resolve:secretsmanager:",
+              {
+                "Ref": "testdatabasewithinsightstestdatabasewithinsightsdatabasetestdatabasewithinsightsdatabaseclusterSnapshotSecretED94535D3fdaad7efa858a3daf9490cf0a702aeb",
+              },
+              ":SecretString:password::}}",
+            ],
+          ],
+        },
+        "Port": 5432,
+        "ServerlessV2ScalingConfiguration": {
+          "MaxCapacity": 1.5,
+          "MinCapacity": 0.5,
+        },
+        "SnapshotIdentifier": "test-identifier",
+        "StorageEncrypted": true,
+        "StorageType": "aurora",
+        "Tags": [
+          {
+            "Key": "devops-guru-default",
+            "Value": "crisiscleanup",
+          },
+        ],
+        "VpcSecurityGroupIds": [
+          {
+            "Fn::GetAtt": [
+              "testdatabasewithinsightsdatabasetestdatabasewithinsightsdatabasesecuritygroup9F838984",
+              "GroupId",
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::RDS::DBCluster",
+      "UpdateReplacePolicy": "Snapshot",
+    },
+    "testdatabasewithinsightsdatabasetestdatabasewithinsightsdatabaseclusterLogRetentionpostgresql425F0FFE": {
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/rds/cluster/",
+              {
+                "Ref": "testdatabasewithinsightsdatabasetestdatabasewithinsightsdatabasecluster5B28D5F8",
+              },
+              "/postgresql",
+            ],
+          ],
+        },
+        "RetentionInDays": 30,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
+    },
+    "testdatabasewithinsightsdatabasetestdatabasewithinsightsdatabaseclusterMonitoringRole8D1D38E6": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "monitoring.rds.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole",
+              ],
+            ],
+          },
+        ],
+        "Tags": [
+          {
+            "Key": "devops-guru-default",
+            "Value": "crisiscleanup",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "testdatabasewithinsightsdatabasetestdatabasewithinsightsdatabaseclusterSecret99ADCBBB": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "Description": {
+          "Fn::Join": [
+            "",
+            [
+              "Generated by the CDK for stack: ",
+              {
+                "Ref": "AWS::StackName",
+              },
+            ],
+          ],
+        },
+        "GenerateSecretString": {
+          "ExcludeCharacters": " %+~\`#$&*()|[]{}:;<>?!'/@\\"\\\\",
+          "GenerateStringKey": "password",
+          "PasswordLength": 30,
+          "SecretStringTemplate": "{\\"username\\":\\"postgres\\"}",
+        },
+        "Tags": [
+          {
+            "Key": "devops-guru-default",
+            "Value": "crisiscleanup",
+          },
+        ],
+      },
+      "Type": "AWS::SecretsManager::Secret",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "testdatabasewithinsightsdatabasetestdatabasewithinsightsdatabaseclusterSecretAttachment1D01D123": {
+      "Properties": {
+        "SecretId": {
+          "Ref": "testdatabasewithinsightsdatabasetestdatabasewithinsightsdatabaseclusterSecret99ADCBBB",
+        },
+        "TargetId": {
+          "Ref": "testdatabasewithinsightsdatabasetestdatabasewithinsightsdatabasecluster5B28D5F8",
+        },
+        "TargetType": "AWS::RDS::DBCluster",
+      },
+      "Type": "AWS::SecretsManager::SecretTargetAttachment",
+    },
+    "testdatabasewithinsightsdatabasetestdatabasewithinsightsdatabaseclusterSnapshotSecretAttachmentB11D7122": {
+      "Properties": {
+        "SecretId": {
+          "Ref": "testdatabasewithinsightstestdatabasewithinsightsdatabasetestdatabasewithinsightsdatabaseclusterSnapshotSecretED94535D3fdaad7efa858a3daf9490cf0a702aeb",
+        },
+        "TargetId": {
+          "Ref": "testdatabasewithinsightsdatabasetestdatabasewithinsightsdatabasecluster5B28D5F8",
+        },
+        "TargetType": "AWS::RDS::DBCluster",
+      },
+      "Type": "AWS::SecretsManager::SecretTargetAttachment",
+    },
+    "testdatabasewithinsightsdatabasetestdatabasewithinsightsdatabaseclusterSubnetsCCC763F0": {
+      "Properties": {
+        "DBSubnetGroupDescription": "Subnets for test-database-with-insights-database-cluster database",
+        "SubnetIds": [
+          {
+            "Fn::ImportValue": "test-vpc:ExportsOutputReftestvpcPrivateSubnet1Subnet865FB50A19DF49CF",
+          },
+          {
+            "Fn::ImportValue": "test-vpc:ExportsOutputReftestvpcPrivateSubnet2Subnet23D3396F45FDAD97",
+          },
+        ],
+        "Tags": [
+          {
+            "Key": "devops-guru-default",
+            "Value": "crisiscleanup",
+          },
+        ],
+      },
+      "Type": "AWS::RDS::DBSubnetGroup",
+    },
+    "testdatabasewithinsightsdatabasetestdatabasewithinsightsdatabaseclustertestdatabasewithinsightsdatabaseclusterreader1522FBE41": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "DBClusterIdentifier": {
+          "Ref": "testdatabasewithinsightsdatabasetestdatabasewithinsightsdatabasecluster5B28D5F8",
+        },
+        "DBInstanceClass": "db.serverless",
+        "EnablePerformanceInsights": true,
+        "Engine": "aurora-postgresql",
+        "MonitoringInterval": 60,
+        "MonitoringRoleArn": {
+          "Fn::GetAtt": [
+            "testdatabasewithinsightsdatabasetestdatabasewithinsightsdatabaseclusterMonitoringRole8D1D38E6",
+            "Arn",
+          ],
+        },
+        "PerformanceInsightsKMSKeyId": {
+          "Fn::GetAtt": [
+            "testdatabasewithinsightsdatabasekeyCC33B84B",
+            "Arn",
+          ],
+        },
+        "PerformanceInsightsRetentionPeriod": 14,
+        "PromotionTier": 1,
+        "PubliclyAccessible": false,
+        "Tags": [
+          {
+            "Key": "devops-guru-default",
+            "Value": "crisiscleanup",
+          },
+        ],
+      },
+      "Type": "AWS::RDS::DBInstance",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "testdatabasewithinsightsdatabasetestdatabasewithinsightsdatabaseclustertestdatabasewithinsightsdatabaseclusterreader2A0E3D14A": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "DBClusterIdentifier": {
+          "Ref": "testdatabasewithinsightsdatabasetestdatabasewithinsightsdatabasecluster5B28D5F8",
+        },
+        "DBInstanceClass": "db.serverless",
+        "EnablePerformanceInsights": true,
+        "Engine": "aurora-postgresql",
+        "MonitoringInterval": 60,
+        "MonitoringRoleArn": {
+          "Fn::GetAtt": [
+            "testdatabasewithinsightsdatabasetestdatabasewithinsightsdatabaseclusterMonitoringRole8D1D38E6",
+            "Arn",
+          ],
+        },
+        "PerformanceInsightsKMSKeyId": {
+          "Fn::GetAtt": [
+            "testdatabasewithinsightsdatabasekeyCC33B84B",
+            "Arn",
+          ],
+        },
+        "PerformanceInsightsRetentionPeriod": 14,
+        "PromotionTier": 2,
+        "PubliclyAccessible": false,
+        "Tags": [
+          {
+            "Key": "devops-guru-default",
+            "Value": "crisiscleanup",
+          },
+        ],
+      },
+      "Type": "AWS::RDS::DBInstance",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "testdatabasewithinsightsdatabasetestdatabasewithinsightsdatabaseclustertestdatabasewithinsightsdatabaseclusterreader30D367DC8": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "DBClusterIdentifier": {
+          "Ref": "testdatabasewithinsightsdatabasetestdatabasewithinsightsdatabasecluster5B28D5F8",
+        },
+        "DBInstanceClass": "db.serverless",
+        "EnablePerformanceInsights": true,
+        "Engine": "aurora-postgresql",
+        "MonitoringInterval": 60,
+        "MonitoringRoleArn": {
+          "Fn::GetAtt": [
+            "testdatabasewithinsightsdatabasetestdatabasewithinsightsdatabaseclusterMonitoringRole8D1D38E6",
+            "Arn",
+          ],
+        },
+        "PerformanceInsightsKMSKeyId": {
+          "Fn::GetAtt": [
+            "testdatabasewithinsightsdatabasekeyCC33B84B",
+            "Arn",
+          ],
+        },
+        "PerformanceInsightsRetentionPeriod": 14,
+        "PromotionTier": 2,
+        "PubliclyAccessible": false,
+        "Tags": [
+          {
+            "Key": "devops-guru-default",
+            "Value": "crisiscleanup",
+          },
+        ],
+      },
+      "Type": "AWS::RDS::DBInstance",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "testdatabasewithinsightsdatabasetestdatabasewithinsightsdatabaseclustertestdatabasewithinsightsdatabaseclusterwriter8BFC0BC6": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "DBClusterIdentifier": {
+          "Ref": "testdatabasewithinsightsdatabasetestdatabasewithinsightsdatabasecluster5B28D5F8",
+        },
+        "DBInstanceClass": "db.serverless",
+        "EnablePerformanceInsights": true,
+        "Engine": "aurora-postgresql",
+        "MonitoringInterval": 60,
+        "MonitoringRoleArn": {
+          "Fn::GetAtt": [
+            "testdatabasewithinsightsdatabasetestdatabasewithinsightsdatabaseclusterMonitoringRole8D1D38E6",
+            "Arn",
+          ],
+        },
+        "PerformanceInsightsKMSKeyId": {
+          "Fn::GetAtt": [
+            "testdatabasewithinsightsdatabasekeyCC33B84B",
+            "Arn",
+          ],
+        },
+        "PerformanceInsightsRetentionPeriod": 14,
+        "PromotionTier": 0,
+        "PubliclyAccessible": false,
+        "Tags": [
+          {
+            "Key": "devops-guru-default",
+            "Value": "crisiscleanup",
+          },
+        ],
+      },
+      "Type": "AWS::RDS::DBInstance",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "testdatabasewithinsightsdatabasetestdatabasewithinsightsdatabasesecuritygroup9F838984": {
+      "Properties": {
+        "GroupDescription": "test-database-with-insights/test-database-with-insights-database/test-database-with-insights-database-security-group",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": {
+              "Fn::ImportValue": "test-vpc:ExportsOutputFnGetAtttestvpc8985080ECidrBlockEB7C13CD",
+            },
+            "Description": "Ingress within VPC",
+            "FromPort": 5432,
+            "IpProtocol": "tcp",
+            "ToPort": 5432,
+          },
+        ],
+        "VpcId": {
+          "Fn::ImportValue": "test-vpc:ExportsOutputReftestvpc8985080E5120E245",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "testdatabasewithinsightsdatabasetestdatabasewithinsightsdatabasesecuritygroupfromtestdatabasewithinsightstestdatabasewithinsightsbastiontestdatabasewithinsightsbastionsecuritygroup403CEB9C5432A8F455D1": {
+      "Properties": {
+        "Description": "Allow inbound from bastion host",
+        "FromPort": 5432,
+        "GroupId": {
+          "Fn::GetAtt": [
+            "testdatabasewithinsightsdatabasetestdatabasewithinsightsdatabasesecuritygroup9F838984",
+            "GroupId",
+          ],
+        },
+        "IpProtocol": "tcp",
+        "SourceSecurityGroupId": {
+          "Fn::GetAtt": [
+            "testdatabasewithinsightsbastiontestdatabasewithinsightsbastionsecuritygroup4F5B9DCE",
+            "GroupId",
+          ],
+        },
+        "ToPort": 5432,
+      },
+      "Type": "AWS::EC2::SecurityGroupIngress",
+    },
+    "testdatabasewithinsightstestdatabasewithinsightsdatabasetestdatabasewithinsightsdatabaseclusterSnapshotSecretED94535D3fdaad7efa858a3daf9490cf0a702aeb": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "Description": {
+          "Fn::Join": [
+            "",
+            [
+              "Generated by the CDK for stack: ",
+              {
+                "Ref": "AWS::StackName",
+              },
+            ],
+          ],
+        },
+        "GenerateSecretString": {
+          "ExcludeCharacters": " %+~\`#$&*()|[]{}:;<>?!'/@\\"\\\\",
+          "GenerateStringKey": "password",
+          "PasswordLength": 30,
+          "SecretStringTemplate": "{\\"username\\":\\"postgres\\"}",
+        },
+        "Tags": [
+          {
+            "Key": "devops-guru-default",
+            "Value": "crisiscleanup",
+          },
+        ],
+      },
+      "Type": "AWS::SecretsManager::Secret",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;
