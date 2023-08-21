@@ -353,9 +353,9 @@ importers:
       '@crisiscleanup/config':
         specifier: workspace:*
         version: link:../../../config
-      cdk-pipelines-github:
-        specifier: ^0.4.103
-        version: 0.4.103(aws-cdk-lib@2.91.0)(constructs@10.2.69)
+      defu:
+        specifier: ^6.1.2
+        version: 6.1.2
       flat:
         specifier: ^5.0.2
         version: 5.0.2
@@ -375,6 +375,9 @@ importers:
       aws-cdk-lib:
         specifier: 2.91.0
         version: 2.91.0(constructs@10.2.69)
+      cdk-pipelines-github:
+        specifier: 0.4.103
+        version: 0.4.103(aws-cdk-lib@2.91.0)(constructs@10.2.69)
       constructs:
         specifier: 10.2.69
         version: 10.2.69
@@ -738,6 +741,9 @@ importers:
       aws-cdk-lib:
         specifier: 2.91.0
         version: 2.91.0(constructs@10.2.69)
+      cdk-pipelines-github:
+        specifier: ^0.4.103
+        version: 0.4.103(aws-cdk-lib@2.91.0)(constructs@10.2.69)
       constructs:
         specifier: 10.2.69
         version: 10.2.69
@@ -6422,7 +6428,6 @@ packages:
       decamelize: 5.0.1
       fast-json-patch: 3.1.1
       yaml: 2.3.1
-    dev: false
     bundledDependencies:
       - decamelize
       - fast-json-patch
@@ -7745,7 +7750,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20230818
+      typescript: 5.3.0-dev.20230821
     dev: true
 
   /duplexer@0.1.2:
@@ -14734,10 +14739,10 @@ packages:
     hasBin: true
     dev: true
 
-  /typescript@5.3.0-dev.20230818:
+  /typescript@5.3.0-dev.20230821:
     resolution:
       {
-        integrity: sha512-inkObfKw5TVieNQdO9vTAAzUIKV6i2bjqpC28j1knVWvcxaBLtNGrPgxGVnhWB/LQ5AjMLvgkCM58kkamkRObQ==,
+        integrity: sha512-YkxBZgI3iA0uJR9pJLDXQPZ6xdzGUnDyJTtNlJzh00tGFbDh93aI13DioYrZANNCZeWn7Pr3FUT7tRCq3500wA==,
       }
     engines: { node: '>=14.17' }
     hasBin: true

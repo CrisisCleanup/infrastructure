@@ -99,6 +99,10 @@
       "type": "runtime"
     },
     {
+      "name": "cdk-pipelines-github",
+      "type": "runtime"
+    },
+    {
       "name": "constructs",
       "version": "^10.2.69",
       "type": "runtime"
