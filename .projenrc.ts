@@ -420,6 +420,7 @@ const ghPipelineConstruct = AwsCdkTsConstructBuilder.build({
 })
 ghPipelineConstruct.package.file.addDeletionOverride('main')
 ghPipelineConstruct.tasks.tryFind('docgen')?.reset?.()
+new Vitest(ghPipelineConstruct)
 
 // Stacks
 const apiStack = AwsCdkTsAppBuilder.build({
