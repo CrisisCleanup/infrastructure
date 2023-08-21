@@ -1,9 +1,9 @@
 import { App, Stack } from 'aws-cdk-lib'
 import { Template } from 'aws-cdk-lib/assertions'
 import { Vpc } from 'aws-cdk-lib/aws-ec2'
-import { vi, expect, test, describe, beforeEach } from 'vitest'
+import { beforeEach, describe, expect, test } from 'vitest'
 import { cacheConfigSchema } from '../src'
-import { CacheStack, type CacheProps } from '../src/stacks'
+import { CacheStack } from '../src/stacks'
 
 interface TestContext {
 	app: App
