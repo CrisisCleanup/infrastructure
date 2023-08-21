@@ -43,6 +43,11 @@ const stagingSecretsProvider = new SopsSecretProvider({
 	sopsFilePath: <string>configsSources.staging.secretsPath,
 })
 
+const prodSecretsProvider = new SopsSecretProvider({
+	secretName: 'crisiscleanup-production-api',
+	sopsFilePath: <string>configsSources.production.secretsPath,
+})
+
 const pipeline = Pipeline.builder({
 	id: 'crisiscleanup',
 	rootDir: cwd,
@@ -62,6 +67,12 @@ const pipeline = Pipeline.builder({
 			.addOns(new RedisStackAddOn()),
 		config: config.$env!.staging as unknown as CrisisCleanupConfig,
 		secretsProvider: stagingSecretsProvider,
+	})
+	.target({
+		name: 'production',
+		stackBuilder: blueprints.EksBlueprint.builder().clone(),
+		config: config.$env!.production as unknown as CrisisCleanupConfig,
+		secretsProvider: prodSecretsProvider,
 	})
 	.build(app, {
 		env: {
