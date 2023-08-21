@@ -469,7 +469,7 @@ monorepo.pnpm.addPatch(
 const stackPostCompile = apiStack.tasks.tryFind('post-compile')!
 stackPostCompile.reset()
 stackPostCompile.spawn(apiStack.tasks.tryFind('synth:silent')!, {
-	condition: '[[ -z "$SKIP_SYNTH" ]]',
+	condition: `bash -c '[[ -z "$SKIP_SYNTH" ]]'`,
 })
 new Vitest(apiStack)
 
@@ -489,7 +489,7 @@ maintenanceStack.cdkConfig.json.addOverride(
 const maintenancePostCompile = maintenanceStack.tasks.tryFind('post-compile')!
 maintenancePostCompile.reset()
 maintenancePostCompile.spawn(maintenanceStack.tasks.tryFind('synth:silent')!, {
-	condition: '[[ -z "$SKIP_SYNTH" ]] && [[ -n "$MAINTENANCE_SITE_SOURCE" ]]',
+	condition: `bash -c '[[ -z "$SKIP_SYNTH" ]] && [[ -n "$MAINTENANCE_SITE_SOURCE" ]]'`,
 })
 new Vitest(maintenanceStack)
 
