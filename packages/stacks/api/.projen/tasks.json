@@ -177,13 +177,13 @@
           "exec": "pnpm update npm-check-updates"
         },
         {
-          "exec": "npm-check-updates --upgrade --target=minor --filter=@types/flat,@types/node,@typescript-eslint/eslint-plugin,@typescript-eslint/parser,aws-cdk,esbuild,eslint-config-prettier,eslint-import-resolver-node,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-prettier,eslint,lint-staged,npm-check-updates,prettier,projen,ts-node,vitest,@aws-cdk/lambda-layer-kubectl-v27,@aws-quickstart/eks-blueprints,@cdklabs/cdk-validator-cfnguard,@kubecost/kubecost-eks-blueprints-addon,aws-cdk-lib,cdk-ec2-key-pair,cdk-pipelines-github,cdk-sops-secrets,constructs,defu,flat,zod"
+          "exec": "npm-check-updates --upgrade --target=minor --filter=@types/flat,@types/node,@typescript-eslint/eslint-plugin,@typescript-eslint/parser,aws-cdk,esbuild,eslint-config-prettier,eslint-import-resolver-node,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-prettier,eslint,lint-staged,npm-check-updates,prettier,projen,ts-node,vitest,@aws-cdk/lambda-layer-kubectl-v27,@aws-quickstart/eks-blueprints,@cdklabs/cdk-validator-cfnguard,@kubecost/kubecost-eks-blueprints-addon,aws-cdk-lib,cdk-ec2-key-pair,cdk-pipelines-github,cdk-redisdb,cdk-sops-secrets,constructs,defu,flat,zod"
         },
         {
           "exec": "pnpm i --no-frozen-lockfile"
         },
         {
-          "exec": "pnpm update @types/flat @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser aws-cdk esbuild eslint-config-prettier eslint-import-resolver-node eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint lint-staged npm-check-updates prettier projen ts-node vitest @aws-cdk/lambda-layer-kubectl-v27 @aws-quickstart/eks-blueprints @cdklabs/cdk-validator-cfnguard @kubecost/kubecost-eks-blueprints-addon aws-cdk-lib cdk-ec2-key-pair cdk-pipelines-github cdk-sops-secrets constructs defu flat zod"
+          "exec": "pnpm update @types/flat @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser aws-cdk esbuild eslint-config-prettier eslint-import-resolver-node eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint lint-staged npm-check-updates prettier projen ts-node vitest @aws-cdk/lambda-layer-kubectl-v27 @aws-quickstart/eks-blueprints @cdklabs/cdk-validator-cfnguard @kubecost/kubecost-eks-blueprints-addon aws-cdk-lib cdk-ec2-key-pair cdk-pipelines-github cdk-redisdb cdk-sops-secrets constructs defu flat zod"
         },
         {
           "exec": "npx projen"

@@ -441,6 +441,7 @@ const apiStack = AwsCdkTsAppBuilder.build({
 		'flat',
 		'@cdklabs/cdk-validator-cfnguard',
 		'cdk-ec2-key-pair',
+		'cdk-redisdb',
 		`cdk8s@${crisiscleanup.package.tryResolveDependencyVersion('cdk8s')!}`,
 		`${CDK8sPlus}@${crisiscleanup.package.tryResolveDependencyVersion(
 			CDK8sPlus,

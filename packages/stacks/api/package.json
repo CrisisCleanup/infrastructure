@@ -60,6 +60,7 @@
     "aws-cdk-lib": "^2.91.0",
     "cdk-ec2-key-pair": "^3.3.1",
     "cdk-pipelines-github": "^0.4.103",
+    "cdk-redisdb": "^0.0.37",
     "cdk-sops-secrets": "^1.2.250",
     "cdk8s": "2.42.0",
     "cdk8s-plus-27": "2.6.0",
