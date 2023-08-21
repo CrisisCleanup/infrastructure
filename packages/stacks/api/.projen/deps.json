@@ -138,6 +138,10 @@
       "type": "runtime"
     },
     {
+      "name": "cdk-redisdb",
+      "type": "runtime"
+    },
+    {
       "name": "cdk-sops-secrets",
       "type": "runtime"
     },
