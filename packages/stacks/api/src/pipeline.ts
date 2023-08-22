@@ -22,6 +22,7 @@ import { NetworkStack, DataStack, CacheStack } from './stacks'
 export interface PipelineProps {
 	readonly id: string
 	readonly rootDir?: string
+	readonly repos?: string[]
 }
 
 export interface PipelineTarget {
@@ -55,12 +56,7 @@ export class Pipeline {
 	static builder(props: PipelineProps): Pipeline {
 		const pipe = GithubCodePipelineStack.builder()
 			.owner('CrisisCleanup')
-			.githubRepo(
-				'infrastructure',
-				'crisiscleanup-3-api',
-				'crisiscleanup-4-web',
-				'configs',
-			)
+			.githubRepo(...(props.repos ?? ['infrastructure']))
 			.rootDir(props.rootDir ?? process.cwd())
 			.application('pnpm tsx src/main.ts')
 			.name('crisiscleanup-infra-pipeline')
