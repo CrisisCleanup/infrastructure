@@ -78,7 +78,7 @@ export class GithubCodePipelineBuilder extends blueprints.CodePipelineBuilder {
 
 	githubRepo(...repos: string[]): this {
 		const current = this.githubProps.repos ?? []
-		this.githubProps.repos = [...current, ...repos]
+		this.githubProps.repos = Array.from(new Set([...current, ...repos]))
 		const owner = this.githubProps.owner
 		if (owner) {
 			this.githubProps.repos = this.githubProps.repos.map((repo) =>
