@@ -201,11 +201,23 @@ export const Environment = z.enum([
 ])
 export type Stage = z.infer<typeof Environment>
 
+const pipelineSchema = z.object({
+	repositories: z
+		.array(z.string())
+		.default(['infrastructure'])
+		.describe('Repositories allow to authenticate via OIDC.'),
+	assetsBucketName: z
+		.string()
+		.default('crisiscleanup-pipeline-assets')
+		.describe('Name of S3 bucket used to store pipeline assets.'),
+})
+
 export const configValuesSchema = z
 	.object({
 		api: apiConfigSchema.default({}),
 		cdkEnvironment: cdkEnvironmentSchema.default({}),
 		ccuStage: Environment,
+		pipeline: pipelineSchema.default({}),
 	})
 	.passthrough()
 const envConfigSchema = z.record(Environment, configValuesSchema)
