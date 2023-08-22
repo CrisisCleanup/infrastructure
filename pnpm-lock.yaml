@@ -353,6 +353,9 @@ importers:
       '@crisiscleanup/config':
         specifier: workspace:*
         version: link:../../../config
+      decamelize:
+        specifier: ^5.0.1
+        version: 5.0.1
       defu:
         specifier: ^6.1.2
         version: 6.1.2
@@ -1230,7 +1233,7 @@ packages:
       '@aws-crypto/sha256-js': 3.0.0
       '@aws-crypto/supports-web-crypto': 3.0.0
       '@aws-crypto/util': 3.0.0
-      '@aws-sdk/types': 3.378.0
+      '@aws-sdk/types': 3.391.0
       '@aws-sdk/util-locate-window': 3.310.0
       '@aws-sdk/util-utf8-browser': 3.259.0
       tslib: 1.14.1
@@ -1243,7 +1246,7 @@ packages:
       }
     dependencies:
       '@aws-crypto/util': 3.0.0
-      '@aws-sdk/types': 3.378.0
+      '@aws-sdk/types': 3.391.0
       tslib: 1.14.1
     dev: false
 
@@ -8578,7 +8581,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20230821
+      typescript: 5.3.0-dev.20230822
     dev: true
 
   /duplexer@0.1.2:
@@ -15575,10 +15578,10 @@ packages:
     hasBin: true
     dev: true
 
-  /typescript@5.3.0-dev.20230821:
+  /typescript@5.3.0-dev.20230822:
     resolution:
       {
-        integrity: sha512-YkxBZgI3iA0uJR9pJLDXQPZ6xdzGUnDyJTtNlJzh00tGFbDh93aI13DioYrZANNCZeWn7Pr3FUT7tRCq3500wA==,
+        integrity: sha512-zVlawDu8ult5+AoXXQck+R+qJn1Gzv5aE1lH9UcStRRE461MjXK7P8DDJuee840m66huRJKMzh+ttgrTUEfWmQ==,
       }
     engines: { node: '>=14.17' }
     hasBin: true
