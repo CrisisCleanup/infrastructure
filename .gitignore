@@ -59,6 +59,7 @@ jspm_packages/
 !/tsconfig.dev.json
 !/.github/workflows/static.yml
 docs/**
+.env.*
 !/tsconfig/tsconfig.esm.json
 !/vitest.config.ts
 !/vitest.workspace.json

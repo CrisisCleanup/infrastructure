@@ -111,6 +111,7 @@ const monorepo = MonorepoBuilder.build({
 monorepo.nx.useNxCloud(nxReadOnlyPublicToken)
 monorepo.nx.npmScope = '@crisiscleanup'
 monorepo.nx.nxIgnore.addPatterns('**/cdk.out/**')
+monorepo.addGitIgnore('.env.*')
 const esmTsConfig = monorepo.tsconfigContainer.configs.get(TSConfig.ESM)!
 monorepo.tryRemoveFile(esmTsConfig.file.path)
 monorepo.tsconfigContainer.defineConfig(TSConfig.ESM, {
