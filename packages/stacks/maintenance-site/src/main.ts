@@ -46,7 +46,7 @@ GithubCodePipeline.create({
 	.addConfigsEnv()
 	.addNxEnv()
 	.synthCheckout({
-		ref: 'main',
+		ref: 'master',
 		repository: 'CrisisCleanup/maintenance-site',
 		path: '.maintenance-site',
 	})
