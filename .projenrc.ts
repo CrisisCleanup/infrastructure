@@ -145,7 +145,7 @@ const tools = new ToolVersions(monorepo, {
 		nodejs: [monorepo.package.minNodeVersion!],
 		pnpm: [monorepo.package.pnpmVersion!],
 		kind: ['0.20.0'],
-		awscli: ['2.13.0'],
+		awscli: ['2.13.11'],
 		sops: ['3.7.3'],
 		helm: ['3.12.2'],
 		kubectl: ['1.27.3'],
@@ -158,6 +158,11 @@ const dirEnv = new DirEnv(monorepo)
 		localEnvRc: '.envrc.local',
 		minDirEnvVersion: tools.versionsOf('direnv')[0]!,
 	})
+	.addComment('Expose Tool Versions')
+	.addEnvVar('TOOLS_AWSCLI_VERSION', tools.versionsOf('awscli')[0])
+	.addEnvVar('TOOLS_SOPS_VERSION', tools.versionsOf('sops')[0])
+	.addEnvVar('TOOLS_HELM_VERSION', tools.versionsOf('helm')[0])
+	.addBlankLine()
 	.addComment(
 		'Set CCU_STAGE in .envrc.local (local|development|staging|production)',
 	)
