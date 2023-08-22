@@ -1,17 +1,10 @@
 import assert from 'node:assert'
-import path from 'node:path'
 import * as blueprints from '@aws-quickstart/eks-blueprints'
-import {
-	ActionsContext,
-	interpolateValue,
-	MaskValueStep,
-	GithubWorkflowPipeline,
-} from '@crisiscleanup/construct.awscdk.github-pipeline'
+import { GithubCodePipeline } from '@crisiscleanup/construct.awscdk.github-pipeline'
 import type { Stack, StackProps } from 'aws-cdk-lib'
 import * as cdk from 'aws-cdk-lib'
 import * as kms from 'aws-cdk-lib/aws-kms'
 import * as s3 from 'aws-cdk-lib/aws-s3'
-import * as cdkpipelines from 'aws-cdk-lib/pipelines'
 import * as ghpipelines from 'cdk-pipelines-github'
 import type { Construct } from 'constructs'
 
@@ -113,7 +106,7 @@ export class GithubCodePipelineStack extends cdk.Stack {
 	) {
 		super(scope, id, props)
 
-		const pipeline = GithubCodePipeline.build(this, pipelineProps)
+		const pipeline = PipelineBuilder.build(this, pipelineProps)
 
 		const promises: Promise<ApplicationStage>[] = []
 
@@ -189,7 +182,7 @@ export class ApplicationStage extends ghpipelines.GitHubStage {
 	}
 }
 
-class GithubCodePipeline {
+class PipelineBuilder {
 	static build(scope: Construct, props: GithubCodePipelineProps) {
 		const actionsRole = new ghpipelines.GitHubActionRole(
 			scope,
@@ -221,141 +214,56 @@ class GithubCodePipeline {
 		})
 		pipelineKms.grantDecrypt(actionsRole.role)
 
-		const installCommands = ['pnpm install']
-
-		const commands = [
-			'pnpm build',
-			"pnpm -F 'stacks.api' run synth:silent",
-			'cp -r packages/stacks/api/cdk.out ./cdk.out',
-		]
-
-		const synth = new cdkpipelines.ShellStep(`${props.name}-synth`, {
-			installCommands,
-			commands,
-			env: {
-				GIGET_AUTH: interpolateValue(
-					ActionsContext.SECRET,
-					'GH_CONFIGS_RO_PAT',
-				),
-				CI: 'true',
-				NX_NON_NATIVE_HASHER: 'true',
-				NX_BRANCH: interpolateValue(ActionsContext.GITHUB, 'event.number'),
-				NX_RUN_GROUP: interpolateValue(ActionsContext.GITHUB, 'run_id'),
-				NX_CLOUD_ACCESS_TOKEN: interpolateValue(
-					ActionsContext.SECRET,
-					'NX_CLOUD_ACCESS_TOKEN',
-				),
-			},
-		})
-
-		const actionsRoleArn =
-			'arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole'
-		const awsCreds = ghpipelines.AwsCredentials.fromOpenIdConnect({
-			gitHubActionRoleArn: actionsRoleArn,
-		})
-
-		const maskValues: [ActionsContext, string][] = props.stages.map((stage) => [
-			ActionsContext.SECRET,
-			`AWS_ACCOUNT_ID_${stage.id.toUpperCase()}`,
-		])
-		const maskStep = MaskValueStep.values('Mask IDs', ...maskValues, [
-			ActionsContext.SECRET,
-			'AWS_PIPELINE_ACCOUNT_ID',
-		])
-
-		const workflow = new GithubWorkflowPipeline(scope, props.name, {
-			awsCreds,
-			synth,
-			publishAssetsAuthRegion: 'us-east-1',
-			preBuildSteps: [
-				...maskStep.jobSteps,
-				{
-					name: 'Install Helm',
-					uses: 'azure/setup-helm@v3',
-					with: {
-						version: '3.12.2',
-					},
-				},
-				{
-					name: 'Install AWS CLI',
-					uses: 'unfor19/install-aws-cli-action@v1',
-					if: "inputs.runner == 'self-hosted'",
-					with: {
-						arch: 'arm64',
-					},
-				},
-				{
-					name: 'Install SOPs',
-					uses: 'CrisisCleanup/mozilla-sops-action@main',
-					with: {
-						version: '3.7.3',
-					},
-				},
-				{
-					name: 'Setup PNPM',
-					uses: 'pnpm/action-setup@v2.4.0',
-				},
-				{
-					name: 'Setup Node',
-					uses: 'actions/setup-node@v3',
-					with: {
-						'node-version': '18',
-						cache: 'pnpm',
-					},
-				},
-				...awsCreds.credentialSteps('us-east-1'),
-			],
-			workflowPath: props.rootDir
-				? path.join(props.rootDir, '.github', 'workflows', 'deploy.yml')
-				: undefined,
+		return GithubCodePipeline.create({
+			rootDir: props.rootDir!,
+			workflowName: 'Deploy',
 			assetsS3Bucket: pipelineS3BucketName,
-			assetsS3Prefix: 'cdk-assets',
-			workflowTriggers: {},
 		})
-
-		workflow.onWorkflowCall({
-			runner: {
-				type: 'string',
-				default: 'ubuntu-latest',
-				description: 'Runner to use.',
-				required: false,
-			},
-			environments: {
-				type: 'string',
-				description: 'Environments to deploy.',
-				default: 'development,staging',
-				required: false,
-			},
-		})
-
-		workflow.onWorkflowDispatch({
-			runner: {
-				type: 'choice',
-				description: 'Runner to use.',
-				options: ['ubuntu-latest', 'self-hosted'],
-				default: 'ubuntu-latest',
-			},
-			environments: {
-				type: 'choice',
-				description: 'Environments to deploy.',
-				options: [
-					'development',
-					'staging',
-					'production',
-					'development,staging',
-					'development,staging,production',
-				],
-				default: 'development,staging',
-			},
-		})
-
-		workflow.workflowFile.patch(
-			ghpipelines.JsonPatch.add('/concurrency', {
+			.addNxEnv()
+			.addConfigsEnv()
+			.synthTarget({
+				packageName: 'stacks.api',
+				workingDirectory: 'packages/stacks/api',
+			})
+			.clone({ workflowTriggers: {} })
+			.build(scope, props.name)
+			.onWorkflowCall({
+				runner: {
+					type: 'string',
+					default: 'ubuntu-latest',
+					description: 'Runner to use.',
+					required: false,
+				},
+				environments: {
+					type: 'string',
+					description: 'Environments to deploy.',
+					default: 'development,staging',
+					required: false,
+				},
+			})
+			.onWorkflowDispatch({
+				runner: {
+					type: 'choice',
+					description: 'Runner to use.',
+					options: ['ubuntu-latest', 'self-hosted'],
+					default: 'ubuntu-latest',
+				},
+				environments: {
+					type: 'choice',
+					description: 'Environments to deploy.',
+					options: [
+						'development',
+						'staging',
+						'production',
+						'development,staging',
+						'development,staging,production',
+					],
+					default: 'development,staging',
+				},
+			})
+			.concurrency({
 				group: 'deploy-infra',
-				'cancel-in-progress': false,
-			}),
-		)
-
-		return workflow
+				cancelInProgress: false,
+			})
 	}
 }
