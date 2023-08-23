@@ -192,6 +192,11 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+        if: inputs.runner == 'self-hosted'
       - name: Install AWS CLI
         uses: unfor19/install-aws-cli-action@v1
         if: runner.arch == 'ARM64' || inputs.runner == 'self-hosted'
