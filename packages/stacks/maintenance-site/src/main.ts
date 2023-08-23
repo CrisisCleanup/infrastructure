@@ -60,12 +60,14 @@ GithubCodePipeline.create({
 		packageName: 'stacks.maintenance-site',
 		workingDirectory: 'packages/stacks/maintenance-site',
 	})
+	.defaultTools()
 	.clone({
 		workflowTriggers: {},
 	})
 	.build(app)
 	.onWorkflowCall()
 	.onWorkflowDispatch()
+	.concurrency({ group: 'deploy-maintenance', cancelInProgress: false })
 	.addStage(
 		new MaintenanceStage(app, 'pipeline', { env: config.cdkEnvironment }),
 	)
