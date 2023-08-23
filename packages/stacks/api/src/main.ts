@@ -6,6 +6,7 @@ import {
 	type Stage as ConfigStage,
 } from '@crisiscleanup/config'
 import { App } from 'aws-cdk-lib'
+import { KubePrometheusStackAddOn, RedisStackAddOn } from './addons'
 import {
 	ARCScaleSet,
 	ARCScaleSetController,
@@ -96,8 +97,8 @@ const pipeline = Pipeline.builder({
 								'ghcr.io/actions/actions-runner:2.308.0',
 							[ScaleSetContainer.DIND]: 'docker:dind',
 						},
-					}),
-				),
+					}),)
+			.addOns(new KubePrometheusStackAddOn()),
 		config: config.$env!.production as unknown as CrisisCleanupConfig,
 		secretsProvider: prodSecretsProvider,
 	})
