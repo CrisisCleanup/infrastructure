@@ -1,3 +1,4 @@
 export * from './redis-stack'
 export * from './crisiscleanup'
 export * from './arc'
+export * from './kube-prometheus-stack'
