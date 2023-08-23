@@ -152,38 +152,6 @@ jobs:
     runs-on: ${{inputs.runner || 'ubuntu-latest'}}
     needs:
       - Build-crisiscleanup-infra-pipeline-synth
-    strategy:
-      fail-fast: true
-      matrix:
-        target:
-          - Assets-FileAsset1
-          - Assets-FileAsset10
-          - Assets-FileAsset11
-          - Assets-FileAsset12
-          - Assets-FileAsset13
-          - Assets-FileAsset14
-          - Assets-FileAsset15
-          - Assets-FileAsset16
-          - Assets-FileAsset17
-          - Assets-FileAsset18
-          - Assets-FileAsset19
-          - Assets-FileAsset2
-          - Assets-FileAsset20
-          - Assets-FileAsset21
-          - Assets-FileAsset22
-          - Assets-FileAsset23
-          - Assets-FileAsset24
-          - Assets-FileAsset25
-          - Assets-FileAsset26
-          - Assets-FileAsset27
-          - Assets-FileAsset28
-          - Assets-FileAsset3
-          - Assets-FileAsset4
-          - Assets-FileAsset5
-          - Assets-FileAsset6
-          - Assets-FileAsset7
-          - Assets-FileAsset8
-          - Assets-FileAsset9
     steps:
       - name: Mask values
         run: |-
@@ -220,7 +188,10 @@ jobs:
         run: npm install --no-save cdk-assets
       - name: Publish
         id: publish
-        run: /bin/bash ./cdk.out/publish-${{matrix.target}}-step.sh
+        run: >-
+          targets="./cdk.out/publish-Assets-FileAsset1-step.sh,./cdk.out/publish-Assets-FileAsset10-step.sh,./cdk.out/publish-Assets-FileAsset11-step.sh,./cdk.out/publish-Assets-FileAsset12-step.sh,./cdk.out/publish-Assets-FileAsset13-step.sh,./cdk.out/publish-Assets-FileAsset14-step.sh,./cdk.out/publish-Assets-FileAsset15-step.sh,./cdk.out/publish-Assets-FileAsset16-step.sh,./cdk.out/publish-Assets-FileAsset17-step.sh,./cdk.out/publish-Assets-FileAsset18-step.sh,./cdk.out/publish-Assets-FileAsset19-step.sh,./cdk.out/publish-Assets-FileAsset2-step.sh,./cdk.out/publish-Assets-FileAsset20-step.sh,./cdk.out/publish-Assets-FileAsset21-step.sh,./cdk.out/publish-Assets-FileAsset22-step.sh,./cdk.out/publish-Assets-FileAsset23-step.sh,./cdk.out/publish-Assets-FileAsset24-step.sh,./cdk.out/publish-Assets-FileAsset25-step.sh,./cdk.out/publish-Assets-FileAsset26-step.sh,./cdk.out/publish-Assets-FileAsset27-step.sh,./cdk.out/publish-Assets-FileAsset28-step.sh,./cdk.out/publish-Assets-FileAsset3-step.sh,./cdk.out/publish-Assets-FileAsset4-step.sh,./cdk.out/publish-Assets-FileAsset5-step.sh,./cdk.out/publish-Assets-FileAsset6-step.sh,./cdk.out/publish-Assets-FileAsset7-step.sh,./cdk.out/publish-Assets-FileAsset8-step.sh,./cdk.out/publish-Assets-FileAsset9-step.sh"
+
+          echo -n "$targets" | xargs -r -d',' -t -n1 -P2 /bin/bash
   deploy-development-development-network-deploy:
     name: Deploy crisiscleanupinfrapipelinestackdevelopmentdevelopmentnetwork9BE60577
     if: contains((github.event.inputs.environments || inputs.environments),
