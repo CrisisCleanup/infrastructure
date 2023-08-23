@@ -62,19 +62,6 @@ jobs:
         with:
           repository: CrisisCleanup/infrastructure
           ref: main
-      - name: Install Helm
-        uses: azure/setup-helm@v3
-        with:
-          version: 3.12.2
-      - name: Install AWS CLI
-        uses: unfor19/install-aws-cli-action@v1
-        if: inputs.runner == 'self-hosted'
-        with:
-          arch: arm64
-      - name: Install SOPs
-        uses: CrisisCleanup/mozilla-sops-action@main
-        with:
-          version: 3.7.3
       - name: Setup PNPM
         uses: pnpm/action-setup@v2.4.0
       - name: Setup Node
@@ -82,6 +69,20 @@ jobs:
         with:
           node-version: "18"
           cache: pnpm
+      - name: Install SOPs
+        uses: CrisisCleanup/mozilla-sops-action@main
+        with:
+          version: 3.7.3
+      - name: Install AWS CLI
+        uses: unfor19/install-aws-cli-action@v1
+        if: runner.arch == 'ARM64' || inputs.runner == 'self-hosted'
+        with:
+          arch: arm64
+          version: 2.13.11
+      - name: Install Helm
+        uses: azure/setup-helm@v3
+        with:
+          version: 3.12.2
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -191,6 +192,12 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+      - name: Install AWS CLI
+        uses: unfor19/install-aws-cli-action@v1
+        if: runner.arch == 'ARM64' || inputs.runner == 'self-hosted'
+        with:
+          arch: arm64
+          version: 2.13.11
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -722,3 +729,4 @@ jobs:
           role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}-us-east-1
 concurrency:
   group: deploy-infra
+  cancel-in-progress: false

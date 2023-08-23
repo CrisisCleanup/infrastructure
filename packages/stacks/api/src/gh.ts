@@ -225,6 +225,7 @@ class PipelineBuilder {
 				packageName: 'stacks.api',
 				workingDirectory: 'packages/stacks/api',
 			})
+			.defaultTools()
 			.clone({ workflowTriggers: {} })
 			.build(scope, props.name)
 			.onWorkflowCall({
