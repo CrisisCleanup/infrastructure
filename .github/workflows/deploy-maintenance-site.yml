@@ -105,15 +105,6 @@ jobs:
     runs-on: ${{inputs.runner || 'ubuntu-latest'}}
     needs:
       - Build-deploy-maintenance-site-synth
-    strategy:
-      fail-fast: true
-      matrix:
-        target:
-          - Assets-FileAsset1
-          - Assets-FileAsset2
-          - Assets-FileAsset3
-          - Assets-FileAsset4
-          - Assets-FileAsset5
     steps:
       - name: Mask values
         run: |-
@@ -147,7 +138,10 @@ jobs:
         run: npm install --no-save cdk-assets
       - name: Publish
         id: publish
-        run: /bin/bash ./cdk.out/publish-${{matrix.target}}-step.sh
+        run: >-
+          targets="./cdk.out/publish-Assets-FileAsset1-step.sh,./cdk.out/publish-Assets-FileAsset2-step.sh,./cdk.out/publish-Assets-FileAsset3-step.sh,./cdk.out/publish-Assets-FileAsset4-step.sh,./cdk.out/publish-Assets-FileAsset5-step.sh"
+
+          echo -n "$targets" | xargs -r -d',' -t -n1 -P2 /bin/bash
   pipeline-maintenance-site-deploy:
     name: Deploy pipelinemaintenancesite2E0710C3
     permissions:
