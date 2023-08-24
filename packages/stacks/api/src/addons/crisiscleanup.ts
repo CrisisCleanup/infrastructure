@@ -72,6 +72,7 @@ export class CrisisCleanupAddOn implements blueprints.ClusterAddOn {
 					defu(values, saProps),
 				]),
 			) as CrisisCleanupChartProps['celery'],
+			adminWebsocket: defu(chartConfig.adminWebsocket, saProps),
 		})
 
 		let secretName = this.props.secretName
@@ -213,6 +214,7 @@ export class CrisisCleanupAddOn implements blueprints.ClusterAddOn {
 		mountCsiComponent(chart.asgi)
 		mountCsiComponent(chart.celeryBeat)
 		chart.celeryWorkers.forEach(mountCsiComponent)
+		mountCsiComponent(chart.adminWebsocket)
 
 		const apiChart = addChart(chart.apiChart)
 		const celeryChart = addChart(chart.celeryChart)
