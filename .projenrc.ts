@@ -468,10 +468,6 @@ apiStack.cdkConfig.json.addOverride(
 )
 apiStack.tsconfigDev.addInclude('crisiscleanup.config.ts')
 apiStack.addGitIgnore('cdk.context.json')
-monorepo.pnpm.addPatch(
-	'@aws-quickstart/eks-blueprints@1.10.1',
-	'patches/@aws-quickstart__eks-blueprints@1.10.1.patch',
-)
 const stackPostCompile = apiStack.tasks.tryFind('post-compile')!
 stackPostCompile.reset()
 stackPostCompile.spawn(apiStack.tasks.tryFind('synth:silent')!, {
