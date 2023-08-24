@@ -117,9 +117,6 @@
       "steps": [
         {
           "spawn": "docgen"
-        },
-        {
-          "exec": "pnpm exec tsc --build --clean"
         }
       ]
     },
@@ -168,13 +165,13 @@
           "exec": "pnpm update npm-check-updates"
         },
         {
-          "exec": "npm-check-updates --upgrade --target=minor --filter=@types/debug,@types/node,@typescript-eslint/eslint-plugin,@typescript-eslint/parser,eslint-config-prettier,eslint-import-resolver-node,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-prettier,eslint,jsii-diff,jsii-docgen,jsii-pacmak,lint-staged,npm-check-updates,prettier,projen,unbuild,cdk8s-plus-27,cdk8s,constructs,debug,defu"
+          "exec": "npm-check-updates --upgrade --target=minor --filter=@arroyodev-llc/utils.unbuild-composite-preset,@types/debug,@types/node,@typescript-eslint/eslint-plugin,@typescript-eslint/parser,eslint-config-prettier,eslint-import-resolver-node,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-prettier,eslint,jsii-diff,jsii-docgen,jsii-pacmak,lint-staged,npm-check-updates,prettier,projen,unbuild,cdk8s-plus-27,cdk8s,constructs,debug,defu"
         },
         {
           "exec": "pnpm i --no-frozen-lockfile"
         },
         {
-          "exec": "pnpm update @types/debug @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-config-prettier eslint-import-resolver-node eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint jsii-diff jsii-docgen jsii-pacmak lint-staged npm-check-updates prettier projen unbuild cdk8s-plus-27 cdk8s constructs debug defu"
+          "exec": "pnpm update @arroyodev-llc/utils.unbuild-composite-preset @types/debug @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-config-prettier eslint-import-resolver-node eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint jsii-diff jsii-docgen jsii-pacmak lint-staged npm-check-updates prettier projen unbuild cdk8s-plus-27 cdk8s constructs debug defu"
         },
         {
           "exec": "npx projen"

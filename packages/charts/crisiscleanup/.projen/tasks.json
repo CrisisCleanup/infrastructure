@@ -169,13 +169,13 @@
           "exec": "pnpm update npm-check-updates"
         },
         {
-          "exec": "npm-check-updates --upgrade --target=minor --filter=@types/debug,@types/js-yaml,@types/node,@typescript-eslint/eslint-plugin,@typescript-eslint/parser,cdk8s-cli,eslint-config-prettier,eslint-import-resolver-node,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-prettier,eslint,lint-staged,npm-check-updates,prettier,projen,tsx,unbuild,vitest,cdk8s-plus-27,cdk8s,constructs,debug,defu,js-yaml,type-fest,zod"
+          "exec": "npm-check-updates --upgrade --target=minor --filter=@arroyodev-llc/utils.unbuild-composite-preset,@types/debug,@types/js-yaml,@types/node,@typescript-eslint/eslint-plugin,@typescript-eslint/parser,cdk8s-cli,eslint-config-prettier,eslint-import-resolver-node,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-prettier,eslint,lint-staged,npm-check-updates,prettier,projen,tsx,unbuild,vitest,cdk8s-plus-27,cdk8s,constructs,debug,defu,js-yaml,type-fest,zod"
         },
         {
           "exec": "pnpm i --no-frozen-lockfile"
         },
         {
-          "exec": "pnpm update @types/debug @types/js-yaml @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser cdk8s-cli eslint-config-prettier eslint-import-resolver-node eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint lint-staged npm-check-updates prettier projen tsx unbuild vitest cdk8s-plus-27 cdk8s constructs debug defu js-yaml type-fest zod"
+          "exec": "pnpm update @arroyodev-llc/utils.unbuild-composite-preset @types/debug @types/js-yaml @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser cdk8s-cli eslint-config-prettier eslint-import-resolver-node eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint lint-staged npm-check-updates prettier projen tsx unbuild vitest cdk8s-plus-27 cdk8s constructs debug defu js-yaml type-fest zod"
         },
         {
           "exec": "npx projen"
