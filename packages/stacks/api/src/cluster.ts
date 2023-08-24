@@ -50,7 +50,7 @@ export const getCoreAddons = (
 			enablePrefixDelegation: true,
 			version: addonConfig.vpcCniVersion,
 		}),
-		new blueprints.addons.CoreDnsAddOn(addonConfig.coreDnsVersion),
+		new blueprints.addons.CoreDnsAddOn({ version: addonConfig.coreDnsVersion }),
 		new blueprints.addons.KubeProxyAddOn(addonConfig.kubeProxyVersion),
 	]
 }
