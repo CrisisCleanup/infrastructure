@@ -1,6 +1,5 @@
 {
   "reject": [
-    "unbuild",
-    "@aws-quickstart/eks-blueprints"
+    "unbuild"
   ]
 }
