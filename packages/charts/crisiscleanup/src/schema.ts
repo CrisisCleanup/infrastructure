@@ -123,6 +123,11 @@ export const chartConfigSchema = z.object({
 			scaling: { minReplicas: 1, maxReplicas: 2 },
 		},
 	}),
+	adminWebsocket: baseComponentSchema
+		.describe('Connect Admin Websocket component')
+		.default({
+			replicaCount: 1,
+		}),
 })
 
 export interface CrisisCleanupChartConfig

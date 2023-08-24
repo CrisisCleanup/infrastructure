@@ -98,6 +98,7 @@ export class CrisisCleanupChart extends Chart {
 			asgi: backendDefaults,
 			celeryBeat: backendDefaults,
 			celery: {},
+			adminWebsocket: {},
 		}
 
 		this.defaultProps = {
@@ -214,9 +215,9 @@ export class CrisisCleanupChart extends Chart {
 			config: this.apiConfig,
 		})
 		this.adminWebsocket = new AdminWebSocket(this.apiChart, 'admin-websocket', {
+			...props.adminWebsocket,
 			image: props.wsgi.image ?? props.apiImage,
 			config: this.apiConfig,
-			replicaCount: 1,
 		})
 
 		this.celeryBeat = new CeleryBeat(this.celeryChart, 'celerybeat', {
