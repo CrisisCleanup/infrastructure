@@ -47,4 +47,5 @@ export interface ApiConstructConfig {
 	asgi: Omit<ApiASGIProps, 'config'>
 	celery: Record<string, Omit<CeleryProps, 'config'>>
 	celeryBeat: Omit<ApiProps, 'config'>
+	adminWebsocket: Omit<ApiProps, 'config'>
 }
