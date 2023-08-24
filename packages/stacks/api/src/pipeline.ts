@@ -87,7 +87,7 @@ export class Pipeline {
 				new blueprints.CreateKmsKeyProvider('cluster-key'),
 			)
 			.resourceProvider(ResourceNames.KUBE_LAYER, {
-				provide: (ctx) => new KubectlV27Layer(ctx.scope, 'kubectllayer27'),
+				provide: (ctx) => new KubectlV27Layer(ctx.scope, 'kubectllayer-27'),
 			})
 			.resourceProvider(
 				ResourceNames.EBS_KEY,
