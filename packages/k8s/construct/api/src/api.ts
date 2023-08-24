@@ -96,11 +96,10 @@ export abstract class ApiComponent<
 				resources: {
 					cpu: {
 						request: kplus.Cpu.millis(100),
-						limit: kplus.Cpu.millis(800),
 					},
 					memory: {
 						request: Size.gibibytes(1),
-						limit: Size.gibibytes(1.5),
+						limit: Size.gibibytes(1),
 					},
 				},
 			},
@@ -298,12 +297,11 @@ export class CeleryBeat extends ApiComponent {
 			},
 			resources: {
 				cpu: {
-					request: kplus.Cpu.millis(3),
-					limit: kplus.Cpu.millis(25),
+					request: kplus.Cpu.millis(20),
 				},
 				memory: {
-					request: Size.mebibytes(250),
-					limit: Size.mebibytes(500),
+					request: Size.mebibytes(300),
+					limit: Size.mebibytes(300),
 				},
 			},
 		})
@@ -345,8 +343,8 @@ export class CeleryWorker extends ApiComponent<CeleryProps> {
 			resources: {
 				cpu: this.props.containerDefaults!.resources!.cpu!,
 				memory: {
-					limit: Size.gibibytes(1.5),
-					request: Size.mebibytes(800),
+					limit: Size.mebibytes(900),
+					request: Size.mebibytes(900),
 				},
 			},
 		})
@@ -371,11 +369,10 @@ export class AdminWebSocket extends ApiComponent {
 			resources: {
 				cpu: {
 					request: kplus.Cpu.millis(3),
-					limit: kplus.Cpu.millis(15),
 				},
 				memory: {
-					request: Size.mebibytes(200),
-					limit: Size.mebibytes(300),
+					request: Size.mebibytes(250),
+					limit: Size.mebibytes(250),
 				},
 			},
 		})
