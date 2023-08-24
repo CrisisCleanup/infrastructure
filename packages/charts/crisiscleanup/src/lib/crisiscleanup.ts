@@ -4,6 +4,7 @@ import {
 	flattenToScreamingSnakeCase,
 } from '@crisiscleanup/config'
 import {
+	AdminWebSocket,
 	ApiASGI,
 	ApiConfig,
 	type ApiConstructConfig,
@@ -130,6 +131,7 @@ export class CrisisCleanupChart extends Chart {
 	readonly apiConfig: ApiConfig
 	readonly wsgi: ApiWSGI
 	readonly asgi: ApiASGI
+	readonly adminWebsocket: AdminWebSocket
 	readonly celeryBeat: CeleryBeat
 	readonly celeryWorkers: CeleryWorker[]
 	readonly frontend: Frontend
@@ -210,6 +212,11 @@ export class CrisisCleanupChart extends Chart {
 			...props.asgi,
 			image: props.asgi.image ?? props.apiImage,
 			config: this.apiConfig,
+		})
+		this.adminWebsocket = new AdminWebSocket(this.apiChart, 'admin-websocket', {
+			image: props.wsgi.image ?? props.apiImage,
+			config: this.apiConfig,
+			replicaCount: 1,
 		})
 
 		this.celeryBeat = new CeleryBeat(this.celeryChart, 'celerybeat', {
