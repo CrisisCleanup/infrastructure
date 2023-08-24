@@ -106,8 +106,7 @@ exports[`CrisisCleanupChart > api: matches snapshot > api 1`] = `
               },
               "resources": {
                 "limits": {
-                  "cpu": "800m",
-                  "memory": "1536Mi",
+                  "memory": "1024Mi",
                 },
                 "requests": {
                   "cpu": "100m",
@@ -211,8 +210,7 @@ exports[`CrisisCleanupChart > api: matches snapshot > api 1`] = `
               "name": "migrate",
               "resources": {
                 "limits": {
-                  "cpu": "800m",
-                  "memory": "1536Mi",
+                  "memory": "1024Mi",
                 },
                 "requests": {
                   "cpu": "100m",
@@ -289,8 +287,7 @@ exports[`CrisisCleanupChart > api: matches snapshot > api 1`] = `
               "name": "collectstatic",
               "resources": {
                 "limits": {
-                  "cpu": "800m",
-                  "memory": "1536Mi",
+                  "memory": "1024Mi",
                 },
                 "requests": {
                   "cpu": "100m",
@@ -532,8 +529,7 @@ exports[`CrisisCleanupChart > api: matches snapshot > api 1`] = `
               },
               "resources": {
                 "limits": {
-                  "cpu": "800m",
-                  "memory": "1536Mi",
+                  "memory": "1024Mi",
                 },
                 "requests": {
                   "cpu": "100m",
@@ -669,6 +665,110 @@ exports[`CrisisCleanupChart > api: matches snapshot > api 1`] = `
       },
     },
   },
+  {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/component": "api",
+        "app.kubernetes.io/name": "adminwebsocket",
+        "app.kubernetes.io/part-of": "crisiscleanup",
+      },
+      "name": "crisiscleanup-api-admin-websocket",
+      "namespace": "test",
+    },
+    "spec": {
+      "minReadySeconds": 0,
+      "progressDeadlineSeconds": 600,
+      "replicas": 1,
+      "selector": {
+        "matchLabels": {
+          "cdk8s.io/metadata.addr": "crisiscleanup-api-admin-websocket-c879d9e4",
+        },
+      },
+      "strategy": {
+        "rollingUpdate": {
+          "maxSurge": "25%",
+          "maxUnavailable": "25%",
+        },
+        "type": "RollingUpdate",
+      },
+      "template": {
+        "metadata": {
+          "labels": {
+            "cdk8s.io/metadata.addr": "crisiscleanup-api-admin-websocket-c879d9e4",
+          },
+        },
+        "spec": {
+          "affinity": {
+            "podAntiAffinity": {
+              "preferredDuringSchedulingIgnoredDuringExecution": [
+                {
+                  "podAffinityTerm": {
+                    "labelSelector": {
+                      "matchLabels": {
+                        "cdk8s.io/metadata.addr": "crisiscleanup-api-admin-websocket-c879d9e4",
+                      },
+                    },
+                    "namespaces": [
+                      "test",
+                    ],
+                    "topologyKey": "kubernetes.io/hostname",
+                  },
+                  "weight": 25,
+                },
+              ],
+            },
+          },
+          "automountServiceAccountToken": false,
+          "containers": [
+            {
+              "command": [
+                "/serve.sh",
+                "adminwebsocket",
+              ],
+              "envFrom": [
+                {
+                  "configMapRef": {
+                    "name": "crisiscleanup-config-api-config",
+                  },
+                },
+              ],
+              "image": "test-api:test",
+              "imagePullPolicy": "Always",
+              "name": "adminwebsocket",
+              "resources": {
+                "limits": {
+                  "memory": "250Mi",
+                },
+                "requests": {
+                  "cpu": "3m",
+                  "memory": "250Mi",
+                },
+              },
+              "securityContext": {
+                "allowPrivilegeEscalation": false,
+                "privileged": false,
+                "readOnlyRootFilesystem": false,
+                "runAsGroup": 1000,
+                "runAsNonRoot": true,
+                "runAsUser": 1000,
+              },
+            },
+          ],
+          "dnsPolicy": "ClusterFirst",
+          "hostNetwork": false,
+          "restartPolicy": "Always",
+          "securityContext": {
+            "fsGroupChangePolicy": "Always",
+            "runAsNonRoot": true,
+          },
+          "setHostnameAsFQDN": false,
+          "terminationGracePeriodSeconds": 30,
+        },
+      },
+    },
+  },
 ]
 `;
 
@@ -748,12 +848,11 @@ exports[`CrisisCleanupChart > celery: matches snapshot > celery 1`] = `
               "name": "celerybeat",
               "resources": {
                 "limits": {
-                  "cpu": "25m",
-                  "memory": "500Mi",
+                  "memory": "300Mi",
                 },
                 "requests": {
-                  "cpu": "3m",
-                  "memory": "250Mi",
+                  "cpu": "20m",
+                  "memory": "300Mi",
                 },
               },
               "securityContext": {
@@ -857,12 +956,11 @@ exports[`CrisisCleanupChart > celery: matches snapshot > celery 1`] = `
               "name": "celery",
               "resources": {
                 "limits": {
-                  "cpu": "800m",
-                  "memory": "1536Mi",
+                  "memory": "900Mi",
                 },
                 "requests": {
                   "cpu": "100m",
-                  "memory": "800Mi",
+                  "memory": "900Mi",
                 },
               },
               "securityContext": {
@@ -1038,12 +1136,11 @@ exports[`CrisisCleanupChart > celery: matches snapshot > celery 1`] = `
               "name": "signal",
               "resources": {
                 "limits": {
-                  "cpu": "800m",
-                  "memory": "1536Mi",
+                  "memory": "900Mi",
                 },
                 "requests": {
                   "cpu": "100m",
-                  "memory": "800Mi",
+                  "memory": "900Mi",
                 },
               },
               "securityContext": {
