@@ -43,6 +43,7 @@ jspm_packages/
 /cdk.out/
 .cdk.staging/
 .parcel-cache/
+dist-types
 !/tsconfig.json
 !/tsconfig.dev.json
 cdk.context.json

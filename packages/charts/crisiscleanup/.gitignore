@@ -39,6 +39,7 @@ jspm_packages/
 /dist/
 !/.eslintrc.json
 !/cdk8s.yaml
+dist-types
 !/tsconfig.json
 !/tsconfig.dev.json
 !/build.config.ts

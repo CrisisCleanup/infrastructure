@@ -31,32 +31,32 @@ importers:
         version: 10.2.69
     devDependencies:
       '@arroyodev-llc/projen.component.dir-env':
-        specifier: ^0.1.9
-        version: 0.1.9(projen@0.72.22)
+        specifier: ^0.1.10
+        version: 0.1.10(projen@0.72.22)
       '@arroyodev-llc/projen.component.git-hooks':
-        specifier: ^0.1.7
-        version: 0.1.7(lint-staged@14.0.1)(projen@0.72.22)(simple-git-hooks@2.9.0)
+        specifier: ^0.1.8
+        version: 0.1.8(lint-staged@14.0.1)(projen@0.72.22)(simple-git-hooks@2.9.0)
       '@arroyodev-llc/projen.component.linting':
-        specifier: ^0.1.18
-        version: 0.1.18(projen@0.72.22)
+        specifier: ^0.1.19
+        version: 0.1.19(projen@0.72.22)
       '@arroyodev-llc/projen.component.tool-versions':
-        specifier: ^0.1.15
-        version: 0.1.15(projen@0.72.22)
+        specifier: ^0.1.16
+        version: 0.1.16(projen@0.72.22)
       '@arroyodev-llc/projen.component.vitest':
-        specifier: ^0.1.21
-        version: 0.1.21(@aws-prototyping-sdk/nx-monorepo@0.19.67)(@types/node@18.16.19)(projen@0.72.22)(vue@3.3.4)
+        specifier: ^0.1.22
+        version: 0.1.22(@aws-prototyping-sdk/nx-monorepo@0.19.67)(@types/node@18.16.19)(projen@0.72.22)(vue@3.3.4)
       '@arroyodev-llc/projen.project.nx-monorepo':
-        specifier: ^0.1.23
-        version: 0.1.23(@aws-prototyping-sdk/nx-monorepo@0.19.67)(projen@0.72.22)
+        specifier: ^0.1.24
+        version: 0.1.24(@aws-prototyping-sdk/nx-monorepo@0.19.67)(projen@0.72.22)
       '@arroyodev-llc/projen.project.typescript':
-        specifier: ^0.1.25
-        version: 0.1.25(@aws-prototyping-sdk/nx-monorepo@0.19.67)(projen@0.72.22)(typescript@5.1.6)
+        specifier: ^0.1.26
+        version: 0.1.26(@aws-prototyping-sdk/nx-monorepo@0.19.67)(projen@0.72.22)(typescript@5.1.6)
       '@arroyodev-llc/utils.projen':
-        specifier: ^0.1.18
-        version: 0.1.18
+        specifier: ^0.1.19
+        version: 0.1.19
       '@arroyodev-llc/utils.projen-builder':
-        specifier: ^0.1.3
-        version: 0.1.3
+        specifier: ^0.1.4
+        version: 0.1.4
       '@aws-prototyping-sdk/nx-monorepo':
         specifier: ^0.19.67
         version: 0.19.67(@pnpm/logger@5.0.0)(projen@0.72.22)
@@ -196,6 +196,9 @@ importers:
         specifier: ^3.22.2
         version: 3.22.2
     devDependencies:
+      '@arroyodev-llc/utils.unbuild-composite-preset':
+        specifier: ^0.1.2
+        version: 0.1.2(unbuild@2.0.0-rc.0)
       '@types/debug':
         specifier: ^4.1.8
         version: 4.1.8
@@ -287,6 +290,9 @@ importers:
         specifier: ^3.22.2
         version: 3.22.2
     devDependencies:
+      '@arroyodev-llc/utils.unbuild-composite-preset':
+        specifier: ^0.1.2
+        version: 0.1.2(unbuild@2.0.0-rc.0)
       '@types/debug':
         specifier: ^4.1.8
         version: 4.1.8
@@ -360,6 +366,9 @@ importers:
         specifier: ^5.0.2
         version: 5.0.2
     devDependencies:
+      '@arroyodev-llc/utils.unbuild-composite-preset':
+        specifier: ^0.1.2
+        version: 0.1.2(unbuild@2.0.0-rc.0)
       '@types/flat':
         specifier: ^5.0.2
         version: 5.0.2
@@ -457,6 +466,9 @@ importers:
         specifier: ^6.1.2
         version: 6.1.2
     devDependencies:
+      '@arroyodev-llc/utils.unbuild-composite-preset':
+        specifier: ^0.1.2
+        version: 0.1.2(unbuild@2.0.0-rc.0)
       '@types/debug':
         specifier: ^4.1.8
         version: 4.1.8
@@ -542,6 +554,9 @@ importers:
         specifier: ^4.1.0
         version: 4.1.0
     devDependencies:
+      '@arroyodev-llc/utils.unbuild-composite-preset':
+        specifier: ^0.1.2
+        version: 0.1.2(unbuild@2.0.0-rc.0)
       '@types/debug':
         specifier: ^4.1.8
         version: 4.1.8
@@ -833,10 +848,10 @@ packages:
       }
     dev: false
 
-  /@arroyodev-llc/projen.component.dir-env@0.1.9(projen@0.72.22):
+  /@arroyodev-llc/projen.component.dir-env@0.1.10(projen@0.72.22):
     resolution:
       {
-        integrity: sha512-tBd94GWFM+gNFk0zQBFwxwz/p2nl8dpzXYnouFLZFdb/47Os5jD5CVAxVo7xKSlQDW5/WxHr8fjyhcrI6oEVKw==,
+        integrity: sha512-UW8UIbWRRVWPS5FwKKKUO6EpBzACjdtFPboBZNexdJNBPhahyNwGFsL0ZraaEChJ5ULpn0vhfWZi4VmASvgSaA==,
       }
     peerDependencies:
       projen: ^0.72.10
@@ -844,10 +859,10 @@ packages:
       projen: 0.72.22
     dev: true
 
-  /@arroyodev-llc/projen.component.git-hooks@0.1.7(lint-staged@14.0.1)(projen@0.72.22)(simple-git-hooks@2.9.0):
+  /@arroyodev-llc/projen.component.git-hooks@0.1.8(lint-staged@14.0.1)(projen@0.72.22)(simple-git-hooks@2.9.0):
     resolution:
       {
-        integrity: sha512-9GEc0RPJLoEx3S2GUyVgNIDViSVyAp46SbOSAOS9gTlqS+Zh7Kxm7bbbAkxL1I43iZqhhO9vYYu0lBbYmaY5mw==,
+        integrity: sha512-R5w6YUM146xojLJ+ife66R5tblEvQXrSE41kktP/wzwX6Tz+lUEF21vxX85IrPZ2VsPCrUdZijQobqLeS4Vgcw==,
       }
     peerDependencies:
       lint-staged: ^13.2.3
@@ -859,47 +874,47 @@ packages:
       simple-git-hooks: 2.9.0
     dev: true
 
-  /@arroyodev-llc/projen.component.linting@0.1.18(projen@0.72.22):
+  /@arroyodev-llc/projen.component.linting@0.1.19(projen@0.72.22):
     resolution:
       {
-        integrity: sha512-MJtKvZW5kyefc3l3mQmuILexgyr28yKQPGp9uqVScs5ujjfezFvu8Qv6ZHKXkzZsx+DIxpD00xUW5sHtB8S9Gg==,
+        integrity: sha512-Qux+XN7zVcDKNeZ5wH0BHCO8CBFDykonbFP4OIjiWkKr7uwg72qQhlQVYwWzWqqjJYLzpplR6ZFRXBBQddevOQ==,
       }
     peerDependencies:
       projen: ^0.72.10
     dependencies:
-      '@arroyodev-llc/utils.projen': 0.1.18
+      '@arroyodev-llc/utils.projen': 0.1.19
       p-queue: 7.3.4
       projen: 0.72.22
     dev: true
 
-  /@arroyodev-llc/projen.component.pnpm-workspace@0.1.19(projen@0.72.22):
+  /@arroyodev-llc/projen.component.pnpm-workspace@0.1.20(projen@0.72.22):
     resolution:
       {
-        integrity: sha512-g9DFZ5d6FFf4v9MLaLGY6KSz7++atV5e6295Uf4h5tQHJxUusydUEn7JCQvDsfadpcfq8fQ9dWLIzxRPhkdFTQ==,
+        integrity: sha512-X8ADGqINmLP/rUlPWkFRoaSx8Xi1Xd8ff0bV+FZL0R70HI4OcrGwbcnKIxTaccpkHRhd3tVJTLxFT+or/otq6w==,
       }
     peerDependencies:
       projen: ^0.72.10
     dependencies:
-      '@arroyodev-llc/utils.projen': 0.1.18
+      '@arroyodev-llc/utils.projen': 0.1.19
       projen: 0.72.22
     dev: true
 
-  /@arroyodev-llc/projen.component.release-please@0.1.20(projen@0.72.22):
+  /@arroyodev-llc/projen.component.release-please@0.1.21(projen@0.72.22):
     resolution:
       {
-        integrity: sha512-7xBfqmTD63WCGDlOp7dNFLNEIaPFgrZdOFa5cHKpM+VQ2H8+Gf3fI+J774Ah/r1ZCnaidA9iJxeykoaBpN4knQ==,
+        integrity: sha512-zEKNchuWnity/SVnbv55g+JW7lWA24X3XJKt1BrSVK9PspERrmB2TlT16HVDVsPlmscROT5HQorDB4plG8ObRQ==,
       }
     peerDependencies:
       projen: ^0.72.10
     dependencies:
-      '@arroyodev-llc/utils.projen': 0.1.18
+      '@arroyodev-llc/utils.projen': 0.1.19
       projen: 0.72.22
     dev: true
 
-  /@arroyodev-llc/projen.component.tool-versions@0.1.15(projen@0.72.22):
+  /@arroyodev-llc/projen.component.tool-versions@0.1.16(projen@0.72.22):
     resolution:
       {
-        integrity: sha512-9ezY7d5oSTQb8wOPjWKEyrxmSXDT2znKQe4r6T458p/jq6n0k5hxSt+qojouH/95eW1S38Y8xN0h2LOrzcLncw==,
+        integrity: sha512-XvpksIyBvstTrH3ge7fsv9Kbf68LqnL7ftR/ePU5banxbiL4FiJFYqvWYUg09mAYD/oOo3EzH/8iORH8OlGWkg==,
       }
     peerDependencies:
       projen: ^0.72.10
@@ -907,51 +922,51 @@ packages:
       projen: 0.72.22
     dev: true
 
-  /@arroyodev-llc/projen.component.tsconfig-container@0.1.13(projen@0.72.22):
+  /@arroyodev-llc/projen.component.tsconfig-container@0.1.14(projen@0.72.22):
     resolution:
       {
-        integrity: sha512-SQ4MWJIdIr7q7y8qZiuTExhYvRr0ENTZwqih6543VqkYN9cTgnUrL9MLiaSKtMSp8NE4OunlEQqmm9Fy6f9BYw==,
+        integrity: sha512-PBcxEmnQPZjWYEHUP+gSDhNc+BjurXheIpuRuihomm13ukoXitQU23FJBoYE939HFqSJXvNoj8s3qfs5nvDzvQ==,
       }
     peerDependencies:
       projen: ^0.72.10
     dependencies:
-      '@arroyodev-llc/utils.projen': 0.1.18
+      '@arroyodev-llc/utils.projen': 0.1.19
       projen: 0.72.22
     dev: true
 
-  /@arroyodev-llc/projen.component.typescript-source-file@0.1.20(@aws-prototyping-sdk/nx-monorepo@0.19.67)(projen@0.72.22):
+  /@arroyodev-llc/projen.component.typescript-source-file@0.1.21(@aws-prototyping-sdk/nx-monorepo@0.19.67)(projen@0.72.22):
     resolution:
       {
-        integrity: sha512-UJPHPoeBTBEHjaJxDiZG4v/tiA95vgnd/ICCxKVMin5eC/o/O87A3o5QuOuTCnDBOFTfn6UAEybSYcxYOSNvWg==,
+        integrity: sha512-y3E3oaruV/OUxdDrBIA3V3UGgyGTwEKlsVO5OwvziaXc3zbUxbfe0vhho4NdsXHYJ+sBbjcscLmmPvaspzwZPA==,
       }
     peerDependencies:
       '@aws-prototyping-sdk/nx-monorepo': ^0.19.62
       projen: ^0.72.10
     dependencies:
-      '@arroyodev-llc/projen.component.linting': 0.1.18(projen@0.72.22)
-      '@arroyodev-llc/utils.fs': 0.1.11
-      '@arroyodev-llc/utils.projen': 0.1.18
-      '@arroyodev-llc/utils.ts-ast': 0.1.8
+      '@arroyodev-llc/projen.component.linting': 0.1.19(projen@0.72.22)
+      '@arroyodev-llc/utils.fs': 0.1.12
+      '@arroyodev-llc/utils.projen': 0.1.19
+      '@arroyodev-llc/utils.ts-ast': 0.1.9
       '@aws-prototyping-sdk/nx-monorepo': 0.19.67(@pnpm/logger@5.0.0)(projen@0.72.22)
       projen: 0.72.22
-      ts-morph: 18.0.0
+      ts-morph: 19.0.0
     dev: true
 
-  /@arroyodev-llc/projen.component.unbuild@0.1.21(@aws-prototyping-sdk/nx-monorepo@0.19.67)(projen@0.72.22)(typescript@5.1.6):
+  /@arroyodev-llc/projen.component.unbuild@0.1.22(@aws-prototyping-sdk/nx-monorepo@0.19.67)(projen@0.72.22)(typescript@5.1.6):
     resolution:
       {
-        integrity: sha512-PHVpfiaAUd+YbQOBYk2jXcRncWl1zfIkk2wSyOp92TRRFg8Nv9jwGWGOw3+z2DsoBmGKYS/tFc9IW1ZgSjiPlw==,
+        integrity: sha512-vMugTDYqUdL8Fwv6419MYOAHqNBH4G90p3eBUMQvJRI3Utm6ERSN7x7OzfAtzJa95/04QSZsafLQYweOie2Grg==,
       }
     peerDependencies:
       '@aws-prototyping-sdk/nx-monorepo': ^0.19.62
       projen: ^0.72.10
     dependencies:
-      '@arroyodev-llc/projen.component.typescript-source-file': 0.1.20(@aws-prototyping-sdk/nx-monorepo@0.19.67)(projen@0.72.22)
-      '@arroyodev-llc/utils.projen': 0.1.18
-      '@arroyodev-llc/utils.ts-ast': 0.1.8
+      '@arroyodev-llc/projen.component.typescript-source-file': 0.1.21(@aws-prototyping-sdk/nx-monorepo@0.19.67)(projen@0.72.22)
+      '@arroyodev-llc/utils.projen': 0.1.19
+      '@arroyodev-llc/utils.ts-ast': 0.1.9
       '@aws-prototyping-sdk/nx-monorepo': 0.19.67(@pnpm/logger@5.0.0)(projen@0.72.22)
       projen: 0.72.22
-      ts-morph: 18.0.0
+      ts-morph: 19.0.0
       unbuild: 2.0.0-rc.0(patch_hash=lulzlhanbemembpay2kcfiuibq)(supports-color@9.4.0)(typescript@5.1.6)
     transitivePeerDependencies:
       - sass
@@ -959,22 +974,22 @@ packages:
       - typescript
     dev: true
 
-  /@arroyodev-llc/projen.component.vite@0.1.22(@aws-prototyping-sdk/nx-monorepo@0.19.67)(@types/node@18.16.19)(projen@0.72.22)(vue@3.3.4):
+  /@arroyodev-llc/projen.component.vite@0.1.23(@aws-prototyping-sdk/nx-monorepo@0.19.67)(@types/node@18.16.19)(projen@0.72.22)(vue@3.3.4):
     resolution:
       {
-        integrity: sha512-A2coLoCe2pKhijzE3wN2pbuHwvNf0urk5KP+9TnE+nL+YB+SfomOoMN8LTnz4Ai9XabuVrwZgGMVcmSYHq3BRA==,
+        integrity: sha512-uI92qO/AZCFxKW2OAGpMhptm4AgFbgvjjy/ZthYq2HwFzBNx1NT0raUVWU4CYMgKKixL2Xq8fPq8zB8OH7/KSw==,
       }
     peerDependencies:
       projen: ^0.72.10
     dependencies:
-      '@arroyodev-llc/projen.component.linting': 0.1.18(projen@0.72.22)
-      '@arroyodev-llc/projen.component.typescript-source-file': 0.1.20(@aws-prototyping-sdk/nx-monorepo@0.19.67)(projen@0.72.22)
-      '@arroyodev-llc/utils.projen': 0.1.18
-      '@arroyodev-llc/utils.ts-ast': 0.1.8
-      '@vitejs/plugin-vue': 4.2.3(vite@4.4.9)(vue@3.3.4)
-      '@vitejs/plugin-vue-jsx': 3.0.1(vite@4.4.9)(vue@3.3.4)
+      '@arroyodev-llc/projen.component.linting': 0.1.19(projen@0.72.22)
+      '@arroyodev-llc/projen.component.typescript-source-file': 0.1.21(@aws-prototyping-sdk/nx-monorepo@0.19.67)(projen@0.72.22)
+      '@arroyodev-llc/utils.projen': 0.1.19
+      '@arroyodev-llc/utils.ts-ast': 0.1.9
+      '@vitejs/plugin-vue': 4.3.3(vite@4.4.9)(vue@3.3.4)
+      '@vitejs/plugin-vue-jsx': 3.0.2(vite@4.4.9)(vue@3.3.4)
       projen: 0.72.22
-      ts-morph: 18.0.0
+      ts-morph: 19.0.0
       vite: 4.4.9(@types/node@18.16.19)
     transitivePeerDependencies:
       - '@aws-prototyping-sdk/nx-monorepo'
@@ -989,20 +1004,20 @@ packages:
       - vue
     dev: true
 
-  /@arroyodev-llc/projen.component.vitest@0.1.21(@aws-prototyping-sdk/nx-monorepo@0.19.67)(@types/node@18.16.19)(projen@0.72.22)(vue@3.3.4):
+  /@arroyodev-llc/projen.component.vitest@0.1.22(@aws-prototyping-sdk/nx-monorepo@0.19.67)(@types/node@18.16.19)(projen@0.72.22)(vue@3.3.4):
     resolution:
       {
-        integrity: sha512-cNdo8lGLgXfOKhFdIvzDcGuG9tDpE2QOn8W3pHnwy+QIE6vmC0UYi2+6PDPto/ay/T9scGWIGTVQlQLIKLepOg==,
+        integrity: sha512-Jiwa7uGW9wxp4+4FX53cmaaVbEwf3Vg0eFO3ICHL3T3TYxeHIk+8c2O4Y8EOHkVqBLDiyIBnUFEsEt/ZzKOREA==,
       }
     peerDependencies:
       projen: ^0.72.10
     dependencies:
-      '@arroyodev-llc/projen.component.typescript-source-file': 0.1.20(@aws-prototyping-sdk/nx-monorepo@0.19.67)(projen@0.72.22)
-      '@arroyodev-llc/projen.component.vite': 0.1.22(@aws-prototyping-sdk/nx-monorepo@0.19.67)(@types/node@18.16.19)(projen@0.72.22)(vue@3.3.4)
-      '@arroyodev-llc/utils.projen': 0.1.18
-      '@arroyodev-llc/utils.ts-ast': 0.1.8
+      '@arroyodev-llc/projen.component.typescript-source-file': 0.1.21(@aws-prototyping-sdk/nx-monorepo@0.19.67)(projen@0.72.22)
+      '@arroyodev-llc/projen.component.vite': 0.1.23(@aws-prototyping-sdk/nx-monorepo@0.19.67)(@types/node@18.16.19)(projen@0.72.22)(vue@3.3.4)
+      '@arroyodev-llc/utils.projen': 0.1.19
+      '@arroyodev-llc/utils.ts-ast': 0.1.9
       projen: 0.72.22
-      ts-morph: 18.0.0
+      ts-morph: 19.0.0
       vitest: 0.34.2(supports-color@9.4.0)
     transitivePeerDependencies:
       - '@aws-prototyping-sdk/nx-monorepo'
@@ -1025,41 +1040,41 @@ packages:
       - webdriverio
     dev: true
 
-  /@arroyodev-llc/projen.project.nx-monorepo@0.1.23(@aws-prototyping-sdk/nx-monorepo@0.19.67)(projen@0.72.22):
+  /@arroyodev-llc/projen.project.nx-monorepo@0.1.24(@aws-prototyping-sdk/nx-monorepo@0.19.67)(projen@0.72.22):
     resolution:
       {
-        integrity: sha512-7pln4tiYKnDdauXAscUXDNeUc94f0BaPqu/JEi3f6cReqlMYCs5IEejLwUdzOk3qgbr2+eKy3eXHMl6LkiAbGw==,
+        integrity: sha512-VfkSTVgjIedMfZXwwlWanhwYtztvTFdOk3u/dRCAmRcyV7nK1Nnlriu4AwJklqKRuIIiPR9ONEWgDosuz9Iblg==,
       }
     peerDependencies:
       '@aws-prototyping-sdk/nx-monorepo': ^0.19.62
       projen: ^0.72.10
     dependencies:
-      '@arroyodev-llc/projen.component.linting': 0.1.18(projen@0.72.22)
-      '@arroyodev-llc/projen.component.pnpm-workspace': 0.1.19(projen@0.72.22)
-      '@arroyodev-llc/projen.component.tsconfig-container': 0.1.13(projen@0.72.22)
-      '@arroyodev-llc/utils.projen': 0.1.18
+      '@arroyodev-llc/projen.component.linting': 0.1.19(projen@0.72.22)
+      '@arroyodev-llc/projen.component.pnpm-workspace': 0.1.20(projen@0.72.22)
+      '@arroyodev-llc/projen.component.tsconfig-container': 0.1.14(projen@0.72.22)
+      '@arroyodev-llc/utils.projen': 0.1.19
       '@aws-prototyping-sdk/nx-monorepo': 0.19.67(@pnpm/logger@5.0.0)(projen@0.72.22)
-      '@mrgrain/jsii-struct-builder': 0.5.4(projen@0.72.22)
+      '@mrgrain/jsii-struct-builder': 0.5.6(projen@0.72.22)
       projen: 0.72.22
     dev: true
 
-  /@arroyodev-llc/projen.project.typescript@0.1.25(@aws-prototyping-sdk/nx-monorepo@0.19.67)(projen@0.72.22)(typescript@5.1.6):
+  /@arroyodev-llc/projen.project.typescript@0.1.26(@aws-prototyping-sdk/nx-monorepo@0.19.67)(projen@0.72.22)(typescript@5.1.6):
     resolution:
       {
-        integrity: sha512-XFcmVbhBxQ0dEBgLIxqWtegMbY9qO9r/EjOYNp4+RSigHH6JW07Fq6FgRCs2A+nT4sCVt0aGLVDa97rs/rRYLQ==,
+        integrity: sha512-8eK6sMh0wU0wwdyVo3cNP2zKCKPeKvQnPNIlcnFiHMLunmqt1z/UukqfPTebTurL7d76vxNSG0Pu8qb+qgDoyw==,
       }
     peerDependencies:
       '@aws-prototyping-sdk/nx-monorepo': ^0.19.62
       projen: ^0.72.10
     dependencies:
-      '@arroyodev-llc/projen.component.linting': 0.1.18(projen@0.72.22)
-      '@arroyodev-llc/projen.component.pnpm-workspace': 0.1.19(projen@0.72.22)
-      '@arroyodev-llc/projen.component.release-please': 0.1.20(projen@0.72.22)
-      '@arroyodev-llc/projen.component.tsconfig-container': 0.1.13(projen@0.72.22)
-      '@arroyodev-llc/projen.component.unbuild': 0.1.21(@aws-prototyping-sdk/nx-monorepo@0.19.67)(projen@0.72.22)(typescript@5.1.6)
-      '@arroyodev-llc/projen.project.nx-monorepo': 0.1.23(@aws-prototyping-sdk/nx-monorepo@0.19.67)(projen@0.72.22)
-      '@arroyodev-llc/utils.projen': 0.1.18
-      '@arroyodev-llc/utils.projen-builder': 0.1.3
+      '@arroyodev-llc/projen.component.linting': 0.1.19(projen@0.72.22)
+      '@arroyodev-llc/projen.component.pnpm-workspace': 0.1.20(projen@0.72.22)
+      '@arroyodev-llc/projen.component.release-please': 0.1.21(projen@0.72.22)
+      '@arroyodev-llc/projen.component.tsconfig-container': 0.1.14(projen@0.72.22)
+      '@arroyodev-llc/projen.component.unbuild': 0.1.22(@aws-prototyping-sdk/nx-monorepo@0.19.67)(projen@0.72.22)(typescript@5.1.6)
+      '@arroyodev-llc/projen.project.nx-monorepo': 0.1.24(@aws-prototyping-sdk/nx-monorepo@0.19.67)(projen@0.72.22)
+      '@arroyodev-llc/utils.projen': 0.1.19
+      '@arroyodev-llc/utils.projen-builder': 0.1.4
       '@aws-prototyping-sdk/nx-monorepo': 0.19.67(@pnpm/logger@5.0.0)(projen@0.72.22)
       projen: 0.72.22
       type-fest: 4.2.0
@@ -1069,52 +1084,63 @@ packages:
       - typescript
     dev: true
 
-  /@arroyodev-llc/utils.fs@0.1.11:
+  /@arroyodev-llc/utils.fs@0.1.12:
     resolution:
       {
-        integrity: sha512-TtDIhhxu4eCUrZv2a8ta6uHJc/bSn/FQv7p0kXOMWma22eISvCU4w2jnU4AeG1BobgXZ4wkTElcVesJngfb/og==,
+        integrity: sha512-rbXpfUIDGWQlL+lce3cvo8iinoZfskpF/6RI3+zSxCG03cAJYsqKw/xUg3BtqvYtw9+jNXqtypsQlDNdxp6kHw==,
       }
     dependencies:
       fs-extra: 11.1.1
       pathe: 1.1.1
     dev: true
 
-  /@arroyodev-llc/utils.projen-builder@0.1.3:
+  /@arroyodev-llc/utils.projen-builder@0.1.4:
     resolution:
       {
-        integrity: sha512-RXImHDMPnsSd3SD1NRr8najTt2Q1nptMS07LqJ7Oc4pZ0E0FZhYKPZ1bHJ4j/QEbPPJqsSYgvGrkRIL49WqFBQ==,
+        integrity: sha512-ovCehU/6hRmviLnIbc/N/5BzZkmkc9h5b8pgUjAEMQEcxPqjmuIqmyLa//xVonb0w1ijRHRtdk3vL+/PaBy+iQ==,
       }
     dependencies:
-      '@arroyodev-llc/utils.projen': 0.1.18
+      '@arroyodev-llc/utils.projen': 0.1.19
       projen: 0.72.22
       type-fest: 4.2.0
     dev: true
 
-  /@arroyodev-llc/utils.projen@0.1.18:
+  /@arroyodev-llc/utils.projen@0.1.19:
     resolution:
       {
-        integrity: sha512-YlbrZi5UOwyrlxlhInwXqAVOwZkSks/Le0tQ8qGEcutFPOO/RVfbS5tju/UXQ6ZV4JH6nfYcKVzqoSsfZYgHUg==,
+        integrity: sha512-TpZqtb1fUNVgVdgYB5bExJoYAv9MSlG10eXKIHrxgPKRTR3P2B5xZbYDYrji4S/MXvPVWdb3u9GnSlFztget3Q==,
       }
     dependencies:
-      '@sindresorhus/is': 5.6.0
+      '@sindresorhus/is': 6.0.0
       defu: 6.1.2
       flat: 5.0.2
       projen: 0.72.22
       type-fest: 4.2.0
     dev: true
 
-  /@arroyodev-llc/utils.ts-ast@0.1.8:
+  /@arroyodev-llc/utils.ts-ast@0.1.9:
     resolution:
       {
-        integrity: sha512-cXcFfF4VaQxFXS0Qvo/Afwj4RDK6xrK/VdKNQ7PM+HKEpUPKEoMktl7mOYjFva4nWy7nnru2Mvc4p6u+khf4hw==,
+        integrity: sha512-patZgbq6F8hCwls4xOpSs7eGTszk4Q5PaVn5NlywO9rbo9zNb9I3cuPSe7JV0AqT+lm6nH84oKoyQozYXH0EcQ==,
       }
     dependencies:
-      '@arroyodev-llc/utils.fs': 0.1.11
-      '@sindresorhus/is': 5.6.0
+      '@arroyodev-llc/utils.fs': 0.1.12
+      '@sindresorhus/is': 6.0.0
       projen: 0.72.22
       reflect-metadata: 0.1.13
-      ts-morph: 18.0.0
+      ts-morph: 19.0.0
       type-fest: 4.2.0
+    dev: true
+
+  /@arroyodev-llc/utils.unbuild-composite-preset@0.1.2(unbuild@2.0.0-rc.0):
+    resolution:
+      {
+        integrity: sha512-Fs//CCZhWPpoCFJ/QmNyjdTS975zvBQMPvsvdBv75HppYlKak6+i7VsPNkGYm99eHmJIYiREoN2Kp4uvO6uZIw==,
+      }
+    peerDependencies:
+      unbuild: ^2.0.0-rc.0
+    dependencies:
+      unbuild: 2.0.0-rc.0(patch_hash=lulzlhanbemembpay2kcfiuibq)(supports-color@9.4.0)(typescript@5.1.6)
     dev: true
 
   /@aws-cdk/asset-awscli-v1@2.2.200:
@@ -1872,6 +1898,32 @@ packages:
     engines: { node: '>=6.9.0' }
     dev: true
 
+  /@babel/core@7.22.10:
+    resolution:
+      {
+        integrity: sha512-fTmqbbUBAwCcre6zPzNngvsI0aNrPZe77AeqvDxWM9Nm+04RrJ3CAmGHA9f7lJQY6ZMhRztNemy4uslDxTX4Qw==,
+      }
+    engines: { node: '>=6.9.0' }
+    dependencies:
+      '@ampproject/remapping': 2.2.1
+      '@babel/code-frame': 7.22.10
+      '@babel/generator': 7.22.10
+      '@babel/helper-compilation-targets': 7.22.10
+      '@babel/helper-module-transforms': 7.22.9(@babel/core@7.22.10)
+      '@babel/helpers': 7.22.10
+      '@babel/parser': 7.22.10
+      '@babel/template': 7.22.5
+      '@babel/traverse': 7.22.10
+      '@babel/types': 7.22.10
+      convert-source-map: 1.9.0
+      debug: 4.3.4(supports-color@9.4.0)
+      gensync: 1.0.0-beta.2
+      json5: 2.2.3
+      semver: 6.3.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
   /@babel/core@7.22.9(supports-color@9.4.0):
     resolution:
       {
@@ -1898,6 +1950,19 @@ packages:
       - supports-color
     dev: true
 
+  /@babel/generator@7.22.10:
+    resolution:
+      {
+        integrity: sha512-79KIf7YiWjjdZ81JnLujDRApWtl7BxTqWD88+FFdQEIOG8LJ0etDOM7CXuIgGJa55sGOwZVwuEsaLEm0PJ5/+A==,
+      }
+    engines: { node: '>=6.9.0' }
+    dependencies:
+      '@babel/types': 7.22.10
+      '@jridgewell/gen-mapping': 0.3.3
+      '@jridgewell/trace-mapping': 0.3.18
+      jsesc: 2.5.2
+    dev: true
+
   /@babel/generator@7.22.9:
     resolution:
       {
@@ -1921,6 +1986,20 @@ packages:
       '@babel/types': 7.22.10
     dev: true
 
+  /@babel/helper-compilation-targets@7.22.10:
+    resolution:
+      {
+        integrity: sha512-JMSwHD4J7SLod0idLq5PKgI+6g/hLD/iuWBq08ZX49xE14VpVEojJ5rHWptpirV2j020MvypRLAXAO50igCJ5Q==,
+      }
+    engines: { node: '>=6.9.0' }
+    dependencies:
+      '@babel/compat-data': 7.22.9
+      '@babel/helper-validator-option': 7.22.5
+      browserslist: 4.21.9
+      lru-cache: 5.1.1
+      semver: 6.3.1
+    dev: true
+
   /@babel/helper-compilation-targets@7.22.9(@babel/core@7.22.9):
     resolution:
       {
@@ -1938,22 +2017,22 @@ packages:
       semver: 6.3.1
     dev: true
 
-  /@babel/helper-create-class-features-plugin@7.22.9(@babel/core@7.22.9):
+  /@babel/helper-create-class-features-plugin@7.22.10(@babel/core@7.22.10):
     resolution:
       {
-        integrity: sha512-Pwyi89uO4YrGKxL/eNJ8lfEH55DnRloGPOseaA8NFNL6jAUnn+KccaISiFazCj5IolPPDjGSdzQzXVzODVRqUQ==,
+        integrity: sha512-5IBb77txKYQPpOEdUdIhBx8VrZyDCQ+H82H0+5dX1TmuscP5vJKEE3cKurjtIw/vFwzbVH48VweE78kVDBrqjA==,
       }
     engines: { node: '>=6.9.0' }
     peerDependencies:
       '@babel/core': ^7.0.0
     dependencies:
-      '@babel/core': 7.22.9(supports-color@9.4.0)
+      '@babel/core': 7.22.10
       '@babel/helper-annotate-as-pure': 7.22.5
       '@babel/helper-environment-visitor': 7.22.5
       '@babel/helper-function-name': 7.22.5
       '@babel/helper-member-expression-to-functions': 7.22.5
       '@babel/helper-optimise-call-expression': 7.22.5
-      '@babel/helper-replace-supers': 7.22.9(@babel/core@7.22.9)
+      '@babel/helper-replace-supers': 7.22.9(@babel/core@7.22.10)
       '@babel/helper-skip-transparent-expression-wrappers': 7.22.5
       '@babel/helper-split-export-declaration': 7.22.6
       semver: 6.3.1
@@ -2008,6 +2087,23 @@ packages:
       '@babel/types': 7.22.10
     dev: true
 
+  /@babel/helper-module-transforms@7.22.9(@babel/core@7.22.10):
+    resolution:
+      {
+        integrity: sha512-t+WA2Xn5K+rTeGtC8jCsdAH52bjggG5TKRuRrAGNM/mjIbO4GxvlLMFOEz9wXY5I2XQ60PMFsAG2WIcG82dQMQ==,
+      }
+    engines: { node: '>=6.9.0' }
+    peerDependencies:
+      '@babel/core': ^7.0.0
+    dependencies:
+      '@babel/core': 7.22.10
+      '@babel/helper-environment-visitor': 7.22.5
+      '@babel/helper-module-imports': 7.22.5
+      '@babel/helper-simple-access': 7.22.5
+      '@babel/helper-split-export-declaration': 7.22.6
+      '@babel/helper-validator-identifier': 7.22.5
+    dev: true
+
   /@babel/helper-module-transforms@7.22.9(@babel/core@7.22.9):
     resolution:
       {
@@ -2043,7 +2139,7 @@ packages:
     engines: { node: '>=6.9.0' }
     dev: true
 
-  /@babel/helper-replace-supers@7.22.9(@babel/core@7.22.9):
+  /@babel/helper-replace-supers@7.22.9(@babel/core@7.22.10):
     resolution:
       {
         integrity: sha512-LJIKvvpgPOPUThdYqcX6IXRuIcTkcAub0IaDRGCZH0p5GPUp7PhRU9QVgFcDDd51BaPkk77ZjqFwh6DZTAEmGg==,
@@ -2052,7 +2148,7 @@ packages:
     peerDependencies:
       '@babel/core': ^7.0.0
     dependencies:
-      '@babel/core': 7.22.9(supports-color@9.4.0)
+      '@babel/core': 7.22.10
       '@babel/helper-environment-visitor': 7.22.5
       '@babel/helper-member-expression-to-functions': 7.22.5
       '@babel/helper-optimise-call-expression': 7.22.5
@@ -2112,6 +2208,20 @@ packages:
     engines: { node: '>=6.9.0' }
     dev: true
 
+  /@babel/helpers@7.22.10:
+    resolution:
+      {
+        integrity: sha512-a41J4NW8HyZa1I1vAndrraTlPZ/eZoga2ZgS7fEr0tZJGVU4xqdE80CEm0CcNjha5EZ8fTBYLKHF0kqDUuAwQw==,
+      }
+    engines: { node: '>=6.9.0' }
+    dependencies:
+      '@babel/template': 7.22.5
+      '@babel/traverse': 7.22.10
+      '@babel/types': 7.22.10
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
   /@babel/helpers@7.22.6(supports-color@9.4.0):
     resolution:
       {
@@ -2150,7 +2260,7 @@ packages:
       '@babel/types': 7.22.10
     dev: true
 
-  /@babel/plugin-syntax-jsx@7.22.5(@babel/core@7.22.9):
+  /@babel/plugin-syntax-jsx@7.22.5(@babel/core@7.22.10):
     resolution:
       {
         integrity: sha512-gvyP4hZrgrs/wWMaocvxZ44Hw0b3W8Pe+cMxc8V1ULQ07oh8VNbIRaoD1LRZVTvD+0nieDKjfgKg89sD7rrKrg==,
@@ -2159,11 +2269,11 @@ packages:
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
-      '@babel/core': 7.22.9(supports-color@9.4.0)
+      '@babel/core': 7.22.10
       '@babel/helper-plugin-utils': 7.22.5
     dev: true
 
-  /@babel/plugin-syntax-typescript@7.22.5(@babel/core@7.22.9):
+  /@babel/plugin-syntax-typescript@7.22.5(@babel/core@7.22.10):
     resolution:
       {
         integrity: sha512-1mS2o03i7t1c6VzH6fdQ3OA8tcEIxwG18zIPRp+UY1Ihv6W+XZzBCVxExF9upussPXJ0xE9XRHwMoNs1ep/nRQ==,
@@ -2172,24 +2282,24 @@ packages:
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
-      '@babel/core': 7.22.9(supports-color@9.4.0)
+      '@babel/core': 7.22.10
       '@babel/helper-plugin-utils': 7.22.5
     dev: true
 
-  /@babel/plugin-transform-typescript@7.22.9(@babel/core@7.22.9):
+  /@babel/plugin-transform-typescript@7.22.10(@babel/core@7.22.10):
     resolution:
       {
-        integrity: sha512-BnVR1CpKiuD0iobHPaM1iLvcwPYN2uVFAqoLVSpEDKWuOikoCv5HbKLxclhKYUXlWkX86DoZGtqI4XhbOsyrMg==,
+        integrity: sha512-7++c8I/ymsDo4QQBAgbraXLzIM6jmfao11KgIBEYZRReWzNWH9NtNgJcyrZiXsOPh523FQm6LfpLyy/U5fn46A==,
       }
     engines: { node: '>=6.9.0' }
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
-      '@babel/core': 7.22.9(supports-color@9.4.0)
+      '@babel/core': 7.22.10
       '@babel/helper-annotate-as-pure': 7.22.5
-      '@babel/helper-create-class-features-plugin': 7.22.9(@babel/core@7.22.9)
+      '@babel/helper-create-class-features-plugin': 7.22.10(@babel/core@7.22.10)
       '@babel/helper-plugin-utils': 7.22.5
-      '@babel/plugin-syntax-typescript': 7.22.5(@babel/core@7.22.9)
+      '@babel/plugin-syntax-typescript': 7.22.5(@babel/core@7.22.10)
     dev: true
 
   /@babel/standalone@7.22.9:
@@ -2210,6 +2320,27 @@ packages:
       '@babel/code-frame': 7.22.10
       '@babel/parser': 7.22.10
       '@babel/types': 7.22.10
+    dev: true
+
+  /@babel/traverse@7.22.10:
+    resolution:
+      {
+        integrity: sha512-Q/urqV4pRByiNNpb/f5OSv28ZlGJiFiiTh+GAHktbIrkPhPbl90+uW6SmpoLyZqutrg9AEaEf3Q/ZBRHBXgxig==,
+      }
+    engines: { node: '>=6.9.0' }
+    dependencies:
+      '@babel/code-frame': 7.22.10
+      '@babel/generator': 7.22.10
+      '@babel/helper-environment-visitor': 7.22.5
+      '@babel/helper-function-name': 7.22.5
+      '@babel/helper-hoist-variables': 7.22.5
+      '@babel/helper-split-export-declaration': 7.22.6
+      '@babel/parser': 7.22.10
+      '@babel/types': 7.22.10
+      debug: 4.3.4(supports-color@9.4.0)
+      globals: 11.12.0
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   /@babel/traverse@7.22.8(supports-color@9.4.0):
@@ -3427,10 +3558,10 @@ packages:
       - supports-color
     dev: false
 
-  /@mrgrain/jsii-struct-builder@0.5.4(projen@0.72.22):
+  /@mrgrain/jsii-struct-builder@0.5.6(projen@0.72.22):
     resolution:
       {
-        integrity: sha512-mSGb/zFrqWiPHqPF6C/9dPgXJvZKNpHVvtCPde10q1mdT72OptaJmNjt8csOkd1AraXS10mrswDYNI7B/actDg==,
+        integrity: sha512-19zhXL4agL8U4PQHayPcTpN0kVCG+/FwYKHzfPaQWBHnRT8iv++svuFJigpw6RY0n+/+uylPh4RYPyd6jIQp5w==,
       }
     peerDependencies:
       projen: x.x.x
@@ -4336,6 +4467,14 @@ packages:
     engines: { node: '>=14.16' }
     dev: true
 
+  /@sindresorhus/is@6.0.0:
+    resolution:
+      {
+        integrity: sha512-iVkg+3V+GJfof7yAHOxHyoiEfgpRJhnddOY3EsTM/uqwcm6M/jDQwK1n1nnraMpTRT36CxS0RCtJohggaQ0jgQ==,
+      }
+    engines: { node: '>=16' }
+    dev: true
+
   /@smithy/abort-controller@2.0.4:
     resolution:
       {
@@ -4815,10 +4954,10 @@ packages:
     engines: { node: '>= 10' }
     dev: true
 
-  /@ts-morph/common@0.19.0:
+  /@ts-morph/common@0.20.0:
     resolution:
       {
-        integrity: sha512-Unz/WHmd4pGax91rdIKWi51wnVUW11QttMEPpBiBgIewnc9UQIX7UDLxr5vRlqeByXCwhkF6VabSsI0raWcyAQ==,
+        integrity: sha512-7uKjByfbPpwuzkstL3L5MQyuXPSKdoNG93Fmi2JoDcTf3pEP731JdRFAduRVkOs8oqxPsXKA+ScrWkdQ8t/I+Q==,
       }
     dependencies:
       fast-glob: 3.3.1
@@ -5286,29 +5425,29 @@ packages:
       }
     dev: true
 
-  /@vitejs/plugin-vue-jsx@3.0.1(vite@4.4.9)(vue@3.3.4):
+  /@vitejs/plugin-vue-jsx@3.0.2(vite@4.4.9)(vue@3.3.4):
     resolution:
       {
-        integrity: sha512-+Jb7ggL48FSPS1uhPnJbJwWa9Sr90vQ+d0InW+AhBM22n+cfuYqJZDckBc+W3QSHe1WDvewMZfa4wZOtk5pRgw==,
+        integrity: sha512-obF26P2Z4Ogy3cPp07B4VaW6rpiu0ue4OT2Y15UxT5BZZ76haUY9guOsZV3uWh/I6xc+VeiW+ZVabRE82FyzWw==,
       }
     engines: { node: ^14.18.0 || >=16.0.0 }
     peerDependencies:
       vite: ^4.0.0
       vue: ^3.0.0
     dependencies:
-      '@babel/core': 7.22.9(supports-color@9.4.0)
-      '@babel/plugin-transform-typescript': 7.22.9(@babel/core@7.22.9)
-      '@vue/babel-plugin-jsx': 1.1.5(@babel/core@7.22.9)
+      '@babel/core': 7.22.10
+      '@babel/plugin-transform-typescript': 7.22.10(@babel/core@7.22.10)
+      '@vue/babel-plugin-jsx': 1.1.5(@babel/core@7.22.10)
       vite: 4.4.9(@types/node@18.16.19)
       vue: 3.3.4
     transitivePeerDependencies:
       - supports-color
     dev: true
 
-  /@vitejs/plugin-vue@4.2.3(vite@4.4.9)(vue@3.3.4):
+  /@vitejs/plugin-vue@4.3.3(vite@4.4.9)(vue@3.3.4):
     resolution:
       {
-        integrity: sha512-R6JDUfiZbJA9cMiguQ7jxALsgiprjBeHL5ikpXfJCH62pPHtI+JdJ5xWj6Ev73yXSlYl86+blXn1kZHQ7uElxw==,
+        integrity: sha512-ssxyhIAZqB0TrpUg6R0cBpCuMk9jTIlO1GNSKKQD6S8VjnXi6JXKfUXjSsxey9IwQiaRGsO1WnW9Rkl1L6AJVw==,
       }
     engines: { node: ^14.18.0 || >=16.0.0 }
     peerDependencies:
@@ -5379,7 +5518,7 @@ packages:
       }
     dev: true
 
-  /@vue/babel-plugin-jsx@1.1.5(@babel/core@7.22.9):
+  /@vue/babel-plugin-jsx@1.1.5(@babel/core@7.22.10):
     resolution:
       {
         integrity: sha512-nKs1/Bg9U1n3qSWnsHhCVQtAzI6aQXqua8j/bZrau8ywT1ilXQbK4FwEJGmU8fV7tcpuFvWmmN7TMmV1OBma1g==,
@@ -5387,9 +5526,9 @@ packages:
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
-      '@babel/core': 7.22.9(supports-color@9.4.0)
+      '@babel/core': 7.22.10
       '@babel/helper-module-imports': 7.22.5
-      '@babel/plugin-syntax-jsx': 7.22.5(@babel/core@7.22.9)
+      '@babel/plugin-syntax-jsx': 7.22.5(@babel/core@7.22.10)
       '@babel/template': 7.22.5
       '@babel/traverse': 7.22.8(supports-color@9.4.0)
       '@babel/types': 7.22.10
@@ -14583,13 +14722,13 @@ packages:
     engines: { node: '>=12' }
     dev: false
 
-  /ts-morph@18.0.0:
+  /ts-morph@19.0.0:
     resolution:
       {
-        integrity: sha512-Kg5u0mk19PIIe4islUI/HWRvm9bC1lHejK4S0oh1zaZ77TMZAEmQC0sHQYiu2RgCQFZKXz1fMVi/7nOOeirznA==,
+        integrity: sha512-D6qcpiJdn46tUqV45vr5UGM2dnIEuTGNxVhg0sk5NX11orcouwj6i1bMqZIz2mZTZB1Hcgy7C3oEVhAT+f6mbQ==,
       }
     dependencies:
-      '@ts-morph/common': 0.19.0
+      '@ts-morph/common': 0.20.0
       code-block-writer: 12.0.0
     dev: true
 
