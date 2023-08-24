@@ -102,6 +102,10 @@ const monorepo = MonorepoBuilder.build({
 	githubOptions: {
 		projenCredentials: crisiscleanupBot,
 	},
+	workflowGitIdentity: {
+		name: '${{ vars.CCU_BOT_GIT_NAME }}',
+		email: '${{ vars.CCU_BOT_GIT_NAME }}',
+	},
 	projenCredentials: crisiscleanupBot,
 	workspaceConfig: {
 		linkLocalWorkspaceBins: true,
