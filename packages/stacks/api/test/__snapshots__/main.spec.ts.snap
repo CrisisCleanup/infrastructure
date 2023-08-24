@@ -2310,7 +2310,7 @@ exports[`Snapshot 1`] = `
           ],
         },
         "Timeout": "900s",
-        "Values": "{\\"grpcSupportedProviders\\":\\"aws\\",\\"syncSecret\\":{\\"enabled\\":\\"true\\"}}",
+        "Values": "{\\"grpcSupportedProviders\\":\\"aws\\",\\"syncSecret\\":{\\"enabled\\":\\"true\\"},\\"linux\\":{\\"affinity\\":{\\"nodeAffinity\\":{\\"requiredDuringSchedulingIgnoredDuringExecution\\":{\\"nodeSelectorTerms\\":[{\\"matchExpressions\\":[{\\"key\\":\\"eks.amazonaws.com/compute-type\\",\\"operator\\":\\"NotIn\\",\\"values\\":[\\"fargate\\"]}]}]}}}}}",
         "Version": "1.3.4",
         "Wait": true,
       },

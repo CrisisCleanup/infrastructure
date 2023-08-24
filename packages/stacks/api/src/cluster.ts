@@ -15,7 +15,36 @@ enum Label {
 	CLUSTER_DISCOVERY = 'kubernetes.io/cluster',
 	INSTANCE_CATEGORY = 'karpenter.k8s.aws/instance-category',
 	INSTANCE_HYPERVISOR = 'karpenter.k8s.aws/instance-hypervisor',
+	COMPUTE_TYPE = 'eks.amazonaws.com/compute-type',
 }
+
+export const buildSecretStoreAddon = () =>
+	new blueprints.SecretsStoreAddOn({
+		syncSecrets: true,
+		values: {
+			linux: {
+				affinity: {
+					nodeAffinity: {
+						requiredDuringSchedulingIgnoredDuringExecution: {
+							nodeSelectorTerms: [
+								{
+									// do not allow scheduling on fargate
+									// (it does not support daemon sets)
+									matchExpressions: [
+										{
+											key: Label.COMPUTE_TYPE,
+											operator: 'NotIn',
+											values: ['fargate'],
+										},
+									],
+								},
+							],
+						},
+					},
+				},
+			},
+		},
+	})
 
 export const getDefaultAddons = (
 	addonConfig: EKSAddonConfig,
@@ -24,7 +53,7 @@ export const getDefaultAddons = (
 	// 	namespace: 'kubecost',
 	// })
 	return [
-		new blueprints.SecretsStoreAddOn({ syncSecrets: true }),
+		buildSecretStoreAddon(),
 		// kubecost,
 		new blueprints.addons.AwsLoadBalancerControllerAddOn(),
 		new blueprints.addons.EbsCsiDriverAddOn({
