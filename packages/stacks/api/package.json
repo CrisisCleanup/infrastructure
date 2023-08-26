@@ -27,6 +27,7 @@
     "organization": true
   },
   "devDependencies": {
+    "@types/debug": "^4.1.8",
     "@types/flat": "^5.0.2",
     "@types/node": "^18",
     "@typescript-eslint/eslint-plugin": "^5",
@@ -65,6 +66,7 @@
     "cdk8s": "2.55.0",
     "cdk8s-plus-27": "2.6.0",
     "constructs": "^10.2.69",
+    "debug": "^4.3.4",
     "defu": "^6.1.2",
     "flat": "^5.0.2",
     "zod": "^3.22.2"

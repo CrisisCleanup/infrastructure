@@ -677,6 +677,9 @@ importers:
       constructs:
         specifier: 10.2.69
         version: 10.2.69
+      debug:
+        specifier: ^4.3.4
+        version: 4.3.4(supports-color@9.4.0)
       defu:
         specifier: ^6.1.2
         version: 6.1.2
@@ -687,6 +690,9 @@ importers:
         specifier: ^3.22.2
         version: 3.22.2
     devDependencies:
+      '@types/debug':
+        specifier: ^4.1.8
+        version: 4.1.8
       '@types/flat':
         specifier: ^5.0.2
         version: 5.0.2
