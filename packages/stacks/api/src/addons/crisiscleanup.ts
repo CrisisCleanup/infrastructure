@@ -72,7 +72,10 @@ export class CrisisCleanupAddOn implements blueprints.ClusterAddOn {
 					defu(values, saProps),
 				]),
 			) as CrisisCleanupChartProps['celery'],
-			adminWebsocket: defu(chartConfig.adminWebsocket, saProps),
+			adminWebsocket: defu(
+				chartConfig.adminWebsocket,
+				saProps,
+			) as CrisisCleanupChartProps['adminWebsocket'],
 		})
 
 		let secretName = this.props.secretName
