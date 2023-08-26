@@ -35,6 +35,11 @@ export const eksConfigSchema = eksAddonSchema.extend({
 		.array(z.string())
 		.describe('ARNs to add to platform team.')
 		.default([]),
+	instanceTypes: z
+		.array(z.string())
+		.nullable()
+		.default(null)
+		.describe('List of instance families for karpenter to provision.'),
 })
 
 export interface EKSConfig extends z.infer<typeof eksConfigSchema> {}
