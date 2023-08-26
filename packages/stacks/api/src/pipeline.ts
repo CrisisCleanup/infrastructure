@@ -28,7 +28,10 @@ export interface PipelineProps {
 export interface PipelineTarget {
 	readonly name: string
 	readonly environment?: Environment
-	readonly stackBuilder: blueprints.BlueprintBuilder
+	readonly stackBuilder: (
+		builder: blueprints.BlueprintBuilder,
+		builderConfig: CrisisCleanupConfig,
+	) => blueprints.BlueprintBuilder
 	readonly clusterBuilder?: blueprints.ClusterBuilder
 	readonly platformTeam?: blueprints.PlatformTeam
 	readonly githubEnvironment?: GitHubEnvironment
@@ -80,32 +83,35 @@ export class Pipeline {
 			secretsProvider,
 		} = target
 		const env = PipelineEnv.fromEnv(environment ?? config.cdkEnvironment, name)
-		const envStackBuilder = stackBuilder
-			.clone(env.region, env.account)
-			.resourceProvider(
-				blueprints.GlobalResources.KmsKey,
-				new blueprints.CreateKmsKeyProvider('cluster-key'),
-			)
-			.resourceProvider(ResourceNames.KUBE_LAYER, {
-				provide: (ctx) => new KubectlV27Layer(ctx.scope, 'kubectllayer-27'),
-			})
-			.resourceProvider(
-				ResourceNames.EBS_KEY,
-				new blueprints.CreateKmsKeyProvider('ebs-csi-key'),
-			)
-			.addOns(
-				...getDefaultAddons(config.apiStack!.eks),
-				...getCoreAddons(config.apiStack!.eks),
-			)
-			.teams(
-				platformTeam ??
-					new blueprints.PlatformTeam({
-						name: 'platform',
-						users: config.apiStack!.eks.platformArns.map(
-							(arn) => new iam.ArnPrincipal(arn),
-						),
-					}),
-			)
+		const envStackBuilder = stackBuilder(
+			blueprints.EksBlueprint.builder()
+				.clone(env.region, env.account)
+				.resourceProvider(
+					blueprints.GlobalResources.KmsKey,
+					new blueprints.CreateKmsKeyProvider('cluster-key'),
+				)
+				.resourceProvider(ResourceNames.KUBE_LAYER, {
+					provide: (ctx) => new KubectlV27Layer(ctx.scope, 'kubectllayer-27'),
+				})
+				.resourceProvider(
+					ResourceNames.EBS_KEY,
+					new blueprints.CreateKmsKeyProvider('ebs-csi-key'),
+				)
+				.addOns(
+					...getDefaultAddons(config.apiStack!.eks),
+					...getCoreAddons(config.apiStack!.eks),
+				)
+				.teams(
+					platformTeam ??
+						new blueprints.PlatformTeam({
+							name: 'platform',
+							users: config.apiStack!.eks.platformArns.map(
+								(arn) => new iam.ArnPrincipal(arn),
+							),
+						}),
+				),
+			config,
+		)
 
 		const stageStackBuilder: blueprints.AsyncStackBuilder = {
 			build(
