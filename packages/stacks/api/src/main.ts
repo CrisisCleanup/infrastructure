@@ -55,23 +55,27 @@ const pipeline = Pipeline.builder({
 })
 	.target({
 		name: 'development',
-		stackBuilder: blueprints.EksBlueprint.builder()
-			.clone()
-			.addOns(new RedisStackAddOn()),
+		stackBuilder: (builder) => builder.addOns(new RedisStackAddOn()),
 		config: config.$env!.development as unknown as CrisisCleanupConfig,
 		secretsProvider: devSecretsProvider,
 	})
 	.target({
 		name: 'staging',
-		stackBuilder: blueprints.EksBlueprint.builder()
-			.clone()
-			.addOns(new RedisStackAddOn()),
+		stackBuilder: (builder) => builder.addOns(new RedisStackAddOn()),
 		config: config.$env!.staging as unknown as CrisisCleanupConfig,
 		secretsProvider: stagingSecretsProvider,
 	})
 	.target({
 		name: 'production',
-		stackBuilder: blueprints.EksBlueprint.builder().clone(),
+		stackBuilder: (builder, builderConfig) =>
+			builder
+				.enableControlPlaneLogTypes(
+					<blueprints.ControlPlaneLogType>'api',
+					<blueprints.ControlPlaneLogType>'controllerManager',
+					<blueprints.ControlPlaneLogType>'audit',
+					<blueprints.ControlPlaneLogType>'authenticator',
+					<blueprints.ControlPlaneLogType>'scheduler',
+				),
 		config: config.$env!.production as unknown as CrisisCleanupConfig,
 		secretsProvider: prodSecretsProvider,
 	})
