@@ -67,7 +67,7 @@ jobs:
       - name: Set git identity
         run: |-
           git config user.name "${{ vars.CCU_BOT_GIT_NAME }}"
-          git config user.email "${{ vars.CCU_BOT_GIT_NAME }}"
+          git config user.email "${{ vars.CCU_BOT_GIT_EMAIL }}"
       - name: Create Pull Request
         id: create-pr
         uses: peter-evans/create-pull-request@v4
@@ -94,6 +94,6 @@ jobs:
             ------
 
             *Automatically created by projen via the "upgrade" workflow*
-          author: ${{ vars.CCU_BOT_GIT_NAME }} <${{ vars.CCU_BOT_GIT_NAME }}>
-          committer: ${{ vars.CCU_BOT_GIT_NAME }} <${{ vars.CCU_BOT_GIT_NAME }}>
+          author: ${{ vars.CCU_BOT_GIT_NAME }} <${{ vars.CCU_BOT_GIT_EMAIL }}>
+          committer: ${{ vars.CCU_BOT_GIT_NAME }} <${{ vars.CCU_BOT_GIT_EMAIL }}>
           signoff: true
