@@ -120,11 +120,37 @@ export const cacheConfigSchema = z.object({
 
 export interface CacheConfig extends z.infer<typeof cacheConfigSchema> {}
 
+export const arcConfigSchema = z.object({
+	github: z
+		.object({
+			appId: z.string(),
+			appInstallationId: z.string(),
+			appPrivateKey: z.string(),
+		})
+		.describe('Github App Credentials')
+		.default({
+			appId: '',
+			appInstallationId: '',
+			appPrivateKey: '',
+		}),
+	minRunners: z
+		.number()
+		.nullable()
+		.default(null)
+		.describe('Minimum allowed runners'),
+	maxRunners: z
+		.number()
+		.nullable()
+		.default(null)
+		.describe('Maximum allowed runners'),
+})
+
 export const apiStackConfigSchema = z.object({
 	eks: eksConfigSchema.default({}).describe('EKS configuration.'),
 	database: databaseConfigSchema.default({ snapshotIdentifier: '' }),
 	network: networkConfigSchema.default({}),
 	cache: cacheConfigSchema.default({}),
+	arc: arcConfigSchema.default({}),
 	codeStarConnectionArn: z.string().optional(),
 	kubecostToken: z.string().optional(),
 })
