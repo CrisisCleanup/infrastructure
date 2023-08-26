@@ -6,7 +6,12 @@ import {
 	type Stage as ConfigStage,
 } from '@crisiscleanup/config'
 import { App } from 'aws-cdk-lib'
-import { RedisStackAddOn } from './addons'
+import {
+	ARCScaleSet,
+	ARCScaleSetController,
+	RedisStackAddOn,
+	ScaleSetContainer,
+} from './addons'
 import { Pipeline } from './pipeline'
 import { SopsSecretProvider } from './secrets'
 
@@ -75,6 +80,23 @@ const pipeline = Pipeline.builder({
 					<blueprints.ControlPlaneLogType>'audit',
 					<blueprints.ControlPlaneLogType>'authenticator',
 					<blueprints.ControlPlaneLogType>'scheduler',
+				)
+				.addOns(
+					new ARCScaleSetController(),
+					new ARCScaleSet({
+						minRunners: builderConfig.apiStack!.arc.minRunners ?? undefined,
+						maxRunners: builderConfig.apiStack!.arc.maxRunners ?? undefined,
+						githubConfigUrl: 'https://github.com/CrisisCleanup',
+						runnerScaleSetName: 'crisiscleanup-arc',
+						githubConfigSecret: 'arc-github-credentials',
+						containerImages: {
+							[ScaleSetContainer.RUNNER]:
+								'summerwind/actions-runner:ubuntu-20.04',
+							[ScaleSetContainer.INIT_DIND]:
+								'ghcr.io/actions/actions-runner:2.308.0',
+							[ScaleSetContainer.DIND]: 'docker:dind',
+						},
+					}),
 				),
 		config: config.$env!.production as unknown as CrisisCleanupConfig,
 		secretsProvider: prodSecretsProvider,
