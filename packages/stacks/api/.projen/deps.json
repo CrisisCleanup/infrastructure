@@ -1,6 +1,10 @@
 {
   "dependencies": [
     {
+      "name": "@types/debug",
+      "type": "build"
+    },
+    {
       "name": "@types/flat",
       "type": "build"
     },
@@ -158,6 +162,10 @@
     {
       "name": "constructs",
       "version": "^10.2.69",
+      "type": "runtime"
+    },
+    {
+      "name": "debug",
       "type": "runtime"
     },
     {

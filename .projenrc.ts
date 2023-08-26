@@ -456,12 +456,13 @@ const apiStack = AwsCdkTsAppBuilder.build({
 		'@cdklabs/cdk-validator-cfnguard',
 		'cdk-ec2-key-pair',
 		'cdk-redisdb',
+		'debug',
 		`cdk8s@${crisiscleanup.package.tryResolveDependencyVersion('cdk8s')!}`,
 		`${CDK8sPlus}@${crisiscleanup.package.tryResolveDependencyVersion(
 			CDK8sPlus,
 		)!}`,
 	],
-	devDeps: ['@types/flat'],
+	devDeps: ['@types/flat', '@types/debug'],
 	// use ts linting builder
 	prettier: true,
 	jest: false,
