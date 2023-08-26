@@ -85,7 +85,7 @@ jobs:
       - name: Set git identity
         run: |-
           git config user.name "${{ vars.CCU_BOT_GIT_NAME }}"
-          git config user.email "${{ vars.CCU_BOT_GIT_NAME }}"
+          git config user.email "${{ vars.CCU_BOT_GIT_EMAIL }}"
       - name: Push changes
         env:
           PULL_REQUEST_REF: ${{ github.event.pull_request.head.ref }}

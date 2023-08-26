@@ -104,7 +104,7 @@ const monorepo = MonorepoBuilder.build({
 	},
 	workflowGitIdentity: {
 		name: '${{ vars.CCU_BOT_GIT_NAME }}',
-		email: '${{ vars.CCU_BOT_GIT_NAME }}',
+		email: '${{ vars.CCU_BOT_GIT_EMAIL }}',
 	},
 	projenCredentials: crisiscleanupBot,
 	workspaceConfig: {
