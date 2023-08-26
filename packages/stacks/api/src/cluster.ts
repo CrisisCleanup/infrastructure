@@ -96,7 +96,11 @@ export const tagKarpenter = (stack: blueprints.EksBlueprint) => {
  * @param clusterName Cluster name to target. Defaults to lazy lookup.
  * @param subnetNames Subnet names to target. Defaults to lazy lookup.
  */
-export const buildKarpenter = (clusterName?: string, subnetNames?: string) => {
+export const buildKarpenter = (
+	clusterName?: string,
+	subnetNames?: string,
+	instanceTypes?: string[],
+) => {
 	const sgTag =
 		clusterName ??
 		Lazy.uncachedString(
@@ -121,7 +125,11 @@ export const buildKarpenter = (clusterName?: string, subnetNames?: string) => {
 		requirements: [
 			{ key: Label.ARCH, op: 'In', vals: ['arm64'] },
 			{ key: Label.CAPACITY_TYPE, op: 'In', vals: ['spot', 'on-demand'] },
-			{ key: Label.INSTANCE_CATEGORY, op: 'In', vals: ['c', 'm', 'r', 't'] },
+			{
+				key: Label.INSTANCE_CATEGORY,
+				op: 'In',
+				vals: instanceTypes ?? ['c', 'm', 'r', 't'],
+			},
 			{ key: Label.INSTANCE_HYPERVISOR, op: 'In', vals: ['nitro'] },
 		],
 		subnetTags: {

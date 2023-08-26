@@ -171,7 +171,11 @@ export class Pipeline {
 						).build(),
 					)
 					.addOns(
-						buildKarpenter(),
+						buildKarpenter(
+							undefined,
+							undefined,
+							config.apiStack!.eks.instanceTypes ?? undefined,
+						),
 						new CrisisCleanupAddOn({
 							config,
 							secretsProvider,
