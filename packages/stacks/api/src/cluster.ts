@@ -18,6 +18,18 @@ enum Label {
 	COMPUTE_TYPE = 'eks.amazonaws.com/compute-type',
 }
 
+export const noFargateNodeAffinitySelector = {
+	// do not allow scheduling on fargate
+	// (it does not support daemon sets)
+	matchExpressions: [
+		{
+			key: Label.COMPUTE_TYPE,
+			operator: 'NotIn',
+			values: ['fargate'],
+		},
+	],
+}
+
 export const buildSecretStoreAddon = () =>
 	new blueprints.SecretsStoreAddOn({
 		syncSecrets: true,
@@ -26,19 +38,7 @@ export const buildSecretStoreAddon = () =>
 				affinity: {
 					nodeAffinity: {
 						requiredDuringSchedulingIgnoredDuringExecution: {
-							nodeSelectorTerms: [
-								{
-									// do not allow scheduling on fargate
-									// (it does not support daemon sets)
-									matchExpressions: [
-										{
-											key: Label.COMPUTE_TYPE,
-											operator: 'NotIn',
-											values: ['fargate'],
-										},
-									],
-								},
-							],
+							nodeSelectorTerms: [noFargateNodeAffinitySelector],
 						},
 					},
 				},
