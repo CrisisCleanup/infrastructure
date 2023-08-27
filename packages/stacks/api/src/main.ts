@@ -13,6 +13,7 @@ import {
 	ARCScaleSetController,
 	ScaleSetContainer,
 } from './addons'
+import { noFargateNodeAffinitySelector } from './cluster.ts'
 import { Pipeline } from './pipeline'
 import { SopsSecretProvider } from './secrets'
 
@@ -99,7 +100,21 @@ const pipeline = Pipeline.builder({
 						},
 					}),
 				)
-				.addOns(new KubePrometheusStackAddOn()),
+				.addOns(
+					new KubePrometheusStackAddOn({
+						values: {
+							prometheusOperator: {
+								affinity: {
+									nodeAffinity: {
+										requiredDuringSchedulingIgnoredDuringExecution: {
+											nodeSelectorTerms: [noFargateNodeAffinitySelector],
+										},
+									},
+								},
+							},
+						},
+					}),
+				),
 		config: config.$env!.production as unknown as CrisisCleanupConfig,
 		secretsProvider: prodSecretsProvider,
 	})
