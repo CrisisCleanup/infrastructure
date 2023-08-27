@@ -84,7 +84,15 @@ const pipeline = Pipeline.builder({
 					<blueprints.ControlPlaneLogType>'scheduler',
 				)
 				.addOns(
-					new ARCScaleSetController(),
+					new ARCScaleSetController({
+						values: {
+							metrics: {
+								controllerManagerAddr: ':8080',
+								listenerAddr: ':8080',
+								listenerEndpoint: '/metrics',
+							},
+						},
+					}),
 					new ARCScaleSet({
 						minRunners: builderConfig.apiStack!.arc.minRunners ?? undefined,
 						maxRunners: builderConfig.apiStack!.arc.maxRunners ?? undefined,
