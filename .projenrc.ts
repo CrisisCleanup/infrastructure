@@ -435,7 +435,7 @@ ghPipelineConstruct.tasks.tryFind('docgen')?.reset?.()
 new Vitest(ghPipelineConstruct)
 
 // Stacks
-const apiStack = AwsCdkTsAppBuilder.build({
+const apiStack = AwsCdkTsAppBuilder.add(new CdkTsAppCompileBuilder()).build({
 	name: 'stacks.api',
 	integrationTestAutoDiscover: true,
 	workspaceDeps: [
@@ -468,17 +468,7 @@ const apiStack = AwsCdkTsAppBuilder.build({
 	prettier: true,
 	jest: false,
 })
-apiStack.cdkConfig.json.addOverride(
-	'app',
-	apiStack.formatExecCommand('tsx', 'src/main.ts'),
-)
 apiStack.tsconfigDev.addInclude('crisiscleanup.config.ts')
-apiStack.addGitIgnore('cdk.context.json')
-const stackPostCompile = apiStack.tasks.tryFind('post-compile')!
-stackPostCompile.reset()
-stackPostCompile.spawn(apiStack.tasks.tryFind('synth:silent')!, {
-	condition: `bash -c '[[ -z "$SKIP_SYNTH" ]]'`,
-})
 new Vitest(apiStack)
 
 const maintenanceStack = AwsCdkTsAppBuilder.add(
