@@ -40,6 +40,7 @@ import {
 	github,
 } from 'projen'
 import { secretToString } from 'projen/lib/github/util'
+import { CdkTsAppCompileBuilder } from './projenrc/builders'
 
 const CommonDefaultsBuilder = new builders.DefaultOptionsBuilder({
 	defaultReleaseBranch: 'main',
@@ -480,23 +481,17 @@ stackPostCompile.spawn(apiStack.tasks.tryFind('synth:silent')!, {
 })
 new Vitest(apiStack)
 
-const maintenanceStack = AwsCdkTsAppBuilder.build({
+const maintenanceStack = AwsCdkTsAppBuilder.add(
+	new CdkTsAppCompileBuilder({
+		synthPostCompileCondition: `bash -c '[[ -z "$SKIP_SYNTH" ]] && [[ -n "$MAINTENANCE_SITE_SOURCE" ]]'`,
+	}),
+).build({
 	name: 'stacks.maintenance-site',
 	integrationTestAutoDiscover: true,
 	workspaceDeps: [config, ghPipelineConstruct],
 	deps: ['@aws-prototyping-sdk/static-website', 'cdk-pipelines-github'],
 	jest: false,
 	prettier: true,
-})
-maintenanceStack.addGitIgnore('cdk.context.json')
-maintenanceStack.cdkConfig.json.addOverride(
-	'app',
-	maintenanceStack.formatExecCommand('tsx', 'src/main.ts'),
-)
-const maintenancePostCompile = maintenanceStack.tasks.tryFind('post-compile')!
-maintenancePostCompile.reset()
-maintenancePostCompile.spawn(maintenanceStack.tasks.tryFind('synth:silent')!, {
-	condition: `bash -c '[[ -z "$SKIP_SYNTH" ]] && [[ -n "$MAINTENANCE_SITE_SOURCE" ]]'`,
 })
 new Vitest(maintenanceStack)
 
