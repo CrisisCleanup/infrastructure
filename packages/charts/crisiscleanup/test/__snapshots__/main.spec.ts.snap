@@ -36,6 +36,25 @@ exports[`CrisisCleanupChart > api: matches snapshot > api 1`] = `
           },
         },
         "spec": {
+          "affinity": {
+            "nodeAffinity": {
+              "requiredDuringSchedulingIgnoredDuringExecution": {
+                "nodeSelectorTerms": [
+                  {
+                    "matchExpressions": [
+                      {
+                        "key": "eks.amazonaws.com/compute-type",
+                        "operator": "NotIn",
+                        "values": [
+                          "fargate",
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            },
+          },
           "automountServiceAccountToken": false,
           "containers": [
             {
@@ -86,11 +105,11 @@ exports[`CrisisCleanupChart > api: matches snapshot > api 1`] = `
               },
               "resources": {
                 "limits": {
-                  "memory": "1024Mi",
+                  "memory": "1200Mi",
                 },
                 "requests": {
                   "cpu": "100m",
-                  "memory": "1024Mi",
+                  "memory": "1200Mi",
                 },
               },
               "securityContext": {
@@ -171,7 +190,7 @@ exports[`CrisisCleanupChart > api: matches snapshot > api 1`] = `
       "namespace": "test",
     },
     "spec": {
-      "activeDeadlineSeconds": 600,
+      "activeDeadlineSeconds": 1800,
       "template": {
         "metadata": {
           "labels": {
@@ -247,7 +266,7 @@ exports[`CrisisCleanupChart > api: matches snapshot > api 1`] = `
       "namespace": "test",
     },
     "spec": {
-      "activeDeadlineSeconds": 600,
+      "activeDeadlineSeconds": 1800,
       "template": {
         "metadata": {
           "labels": {
@@ -455,6 +474,25 @@ exports[`CrisisCleanupChart > api: matches snapshot > api 1`] = `
           },
         },
         "spec": {
+          "affinity": {
+            "nodeAffinity": {
+              "requiredDuringSchedulingIgnoredDuringExecution": {
+                "nodeSelectorTerms": [
+                  {
+                    "matchExpressions": [
+                      {
+                        "key": "eks.amazonaws.com/compute-type",
+                        "operator": "NotIn",
+                        "values": [
+                          "fargate",
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            },
+          },
           "automountServiceAccountToken": false,
           "containers": [
             {
@@ -684,6 +722,25 @@ exports[`CrisisCleanupChart > api: matches snapshot > api 1`] = `
           },
         },
         "spec": {
+          "affinity": {
+            "nodeAffinity": {
+              "requiredDuringSchedulingIgnoredDuringExecution": {
+                "nodeSelectorTerms": [
+                  {
+                    "matchExpressions": [
+                      {
+                        "key": "eks.amazonaws.com/compute-type",
+                        "operator": "NotIn",
+                        "values": [
+                          "fargate",
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            },
+          },
           "automountServiceAccountToken": false,
           "containers": [
             {
@@ -785,6 +842,25 @@ exports[`CrisisCleanupChart > celery: matches snapshot > celery 1`] = `
           },
         },
         "spec": {
+          "affinity": {
+            "nodeAffinity": {
+              "requiredDuringSchedulingIgnoredDuringExecution": {
+                "nodeSelectorTerms": [
+                  {
+                    "matchExpressions": [
+                      {
+                        "key": "eks.amazonaws.com/compute-type",
+                        "operator": "NotIn",
+                        "values": [
+                          "fargate",
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            },
+          },
           "automountServiceAccountToken": false,
           "containers": [
             {
@@ -880,6 +956,25 @@ exports[`CrisisCleanupChart > celery: matches snapshot > celery 1`] = `
           },
         },
         "spec": {
+          "affinity": {
+            "nodeAffinity": {
+              "requiredDuringSchedulingIgnoredDuringExecution": {
+                "nodeSelectorTerms": [
+                  {
+                    "matchExpressions": [
+                      {
+                        "key": "eks.amazonaws.com/compute-type",
+                        "operator": "NotIn",
+                        "values": [
+                          "fargate",
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            },
+          },
           "automountServiceAccountToken": false,
           "containers": [
             {
@@ -1052,6 +1147,25 @@ exports[`CrisisCleanupChart > celery: matches snapshot > celery 1`] = `
           },
         },
         "spec": {
+          "affinity": {
+            "nodeAffinity": {
+              "requiredDuringSchedulingIgnoredDuringExecution": {
+                "nodeSelectorTerms": [
+                  {
+                    "matchExpressions": [
+                      {
+                        "key": "eks.amazonaws.com/compute-type",
+                        "operator": "NotIn",
+                        "values": [
+                          "fargate",
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            },
+          },
           "automountServiceAccountToken": false,
           "containers": [
             {
