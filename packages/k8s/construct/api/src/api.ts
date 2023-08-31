@@ -199,6 +199,13 @@ export class ApiWSGI
 				'--timeout=300',
 			],
 			...(props.probes ?? this.createHttpProbes(this.httpProbePath)),
+			resources: {
+				cpu: this.props.containerDefaults!.resources!.cpu!,
+				memory: {
+					request: Size.mebibytes(1200),
+					limit: Size.mebibytes(1200),
+				},
+			},
 		})
 
 		const staticVolume = kplus.Volume.fromEmptyDir(
