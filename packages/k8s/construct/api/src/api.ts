@@ -3,7 +3,7 @@ import {
 	Component,
 	ContainerImage,
 } from '@crisiscleanup/k8s.construct.component'
-import { Chart, Duration, Size } from 'cdk8s'
+import { Chart, Duration, Size, JsonPatch, ApiObject } from 'cdk8s'
 import * as kplus from 'cdk8s-plus-27'
 import { Construct } from 'constructs'
 import createDebug from 'debug'
@@ -109,10 +109,21 @@ export abstract class ApiComponent<
 		const config = props.config ?? ApiConfig.of(scope)
 		if (!config) throw Error('Failed to resolve ApiConfig!')
 		this.config = config
-		this.deployment.scheduling.spread({
-			topology: kplus.Topology.HOSTNAME,
-			weight: 25,
-		})
+		const topoPatch = JsonPatch.add(
+			'/spec/template/spec/topologySpreadConstraints',
+			[
+				{
+					maxSkew: 2,
+					whenUnsatisfiable: 'ScheduleAnyway',
+					labelSelector: this.deployment
+						.toPodSelector()!
+						.toPodSelectorConfig()!
+						.labelSelector._toKube(),
+					topologyKey: kplus.Topology.ZONE.key,
+				},
+			],
+		)
+		ApiObject.of(this.deployment).addJsonPatch(topoPatch)
 	}
 
 	protected createHttpProbes(
