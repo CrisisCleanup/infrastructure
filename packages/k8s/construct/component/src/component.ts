@@ -5,6 +5,7 @@ import createDebug from 'debug'
 import defu from 'defu'
 import { ContainerImage, type ContainerImageProps } from './container-image'
 import { Label } from './labels'
+import { PodDisruptionBudget, type PodDisruptionBudgetProps } from './pdb'
 import { ComponentScaling, type ComponentScalingProps } from './scaling'
 
 const debug = createDebug('@crisiscleanup:k8s.construct.component')
@@ -142,5 +143,10 @@ export class Component<PropsT extends DeploymentProps = DeploymentProps> {
 			: this.deployment.addContainer(containerProps)
 		this.#containers.set(container.name, container)
 		return container
+	}
+
+	addPdb(props: PodDisruptionBudgetProps): this {
+		new PodDisruptionBudget(this.scope, this.id, props)
+		return this
 	}
 }
