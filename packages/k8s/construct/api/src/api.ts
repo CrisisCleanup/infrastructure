@@ -109,6 +109,13 @@ export abstract class ApiComponent<
 		const config = props.config ?? ApiConfig.of(scope)
 		if (!config) throw Error('Failed to resolve ApiConfig!')
 		this.config = config
+		this.deployment.scheduling.attract(
+			kplus.Node.labeled(
+				kplus.NodeLabelQuery.notIn('eks.amazonaws.com/compute-type', [
+					'fargate',
+				]),
+			),
+		)
 		const topoPatch = JsonPatch.add(
 			'/spec/template/spec/topologySpreadConstraints',
 			[
