@@ -36,26 +36,6 @@ exports[`CrisisCleanupChart > api: matches snapshot > api 1`] = `
           },
         },
         "spec": {
-          "affinity": {
-            "podAntiAffinity": {
-              "preferredDuringSchedulingIgnoredDuringExecution": [
-                {
-                  "podAffinityTerm": {
-                    "labelSelector": {
-                      "matchLabels": {
-                        "cdk8s.io/metadata.addr": "crisiscleanup-api-wsgi-c83e828d",
-                      },
-                    },
-                    "namespaces": [
-                      "test",
-                    ],
-                    "topologyKey": "kubernetes.io/hostname",
-                  },
-                  "weight": 25,
-                },
-              ],
-            },
-          },
           "automountServiceAccountToken": false,
           "containers": [
             {
@@ -151,6 +131,18 @@ exports[`CrisisCleanupChart > api: matches snapshot > api 1`] = `
           },
           "setHostnameAsFQDN": false,
           "terminationGracePeriodSeconds": 30,
+          "topologySpreadConstraints": [
+            {
+              "labelSelector": {
+                "matchLabels": {
+                  "cdk8s.io/metadata.addr": "crisiscleanup-api-wsgi-c83e828d",
+                },
+              },
+              "maxSkew": 2,
+              "topologyKey": "topology.kubernetes.io/zone",
+              "whenUnsatisfiable": "ScheduleAnyway",
+            },
+          ],
           "volumes": [
             {
               "emptyDir": {},
@@ -463,26 +455,6 @@ exports[`CrisisCleanupChart > api: matches snapshot > api 1`] = `
           },
         },
         "spec": {
-          "affinity": {
-            "podAntiAffinity": {
-              "preferredDuringSchedulingIgnoredDuringExecution": [
-                {
-                  "podAffinityTerm": {
-                    "labelSelector": {
-                      "matchLabels": {
-                        "cdk8s.io/metadata.addr": "crisiscleanup-api-asgi-c818ff7e",
-                      },
-                    },
-                    "namespaces": [
-                      "test",
-                    ],
-                    "topologyKey": "kubernetes.io/hostname",
-                  },
-                  "weight": 25,
-                },
-              ],
-            },
-          },
           "automountServiceAccountToken": false,
           "containers": [
             {
@@ -564,6 +536,18 @@ exports[`CrisisCleanupChart > api: matches snapshot > api 1`] = `
           },
           "setHostnameAsFQDN": false,
           "terminationGracePeriodSeconds": 30,
+          "topologySpreadConstraints": [
+            {
+              "labelSelector": {
+                "matchLabels": {
+                  "cdk8s.io/metadata.addr": "crisiscleanup-api-asgi-c818ff7e",
+                },
+              },
+              "maxSkew": 2,
+              "topologyKey": "topology.kubernetes.io/zone",
+              "whenUnsatisfiable": "ScheduleAnyway",
+            },
+          ],
         },
       },
     },
@@ -700,26 +684,6 @@ exports[`CrisisCleanupChart > api: matches snapshot > api 1`] = `
           },
         },
         "spec": {
-          "affinity": {
-            "podAntiAffinity": {
-              "preferredDuringSchedulingIgnoredDuringExecution": [
-                {
-                  "podAffinityTerm": {
-                    "labelSelector": {
-                      "matchLabels": {
-                        "cdk8s.io/metadata.addr": "crisiscleanup-api-admin-websocket-c879d9e4",
-                      },
-                    },
-                    "namespaces": [
-                      "test",
-                    ],
-                    "topologyKey": "kubernetes.io/hostname",
-                  },
-                  "weight": 25,
-                },
-              ],
-            },
-          },
           "automountServiceAccountToken": false,
           "containers": [
             {
@@ -765,6 +729,18 @@ exports[`CrisisCleanupChart > api: matches snapshot > api 1`] = `
           },
           "setHostnameAsFQDN": false,
           "terminationGracePeriodSeconds": 30,
+          "topologySpreadConstraints": [
+            {
+              "labelSelector": {
+                "matchLabels": {
+                  "cdk8s.io/metadata.addr": "crisiscleanup-api-admin-websocket-c879d9e4",
+                },
+              },
+              "maxSkew": 2,
+              "topologyKey": "topology.kubernetes.io/zone",
+              "whenUnsatisfiable": "ScheduleAnyway",
+            },
+          ],
         },
       },
     },
@@ -809,26 +785,6 @@ exports[`CrisisCleanupChart > celery: matches snapshot > celery 1`] = `
           },
         },
         "spec": {
-          "affinity": {
-            "podAntiAffinity": {
-              "preferredDuringSchedulingIgnoredDuringExecution": [
-                {
-                  "podAffinityTerm": {
-                    "labelSelector": {
-                      "matchLabels": {
-                        "cdk8s.io/metadata.addr": "crisiscleanup-celery-celerybeat-c8500419",
-                      },
-                    },
-                    "namespaces": [
-                      "test",
-                    ],
-                    "topologyKey": "kubernetes.io/hostname",
-                  },
-                  "weight": 25,
-                },
-              ],
-            },
-          },
           "automountServiceAccountToken": false,
           "containers": [
             {
@@ -874,6 +830,18 @@ exports[`CrisisCleanupChart > celery: matches snapshot > celery 1`] = `
           },
           "setHostnameAsFQDN": false,
           "terminationGracePeriodSeconds": 30,
+          "topologySpreadConstraints": [
+            {
+              "labelSelector": {
+                "matchLabels": {
+                  "cdk8s.io/metadata.addr": "crisiscleanup-celery-celerybeat-c8500419",
+                },
+              },
+              "maxSkew": 2,
+              "topologyKey": "topology.kubernetes.io/zone",
+              "whenUnsatisfiable": "ScheduleAnyway",
+            },
+          ],
         },
       },
     },
@@ -912,26 +880,6 @@ exports[`CrisisCleanupChart > celery: matches snapshot > celery 1`] = `
           },
         },
         "spec": {
-          "affinity": {
-            "podAntiAffinity": {
-              "preferredDuringSchedulingIgnoredDuringExecution": [
-                {
-                  "podAffinityTerm": {
-                    "labelSelector": {
-                      "matchLabels": {
-                        "cdk8s.io/metadata.addr": "crisiscleanup-celery-celery-celery-c8528587",
-                      },
-                    },
-                    "namespaces": [
-                      "test",
-                    ],
-                    "topologyKey": "kubernetes.io/hostname",
-                  },
-                  "weight": 25,
-                },
-              ],
-            },
-          },
           "automountServiceAccountToken": false,
           "containers": [
             {
@@ -982,6 +930,18 @@ exports[`CrisisCleanupChart > celery: matches snapshot > celery 1`] = `
           },
           "setHostnameAsFQDN": false,
           "terminationGracePeriodSeconds": 30,
+          "topologySpreadConstraints": [
+            {
+              "labelSelector": {
+                "matchLabels": {
+                  "cdk8s.io/metadata.addr": "crisiscleanup-celery-celery-celery-c8528587",
+                },
+              },
+              "maxSkew": 2,
+              "topologyKey": "topology.kubernetes.io/zone",
+              "whenUnsatisfiable": "ScheduleAnyway",
+            },
+          ],
         },
       },
     },
@@ -1092,26 +1052,6 @@ exports[`CrisisCleanupChart > celery: matches snapshot > celery 1`] = `
           },
         },
         "spec": {
-          "affinity": {
-            "podAntiAffinity": {
-              "preferredDuringSchedulingIgnoredDuringExecution": [
-                {
-                  "podAffinityTerm": {
-                    "labelSelector": {
-                      "matchLabels": {
-                        "cdk8s.io/metadata.addr": "crisiscleanup-celery-celery-signal-c80f507d",
-                      },
-                    },
-                    "namespaces": [
-                      "test",
-                    ],
-                    "topologyKey": "kubernetes.io/hostname",
-                  },
-                  "weight": 25,
-                },
-              ],
-            },
-          },
           "automountServiceAccountToken": false,
           "containers": [
             {
@@ -1162,6 +1102,18 @@ exports[`CrisisCleanupChart > celery: matches snapshot > celery 1`] = `
           },
           "setHostnameAsFQDN": false,
           "terminationGracePeriodSeconds": 30,
+          "topologySpreadConstraints": [
+            {
+              "labelSelector": {
+                "matchLabels": {
+                  "cdk8s.io/metadata.addr": "crisiscleanup-celery-celery-signal-c80f507d",
+                },
+              },
+              "maxSkew": 2,
+              "topologyKey": "topology.kubernetes.io/zone",
+              "whenUnsatisfiable": "ScheduleAnyway",
+            },
+          ],
         },
       },
     },
