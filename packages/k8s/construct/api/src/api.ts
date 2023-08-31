@@ -332,13 +332,15 @@ export class CeleryWorker extends ApiComponent<CeleryProps> {
 		const name = props.name ?? props.queues.join('-')
 		const hostname = `${name}@%%h`
 
+		const queues = [...new Set(props.queues)]
+
 		this.addContainer({
 			name,
 			command: [
 				'/serve.sh',
 				'celeryworker',
 				'-Q',
-				props.queues.join(','),
+				queues.join(','),
 				`--concurrency=${props.concurrency ?? 2}`,
 				'--hostname',
 				hostname,
