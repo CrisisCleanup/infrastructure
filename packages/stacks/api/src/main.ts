@@ -111,7 +111,7 @@ const pipeline = Pipeline.builder({
 				.addOns(
 					new KubePrometheusStackAddOn({
 						values: {
-							prometheusOperator: {
+							'prometheus-node-exporter': {
 								affinity: {
 									nodeAffinity: {
 										requiredDuringSchedulingIgnoredDuringExecution: {
