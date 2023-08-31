@@ -233,7 +233,7 @@ export class ApiWSGI
 			securityContext,
 			podMetadata: { labels: { component: 'api-migrate' } },
 			terminationGracePeriod: Duration.minutes(5),
-			activeDeadline: Duration.minutes(10),
+			activeDeadline: Duration.minutes(30),
 			ttlAfterFinished: Duration.minutes(2),
 		})
 
@@ -253,7 +253,7 @@ export class ApiWSGI
 			volumes: [staticVolume],
 			podMetadata: { labels: { component: 'api-static' } },
 			terminationGracePeriod: Duration.minutes(5),
-			activeDeadline: Duration.minutes(10),
+			activeDeadline: Duration.minutes(30),
 			ttlAfterFinished: Duration.minutes(2),
 		})
 		const staticJobContainer = this.collectStaticJob.addContainer({
