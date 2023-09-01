@@ -132,6 +132,13 @@ export abstract class ApiComponent<
 				],
 			)
 			ApiObject.of(this.deployment).addJsonPatch(topoPatch)
+			this.addPdb({
+				selectors: this.deployment
+					.toPodSelector()!
+					.toPodSelectorConfig()!
+					.labelSelector._toKube(),
+				minAvailable: '25%',
+			})
 		}
 	}
 
