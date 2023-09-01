@@ -1461,51 +1461,6 @@ exports[`CrisisCleanupChart: 'with spread' > api matches snapshot > with spread-
           },
         },
         "spec": {
-          "affinity": {
-            "nodeAffinity": {
-              "requiredDuringSchedulingIgnoredDuringExecution": {
-                "nodeSelectorTerms": [
-                  {
-                    "matchExpressions": [
-                      {
-                        "key": "eks.amazonaws.com/compute-type",
-                        "operator": "NotIn",
-                        "values": [
-                          "fargate",
-                        ],
-                      },
-                    ],
-                  },
-                ],
-              },
-            },
-            "podAntiAffinity": {
-              "requiredDuringSchedulingIgnoredDuringExecution": [
-                {
-                  "labelSelector": {
-                    "matchLabels": {
-                      "cdk8s.io/metadata.addr": "crisiscleanup-api-wsgi-c83e828d",
-                    },
-                  },
-                  "namespaces": [
-                    "test",
-                  ],
-                  "topologyKey": "kubernetes.io/hostname",
-                },
-                {
-                  "labelSelector": {
-                    "matchLabels": {
-                      "cdk8s.io/metadata.addr": "crisiscleanup-api-wsgi-c83e828d",
-                    },
-                  },
-                  "namespaces": [
-                    "test",
-                  ],
-                  "topologyKey": "topology.kubernetes.io/zone",
-                },
-              ],
-            },
-          },
           "automountServiceAccountToken": false,
           "containers": [
             {
@@ -1874,51 +1829,6 @@ exports[`CrisisCleanupChart: 'with spread' > api matches snapshot > with spread-
           },
         },
         "spec": {
-          "affinity": {
-            "nodeAffinity": {
-              "requiredDuringSchedulingIgnoredDuringExecution": {
-                "nodeSelectorTerms": [
-                  {
-                    "matchExpressions": [
-                      {
-                        "key": "eks.amazonaws.com/compute-type",
-                        "operator": "NotIn",
-                        "values": [
-                          "fargate",
-                        ],
-                      },
-                    ],
-                  },
-                ],
-              },
-            },
-            "podAntiAffinity": {
-              "requiredDuringSchedulingIgnoredDuringExecution": [
-                {
-                  "labelSelector": {
-                    "matchLabels": {
-                      "cdk8s.io/metadata.addr": "crisiscleanup-api-asgi-c818ff7e",
-                    },
-                  },
-                  "namespaces": [
-                    "test",
-                  ],
-                  "topologyKey": "kubernetes.io/hostname",
-                },
-                {
-                  "labelSelector": {
-                    "matchLabels": {
-                      "cdk8s.io/metadata.addr": "crisiscleanup-api-asgi-c818ff7e",
-                    },
-                  },
-                  "namespaces": [
-                    "test",
-                  ],
-                  "topologyKey": "topology.kubernetes.io/zone",
-                },
-              ],
-            },
-          },
           "automountServiceAccountToken": false,
           "containers": [
             {
