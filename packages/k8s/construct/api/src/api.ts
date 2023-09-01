@@ -91,7 +91,8 @@ export abstract class ApiComponent<
 		readonly id: string,
 		props: PropsT,
 	) {
-		const propsWithDefaults = defu(props, {
+		const { spread, ...restProps } = props
+		const propsWithDefaults = defu(restProps as typeof props, {
 			containerDefaults: {
 				resources: {
 					cpu: {
@@ -110,13 +111,6 @@ export abstract class ApiComponent<
 		if (!config) throw Error('Failed to resolve ApiConfig!')
 		this.config = config
 		if (props.spread) {
-			this.deployment.scheduling.attract(
-				kplus.Node.labeled(
-					kplus.NodeLabelQuery.notIn('eks.amazonaws.com/compute-type', [
-						'fargate',
-					]),
-				),
-			)
 			const topoPatch = JsonPatch.add(
 				'/spec/template/spec/topologySpreadConstraints',
 				[
