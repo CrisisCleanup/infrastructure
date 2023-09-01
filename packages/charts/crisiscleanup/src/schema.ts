@@ -31,6 +31,7 @@ const scalingSchema = z
 
 const deploymentSchema = z.object({
 	image: containerImageSchema.optional(),
+	spread: z.boolean().default(false),
 })
 
 const withScaling = <T extends typeof deploymentSchema>(inSchema: T) =>
