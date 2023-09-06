@@ -1,8 +1,16 @@
 {
   "dependencies": [
     {
+      "name": "@arroyodev-llc/utils.unbuild-composite-preset",
+      "type": "build"
+    },
+    {
       "name": "@sparticuz/chromium",
-      "version": "116.0.0",
+      "version": "109.0.0",
+      "type": "build"
+    },
+    {
+      "name": "@types/aws-lambda",
       "type": "build"
     },
     {
@@ -28,6 +36,10 @@
     {
       "name": "constructs",
       "version": "10.2.69",
+      "type": "build"
+    },
+    {
+      "name": "esbuild",
       "type": "build"
     },
     {
@@ -100,6 +112,10 @@
       "type": "build"
     },
     {
+      "name": "unbuild",
+      "type": "build"
+    },
+    {
       "name": "aws-cdk-lib",
       "version": "^2.93.0",
       "type": "peer"
@@ -111,7 +127,11 @@
     },
     {
       "name": "puppeteer-core",
-      "version": "v21.1.0",
+      "version": "v19.4.0",
+      "type": "runtime"
+    },
+    {
+      "name": "zod",
       "type": "runtime"
     }
   ],

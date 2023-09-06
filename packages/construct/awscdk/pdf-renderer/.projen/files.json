@@ -10,6 +10,7 @@
     ".projen/tasks.json",
     "LICENSE",
     "project.json",
+    "src/handler-function.ts",
     "tsconfig.dev.json",
     "tsconfig.json"
   ],
