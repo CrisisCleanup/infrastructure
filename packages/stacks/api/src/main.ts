@@ -99,13 +99,7 @@ const pipeline = Pipeline.builder({
 						githubConfigUrl: 'https://github.com/CrisisCleanup',
 						runnerScaleSetName: 'crisiscleanup-arc',
 						githubConfigSecret: 'arc-github-credentials',
-						containerImages: {
-							[ScaleSetContainer.RUNNER]:
-								'summerwind/actions-runner:ubuntu-20.04',
-							[ScaleSetContainer.INIT_DIND]:
-								'ghcr.io/actions/actions-runner:2.308.0',
-							[ScaleSetContainer.DIND]: 'docker:dind',
-						},
+						containerImages: builderConfig.apiStack!.arc.images,
 					}),
 				)
 				.addOns(
