@@ -21,6 +21,33 @@
         }
       ]
     },
+    "bundle": {
+      "name": "bundle",
+      "description": "Prepare assets",
+      "steps": [
+        {
+          "spawn": "bundle:handler.lambda"
+        }
+      ]
+    },
+    "bundle:handler.lambda": {
+      "name": "bundle:handler.lambda",
+      "description": "Create a JavaScript bundle from src/handler.lambda.ts",
+      "steps": [
+        {
+          "exec": "esbuild --bundle src/handler.lambda.ts --target=\"node18\" --platform=\"node\" --outfile=\"assets/handler.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/*"
+        }
+      ]
+    },
+    "bundle:handler.lambda:watch": {
+      "name": "bundle:handler.lambda:watch",
+      "description": "Continuously update the JavaScript bundle from src/handler.lambda.ts",
+      "steps": [
+        {
+          "exec": "esbuild --bundle src/handler.lambda.ts --target=\"node18\" --platform=\"node\" --outfile=\"assets/handler.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/* --watch"
+        }
+      ]
+    },
     "clean": {
       "name": "clean",
       "steps": [
@@ -46,7 +73,11 @@
       "description": "Only compile",
       "steps": [
         {
-          "exec": "jsii --silence-warnings=reserved-word"
+          "exec": "pnpm exec tsc --build --emitDeclarationOnly"
+        },
+        {
+          "exec": "pnpm exec unbuild",
+          "name": "Unbuild"
         }
       ]
     },
@@ -56,12 +87,7 @@
     },
     "docgen": {
       "name": "docgen",
-      "description": "Generate API.md from .jsii manifest",
-      "steps": [
-        {
-          "exec": "jsii-docgen -o API.md"
-        }
-      ]
+      "description": "Generate API.md from .jsii manifest"
     },
     "eslint": {
       "name": "eslint",
@@ -121,13 +147,35 @@
         }
       ]
     },
+    "post-install": {
+      "name": "post-install",
+      "steps": [
+        {
+          "spawn": "stub"
+        }
+      ]
+    },
     "post-upgrade": {
       "name": "post-upgrade",
       "description": "Runs after upgrading dependencies"
     },
     "pre-compile": {
       "name": "pre-compile",
-      "description": "Prepare the project for compilation"
+      "description": "Prepare the project for compilation",
+      "steps": [
+        {
+          "spawn": "bundle"
+        }
+      ]
+    },
+    "stub": {
+      "name": "stub",
+      "steps": [
+        {
+          "exec": "pnpm exec unbuild --stub"
+        }
+      ],
+      "condition": "test -z \"$CI\""
     },
     "test": {
       "name": "test",
@@ -149,13 +197,13 @@
           "exec": "pnpm update npm-check-updates"
         },
         {
-          "exec": "npm-check-updates --upgrade --target=minor --filter=@types/node,@typescript-eslint/eslint-plugin,@typescript-eslint/parser,eslint-config-prettier,eslint-import-resolver-node,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-prettier,eslint,jsii-diff,jsii-docgen,jsii-pacmak,lint-staged,npm-check-updates,prettier,projen,aws-cdk-lib,constructs"
+          "exec": "npm-check-updates --upgrade --target=minor --filter=@arroyodev-llc/utils.unbuild-composite-preset,@types/aws-lambda,@types/node,@typescript-eslint/eslint-plugin,@typescript-eslint/parser,esbuild,eslint-config-prettier,eslint-import-resolver-node,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-prettier,eslint,jsii-diff,jsii-docgen,jsii-pacmak,lint-staged,npm-check-updates,prettier,projen,unbuild,aws-cdk-lib,constructs,zod"
         },
         {
           "exec": "pnpm i --no-frozen-lockfile"
         },
         {
-          "exec": "pnpm update @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-config-prettier eslint-import-resolver-node eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint jsii-diff jsii-docgen jsii-pacmak lint-staged npm-check-updates prettier projen aws-cdk-lib constructs"
+          "exec": "pnpm update @arroyodev-llc/utils.unbuild-composite-preset @types/aws-lambda @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser esbuild eslint-config-prettier eslint-import-resolver-node eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint jsii-diff jsii-docgen jsii-pacmak lint-staged npm-check-updates prettier projen unbuild aws-cdk-lib constructs zod"
         },
         {
           "exec": "npx projen"
