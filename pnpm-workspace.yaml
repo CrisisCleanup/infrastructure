@@ -4,6 +4,7 @@ packages:
   - packages/charts/crisiscleanup
   - packages/config
   - packages/construct/awscdk/github-pipeline
+  - packages/construct/awscdk/pdf-renderer
   - packages/k8s/construct/api
   - packages/k8s/construct/component
   - packages/stacks/api
