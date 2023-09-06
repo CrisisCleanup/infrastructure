@@ -436,16 +436,18 @@ new Vitest(ghPipelineConstruct)
 
 const pdfRendererConstruct = AwsCdkTsConstructBuilder.build({
 	name: 'construct.awscdk.pdf-renderer',
-	deps: ['puppeteer-core@v21.1.0'],
+	deps: ['puppeteer-core@v19.4.0', 'zod'],
 	// served via lambda layer during runtime
-	devDeps: ['@sparticuz/chromium@116.0.0'],
+	devDeps: ['@sparticuz/chromium@109.0.0', '@types/aws-lambda'],
 	lambdaOptions: {
 		runtime: awscdk.LambdaRuntime.NODEJS_18_X,
 	},
 	prettier: true,
 	jest: false,
-	unbuild: false,
+	unbuild: true,
 })
+pdfRendererConstruct.package.file.addDeletionOverride('main')
+pdfRendererConstruct.tasks.tryFind('docgen')?.reset?.()
 
 // Stacks
 const apiStack = AwsCdkTsAppBuilder.add(new CdkTsAppCompileBuilder()).build({
