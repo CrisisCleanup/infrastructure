@@ -40,6 +40,9 @@
     },
     {
       "path": "../../construct/awscdk/github-pipeline/tsconfig.json"
+    },
+    {
+      "path": "../../construct/awscdk/pdf-renderer/tsconfig.json"
     }
   ]
 }

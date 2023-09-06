@@ -55,6 +55,7 @@
     "@crisiscleanup/charts.crisiscleanup": "workspace:*",
     "@crisiscleanup/config": "workspace:*",
     "@crisiscleanup/construct.awscdk.github-pipeline": "workspace:*",
+    "@crisiscleanup/construct.awscdk.pdf-renderer": "workspace:*",
     "@crisiscleanup/k8s.construct.api": "workspace:*",
     "@crisiscleanup/k8s.construct.component": "workspace:*",
     "@kubecost/kubecost-eks-blueprints-addon": "^0.1.8",

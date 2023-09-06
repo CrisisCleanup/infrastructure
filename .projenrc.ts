@@ -459,6 +459,7 @@ const apiStack = AwsCdkTsAppBuilder.add(new CdkTsAppCompileBuilder()).build({
 		apiConstruct,
 		k8sComponentConstruct,
 		ghPipelineConstruct,
+		pdfRendererConstruct,
 	],
 	deps: [
 		'zod',

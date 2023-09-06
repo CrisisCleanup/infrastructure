@@ -115,6 +115,11 @@
       "type": "runtime"
     },
     {
+      "name": "@crisiscleanup/construct.awscdk.pdf-renderer",
+      "version": "workspace:*",
+      "type": "runtime"
+    },
+    {
       "name": "@crisiscleanup/k8s.construct.api",
       "version": "workspace:*",
       "type": "runtime"
