@@ -6,6 +6,9 @@
   },
   "scripts": {
     "build": "npx projen build",
+    "bundle": "npx projen bundle",
+    "bundle:handler.lambda": "npx projen bundle:handler.lambda",
+    "bundle:handler.lambda:watch": "npx projen bundle:handler.lambda:watch",
     "clean": "pnpm exec projen clean",
     "compat": "npx projen compat",
     "compile": "npx projen compile",
@@ -16,8 +19,10 @@
     "package-all": "npx projen package-all",
     "package:js": "npx projen package:js",
     "post-compile": "npx projen post-compile",
+    "post-install": "npx projen post-install",
     "post-upgrade": "npx projen post-upgrade",
     "pre-compile": "npx projen pre-compile",
+    "stub": "npx projen stub",
     "test": "npx projen test",
     "upgrade": "npx projen upgrade",
     "watch": "npx projen watch"
@@ -28,12 +33,15 @@
     "organization": true
   },
   "devDependencies": {
-    "@sparticuz/chromium": "116.0.0",
+    "@arroyodev-llc/utils.unbuild-composite-preset": "^0.1.2",
+    "@sparticuz/chromium": "109.0.0",
+    "@types/aws-lambda": "^8.10.119",
     "@types/node": "^18",
     "@typescript-eslint/eslint-plugin": "^5",
     "@typescript-eslint/parser": "^5",
     "aws-cdk-lib": "2.93.0",
     "constructs": "10.2.69",
+    "esbuild": "^0.19.2",
     "eslint": "^8",
     "eslint-config-prettier": "^9.0.0",
     "eslint-import-resolver-node": "^0.3.9",
@@ -49,14 +57,16 @@
     "npm-check-updates": "^16",
     "prettier": "^3.0.2",
     "projen": "^0.72.22",
-    "typescript": "~5.1"
+    "typescript": "~5.1",
+    "unbuild": "^2.0.0-rc.0"
   },
   "peerDependencies": {
     "aws-cdk-lib": "^2.93.0",
     "constructs": "^10.2.69"
   },
   "dependencies": {
-    "puppeteer-core": "v21.1.0"
+    "puppeteer-core": "v19.4.0",
+    "zod": "^3.22.2"
   },
   "keywords": [
     "cdk"
@@ -64,10 +74,9 @@
   "engines": {
     "node": ">= 18.16.0"
   },
-  "main": "lib/index.js",
   "license": "Apache-2.0",
   "version": "0.0.0",
-  "types": "dist/index.d.ts",
+  "types": "./dist/index.d.ts",
   "stability": "stable",
   "jsii": {
     "outdir": "dist",
@@ -79,6 +88,16 @@
   },
   "type": "module",
   "sideEffects": true,
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
   "packageManager": "pnpm@8.6.12",
   "lint-staged": {
     "*.{ts,tsx,mts,cts,js,jsx,jts,jts}": [

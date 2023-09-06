@@ -75,6 +75,7 @@
     ".projen/tasks.json",
     "LICENSE",
     "project.json",
+    "src/handler-function.ts",
     "tsconfig.dev.json",
     "tsconfig.json",
     ".eslintrc.json",
@@ -87,6 +88,7 @@
     ".projen/tasks.json",
     "LICENSE",
     "project.json",
+    "src/handler-function.ts",
     "tsconfig.dev.json",
     "tsconfig.json"
   ],
@@ -102,7 +104,8 @@
       {
         "devDependencies": [
           "**/test/**",
-          "**/build-tools/**"
+          "**/build-tools/**",
+          "src/handler.lambda.ts"
         ],
         "optionalDependencies": false,
         "peerDependencies": true
@@ -199,6 +202,26 @@
       "rules": {
         "@typescript-eslint/require-await": [
           "warn"
+        ]
+      }
+    },
+    {
+      "files": [
+        "build.config.ts"
+      ],
+      "rules": {
+        "import/no-extraneous-dependencies": [
+          "off"
+        ]
+      }
+    },
+    {
+      "files": [
+        "build.config.ts"
+      ],
+      "rules": {
+        "import/order": [
+          "off"
         ]
       }
     }

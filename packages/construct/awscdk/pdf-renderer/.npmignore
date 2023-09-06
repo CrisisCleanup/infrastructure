@@ -13,5 +13,6 @@ dist
 tsconfig.tsbuildinfo
 /.eslintrc.json
 !.jsii
+!/assets/
 /tsconfig.json
 /tsconfig.dev.json
