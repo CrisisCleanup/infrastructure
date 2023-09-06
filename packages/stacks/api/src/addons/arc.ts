@@ -193,6 +193,10 @@ export class ARCScaleSet extends blueprints.HelmAddOn {
 
 		const mergedValues = defu(this.options.values ?? {}, ...values)
 		debug('merged values: %O', mergedValues)
+		clusterInfo.cluster.addManifest(
+			'arc-storage-class',
+			this.createStorageClassTemplate(),
+		)
 		const chart = this.addHelmChart(clusterInfo, mergedValues)
 		if (this.options.createNamespace) {
 			const namespace = blueprints.utils.createNamespace(
@@ -202,6 +206,46 @@ export class ARCScaleSet extends blueprints.HelmAddOn {
 			chart.node.addDependency(namespace)
 		}
 		return Promise.resolve(chart)
+	}
+
+	/**
+	 * Create the template spec for storage class.
+	 * @protected
+	 */
+	protected createStorageClassTemplate() {
+		return {
+			apiVersion: 'storage.k8s.io/v1',
+			kind: 'StorageClass',
+			metadata: {
+				name: 'arc-gp3-sc',
+			},
+			provisioner: 'ebs.csi.aws.com',
+			volumeBindingMode: 'WaitForFirstConsumer',
+			reclaimPolicy: 'Delete',
+			allowVolumeExpansion: true,
+			parameters: {
+				type: 'gp3',
+			},
+		}
+	}
+
+	/**
+	 * Create the template spec for volume claim.
+	 * @param storageRequest Request amount and unit.
+	 * @protected
+	 */
+	protected createVolumeClaimTemplate(storageRequest: string) {
+		return {
+			spec: {
+				accessModes: ['ReadWriteOnce'],
+				storageClassName: 'arc-gp3-sc',
+				resources: {
+					requests: {
+						storage: storageRequest,
+					},
+				},
+			},
+		}
 	}
 
 	/**
@@ -232,6 +276,10 @@ export class ARCScaleSet extends blueprints.HelmAddOn {
 							name: 'dind-externals',
 							mountPath: '/home/runner/tmpDir',
 						},
+						{
+							name: 'var-lib-docker',
+							mountPath: '/var/lib/docker',
+						},
 					],
 				},
 			],
@@ -241,6 +289,7 @@ export class ARCScaleSet extends blueprints.HelmAddOn {
 				{
 					name: ScaleSetContainer.DIND,
 					image: dindImage,
+					resources: this.containerResources,
 					securityContext: {
 						privileged: true,
 					},
@@ -267,6 +316,19 @@ export class ARCScaleSet extends blueprints.HelmAddOn {
 		}
 	}
 
+	protected get containerResources() {
+		return {
+			limits: {
+				cpu: '4.0',
+				memory: '8Gi',
+			},
+			requests: {
+				cpu: '2.0',
+				memory: '4Gi',
+			},
+		}
+	}
+
 	/**
 	 * Create the template spec for runner container.
 	 * @protected
@@ -276,16 +338,20 @@ export class ARCScaleSet extends blueprints.HelmAddOn {
 			this.options.containerImages?.[ScaleSetContainer.RUNNER] ??
 			'ghcr.io/actions/actions-runner:latest'
 
+		const initCommands = [
+			'sudo chown -R runner:docker /home/runner',
+			'cp -r /runnertmp/* /home/runner/',
+			'mkdir -p /home/runner/externals',
+			'mv /home/runner/externalstmp/* /home/runner/externals/',
+			'sudo chown -R runner:docker /home/runner',
+		]
+
 		const runnerInit = {
 			initContainers: [
 				{
 					name: ScaleSetContainer.INIT_RUNNER,
 					image: runnerImage,
-					command: [
-						'sh',
-						'-c',
-						'sudo chown -R runner:docker /home/runner && cp -r /runnertmp/* /home/runner/ && mkdir -p /home/runner/externals && mv /home/runner/externalstmp/* /home/runner/externals/',
-					],
+					command: ['sh', '-c', initCommands.join(' && ')],
 					volumeMounts: [
 						{
 							name: 'runner',
@@ -306,6 +372,7 @@ export class ARCScaleSet extends blueprints.HelmAddOn {
 					name: ScaleSetContainer.RUNNER,
 					image: runnerImage,
 					command: ['/home/runner/run.sh'],
+
 					env: [
 						{
 							name: 'DOCKER_HOST',
@@ -351,11 +418,19 @@ export class ARCScaleSet extends blueprints.HelmAddOn {
 				volumes: [
 					{
 						name: 'work',
-						emptyDir: {},
+						ephemeral: {
+							volumeClaimTemplate: this.createVolumeClaimTemplate('10Gi'),
+						},
 					},
 					{
 						name: 'runner',
 						emptyDir: {},
+					},
+					{
+						name: 'var-lib-docker',
+						ephemeral: {
+							volumeClaimTemplate: this.createVolumeClaimTemplate('10Gi'),
+						},
 					},
 					{
 						name: 'dind-cert',
