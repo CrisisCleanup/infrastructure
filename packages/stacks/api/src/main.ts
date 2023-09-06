@@ -11,7 +11,6 @@ import {
 	RedisStackAddOn,
 	ARCScaleSet,
 	ARCScaleSetController,
-	ScaleSetContainer,
 } from './addons'
 import { noFargateNodeAffinitySelector } from './cluster.ts'
 import { Pipeline } from './pipeline'
