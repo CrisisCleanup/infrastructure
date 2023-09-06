@@ -35,7 +35,7 @@
       "description": "Create a JavaScript bundle from src/handler.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/handler.lambda.ts --target=\"node18\" --platform=\"node\" --outfile=\"assets/handler.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/*"
+          "exec": "esbuild --bundle src/handler.lambda.ts --target=\"node18\" --platform=\"node\" --outfile=\"assets/handler.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/* --external:@sparticuz/chromium"
         }
       ]
     },
@@ -44,7 +44,7 @@
       "description": "Continuously update the JavaScript bundle from src/handler.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/handler.lambda.ts --target=\"node18\" --platform=\"node\" --outfile=\"assets/handler.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/* --watch"
+          "exec": "esbuild --bundle src/handler.lambda.ts --target=\"node18\" --platform=\"node\" --outfile=\"assets/handler.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/*  --external:@sparticuz/chromium --watch"
         }
       ]
     },
