@@ -143,7 +143,11 @@ jobs:
       asset-hash26: ${{steps.publish.outputs.asset-hash26}}
       asset-hash27: ${{steps.publish.outputs.asset-hash27}}
       asset-hash28: ${{steps.publish.outputs.asset-hash28}}
+      asset-hash29: ${{steps.publish.outputs.asset-hash29}}
       asset-hash3: ${{steps.publish.outputs.asset-hash3}}
+      asset-hash30: ${{steps.publish.outputs.asset-hash30}}
+      asset-hash31: ${{steps.publish.outputs.asset-hash31}}
+      asset-hash32: ${{steps.publish.outputs.asset-hash32}}
       asset-hash4: ${{steps.publish.outputs.asset-hash4}}
       asset-hash5: ${{steps.publish.outputs.asset-hash5}}
       asset-hash6: ${{steps.publish.outputs.asset-hash6}}
@@ -191,7 +195,7 @@ jobs:
       - name: Publish
         id: publish
         run: >-
-          targets="./cdk.out/publish-Assets-FileAsset1-step.sh,./cdk.out/publish-Assets-FileAsset10-step.sh,./cdk.out/publish-Assets-FileAsset11-step.sh,./cdk.out/publish-Assets-FileAsset12-step.sh,./cdk.out/publish-Assets-FileAsset13-step.sh,./cdk.out/publish-Assets-FileAsset14-step.sh,./cdk.out/publish-Assets-FileAsset15-step.sh,./cdk.out/publish-Assets-FileAsset16-step.sh,./cdk.out/publish-Assets-FileAsset17-step.sh,./cdk.out/publish-Assets-FileAsset18-step.sh,./cdk.out/publish-Assets-FileAsset19-step.sh,./cdk.out/publish-Assets-FileAsset2-step.sh,./cdk.out/publish-Assets-FileAsset20-step.sh,./cdk.out/publish-Assets-FileAsset21-step.sh,./cdk.out/publish-Assets-FileAsset22-step.sh,./cdk.out/publish-Assets-FileAsset23-step.sh,./cdk.out/publish-Assets-FileAsset24-step.sh,./cdk.out/publish-Assets-FileAsset25-step.sh,./cdk.out/publish-Assets-FileAsset26-step.sh,./cdk.out/publish-Assets-FileAsset27-step.sh,./cdk.out/publish-Assets-FileAsset28-step.sh,./cdk.out/publish-Assets-FileAsset3-step.sh,./cdk.out/publish-Assets-FileAsset4-step.sh,./cdk.out/publish-Assets-FileAsset5-step.sh,./cdk.out/publish-Assets-FileAsset6-step.sh,./cdk.out/publish-Assets-FileAsset7-step.sh,./cdk.out/publish-Assets-FileAsset8-step.sh,./cdk.out/publish-Assets-FileAsset9-step.sh"
+          targets="./cdk.out/publish-Assets-FileAsset1-step.sh,./cdk.out/publish-Assets-FileAsset10-step.sh,./cdk.out/publish-Assets-FileAsset11-step.sh,./cdk.out/publish-Assets-FileAsset12-step.sh,./cdk.out/publish-Assets-FileAsset13-step.sh,./cdk.out/publish-Assets-FileAsset14-step.sh,./cdk.out/publish-Assets-FileAsset15-step.sh,./cdk.out/publish-Assets-FileAsset16-step.sh,./cdk.out/publish-Assets-FileAsset17-step.sh,./cdk.out/publish-Assets-FileAsset18-step.sh,./cdk.out/publish-Assets-FileAsset19-step.sh,./cdk.out/publish-Assets-FileAsset2-step.sh,./cdk.out/publish-Assets-FileAsset20-step.sh,./cdk.out/publish-Assets-FileAsset21-step.sh,./cdk.out/publish-Assets-FileAsset22-step.sh,./cdk.out/publish-Assets-FileAsset23-step.sh,./cdk.out/publish-Assets-FileAsset24-step.sh,./cdk.out/publish-Assets-FileAsset25-step.sh,./cdk.out/publish-Assets-FileAsset26-step.sh,./cdk.out/publish-Assets-FileAsset27-step.sh,./cdk.out/publish-Assets-FileAsset28-step.sh,./cdk.out/publish-Assets-FileAsset29-step.sh,./cdk.out/publish-Assets-FileAsset3-step.sh,./cdk.out/publish-Assets-FileAsset30-step.sh,./cdk.out/publish-Assets-FileAsset31-step.sh,./cdk.out/publish-Assets-FileAsset32-step.sh,./cdk.out/publish-Assets-FileAsset4-step.sh,./cdk.out/publish-Assets-FileAsset5-step.sh,./cdk.out/publish-Assets-FileAsset6-step.sh,./cdk.out/publish-Assets-FileAsset7-step.sh,./cdk.out/publish-Assets-FileAsset8-step.sh,./cdk.out/publish-Assets-FileAsset9-step.sh"
 
           echo -n "$targets" | xargs -r -d',' -t -n1 -P2 /bin/bash
   deploy-development-development-network-deploy:
@@ -290,7 +294,7 @@ jobs:
         with:
           name: staging-staging-network
           template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_STAGING}}-us-east-1.s3.us-east-1.amazonaws.com/${{
-            needs.publish.outputs.asset-hash17 }}.json
+            needs.publish.outputs.asset-hash19 }}.json
           no-fail-on-empty-changeset: "1"
           capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM
           role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_STAGING}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_STAGING}}-us-east-1
@@ -340,7 +344,7 @@ jobs:
         with:
           name: production-production-network
           template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}-us-east-1.s3.us-east-1.amazonaws.com/${{
-            needs.publish.outputs.asset-hash22 }}.json
+            needs.publish.outputs.asset-hash25 }}.json
           no-fail-on-empty-changeset: "1"
           capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM
           role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}-us-east-1
@@ -442,7 +446,7 @@ jobs:
         with:
           name: staging-staging-data
           template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_STAGING}}-us-east-1.s3.us-east-1.amazonaws.com/${{
-            needs.publish.outputs.asset-hash18 }}.json
+            needs.publish.outputs.asset-hash20 }}.json
           no-fail-on-empty-changeset: "1"
           capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM
           role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_STAGING}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_STAGING}}-us-east-1
@@ -493,7 +497,7 @@ jobs:
         with:
           name: production-production-cache
           template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}-us-east-1.s3.us-east-1.amazonaws.com/${{
-            needs.publish.outputs.asset-hash23 }}.json
+            needs.publish.outputs.asset-hash26 }}.json
           no-fail-on-empty-changeset: "1"
           capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM
           role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}-us-east-1
@@ -544,7 +548,7 @@ jobs:
         with:
           name: production-production-data
           template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}-us-east-1.s3.us-east-1.amazonaws.com/${{
-            needs.publish.outputs.asset-hash24 }}.json
+            needs.publish.outputs.asset-hash27 }}.json
           no-fail-on-empty-changeset: "1"
           capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM
           role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}-us-east-1
@@ -649,7 +653,7 @@ jobs:
         with:
           name: staging-staging-blueprint
           template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_STAGING}}-us-east-1.s3.us-east-1.amazonaws.com/${{
-            needs.publish.outputs.asset-hash19 }}.json
+            needs.publish.outputs.asset-hash21 }}.json
           no-fail-on-empty-changeset: "1"
           capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM
           role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_STAGING}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_STAGING}}-us-east-1
@@ -701,7 +705,7 @@ jobs:
         with:
           name: production-production-blueprint
           template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}-us-east-1.s3.us-east-1.amazonaws.com/${{
-            needs.publish.outputs.asset-hash25 }}.json
+            needs.publish.outputs.asset-hash28 }}.json
           no-fail-on-empty-changeset: "1"
           capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM
           role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}-us-east-1

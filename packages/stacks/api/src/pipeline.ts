@@ -4,8 +4,20 @@ import {
 	type CdkEnvironment,
 	type CrisisCleanupConfig,
 } from '@crisiscleanup/config'
-import type { Environment, Stack, StackProps } from 'aws-cdk-lib'
+import {
+	PDFRendererFunction,
+	type PDFRendererProps,
+} from '@crisiscleanup/construct.awscdk.pdf-renderer'
+import {
+	NestedStack,
+	type Environment,
+	type NestedStackProps,
+	type Stack,
+	type StackProps,
+} from 'aws-cdk-lib'
 import * as iam from 'aws-cdk-lib/aws-iam'
+import * as lambda from 'aws-cdk-lib/aws-lambda'
+import * as lambdaEvents from 'aws-cdk-lib/aws-lambda-event-sources'
 import { type GitHubEnvironment, StackCapabilities } from 'cdk-pipelines-github'
 import type { Construct } from 'constructs'
 import { CrisisCleanupAddOn } from './addons'
@@ -171,6 +183,38 @@ export class Pipeline {
 						).build(),
 					)
 					.addOns(
+						new blueprints.NestedStackAddOn({
+							id: 'pdf-renderer',
+							builder: {
+								build(
+									nestedScope: Construct,
+									nestedId: string,
+									nestedStackProps?: NestedStackProps,
+								): NestedStack {
+									const nestedStack = new NestedStack(
+										nestedScope,
+										nestedId + '-pdf-renderer',
+										nestedStackProps,
+									)
+									new PDFRendererFunction(nestedStack, nestedId + '-function', {
+										// vpc: blueprints.getNamedResource(
+										// 	blueprints.GlobalResources.Vpc,
+										// ),
+										layers: [
+											lambda.LayerVersion.fromLayerVersionArn(
+												nestedStack,
+												id + '-chrome-layer',
+												'arn:aws:lambda:us-east-1:764866452798:layer:chrome-aws-lambda:33',
+											),
+										],
+										events: [
+											new lambdaEvents.ApiEventSource('POST', '/render'),
+										],
+									})
+									return nestedStack
+								},
+							},
+						}),
 						buildKarpenter(
 							undefined,
 							undefined,
