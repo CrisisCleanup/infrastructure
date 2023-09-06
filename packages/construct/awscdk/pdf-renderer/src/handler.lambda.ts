@@ -41,12 +41,14 @@ export async function handler(event: APIGatewayEvent) {
 
 	const payload = await schema.parseAsync(JSON.parse(event.body!))
 	console.log('Received payload:', payload)
+	const path = await chrome.executablePath
+	console.log('Path is:', path)
 
 	const browser = await puppeteer.launch({
 		// @ts-ignore
 		// eslint-disable-next-line @typescript-eslint/await-thenable,@typescript-eslint/unbound-method
-		executablePath: await chrome.executablePath,
-		headless: chrome.headless,
+		executablePath: path,
+		headless: 'new',
 		args: chrome.args,
 	})
 
