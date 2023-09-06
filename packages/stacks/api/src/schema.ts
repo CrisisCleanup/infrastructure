@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { ScaleSetContainer } from './addons'
 
 export const kubeConfigSchema = z.object({
 	version: z.string().default('1.27').describe('Kubernetes version.'),
@@ -125,6 +126,8 @@ export const cacheConfigSchema = z.object({
 
 export interface CacheConfig extends z.infer<typeof cacheConfigSchema> {}
 
+const arcImagesEnum = z.nativeEnum(ScaleSetContainer)
+
 export const arcConfigSchema = z.object({
 	github: z
 		.object({
@@ -148,6 +151,14 @@ export const arcConfigSchema = z.object({
 		.nullable()
 		.default(null)
 		.describe('Maximum allowed runners'),
+	images: z
+		.record(arcImagesEnum, z.string())
+		.describe('Images to use.')
+		.default({
+			[arcImagesEnum.enum.RUNNER]: 'summerwind/actions-runner:ubuntu-20.04',
+			[arcImagesEnum.enum.INIT_DIND]: 'ghcr.io/actions/actions-runner:2.308.0',
+			[arcImagesEnum.enum.DIND]: 'docker:dind',
+		}),
 })
 
 export const apiStackConfigSchema = z.object({
