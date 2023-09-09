@@ -142,13 +142,14 @@ export abstract class ApiComponent<
 		const liveProbe = kplus.Probe.fromHttpGet(httpPath, {
 			initialDelaySeconds: Duration.seconds(20),
 			periodSeconds: Duration.seconds(10),
-			timeoutSeconds: Duration.seconds(3),
+			timeoutSeconds: Duration.seconds(6),
 			failureThreshold: 4,
 		})
 
 		const readyProbe = kplus.Probe.fromHttpGet(httpPath, {
 			initialDelaySeconds: Duration.seconds(20),
 			periodSeconds: Duration.seconds(10),
+			timeoutSeconds: Duration.seconds(3),
 		})
 
 		const startProbe = kplus.Probe.fromHttpGet(httpPath, {
