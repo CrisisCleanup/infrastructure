@@ -66,7 +66,7 @@ exports[`CrisisCleanupChart: 'defaults' > api matches snapshot > defaults-api 1`
                 },
                 "initialDelaySeconds": 20,
                 "periodSeconds": 10,
-                "timeoutSeconds": 3,
+                "timeoutSeconds": 6,
               },
               "name": "gunicorn",
               "ports": [
@@ -83,6 +83,7 @@ exports[`CrisisCleanupChart: 'defaults' > api matches snapshot > defaults-api 1`
                 },
                 "initialDelaySeconds": 20,
                 "periodSeconds": 10,
+                "timeoutSeconds": 3,
               },
               "resources": {
                 "limits": {
@@ -469,7 +470,7 @@ exports[`CrisisCleanupChart: 'defaults' > api matches snapshot > defaults-api 1`
                 },
                 "initialDelaySeconds": 20,
                 "periodSeconds": 10,
-                "timeoutSeconds": 3,
+                "timeoutSeconds": 6,
               },
               "name": "hypercorn",
               "ports": [
@@ -486,6 +487,7 @@ exports[`CrisisCleanupChart: 'defaults' > api matches snapshot > defaults-api 1`
                 },
                 "initialDelaySeconds": 20,
                 "periodSeconds": 10,
+                "timeoutSeconds": 3,
               },
               "resources": {
                 "limits": {
@@ -1491,7 +1493,7 @@ exports[`CrisisCleanupChart: 'with spread' > api matches snapshot > with spread-
                 },
                 "initialDelaySeconds": 20,
                 "periodSeconds": 10,
-                "timeoutSeconds": 3,
+                "timeoutSeconds": 6,
               },
               "name": "gunicorn",
               "ports": [
@@ -1508,6 +1510,7 @@ exports[`CrisisCleanupChart: 'with spread' > api matches snapshot > with spread-
                 },
                 "initialDelaySeconds": 20,
                 "periodSeconds": 10,
+                "timeoutSeconds": 3,
               },
               "resources": {
                 "limits": {
@@ -1855,7 +1858,7 @@ exports[`CrisisCleanupChart: 'with spread' > api matches snapshot > with spread-
                 },
                 "initialDelaySeconds": 20,
                 "periodSeconds": 10,
-                "timeoutSeconds": 3,
+                "timeoutSeconds": 6,
               },
               "name": "hypercorn",
               "ports": [
@@ -1872,6 +1875,7 @@ exports[`CrisisCleanupChart: 'with spread' > api matches snapshot > with spread-
                 },
                 "initialDelaySeconds": 20,
                 "periodSeconds": 10,
+                "timeoutSeconds": 3,
               },
               "resources": {
                 "limits": {
