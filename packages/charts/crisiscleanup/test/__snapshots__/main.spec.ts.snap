@@ -46,7 +46,7 @@ exports[`CrisisCleanupChart: 'defaults' > api matches snapshot > defaults-api 1`
                 "--threads=4",
                 "--worker-class=gthread",
                 "--worker-tmp-dir=/worker-tmp",
-                "--timeout=300",
+                "--timeout=90",
               ],
               "envFrom": [
                 {
@@ -58,7 +58,7 @@ exports[`CrisisCleanupChart: 'defaults' > api matches snapshot > defaults-api 1`
               "image": "test-api:test",
               "imagePullPolicy": "Always",
               "livenessProbe": {
-                "failureThreshold": 4,
+                "failureThreshold": 6,
                 "httpGet": {
                   "path": "/health",
                   "port": 5000,
@@ -75,7 +75,7 @@ exports[`CrisisCleanupChart: 'defaults' > api matches snapshot > defaults-api 1`
                 },
               ],
               "readinessProbe": {
-                "failureThreshold": 3,
+                "failureThreshold": 6,
                 "httpGet": {
                   "path": "/health",
                   "port": 5000,
@@ -83,7 +83,7 @@ exports[`CrisisCleanupChart: 'defaults' > api matches snapshot > defaults-api 1`
                 },
                 "initialDelaySeconds": 20,
                 "periodSeconds": 10,
-                "timeoutSeconds": 3,
+                "timeoutSeconds": 6,
               },
               "resources": {
                 "limits": {
@@ -462,7 +462,7 @@ exports[`CrisisCleanupChart: 'defaults' > api matches snapshot > defaults-api 1`
               "image": "test-api:test",
               "imagePullPolicy": "Always",
               "livenessProbe": {
-                "failureThreshold": 4,
+                "failureThreshold": 6,
                 "httpGet": {
                   "path": "/ws/health",
                   "port": 5000,
@@ -479,7 +479,7 @@ exports[`CrisisCleanupChart: 'defaults' > api matches snapshot > defaults-api 1`
                 },
               ],
               "readinessProbe": {
-                "failureThreshold": 3,
+                "failureThreshold": 6,
                 "httpGet": {
                   "path": "/ws/health",
                   "port": 5000,
@@ -487,7 +487,7 @@ exports[`CrisisCleanupChart: 'defaults' > api matches snapshot > defaults-api 1`
                 },
                 "initialDelaySeconds": 20,
                 "periodSeconds": 10,
-                "timeoutSeconds": 3,
+                "timeoutSeconds": 6,
               },
               "resources": {
                 "limits": {
@@ -1473,7 +1473,7 @@ exports[`CrisisCleanupChart: 'with spread' > api matches snapshot > with spread-
                 "--threads=4",
                 "--worker-class=gthread",
                 "--worker-tmp-dir=/worker-tmp",
-                "--timeout=300",
+                "--timeout=90",
               ],
               "envFrom": [
                 {
@@ -1485,7 +1485,7 @@ exports[`CrisisCleanupChart: 'with spread' > api matches snapshot > with spread-
               "image": "test-api:test",
               "imagePullPolicy": "Always",
               "livenessProbe": {
-                "failureThreshold": 4,
+                "failureThreshold": 6,
                 "httpGet": {
                   "path": "/health",
                   "port": 5000,
@@ -1502,7 +1502,7 @@ exports[`CrisisCleanupChart: 'with spread' > api matches snapshot > with spread-
                 },
               ],
               "readinessProbe": {
-                "failureThreshold": 3,
+                "failureThreshold": 6,
                 "httpGet": {
                   "path": "/health",
                   "port": 5000,
@@ -1510,7 +1510,7 @@ exports[`CrisisCleanupChart: 'with spread' > api matches snapshot > with spread-
                 },
                 "initialDelaySeconds": 20,
                 "periodSeconds": 10,
-                "timeoutSeconds": 3,
+                "timeoutSeconds": 6,
               },
               "resources": {
                 "limits": {
@@ -1789,7 +1789,7 @@ exports[`CrisisCleanupChart: 'with spread' > api matches snapshot > with spread-
       "namespace": "test",
     },
     "spec": {
-      "minAvailable": "25%",
+      "minAvailable": "35%",
       "selector": {
         "matchLabels": {
           "cdk8s.io/metadata.addr": "crisiscleanup-api-wsgi-c83e828d",
@@ -1850,7 +1850,7 @@ exports[`CrisisCleanupChart: 'with spread' > api matches snapshot > with spread-
               "image": "test-api:test",
               "imagePullPolicy": "Always",
               "livenessProbe": {
-                "failureThreshold": 4,
+                "failureThreshold": 6,
                 "httpGet": {
                   "path": "/ws/health",
                   "port": 5000,
@@ -1867,7 +1867,7 @@ exports[`CrisisCleanupChart: 'with spread' > api matches snapshot > with spread-
                 },
               ],
               "readinessProbe": {
-                "failureThreshold": 3,
+                "failureThreshold": 6,
                 "httpGet": {
                   "path": "/ws/health",
                   "port": 5000,
@@ -1875,7 +1875,7 @@ exports[`CrisisCleanupChart: 'with spread' > api matches snapshot > with spread-
                 },
                 "initialDelaySeconds": 20,
                 "periodSeconds": 10,
-                "timeoutSeconds": 3,
+                "timeoutSeconds": 6,
               },
               "resources": {
                 "limits": {
@@ -1967,7 +1967,7 @@ exports[`CrisisCleanupChart: 'with spread' > api matches snapshot > with spread-
       "namespace": "test",
     },
     "spec": {
-      "minAvailable": "25%",
+      "minAvailable": "35%",
       "selector": {
         "matchLabels": {
           "cdk8s.io/metadata.addr": "crisiscleanup-api-asgi-c818ff7e",
