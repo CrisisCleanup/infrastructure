@@ -131,7 +131,7 @@ export abstract class ApiComponent<
 					.toPodSelector()!
 					.toPodSelectorConfig()!
 					.labelSelector._toKube(),
-				minAvailable: '25%',
+				minAvailable: '35%',
 			})
 		}
 	}
@@ -143,13 +143,14 @@ export abstract class ApiComponent<
 			initialDelaySeconds: Duration.seconds(20),
 			periodSeconds: Duration.seconds(10),
 			timeoutSeconds: Duration.seconds(6),
-			failureThreshold: 4,
+			failureThreshold: 6,
 		})
 
 		const readyProbe = kplus.Probe.fromHttpGet(httpPath, {
 			initialDelaySeconds: Duration.seconds(20),
 			periodSeconds: Duration.seconds(10),
-			timeoutSeconds: Duration.seconds(3),
+			timeoutSeconds: Duration.seconds(6),
+			failureThreshold: 6,
 		})
 
 		const startProbe = kplus.Probe.fromHttpGet(httpPath, {
@@ -200,7 +201,7 @@ export class ApiWSGI
 				`--threads=${props.threads ?? 4}`,
 				'--worker-class=gthread',
 				'--worker-tmp-dir=/worker-tmp',
-				'--timeout=300',
+				'--timeout=90',
 			],
 			...(props.probes ?? this.createHttpProbes(this.httpProbePath)),
 			resources: {
