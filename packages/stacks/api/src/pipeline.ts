@@ -14,10 +14,13 @@ import {
 	type NestedStackProps,
 	type Stack,
 	type StackProps,
+	Duration,
 } from 'aws-cdk-lib'
+import * as apigateway from 'aws-cdk-lib/aws-apigateway'
 import * as iam from 'aws-cdk-lib/aws-iam'
 import * as lambda from 'aws-cdk-lib/aws-lambda'
 import * as lambdaEvents from 'aws-cdk-lib/aws-lambda-event-sources'
+
 import { type GitHubEnvironment, StackCapabilities } from 'cdk-pipelines-github'
 import type { Construct } from 'constructs'
 import { CrisisCleanupAddOn } from './addons'
@@ -196,21 +199,37 @@ export class Pipeline {
 										nestedId + '-pdf-renderer',
 										nestedStackProps,
 									)
-									new PDFRendererFunction(nestedStack, nestedId + '-function', {
-										// vpc: blueprints.getNamedResource(
-										// 	blueprints.GlobalResources.Vpc,
-										// ),
-										layers: [
-											lambda.LayerVersion.fromLayerVersionArn(
-												nestedStack,
-												id + '-chrome-layer',
-												'arn:aws:lambda:us-east-1:764866452798:layer:chrome-aws-lambda:33',
-											),
-										],
-										events: [
-											new lambdaEvents.ApiEventSource('POST', '/render'),
-										],
+									const pdfRendererFunction = new PDFRendererFunction(
+										nestedStack,
+										nestedId + '-function',
+										{
+											// vpc: blueprints.getNamedResource(
+											// 	blueprints.GlobalResources.Vpc,
+											// ),
+											timeout: Duration.seconds(28),
+											memorySize: 3000,
+											layers: [
+												lambda.LayerVersion.fromLayerVersionArn(
+													nestedStack,
+													id + '-chrome-layer',
+													'arn:aws:lambda:us-east-1:764866452798:layer:chrome-aws-lambda:33',
+												),
+											],
+										},
+									)
+
+									const api = new apigateway.RestApi(nestedStack, 'PdfApi', {
+										restApiName: 'CCU PDF Service',
+										description: 'API Service to generate PDFs.',
+										binaryMediaTypes: ['application/pdf'],
 									})
+
+									const renderResource = api.root.addResource('render')
+									const integration = new apigateway.LambdaIntegration(
+										pdfRendererFunction,
+									)
+									renderResource.addMethod('POST', integration)
+
 									return nestedStack
 								},
 							},

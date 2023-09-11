@@ -6,34 +6,31 @@ import { z } from 'zod'
 const schema = z
 	.object({
 		content: z.string().describe('Raw HTML content to render'),
-		width: z.number().optional().describe('Width of the PDF in pixels'),
-		height: z.number().optional().describe('Height of the PDF in pixels'),
+		width: z.string().optional().describe('Width of the PDF in px, in, or mm'),
+		height: z
+			.string()
+			.optional()
+			.describe('Height of the PDF in px, in, or mm'),
 	})
 	.partial({ width: true, height: true })
 
 const doRender = async (
 	browser: Browser,
 	props: z.infer<typeof schema>,
-): Promise<string> => {
+): Promise<Buffer> => {
 	const { content, height, width } = props
-	const dimensions = {
-		...(width ? { width } : {}),
-		...(height ? { height } : {}),
-	}
-
 	const page = await browser.newPage()
-	if (width || height) {
-		await page.setViewport({
-			...(dimensions as { height: number; width: number }),
-		})
-	}
-	await page.setContent(content)
+	await page.setContent(content, {
+		waitUntil: 'networkidle0',
+	})
 
 	const pdf = await page.pdf({
-		...dimensions,
-		format: 'A4',
+		printBackground: true,
+		width: width,
+		height: height,
+		pageRanges: '1',
 	})
-	return pdf.toString('base64')
+	return pdf
 }
 
 export async function handler(event: APIGatewayEvent) {
@@ -45,10 +42,8 @@ export async function handler(event: APIGatewayEvent) {
 	console.log('Path is:', path)
 
 	const browser = await puppeteer.launch({
-		// @ts-ignore
-		// eslint-disable-next-line @typescript-eslint/await-thenable,@typescript-eslint/unbound-method
 		executablePath: path,
-		headless: 'new',
+		headless: chrome.headless,
 		args: chrome.args,
 	})
 
@@ -59,8 +54,10 @@ export async function handler(event: APIGatewayEvent) {
 			headers: {
 				'Content-Type': 'application/pdf',
 				'Content-Disposition': 'attachment; filename="result.pdf"',
+				'Content-Encoding': 'base64',
 			},
-			body: pdf,
+			body: pdf.toString('base64'),
+			isBase64Encoded: true,
 		}
 	} catch (e: unknown) {
 		console.error('Error rendering PDF:', e)
