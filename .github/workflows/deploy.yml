@@ -79,7 +79,7 @@ jobs:
           'ubuntu'))
         with:
           arch: arm64
-          version: "2"
+          version: 2.13.11
       - name: Install Helm
         uses: azure/setup-helm@v3
         with:
@@ -176,7 +176,7 @@ jobs:
           'ubuntu'))
         with:
           arch: arm64
-          version: "2"
+          version: 2.13.11
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:

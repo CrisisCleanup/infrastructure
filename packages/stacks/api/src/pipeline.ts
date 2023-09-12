@@ -4,10 +4,7 @@ import {
 	type CdkEnvironment,
 	type CrisisCleanupConfig,
 } from '@crisiscleanup/config'
-import {
-	PDFRendererFunction,
-	type PDFRendererProps,
-} from '@crisiscleanup/construct.awscdk.pdf-renderer'
+import { PDFRendererFunction } from '@crisiscleanup/construct.awscdk.pdf-renderer'
 import {
 	NestedStack,
 	type Environment,
@@ -19,7 +16,6 @@ import {
 import * as apigateway from 'aws-cdk-lib/aws-apigateway'
 import * as iam from 'aws-cdk-lib/aws-iam'
 import * as lambda from 'aws-cdk-lib/aws-lambda'
-import * as lambdaEvents from 'aws-cdk-lib/aws-lambda-event-sources'
 
 import { type GitHubEnvironment, StackCapabilities } from 'cdk-pipelines-github'
 import type { Construct } from 'constructs'
