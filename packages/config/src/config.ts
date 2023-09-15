@@ -163,7 +163,7 @@ export const getConfig = async <
 			console.warn(
 				'GIGET_AUTH not set in environment and token resolution from gh-cli failed.',
 			)
-			console.warn(
+			throw new Error(
 				'Resolving config will likely fail; please set GIGET_AUTH to a github auth token in your environment.',
 			)
 		}
