@@ -420,6 +420,10 @@ const AwsCdkTsConstructBuilder = new ProjectBuilder(
 	.add(new tsBuilders.TypescriptBundlerBuilder())
 
 // Constructs
+
+/**
+ * Github Pipeline Construct
+ */
 const ghPipelineConstruct = AwsCdkTsConstructBuilder.build({
 	name: 'construct.awscdk.github-pipeline',
 	deps: ['flat', 'defu', 'decamelize'],
@@ -434,6 +438,9 @@ ghPipelineConstruct.package.file.addDeletionOverride('main')
 ghPipelineConstruct.tasks.tryFind('docgen')?.reset?.()
 new Vitest(ghPipelineConstruct)
 
+/**
+ * Chromium PDF Renderer Lambda Construct
+ */
 const pdfRendererConstruct = AwsCdkTsConstructBuilder.build({
 	name: 'construct.awscdk.pdf-renderer',
 	deps: ['puppeteer-core@v19.4.0', 'zod'],
@@ -448,6 +455,11 @@ const pdfRendererConstruct = AwsCdkTsConstructBuilder.build({
 })
 pdfRendererConstruct.package.file.addDeletionOverride('main')
 pdfRendererConstruct.tasks.tryFind('docgen')?.reset?.()
+pdfRendererConstruct.tasks
+	.tryFind('post-compile')!
+	.spawn(pdfRendererConstruct.tasks.tryFind('bundle')!, {
+		name: 'Bundle Lambdas',
+	})
 
 // Stacks
 const apiStack = AwsCdkTsAppBuilder.add(new CdkTsAppCompileBuilder()).build({
