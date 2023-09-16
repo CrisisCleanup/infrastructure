@@ -21,7 +21,11 @@ import {
 } from '@arroyodev-llc/projen.project.typescript'
 import { applyOverrides } from '@arroyodev-llc/utils.projen'
 import { builders, ProjectBuilder } from '@arroyodev-llc/utils.projen-builder'
-import { NodePackageUtils } from '@aws-prototyping-sdk/nx-monorepo'
+import {
+	NodePackageUtils,
+	NxConfigurator,
+	NxProject,
+} from '@aws-prototyping-sdk/nx-monorepo'
 import {
 	type CrisisCleanupConfig,
 	flattenToScreamingSnakeCase,
@@ -455,11 +459,10 @@ const pdfRendererConstruct = AwsCdkTsConstructBuilder.build({
 })
 pdfRendererConstruct.package.file.addDeletionOverride('main')
 pdfRendererConstruct.tasks.tryFind('docgen')?.reset?.()
-pdfRendererConstruct.tasks
-	.tryFind('post-compile')!
-	.spawn(pdfRendererConstruct.tasks.tryFind('bundle')!, {
-		name: 'Bundle Lambdas',
-	})
+NxProject.ensure(pdfRendererConstruct).addBuildTargetFiles(
+	[],
+	['{projectRoot}/assets'],
+)
 
 // Stacks
 const apiStack = AwsCdkTsAppBuilder.add(new CdkTsAppCompileBuilder()).build({

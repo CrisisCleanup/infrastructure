@@ -144,10 +144,6 @@
       "steps": [
         {
           "spawn": "docgen"
-        },
-        {
-          "spawn": "bundle",
-          "name": "Bundle Lambdas"
         }
       ]
     },

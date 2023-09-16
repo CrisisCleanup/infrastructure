@@ -13,7 +13,7 @@
       "outputs": [
         "{projectRoot}/.jsii",
         "{projectRoot}/dist",
-        "{projectRoot}/dist"
+        "{projectRoot}/assets"
       ],
       "dependsOn": [
         "^build"
