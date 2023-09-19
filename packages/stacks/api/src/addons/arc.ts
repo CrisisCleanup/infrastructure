@@ -78,7 +78,7 @@ const scaleSetControllerDefaultProps: blueprints.HelmAddOnProps &
 		'oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set-controller',
 	release: 'arc',
 	namespace: 'arc-systems',
-	version: '0.5.0',
+	version: '0.6.0',
 	values: {},
 }
 
