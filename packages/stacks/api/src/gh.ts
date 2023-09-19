@@ -208,6 +208,13 @@ class PipelineBuilder {
 			abortIncompleteMultipartUploadAfter: cdk.Duration.days(7),
 			prefix: 'cdk-assets',
 		})
+		pipelineS3.addLifecycleRule({
+			id: 'cleanup-build-stale-cache',
+			enabled: true,
+			expiration: cdk.Duration.days(30),
+			abortIncompleteMultipartUploadAfter: cdk.Duration.days(7),
+			prefix: 'build-cache',
+		})
 
 		const pipelineKms = new kms.Key(scope, 'pipeline-kms', {
 			alias: 'pipeline-key',
