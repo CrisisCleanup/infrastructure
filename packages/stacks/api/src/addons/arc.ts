@@ -264,6 +264,7 @@ export class ARCScaleSet extends blueprints.HelmAddOn {
 				{
 					name: ScaleSetContainer.INIT_DIND,
 					image: initImage,
+					imagePullPolicy: 'IfNotPresent',
 					command: [
 						'cp',
 						'-r',
@@ -289,6 +290,7 @@ export class ARCScaleSet extends blueprints.HelmAddOn {
 				{
 					name: ScaleSetContainer.DIND,
 					image: dindImage,
+					imagePullPolicy: 'IfNotPresent',
 					resources: this.containerResources,
 					securityContext: {
 						privileged: true,
@@ -351,6 +353,7 @@ export class ARCScaleSet extends blueprints.HelmAddOn {
 				{
 					name: ScaleSetContainer.INIT_RUNNER,
 					image: runnerImage,
+					imagePullPolicy: 'IfNotPresent',
 					command: ['sh', '-c', initCommands.join(' && ')],
 					volumeMounts: [
 						{
@@ -371,8 +374,8 @@ export class ARCScaleSet extends blueprints.HelmAddOn {
 				{
 					name: ScaleSetContainer.RUNNER,
 					image: runnerImage,
+					imagePullPolicy: 'IfNotPresent',
 					command: ['/home/runner/run.sh'],
-
 					env: [
 						{
 							name: 'DOCKER_HOST',
