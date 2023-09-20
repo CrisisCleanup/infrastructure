@@ -2,10 +2,13 @@ import * as cdk from 'aws-cdk-lib'
 import * as ec2 from 'aws-cdk-lib/aws-ec2'
 import * as kms from 'aws-cdk-lib/aws-kms'
 import * as rds from 'aws-cdk-lib/aws-rds'
+import * as route53 from 'aws-cdk-lib/aws-route53'
+import * as route53Targets from 'aws-cdk-lib/aws-route53-targets'
 import { type ISecret, Secret } from 'aws-cdk-lib/aws-secretsmanager'
 import { KeyPair } from 'cdk-ec2-key-pair'
 import { Construct } from 'constructs'
 import defu from 'defu'
+import type { IDelegator } from './zones.ts'
 import { type DatabaseConfig } from '../schema'
 
 export interface DatabaseProps extends DatabaseConfig {
@@ -172,6 +175,7 @@ interface DatabaseBastionProps {
 	readonly vpc: ec2.IVpc
 	readonly allowCidrs: string[]
 	readonly encryptionKey: kms.IKey
+	readonly hostedZone?: route53.IPublicHostedZone
 }
 
 export class DatabaseBastion extends Construct {
@@ -183,7 +187,7 @@ export class DatabaseBastion extends Construct {
 	constructor(scope: Construct, id: string, props: DatabaseBastionProps) {
 		super(scope, id)
 
-		const { database, vpc, encryptionKey, allowCidrs } = props
+		const { database, vpc, encryptionKey, allowCidrs, hostedZone } = props
 
 		this.securityGroup = new ec2.SecurityGroup(this, id + '-security-group', {
 			vpc,
@@ -239,6 +243,26 @@ export class DatabaseBastion extends Construct {
 		this.bastion.allowSshAccessFrom(
 			ec2.Peer.prefixList(this.allowPrefixList.prefixListId),
 		)
+		if (props.hostedZone) {
+			this.createDnsRecord(props.hostedZone)
+		}
+	}
+
+	createDnsRecord(zone: route53.IPublicHostedZone, scope?: Construct) {
+		const record = new route53.ARecord(
+			scope ?? this,
+			scope?.node?.id ?? this.node.id + '-bastion-dns',
+			{
+				ttl: cdk.Duration.seconds(60),
+				zone,
+				target: { values: [this.bastion.instance.instancePublicIp] },
+				comment: 'Bastion host DNS record',
+				deleteExisting: true,
+				recordName: 'bastion',
+			},
+		)
+		record.node.addDependency(this.bastion)
+		return record
 	}
 }
 
@@ -253,6 +277,7 @@ export class DataStack extends cdk.Stack {
 	readonly encryptionKey: kms.IKey
 	readonly credentialsSecret: ISecret
 	readonly dbCluster: Database
+	readonly bastion: DatabaseBastion
 
 	constructor(
 		scope: Construct,
@@ -288,7 +313,7 @@ export class DataStack extends cdk.Stack {
 			...props.clusterProps,
 		})
 
-		new DatabaseBastion(this, id + '-bastion', {
+		this.bastion = new DatabaseBastion(this, id + '-bastion', {
 			vpc: props.vpc,
 			encryptionKey: this.encryptionKey,
 			allowCidrs: props.clusterProps.bastionAllowList,
