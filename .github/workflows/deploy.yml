@@ -53,7 +53,7 @@ jobs:
       - name: Mask values
         run: |-
           echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
-          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
@@ -169,7 +169,7 @@ jobs:
       - name: Mask values
         run: |-
           echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
-          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
@@ -225,7 +225,7 @@ jobs:
       - name: Mask values
         run: |-
           echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
-          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
@@ -246,17 +246,17 @@ jobs:
           aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
           aws-session-token: ${{ env.AWS_SESSION_TOKEN }}
-          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}-us-east-1
+          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_PIPELINE}}-us-east-1
           role-external-id: Pipeline
       - id: Deploy
         uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
         with:
           name: development-development-delegator-zone
-          template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}-us-east-1.s3.us-east-1.amazonaws.com/${{
+          template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PIPELINE}}-us-east-1.s3.us-east-1.amazonaws.com/${{
             needs.publish.outputs.asset-hash1 }}.json
           no-fail-on-empty-changeset: "1"
           capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM
-          role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}-us-east-1
+          role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_PIPELINE}}-us-east-1
   deploy-development-development-network-deploy:
     name: Deploy crisiscleanupinfrapipelinestackdevelopmentdevelopmentnetwork9BE60577
     if: contains((github.event.inputs.environments || inputs.environments),
@@ -275,7 +275,7 @@ jobs:
       - name: Mask values
         run: |-
           echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
-          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
@@ -325,7 +325,7 @@ jobs:
       - name: Mask values
         run: |-
           echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
-          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
@@ -346,17 +346,17 @@ jobs:
           aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
           aws-session-token: ${{ env.AWS_SESSION_TOKEN }}
-          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}-us-east-1
+          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_PIPELINE}}-us-east-1
           role-external-id: Pipeline
       - id: Deploy
         uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
         with:
           name: staging-staging-delegator-zone
-          template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}-us-east-1.s3.us-east-1.amazonaws.com/${{
+          template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PIPELINE}}-us-east-1.s3.us-east-1.amazonaws.com/${{
             needs.publish.outputs.asset-hash23 }}.json
           no-fail-on-empty-changeset: "1"
           capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM
-          role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}-us-east-1
+          role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_PIPELINE}}-us-east-1
   deploy-staging-staging-network-deploy:
     name: Deploy crisiscleanupinfrapipelinestackstagingstagingnetworkF6BE5B3F
     if: contains((github.event.inputs.environments || inputs.environments),
@@ -375,7 +375,7 @@ jobs:
       - name: Mask values
         run: |-
           echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
-          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
@@ -426,7 +426,7 @@ jobs:
       - name: Mask values
         run: |-
           echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
-          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
@@ -447,17 +447,17 @@ jobs:
           aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
           aws-session-token: ${{ env.AWS_SESSION_TOKEN }}
-          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}-us-east-1
+          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_PIPELINE}}-us-east-1
           role-external-id: Pipeline
       - id: Deploy
         uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
         with:
           name: production-production-delegator-zone
-          template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}-us-east-1.s3.us-east-1.amazonaws.com/${{
+          template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PIPELINE}}-us-east-1.s3.us-east-1.amazonaws.com/${{
             needs.publish.outputs.asset-hash31 }}.json
           no-fail-on-empty-changeset: "1"
           capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM
-          role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}-us-east-1
+          role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_PIPELINE}}-us-east-1
   deploy-production-production-network-deploy:
     name: Deploy crisiscleanupinfrapipelinestackproductionproductionnetworkACD050B9
     if: contains((github.event.inputs.environments || inputs.environments),
@@ -476,7 +476,7 @@ jobs:
       - name: Mask values
         run: |-
           echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
-          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
@@ -528,7 +528,7 @@ jobs:
       - name: Mask values
         run: |-
           echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
-          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
@@ -579,7 +579,7 @@ jobs:
       - name: Mask values
         run: |-
           echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
-          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
@@ -630,7 +630,7 @@ jobs:
       - name: Mask values
         run: |-
           echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
-          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
@@ -682,7 +682,7 @@ jobs:
       - name: Mask values
         run: |-
           echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
-          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
@@ -734,7 +734,7 @@ jobs:
       - name: Mask values
         run: |-
           echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
-          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
@@ -786,7 +786,7 @@ jobs:
       - name: Mask values
         run: |-
           echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
-          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
@@ -838,7 +838,7 @@ jobs:
       - name: Mask values
         run: |-
           echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
-          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
@@ -891,7 +891,7 @@ jobs:
       - name: Mask values
         run: |-
           echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
-          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
@@ -943,7 +943,7 @@ jobs:
       - name: Mask values
         run: |-
           echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
-          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
@@ -995,7 +995,7 @@ jobs:
       - name: Mask values
         run: |-
           echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
-          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
