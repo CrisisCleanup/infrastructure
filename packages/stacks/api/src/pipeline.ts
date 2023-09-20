@@ -9,7 +9,7 @@ import {
 	NestedStack,
 	type Environment,
 	type NestedStackProps,
-	type Stack,
+	Stack,
 	type StackProps,
 	Duration,
 } from 'aws-cdk-lib'
@@ -28,12 +28,14 @@ import {
 	ResourceNames,
 } from './cluster'
 import { type GithubCodePipelineBuilder, GithubCodePipelineStack } from './gh'
-import { NetworkStack, DataStack, CacheStack } from './stacks'
+import { CacheStack, DataStack, NetworkStack } from './stacks'
+import { DelegatorZoneStack } from './stacks/zones'
 
 export interface PipelineProps {
 	readonly id: string
 	readonly rootDir?: string
 	readonly repos?: string[]
+	readonly pipelineEnvironment: Environment
 }
 
 export interface PipelineTarget {
@@ -93,6 +95,10 @@ export class Pipeline {
 			config,
 			secretsProvider,
 		} = target
+		const pipelineEnv = PipelineEnv.fromEnv(
+			this.props.pipelineEnvironment,
+			'pipeline',
+		)
 		const env = PipelineEnv.fromEnv(environment ?? config.cdkEnvironment, name)
 		const envStackBuilder = stackBuilder(
 			blueprints.EksBlueprint.builder()
@@ -130,6 +136,39 @@ export class Pipeline {
 				id: string,
 				stackProps?: StackProps,
 			): blueprints.EksBlueprint {
+				// TODO: this is getting messy. refactor soon
+				const delegatorZone = new DelegatorZoneStack(
+					scope,
+					env.id + '-delegator-zone',
+					{
+						delegateAccountId: env.account,
+						zoneName:
+							env.id === 'production'
+								? 'crisiscleanup.org'
+								: 'crisiscleanup.io',
+						roleName: 'CrossAccountZoneDelegationRole-' + env.id,
+					},
+					{
+						env: pipelineEnv.env,
+					},
+				)
+				const delegateZoneStack = new Stack(scope, env.id + '-delegate-zone', {
+					env: env.env,
+				})
+				const subdomains = {
+					production: 'crisiscleanup.org',
+					staging: 'staging.crisiscleanup.io',
+					development: 'dev.crisiscleanup.io',
+				}
+				const subZoneDomain = subdomains[env.id as keyof typeof subdomains]
+				const subZone = delegatorZone.delegate(
+					delegateZoneStack,
+					subZoneDomain + '-delegate-zone',
+					{
+						subdomain: subZoneDomain,
+					},
+				)
+
 				const network = new NetworkStack(
 					scope,
 					env.id + '-network',
@@ -139,6 +178,7 @@ export class Pipeline {
 						...stackProps,
 					},
 				)
+
 				const data = new DataStack(
 					scope,
 					env.id + '-data',
@@ -151,6 +191,7 @@ export class Pipeline {
 						...stackProps,
 					},
 				)
+				data.bastion.createDnsRecord(subZone)
 
 				if (config.apiStack!.cache.enabled) {
 					new CacheStack(
