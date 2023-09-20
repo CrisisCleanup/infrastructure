@@ -185,7 +185,7 @@ export class DatabaseBastion extends Construct {
 	constructor(scope: Construct, id: string, props: DatabaseBastionProps) {
 		super(scope, id)
 
-		const { database, vpc, encryptionKey, allowCidrs, hostedZone } = props
+		const { database, vpc, encryptionKey, allowCidrs } = props
 
 		this.securityGroup = new ec2.SecurityGroup(this, id + '-security-group', {
 			vpc,
