@@ -918,6 +918,79 @@ importers:
         specifier: ^0.34.2
         version: 0.34.2(supports-color@9.4.0)
 
+  packages/stacks/web:
+    dependencies:
+      '@aws-prototyping-sdk/static-website':
+        specifier: ^0.19.67
+        version: 0.19.67(aws-cdk-lib@2.93.0)(cdk-nag@2.27.110)(constructs@10.2.69)(projen@0.72.22)
+      '@crisiscleanup/config':
+        specifier: workspace:*
+        version: link:../../config
+      '@crisiscleanup/construct.awscdk.github-pipeline':
+        specifier: workspace:*
+        version: link:../../construct/awscdk/github-pipeline
+      aws-cdk-lib:
+        specifier: 2.93.0
+        version: 2.93.0(constructs@10.2.69)
+      cdk-pipelines-github:
+        specifier: ^0.4.103
+        version: 0.4.103(aws-cdk-lib@2.93.0)(constructs@10.2.69)
+      constructs:
+        specifier: 10.2.69
+        version: 10.2.69
+    devDependencies:
+      '@types/node':
+        specifier: ^18
+        version: 18.16.19
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^5
+        version: 5.62.0(@typescript-eslint/parser@5.62.0)(eslint@8.47.0)(supports-color@9.4.0)(typescript@5.1.6)
+      '@typescript-eslint/parser':
+        specifier: ^5
+        version: 5.62.0(eslint@8.47.0)(supports-color@9.4.0)(typescript@5.1.6)
+      aws-cdk:
+        specifier: ^2.93.0
+        version: 2.93.0
+      esbuild:
+        specifier: ^0.19.2
+        version: 0.19.2
+      eslint:
+        specifier: ^8
+        version: 8.47.0(supports-color@9.4.0)
+      eslint-config-prettier:
+        specifier: ^9.0.0
+        version: 9.0.0(eslint@8.47.0)
+      eslint-import-resolver-node:
+        specifier: ^0.3.9
+        version: 0.3.9(supports-color@9.4.0)
+      eslint-import-resolver-typescript:
+        specifier: ^3.6.0
+        version: 3.6.0(@typescript-eslint/parser@5.62.0)(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.28.1)(eslint@8.47.0)
+      eslint-plugin-import:
+        specifier: ^2.28.1
+        version: 2.28.1(@typescript-eslint/parser@5.62.0)(eslint-import-resolver-typescript@3.6.0)(eslint@8.47.0)
+      eslint-plugin-prettier:
+        specifier: ^5.0.0
+        version: 5.0.0(eslint-config-prettier@9.0.0)(eslint@8.47.0)(prettier@3.0.2)
+      lint-staged:
+        specifier: ^14.0.1
+        version: 14.0.1(supports-color@9.4.0)
+      npm-check-updates:
+        specifier: ^16
+        version: 16.13.1(supports-color@9.4.0)
+      prettier:
+        specifier: ^3.0.2
+        version: 3.0.2
+      projen:
+        specifier: ^0.72.22
+        version: 0.72.22
+      ts-node:
+        specifier: ^10.9.1
+        version: 10.9.1(@types/node@18.16.19)(typescript@5.1.6)
+      typescript:
+        specifier: ~5.1
+        version: 5.1.6
+
 packages:
   /@aashutoshrathi/word-wrap@1.2.6:
     resolution:
@@ -1435,6 +1508,7 @@ packages:
       {
         integrity: sha512-WAjtEbfHbm/vL9HY+8Jj819Ne9KepLXHRzGhlfPijMnjvHcSiRXsUcw82Oy3ScfcUJF+xow/EZdP9oonM1Ai6Q==,
       }
+    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
     peerDependencies:
       aws-cdk-lib: ^2.81.0
       cdk-nag: ^2.27.24
@@ -8027,7 +8101,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20230906
+      typescript: 5.3.0-dev.20230919
     dev: true
 
   /duplexer@0.1.2:
@@ -15193,10 +15267,10 @@ packages:
     hasBin: true
     dev: true
 
-  /typescript@5.3.0-dev.20230906:
+  /typescript@5.3.0-dev.20230919:
     resolution:
       {
-        integrity: sha512-7dCmQgfQ4i38daoPCCert+rM6gLxBpxRdjncJkHkJV4CWvNZsRX+RVTusojkqGAtW9vqB0+/8iDH6CZ0PDxghg==,
+        integrity: sha512-FU6DZhzId38aY/dX2gHp7phaYkbNJkCx8G//VVs0nVzZv0qjWGggLkMXoMipphO8Hv0TvZu30Zwdt6nzFIbcBQ==,
       }
     engines: { node: '>=14.17' }
     hasBin: true
