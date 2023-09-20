@@ -3,12 +3,10 @@ import * as ec2 from 'aws-cdk-lib/aws-ec2'
 import * as kms from 'aws-cdk-lib/aws-kms'
 import * as rds from 'aws-cdk-lib/aws-rds'
 import * as route53 from 'aws-cdk-lib/aws-route53'
-import * as route53Targets from 'aws-cdk-lib/aws-route53-targets'
 import { type ISecret, Secret } from 'aws-cdk-lib/aws-secretsmanager'
 import { KeyPair } from 'cdk-ec2-key-pair'
 import { Construct } from 'constructs'
 import defu from 'defu'
-import type { IDelegator } from './zones.ts'
 import { type DatabaseConfig } from '../schema'
 
 export interface DatabaseProps extends DatabaseConfig {
