@@ -1,6 +1,9 @@
 import assert from 'node:assert'
 import * as blueprints from '@aws-quickstart/eks-blueprints'
-import { GithubCodePipeline } from '@crisiscleanup/construct.awscdk.github-pipeline'
+import {
+	GithubCodePipeline,
+	type GithubWorkflowPipeline,
+} from '@crisiscleanup/construct.awscdk.github-pipeline'
 import type { Stack, StackProps } from 'aws-cdk-lib'
 import * as cdk from 'aws-cdk-lib'
 import * as kms from 'aws-cdk-lib/aws-kms'
@@ -96,7 +99,7 @@ export class GithubCodePipelineStack extends cdk.Stack {
 		return new GithubCodePipelineBuilder()
 	}
 
-	private asyncTask: Promise<any>
+	private asyncTask: Promise<GithubWorkflowPipeline>
 
 	constructor(
 		scope: Construct,
@@ -115,35 +118,39 @@ export class GithubCodePipelineStack extends cdk.Stack {
 			promises.push(appStage.waitForAsyncTasks())
 		}
 
-		this.asyncTask = Promise.all(promises).then((stages) => {
-			let currentWave: ghpipelines.GitHubWave | undefined
+		this.asyncTask = Promise.all(promises)
+			.then((stages) => {
+				let currentWave: ghpipelines.GitHubWave | undefined
 
-			// eslint-disable-next-line @typescript-eslint/no-for-in-array
-			for (const i in stages) {
-				const stage = pipelineProps.stages[i]
-				if (stage.waveId) {
-					if (currentWave == null || currentWave.id != stage.waveId) {
-						const waveProps = pipelineProps.waves.find(
-							(wave) => wave.id === stage.waveId,
-						)
-						assert(
-							waveProps,
-							`Specified wave ${stage.waveId} is not found in the pipeline definition ${id}`,
-						)
-						currentWave = pipeline.addGitHubWave(stage.waveId, {
-							...waveProps.props,
-						})
+				// eslint-disable-next-line @typescript-eslint/no-for-in-array
+				for (const i in stages) {
+					const stage = pipelineProps.stages[i]
+					if (stage.waveId) {
+						if (currentWave == null || currentWave.id != stage.waveId) {
+							const waveProps = pipelineProps.waves.find(
+								(wave) => wave.id === stage.waveId,
+							)
+							assert(
+								waveProps,
+								`Specified wave ${stage.waveId} is not found in the pipeline definition ${id}`,
+							)
+							currentWave = pipeline.addGitHubWave(stage.waveId, {
+								...waveProps.props,
+							})
+						}
+						currentWave.addStageWithGitHubOptions(stages[i], stage.stageProps)
+					} else {
+						pipeline.addStageWithGitHubOptions(stages[i], stage.stageProps)
 					}
-					currentWave.addStageWithGitHubOptions(stages[i], stage.stageProps)
-				} else {
-					pipeline.addStageWithGitHubOptions(stages[i], stage.stageProps)
 				}
-			}
-		})
+			})
+			.catch(console.error)
+			.then(() => pipeline)
 	}
 
-	async waitForAsyncTasks() {
-		await this.asyncTask
+	async waitForAsyncTasks(): Promise<GithubWorkflowPipeline> {
+		const pipeline = await this.asyncTask
+		return pipeline
 	}
 }
 
