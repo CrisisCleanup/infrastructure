@@ -58,6 +58,7 @@ const pipeline = Pipeline.builder({
 	id: 'crisiscleanup',
 	rootDir: cwd,
 	repos: config.pipeline.repositories,
+	pipelineEnvironment: config.cdkEnvironment,
 })
 	.target({
 		name: 'development',
