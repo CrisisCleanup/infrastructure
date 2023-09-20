@@ -4,15 +4,36 @@ import * as route53 from 'aws-cdk-lib/aws-route53'
 import { Construct } from 'constructs'
 
 export interface DelegatorZoneProps {
+	/**
+	 * Zone name to delegate.
+	 */
 	readonly zoneName: string
+	/**
+	 * Account to delegate to.
+	 */
 	readonly delegateAccountId: string
+	/**
+	 * Role name to use for delegation.
+	 */
 	readonly roleName: string
 }
 
 export interface DelegatedHostedZoneProps {
+	/**
+	 * The parent/hosting account to act as delegator.
+	 */
 	readonly parentAccountId: string
+	/**
+	 * Parent domain name to delegate.
+	 */
 	readonly parentDomain: string
+	/**
+	 * Subdomain to delegate.
+	 */
 	readonly subdomain: string
+	/**
+	 * Name to use for delegation role.
+	 */
 	readonly delegationRoleName: string
 }
 
@@ -22,6 +43,9 @@ interface DelegatorProps
 		'delegationRoleName' | 'parentAccountId' | 'parentDomain'
 	> {}
 
+/**
+ * Behavior for a stack that delegates a subdomain to another account.
+ */
 export interface IDelegator {
 	delegate(
 		scope: Construct,
@@ -30,6 +54,9 @@ export interface IDelegator {
 	): route53.IPublicHostedZone
 }
 
+/**
+ * Delegate a subdomain to another account.
+ */
 export class DelegatorZoneStack extends cdk.Stack implements IDelegator {
 	readonly parentZone: route53.IPublicHostedZone
 	readonly delegationRole: iam.IRole
@@ -68,6 +95,12 @@ export class DelegatorZoneStack extends cdk.Stack implements IDelegator {
 		this.parentZone.grantDelegation(this.delegationRole)
 	}
 
+	/**
+	 * Delegate a subdomain to another account.
+	 * @param scope The parent scope
+	 * @param id The construct id
+	 * @param options The delegation options
+	 */
 	delegate(scope: Construct, id: string, options: DelegatorProps) {
 		const props: DelegatedHostedZoneProps = {
 			parentDomain: this.parentZone.zoneName,
@@ -81,6 +114,9 @@ export class DelegatorZoneStack extends cdk.Stack implements IDelegator {
 	}
 }
 
+/**
+ * A delegated hosted zone.
+ */
 export class DelegatedHostedZone extends Construct {
 	readonly subZone: route53.PublicHostedZone
 
