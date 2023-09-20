@@ -21,11 +21,7 @@ import {
 } from '@arroyodev-llc/projen.project.typescript'
 import { applyOverrides } from '@arroyodev-llc/utils.projen'
 import { builders, ProjectBuilder } from '@arroyodev-llc/utils.projen-builder'
-import {
-	NodePackageUtils,
-	NxConfigurator,
-	NxProject,
-} from '@aws-prototyping-sdk/nx-monorepo'
+import { NodePackageUtils, NxProject } from '@aws-prototyping-sdk/nx-monorepo'
 import {
 	type CrisisCleanupConfig,
 	flattenToScreamingSnakeCase,
@@ -515,6 +511,20 @@ const maintenanceStack = AwsCdkTsAppBuilder.add(
 	prettier: true,
 })
 new Vitest(maintenanceStack)
+
+// web stack
+const webStack = AwsCdkTsAppBuilder.add(
+	new CdkTsAppCompileBuilder({
+		synthPostCompileCondition: `bash -c '[[ -z "$SKIP_SYNTH" ]] && [[ -n "$WEB_SITE_SOURCE" ]]'`,
+	}),
+).build({
+	name: 'stacks.web',
+	integrationTestAutoDiscover: true,
+	workspaceDeps: [config, ghPipelineConstruct],
+	deps: ['@aws-prototyping-sdk/static-website', 'cdk-pipelines-github'],
+	jest: false,
+	prettier: true,
+})
 
 monorepo.addWorkspaceDeps(
 	{ depType: DependencyType.DEVENV, addTsPath: true },
