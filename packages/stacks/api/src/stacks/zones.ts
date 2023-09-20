@@ -75,7 +75,9 @@ export class DelegatorZoneStack extends cdk.Stack implements IDelegator {
 			delegationRoleName: this.delegationRole.roleName,
 			...options,
 		}
-		return new DelegatedHostedZone(scope, id, props).subZone
+		const delegated = new DelegatedHostedZone(scope, id, props)
+		delegated.node.addDependency(this)
+		return delegated.subZone
 	}
 }
 
