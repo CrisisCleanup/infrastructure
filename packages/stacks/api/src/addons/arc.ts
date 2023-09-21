@@ -206,11 +206,23 @@ export class ARCScaleSet extends blueprints.HelmAddOn {
 
 		const mergedValues = defu(this.options.values ?? {}, ...values)
 		debug('merged values: %O', mergedValues)
-		clusterInfo.cluster.addManifest(
+		const scManifest = clusterInfo.cluster.addManifest(
 			'arc-storage-class',
-			this.createStorageClassTemplate(),
+			this.createStorageClassTemplate({
+				name: 'arc-gp3-sc',
+				reclaimPolicy: 'Delete',
+			}),
+		)
+		const dockerScManifest = clusterInfo.cluster.addManifest(
+			'arc-docker-storage-class',
+			this.createStorageClassTemplate({
+				name: 'arc-docker-sc',
+				reclaimPolicy: 'Retain',
+			}),
 		)
 		const chart = this.addHelmChart(clusterInfo, mergedValues)
+		chart.node.addDependency(scManifest)
+		chart.node.addDependency(dockerScManifest)
 		if (this.options.createNamespace) {
 			const namespace = blueprints.utils.createNamespace(
 				this.options.namespace!,
@@ -225,16 +237,19 @@ export class ARCScaleSet extends blueprints.HelmAddOn {
 	 * Create the template spec for storage class.
 	 * @protected
 	 */
-	protected createStorageClassTemplate() {
+	protected createStorageClassTemplate(options: {
+		name: string
+		reclaimPolicy: 'Retain' | 'Delete'
+	}) {
 		return {
 			apiVersion: 'storage.k8s.io/v1',
 			kind: 'StorageClass',
 			metadata: {
-				name: 'arc-gp3-sc',
+				name: options.name,
 			},
 			provisioner: 'ebs.csi.aws.com',
 			volumeBindingMode: 'WaitForFirstConsumer',
-			reclaimPolicy: 'Delete',
+			reclaimPolicy: options.reclaimPolicy,
 			allowVolumeExpansion: true,
 			parameters: {
 				type: 'gp3',
@@ -243,15 +258,20 @@ export class ARCScaleSet extends blueprints.HelmAddOn {
 	}
 
 	/**
+	 *
 	 * Create the template spec for volume claim.
 	 * @param storageRequest Request amount and unit.
+	 * @param storageClassName Storage class name.
 	 * @protected
 	 */
-	protected createVolumeClaimTemplate(storageRequest: string) {
+	protected createVolumeClaimTemplate(
+		storageRequest: string,
+		storageClassName: string,
+	) {
 		return {
 			spec: {
 				accessModes: ['ReadWriteOnce'],
-				storageClassName: 'arc-gp3-sc',
+				storageClassName: storageClassName,
 				resources: {
 					requests: {
 						storage: storageRequest,
@@ -326,6 +346,7 @@ export class ARCScaleSet extends blueprints.HelmAddOn {
 					],
 					volumeMounts: [
 						this.templateVolumeMounts[ScaleSetVolumes.WORK],
+						this.templateVolumeMounts[ScaleSetVolumes.VAR_DOCKER],
 						this.templateVolumeMounts[ScaleSetVolumes.DIND_CERT],
 						this.templateVolumeMounts[ScaleSetVolumes.DIND_EXTERNALS],
 						this.templateVolumeMounts[ScaleSetVolumes.TMP],
@@ -347,7 +368,7 @@ export class ARCScaleSet extends blueprints.HelmAddOn {
 			},
 			requests: {
 				cpu: '1.0',
-				memory: '2Gi',
+				memory: '1Gi',
 			},
 		}
 	}
@@ -385,6 +406,10 @@ export class ARCScaleSet extends blueprints.HelmAddOn {
 						fieldPath: 'metadata.name',
 					},
 				},
+			},
+			{
+				name: 'RUNNER_WAIT_FOR_DOCKER_IN_SECONDS',
+				value: '250',
 			},
 		]
 
@@ -465,7 +490,10 @@ export class ARCScaleSet extends blueprints.HelmAddOn {
 		const volumes = {
 			[ScaleSetVolumes.WORK]: {
 				ephemeral: {
-					volumeClaimTemplate: this.createVolumeClaimTemplate('10Gi'),
+					volumeClaimTemplate: this.createVolumeClaimTemplate(
+						'10Gi',
+						'arc-gp3-sc',
+					),
 				},
 			},
 			[ScaleSetVolumes.RUNNER]: {
@@ -473,7 +501,10 @@ export class ARCScaleSet extends blueprints.HelmAddOn {
 			},
 			[ScaleSetVolumes.VAR_DOCKER]: {
 				ephemeral: {
-					volumeClaimTemplate: this.createVolumeClaimTemplate('10Gi'),
+					volumeClaimTemplate: this.createVolumeClaimTemplate(
+						'10Gi',
+						'arc-docker-sc',
+					),
 				},
 			},
 			[ScaleSetVolumes.TMP]: {
