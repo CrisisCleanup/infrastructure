@@ -77,6 +77,10 @@ export interface ARCScaleSetProps extends blueprints.HelmAddOnUserProps {
 	 * Image overrides for containers.
 	 */
 	containerImages?: Partial<Record<ScaleSetContainer, string>>
+	/**
+	 * User docker-in-docker runner image.
+	 */
+	useDindRunner?: boolean
 }
 
 const scaleSetControllerDefaultProps: blueprints.HelmAddOnProps &
@@ -361,9 +365,46 @@ export class ARCScaleSet extends blueprints.HelmAddOn {
 			'sudo chown -R runner:docker /home/runner',
 			'cp -r /runnertmp/* /home/runner/',
 			'mkdir -p /home/runner/externals',
-			'mv /home/runner/externalstmp/* /home/runner/externals/',
+			'(mv /home/runner/externalstmp/* /home/runner/externals/ || true)',
+			'(mv /runnertmp/* /home/runner/externals/ || true)',
 			'sudo chown -R runner:docker /home/runner',
 		]
+
+		const volumeMounts = [
+			this.templateVolumeMounts[ScaleSetVolumes.RUNNER],
+			this.templateVolumeMounts[ScaleSetVolumes.WORK],
+			this.templateVolumeMounts[ScaleSetVolumes.TMP],
+		]
+
+		const env: Array<Record<string, unknown>> = [
+			{
+				name: 'POD_NAME',
+				valueFrom: {
+					fieldRef: {
+						fieldPath: 'metadata.name',
+					},
+				},
+			},
+		]
+
+		if (this.options.useDindRunner) {
+			volumeMounts.push(this.templateVolumeMounts[ScaleSetVolumes.VAR_DOCKER])
+		} else {
+			env.push(
+				{
+					name: 'DOCKER_HOST',
+					value: 'tcp://localhost:2376',
+				},
+				{
+					name: 'DOCKER_TLS_VERIFY',
+					value: '1',
+				},
+				{
+					name: 'DOCKER_CERT_PATH',
+					value: '/certs/client',
+				},
+			)
+		}
 
 		const runnerInit = {
 			initContainers: [
@@ -382,11 +423,7 @@ export class ARCScaleSet extends blueprints.HelmAddOn {
 							},
 						},
 					],
-					volumeMounts: [
-						this.templateVolumeMounts[ScaleSetVolumes.RUNNER],
-						this.templateVolumeMounts[ScaleSetVolumes.WORK],
-						this.templateVolumeMounts[ScaleSetVolumes.TMP],
-					],
+					volumeMounts,
 				},
 			],
 		}
@@ -398,37 +435,8 @@ export class ARCScaleSet extends blueprints.HelmAddOn {
 					image: runnerImage,
 					imagePullPolicy: 'IfNotPresent',
 					command: ['/home/runner/run.sh'],
-					env: [
-						{
-							name: 'DOCKER_HOST',
-							value: 'tcp://localhost:2376',
-						},
-						{
-							name: 'DOCKER_TLS_VERIFY',
-							value: '1',
-						},
-						{
-							name: 'DOCKER_CERT_PATH',
-							value: '/certs/client',
-						},
-						{
-							name: 'POD_NAME',
-							valueFrom: {
-								fieldRef: {
-									fieldPath: 'metadata.name',
-								},
-							},
-						},
-					],
-					volumeMounts: [
-						this.templateVolumeMounts[ScaleSetVolumes.RUNNER],
-						this.templateVolumeMounts[ScaleSetVolumes.TMP],
-						this.templateVolumeMounts[ScaleSetVolumes.WORK],
-						{
-							...this.templateVolumeMounts[ScaleSetVolumes.DIND_CERT],
-							readOnly: true,
-						},
-					],
+					env,
+					volumeMounts,
 				},
 			],
 		}
@@ -514,7 +522,7 @@ export class ARCScaleSet extends blueprints.HelmAddOn {
 		return defu(
 			{},
 			volumes,
-			this.createDindContainerSpec(),
+			this.options.useDindRunner ? {} : this.createDindContainerSpec(),
 			this.createRunnerContainerSpec(),
 		)
 	}
