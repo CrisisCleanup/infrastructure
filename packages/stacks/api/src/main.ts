@@ -100,7 +100,7 @@ const pipeline = Pipeline.builder({
 						runnerScaleSetName: 'crisiscleanup-arc',
 						githubConfigSecret: 'arc-github-credentials',
 						containerImages: builderConfig.apiStack!.arc.images,
-						useDindRunner: true,
+						useDindRunner: false,
 					}),
 				)
 				.addOns(

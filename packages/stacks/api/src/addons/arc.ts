@@ -363,15 +363,16 @@ export class ARCScaleSet extends blueprints.HelmAddOn {
 
 		const initCommands = [
 			'sudo chown -R runner:docker /home/runner',
-			'cp -r /runnertmp/* /home/runner/',
-			'mkdir -p /home/runner/externals',
+			'cp -r /home/runner/* /runner/',
+			'mkdir -p /runner/externals',
 			'(mv /home/runner/externalstmp/* /home/runner/externals/ || true)',
-			'(mv /runnertmp/* /home/runner/externals/ || true)',
+			'(sudo mv /runnertmp/* /home/runner/externals/ || true)',
 			'sudo chown -R runner:docker /home/runner',
+			'sudo chown -R runner:docker /runner || true',
+			'sudo chown -R runner:docker /tmp || true',
 		]
 
 		const volumeMounts = [
-			this.templateVolumeMounts[ScaleSetVolumes.RUNNER],
 			this.templateVolumeMounts[ScaleSetVolumes.WORK],
 			this.templateVolumeMounts[ScaleSetVolumes.TMP],
 		]
@@ -423,10 +424,21 @@ export class ARCScaleSet extends blueprints.HelmAddOn {
 							},
 						},
 					],
-					volumeMounts,
+					volumeMounts: [
+						...volumeMounts,
+						{
+							...this.templateVolumeMounts[ScaleSetVolumes.RUNNER],
+							mountPath: '/runner',
+						},
+					],
 				},
 			],
 		}
+
+		const dindCommand = [
+			"sudo sed -i 's#startup.sh#/home/runner/run.sh#g' /usr/bin/entrypoint-dind.sh",
+			'/usr/bin/entrypoint-dind.sh',
+		]
 
 		const runner = {
 			containers: [
@@ -434,9 +446,15 @@ export class ARCScaleSet extends blueprints.HelmAddOn {
 					name: ScaleSetContainer.RUNNER,
 					image: runnerImage,
 					imagePullPolicy: 'IfNotPresent',
-					command: ['/home/runner/run.sh'],
+					command: this.options.useDindRunner
+						? ['bash', '-c', dindCommand.join(' && ')]
+						: ['/home/runner/run.sh'],
 					env,
-					volumeMounts,
+					volumeMounts: [
+						this.templateVolumeMounts[ScaleSetVolumes.RUNNER],
+						this.templateVolumeMounts[ScaleSetVolumes.DIND_CERT],
+						...volumeMounts,
+					],
 				},
 			],
 		}
