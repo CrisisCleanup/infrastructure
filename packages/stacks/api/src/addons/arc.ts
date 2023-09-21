@@ -24,6 +24,15 @@ export enum ScaleSetContainer {
 	DIND = 'dind',
 }
 
+enum ScaleSetVolumes {
+	WORK = 'work',
+	RUNNER = 'runner',
+	VAR_DOCKER = 'var-lib-docker',
+	TMP = 'tmp',
+	DIND_CERT = 'dind-cert',
+	DIND_EXTERNALS = 'dind-externals',
+}
+
 export interface ARCScaleSetProps extends blueprints.HelmAddOnUserProps {
 	/**
 	 * Create namespace.
@@ -272,15 +281,21 @@ export class ARCScaleSet extends blueprints.HelmAddOn {
 						'/home/runner/externals/.',
 						'/home/runner/tmpDir/',
 					],
+					env: [
+						{
+							name: 'POD_NAME',
+							valueFrom: {
+								fieldRef: {
+									fieldPath: 'metadata.name',
+								},
+							},
+						},
+					],
 					volumeMounts: [
-						{
-							name: 'dind-externals',
-							mountPath: '/home/runner/tmpDir',
-						},
-						{
-							name: 'var-lib-docker',
-							mountPath: '/var/lib/docker',
-						},
+						this.templateVolumeMounts[ScaleSetVolumes.WORK],
+						this.templateVolumeMounts[ScaleSetVolumes.DIND_CERT],
+						this.templateVolumeMounts[ScaleSetVolumes.DIND_EXTERNALS],
+						this.templateVolumeMounts[ScaleSetVolumes.TMP],
 					],
 				},
 			],
@@ -295,19 +310,21 @@ export class ARCScaleSet extends blueprints.HelmAddOn {
 					securityContext: {
 						privileged: true,
 					},
+					env: [
+						{
+							name: 'POD_NAME',
+							valueFrom: {
+								fieldRef: {
+									fieldPath: 'metadata.name',
+								},
+							},
+						},
+					],
 					volumeMounts: [
-						{
-							name: 'work',
-							mountPath: '/home/runner/_work',
-						},
-						{
-							name: 'dind-cert',
-							mountPath: '/certs/client',
-						},
-						{
-							name: 'dind-externals',
-							mountPath: '/home/runner/externals',
-						},
+						this.templateVolumeMounts[ScaleSetVolumes.WORK],
+						this.templateVolumeMounts[ScaleSetVolumes.DIND_CERT],
+						this.templateVolumeMounts[ScaleSetVolumes.DIND_EXTERNALS],
+						this.templateVolumeMounts[ScaleSetVolumes.TMP],
 					],
 				},
 			],
@@ -321,12 +338,12 @@ export class ARCScaleSet extends blueprints.HelmAddOn {
 	protected get containerResources() {
 		return {
 			limits: {
-				cpu: '4.0',
-				memory: '8Gi',
-			},
-			requests: {
 				cpu: '2.0',
 				memory: '4Gi',
+			},
+			requests: {
+				cpu: '1.0',
+				memory: '2Gi',
 			},
 		}
 	}
@@ -355,15 +372,20 @@ export class ARCScaleSet extends blueprints.HelmAddOn {
 					image: runnerImage,
 					imagePullPolicy: 'IfNotPresent',
 					command: ['sh', '-c', initCommands.join(' && ')],
+					env: [
+						{
+							name: 'POD_NAME',
+							valueFrom: {
+								fieldRef: {
+									fieldPath: 'metadata.name',
+								},
+							},
+						},
+					],
 					volumeMounts: [
-						{
-							name: 'runner',
-							mountPath: '/home/runner',
-						},
-						{
-							name: 'work',
-							mountPath: '/home/runner/_work',
-						},
+						this.templateVolumeMounts[ScaleSetVolumes.RUNNER],
+						this.templateVolumeMounts[ScaleSetVolumes.WORK],
+						this.templateVolumeMounts[ScaleSetVolumes.TMP],
 					],
 				},
 			],
@@ -389,19 +411,21 @@ export class ARCScaleSet extends blueprints.HelmAddOn {
 							name: 'DOCKER_CERT_PATH',
 							value: '/certs/client',
 						},
+						{
+							name: 'POD_NAME',
+							valueFrom: {
+								fieldRef: {
+									fieldPath: 'metadata.name',
+								},
+							},
+						},
 					],
 					volumeMounts: [
+						this.templateVolumeMounts[ScaleSetVolumes.RUNNER],
+						this.templateVolumeMounts[ScaleSetVolumes.TMP],
+						this.templateVolumeMounts[ScaleSetVolumes.WORK],
 						{
-							name: 'runner',
-							mountPath: '/home/runner',
-						},
-						{
-							name: 'work',
-							mountPath: '/home/runner/_work',
-						},
-						{
-							name: 'dind-cert',
-							mountPath: '/certs/client',
+							...this.templateVolumeMounts[ScaleSetVolumes.DIND_CERT],
 							readOnly: true,
 						},
 					],
@@ -411,39 +435,80 @@ export class ARCScaleSet extends blueprints.HelmAddOn {
 		return { spec: { ...runner, ...runnerInit } }
 	}
 
+	protected get templateVolumes() {
+		const volumes = {
+			[ScaleSetVolumes.WORK]: {
+				ephemeral: {
+					volumeClaimTemplate: this.createVolumeClaimTemplate('10Gi'),
+				},
+			},
+			[ScaleSetVolumes.RUNNER]: {
+				emptyDir: {},
+			},
+			[ScaleSetVolumes.VAR_DOCKER]: {
+				ephemeral: {
+					volumeClaimTemplate: this.createVolumeClaimTemplate('10Gi'),
+				},
+			},
+			[ScaleSetVolumes.TMP]: {
+				emptyDir: {
+					medium: 'Memory',
+				},
+			},
+			[ScaleSetVolumes.DIND_CERT]: {
+				emptyDir: {
+					medium: 'Memory',
+				},
+			},
+			[ScaleSetVolumes.DIND_EXTERNALS]: {
+				emptyDir: {},
+			},
+		}
+		return Object.fromEntries(
+			Object.entries(volumes).map(([name, spec]) => [name, { ...spec, name }]),
+		)
+	}
+
+	protected get templateVolumeMounts() {
+		const mounts = {
+			[ScaleSetVolumes.WORK]: {
+				mountPath: '/home/runner/_work',
+				subPathExpr: '$(POD_NAME)-work',
+			},
+			[ScaleSetVolumes.RUNNER]: {
+				mountPath: '/home/runner',
+				subPathExpr: '$(POD_NAME)-runner',
+			},
+			[ScaleSetVolumes.VAR_DOCKER]: {
+				mountPath: '/var/lib/docker',
+			},
+			[ScaleSetVolumes.TMP]: {
+				mountPath: '/tmp',
+				subPathExpr: '$(POD_NAME)-tmp',
+			},
+			[ScaleSetVolumes.DIND_CERT]: {
+				mountPath: '/certs/client',
+				subPathExpr: '$(POD_NAME)-dind-cert',
+			},
+			[ScaleSetVolumes.DIND_EXTERNALS]: {
+				mountPath: '/home/runner/externals',
+				subPathExpr: '$(POD_NAME)-dind-externals',
+			},
+		}
+		return Object.fromEntries(
+			Object.entries(mounts).map(([name, spec]) => [name, { ...spec, name }]),
+		)
+	}
+
 	/**
 	 * Create the template spec for ephemeral runners.
 	 * @protected
 	 */
 	protected createTemplateSpec() {
+		const volumeDefs = Object.values(this.templateVolumes)
 		const volumes = {
 			spec: {
-				volumes: [
-					{
-						name: 'work',
-						ephemeral: {
-							volumeClaimTemplate: this.createVolumeClaimTemplate('10Gi'),
-						},
-					},
-					{
-						name: 'runner',
-						emptyDir: {},
-					},
-					{
-						name: 'var-lib-docker',
-						ephemeral: {
-							volumeClaimTemplate: this.createVolumeClaimTemplate('10Gi'),
-						},
-					},
-					{
-						name: 'dind-cert',
-						emptyDir: {},
-					},
-					{
-						name: 'dind-externals',
-						emptyDir: {},
-					},
-				],
+				volumes: volumeDefs,
 			},
 		}
 		return defu(
