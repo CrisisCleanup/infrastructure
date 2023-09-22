@@ -17,6 +17,7 @@
     "synth": "npx projen synth",
     "synth:silent": "npx projen synth:silent",
     "test": "npx projen test",
+    "test:watch": "npx projen test:watch",
     "upgrade": "npx projen upgrade",
     "watch": "npx projen watch"
   },
@@ -42,7 +43,8 @@
     "prettier": "^3.0.2",
     "projen": "^0.72.22",
     "ts-node": "^10.9.1",
-    "typescript": "~5.1"
+    "typescript": "~5.1",
+    "vitest": "^0.34.2"
   },
   "dependencies": {
     "@aws-prototyping-sdk/static-website": "^0.19.67",

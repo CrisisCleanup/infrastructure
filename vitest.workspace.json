@@ -3,5 +3,6 @@
   "./packages/charts/crisiscleanup/vitest.config.ts",
   "./packages/construct/awscdk/github-pipeline/vitest.config.ts",
   "./packages/stacks/api/vitest.config.ts",
-  "./packages/stacks/maintenance-site/vitest.config.ts"
+  "./packages/stacks/maintenance-site/vitest.config.ts",
+  "./packages/stacks/web/vitest.config.ts"
 ]

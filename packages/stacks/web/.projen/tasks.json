@@ -110,7 +110,7 @@
       "steps": [
         {
           "spawn": "synth:silent",
-          "condition": "bash -c '[[ -z \"$SKIP_SYNTH\" ]] && [[ -n \"$WEB_SITE_SOURCE\" ]]'"
+          "condition": "bash -c '[[ -z \"$SKIP_SYNTH\" ]] && [[ -n \"$CCU_WEB_SITE_SOURCE\" ]]'"
         }
       ]
     },
@@ -146,6 +146,23 @@
       "steps": [
         {
           "spawn": "eslint"
+        },
+        {
+          "exec": "vitest",
+          "args": [
+            "--run"
+          ],
+          "receiveArgs": true
+        }
+      ]
+    },
+    "test:watch": {
+      "name": "test:watch",
+      "description": "Run tests on changes.",
+      "steps": [
+        {
+          "exec": "vitest",
+          "receiveArgs": true
         }
       ]
     },
@@ -160,13 +177,13 @@
           "exec": "pnpm update npm-check-updates"
         },
         {
-          "exec": "npm-check-updates --upgrade --target=minor --filter=@types/node,@typescript-eslint/eslint-plugin,@typescript-eslint/parser,aws-cdk,esbuild,eslint-config-prettier,eslint-import-resolver-node,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-prettier,eslint,lint-staged,npm-check-updates,prettier,projen,ts-node,@aws-prototyping-sdk/static-website,aws-cdk-lib,cdk-pipelines-github,constructs"
+          "exec": "npm-check-updates --upgrade --target=minor --filter=@types/node,@typescript-eslint/eslint-plugin,@typescript-eslint/parser,aws-cdk,esbuild,eslint-config-prettier,eslint-import-resolver-node,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-prettier,eslint,lint-staged,npm-check-updates,prettier,projen,ts-node,vitest,@aws-prototyping-sdk/static-website,aws-cdk-lib,cdk-pipelines-github,constructs"
         },
         {
           "exec": "pnpm i --no-frozen-lockfile"
         },
         {
-          "exec": "pnpm update @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser aws-cdk esbuild eslint-config-prettier eslint-import-resolver-node eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint lint-staged npm-check-updates prettier projen ts-node @aws-prototyping-sdk/static-website aws-cdk-lib cdk-pipelines-github constructs"
+          "exec": "pnpm update @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser aws-cdk esbuild eslint-config-prettier eslint-import-resolver-node eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint lint-staged npm-check-updates prettier projen ts-node vitest @aws-prototyping-sdk/static-website aws-cdk-lib cdk-pipelines-github constructs"
         },
         {
           "exec": "npx projen"
