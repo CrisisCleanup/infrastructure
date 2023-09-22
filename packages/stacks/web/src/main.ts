@@ -26,21 +26,26 @@ class CrisisCleanupWebStage extends GitHubStage {
 		stageProps: GitHubStageProps,
 	) {
 		super(scope, id, stageProps)
-		const source = process.env.CCU_WEB_SITE_SOURCE
-		const domain = props.domainName ?? process.env.CCU_WEB_SITE_DOMAIN
+		const {
+			domainName = process.env.CCU_WEB_SITE_DOMAIN,
+			source = process.env.CCU_WEB_SITE_SOURCE,
+			...rest
+		} = props
 		if (!source) throw new Error('CCU_WEB_SITE_SOURCE is required')
-		if (!domain) throw new Error('CCU_WEB_SITE_DOMAIN is required')
+		if (!domainName) throw new Error('CCU_WEB_SITE_DOMAIN is required')
+		if (!stageProps.env) throw new Error('Missing stage cdk environment!')
 		new CrisisCleanupWeb(
 			this,
 			'crisiscleanup-web',
 			{
-				source: source,
-				domainName: domain,
-				fqdn: props.fqdn,
+				source,
+				domainName,
+				...rest,
 			},
 			{
 				description: 'CrisisCleanup Web',
 				stackName: 'crisiscleanup-web',
+				env: stageProps.env,
 			},
 		)
 	}
