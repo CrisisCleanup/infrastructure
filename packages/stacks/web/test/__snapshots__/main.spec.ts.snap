@@ -2,6 +2,16 @@
 
 exports[`CrisisCleanupWeb > renders expected template 1`] = `
 {
+  "Mappings": {
+    "AWSCloudFrontPartitionHostedZoneIdMap": {
+      "aws": {
+        "zoneId": "Z2FDTNDATAQYW2",
+      },
+      "aws-cn": {
+        "zoneId": "Z3RFFRIM2A3IF5",
+      },
+    },
+  },
   "Outputs": {
     "testcrisiscleanupsiteccuwebstaticsiteDistributionDomainName6D8D4B3E": {
       "Value": {
@@ -27,9 +37,7 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
       ],
       "Properties": {
         "Code": {
-          "S3Bucket": {
-            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
-          },
+          "S3Bucket": "cdk-hnb659fds-assets-123-us-east-1",
           "S3Key": "9eb41a5505d37607ac419321497a4f8c21cf0ee1f9b4a6b29aa04301aea5c7fd.zip",
         },
         "Environment": {
@@ -105,10 +113,7 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
                       {
                         "Ref": "AWS::Partition",
                       },
-                      ":s3:::",
-                      {
-                        "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
-                      },
+                      ":s3:::cdk-hnb659fds-assets-123-us-east-1",
                     ],
                   ],
                 },
@@ -120,11 +125,7 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
                       {
                         "Ref": "AWS::Partition",
                       },
-                      ":s3:::",
-                      {
-                        "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
-                      },
-                      "/*",
+                      ":s3:::cdk-hnb659fds-assets-123-us-east-1/*",
                     ],
                   ],
                 },
@@ -193,9 +194,7 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
       ],
       "Properties": {
         "Code": {
-          "S3Bucket": {
-            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
-          },
+          "S3Bucket": "cdk-hnb659fds-assets-123-us-east-1",
           "S3Key": "a657308e723bb9460b800cb3b47dadb74e28243edfe246bf7755c45ec312eb97.zip",
         },
         "Description": {
@@ -244,6 +243,32 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
         ],
       },
       "Type": "AWS::IAM::Role",
+    },
+    "testcrisiscleanupsitealiasrecordC0AB2C54": {
+      "Properties": {
+        "AliasTarget": {
+          "DNSName": {
+            "Fn::GetAtt": [
+              "testcrisiscleanupsiteccuwebstaticsiteCloudfrontDistribution0529F417",
+              "DomainName",
+            ],
+          },
+          "HostedZoneId": {
+            "Fn::FindInMap": [
+              "AWSCloudFrontPartitionHostedZoneIdMap",
+              {
+                "Ref": "AWS::Partition",
+              },
+              "zoneId",
+            ],
+          },
+        },
+        "Comment": "CCU Web",
+        "HostedZoneId": "DUMMY",
+        "Name": "app.test.example.org.",
+        "Type": "A",
+      },
+      "Type": "AWS::Route53::RecordSet",
     },
     "testcrisiscleanupsiteccuwebstaticsiteAccessLogsBucket81E7A8CE": {
       "DeletionPolicy": "Delete",
@@ -582,9 +607,7 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
                   },
                 },
                 "StringEquals": {
-                  "aws:SourceAccount": {
-                    "Ref": "AWS::AccountId",
-                  },
+                  "aws:SourceAccount": "123",
                 },
               },
               "Effect": "Allow",
@@ -618,9 +641,7 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
                   },
                 },
                 "StringEquals": {
-                  "aws:SourceAccount": {
-                    "Ref": "AWS::AccountId",
-                  },
+                  "aws:SourceAccount": "123",
                 },
               },
               "Effect": "Allow",
@@ -652,14 +673,6 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
       "Metadata": {
         "cdk_nag": {
           "rules_to_suppress": [
-            {
-              "id": "AwsSolutions-CFR4",
-              "reason": "Certificate is not mandatory therefore the Cloudfront certificate will be used.",
-            },
-            {
-              "id": "AwsPrototyping-CloudFrontDistributionHttpsViewerNoOutdatedSSL",
-              "reason": "Certificate is not mandatory therefore the Cloudfront certificate will be used.",
-            },
             {
               "id": "AwsSolutions-L1",
               "reason": "Latest runtime cannot be configured. CDK will need to upgrade the BucketDeployment construct accordingly.",
@@ -724,7 +737,7 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
       "Properties": {
         "DistributionConfig": {
           "Aliases": [
-            "app.test.crisiscleanup.org",
+            "app.test.example.org",
           ],
           "Comment": "CrisisCleanup Site",
           "CustomErrorResponses": [
@@ -777,6 +790,13 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
             },
           ],
           "PriceClass": "PriceClass_100",
+          "ViewerCertificate": {
+            "AcmCertificateArn": {
+              "Ref": "testcrisiscleanupsitecertificate7F632B9C",
+            },
+            "MinimumProtocolVersion": "TLSv1.2_2021",
+            "SslSupportMethod": "sni-only",
+          },
           "WebACLId": {
             "Fn::GetAtt": [
               "testcrisiscleanupsiteccuwebstaticsiteWebsiteAclCFAclCustomResource90064E99",
@@ -1359,9 +1379,7 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
       },
       "Properties": {
         "Code": {
-          "S3Bucket": {
-            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
-          },
+          "S3Bucket": "cdk-hnb659fds-assets-123-us-east-1",
           "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip",
         },
         "Description": "AWS CDK resource provider framework - onEvent (test-crisiscleanup-site/test-crisiscleanup-site-ccu-web-static-site/WebsiteAcl/CloudfrontAclProvider)",
@@ -1468,9 +1486,7 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
       },
       "Properties": {
         "Code": {
-          "S3Bucket": {
-            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
-          },
+          "S3Bucket": "cdk-hnb659fds-assets-123-us-east-1",
           "S3Key": "f9a4e3a2d1dd90ac1bfaec793acad708d019b35402700253f45a40ada6d2786a.zip",
         },
         "FunctionName": "test-crisiscleanup-site-AclEvent-402571",
@@ -1588,15 +1604,7 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
                       "Fn::Join": [
                         "",
                         [
-                          "arn:aws:logs:",
-                          {
-                            "Ref": "AWS::Region",
-                          },
-                          ":",
-                          {
-                            "Ref": "AWS::AccountId",
-                          },
-                          ":log-group:/aws/lambda/",
+                          "arn:aws:logs:us-east-1:123:log-group:/aws/lambda/",
                           {
                             "Ref": "testcrisiscleanupsiteccuwebstaticsiteWebsiteAclCloudfrontWebAclOnEventHandler346D04DF",
                           },
@@ -1608,15 +1616,7 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
                       "Fn::Join": [
                         "",
                         [
-                          "arn:aws:logs:",
-                          {
-                            "Ref": "AWS::Region",
-                          },
-                          ":",
-                          {
-                            "Ref": "AWS::AccountId",
-                          },
-                          ":log-group:/aws/lambda/",
+                          "arn:aws:logs:us-east-1:123:log-group:/aws/lambda/",
                           {
                             "Ref": "testcrisiscleanupsiteccuwebstaticsiteWebsiteAclCloudfrontWebAclOnEventHandler346D04DF",
                           },
@@ -1756,7 +1756,7 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
             {
               "applies_to": [
                 {
-                  "regex": "/^Resource::arn:aws:wafv2:us-east-1:<AWS::AccountId>:global/(.*)$/g",
+                  "regex": "/^Resource::arn:aws:wafv2:us-east-1:(<AWS::AccountId>|123):global/(.*)$/g",
                 },
               ],
               "id": "AwsSolutions-IAM5",
@@ -1765,7 +1765,7 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
             {
               "applies_to": [
                 {
-                  "regex": "/^Resource::arn:aws:logs:<AWS::Region>:<AWS::AccountId>:log-group:/aws/lambda/test-crisiscleanup-site-AclEvent-402571:*/g",
+                  "regex": "/^Resource::arn:aws:logs:(<AWS::Region>|us-east-1):(<AWS::AccountId>|123):log-group:/aws/lambda/test-crisiscleanup-site-AclEvent-402571:*/g",
                 },
               ],
               "id": "AwsSolutions-IAM5",
@@ -1774,7 +1774,7 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
             {
               "applies_to": [
                 {
-                  "regex": "/^Resource::arn:aws:wafv2:us-east-1:<AWS::AccountId>:global/(.*)$/g",
+                  "regex": "/^Resource::arn:aws:wafv2:us-east-1:(<AWS::AccountId>|123):global/(.*)$/g",
                 },
               ],
               "id": "AwsPrototyping-IAMNoWildcardPermissions",
@@ -1783,7 +1783,7 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
             {
               "applies_to": [
                 {
-                  "regex": "/^Resource::arn:aws:logs:<AWS::Region>:<AWS::AccountId>:log-group:/aws/lambda/test-crisiscleanup-site-AclEvent-402571:*/g",
+                  "regex": "/^Resource::arn:aws:logs:(<AWS::Region>|us-east-1):(<AWS::AccountId>|123):log-group:/aws/lambda/test-crisiscleanup-site-AclEvent-402571:*/g",
                 },
               ],
               "id": "AwsPrototyping-IAMNoWildcardPermissions",
@@ -1875,38 +1875,8 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
                   ],
                   "Effect": "Allow",
                   "Resource": [
-                    {
-                      "Fn::Join": [
-                        "",
-                        [
-                          "arn:aws:logs:",
-                          {
-                            "Ref": "AWS::Region",
-                          },
-                          ":",
-                          {
-                            "Ref": "AWS::AccountId",
-                          },
-                          ":log-group:/aws/lambda/test-crisiscleanup-site-AclEvent-402571",
-                        ],
-                      ],
-                    },
-                    {
-                      "Fn::Join": [
-                        "",
-                        [
-                          "arn:aws:logs:",
-                          {
-                            "Ref": "AWS::Region",
-                          },
-                          ":",
-                          {
-                            "Ref": "AWS::AccountId",
-                          },
-                          ":log-group:/aws/lambda/test-crisiscleanup-site-AclEvent-402571:*",
-                        ],
-                      ],
-                    },
+                    "arn:aws:logs:us-east-1:123:log-group:/aws/lambda/test-crisiscleanup-site-AclEvent-402571",
+                    "arn:aws:logs:us-east-1:123:log-group:/aws/lambda/test-crisiscleanup-site-AclEvent-402571:*",
                   ],
                 },
               ],
@@ -1926,42 +1896,9 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
                   ],
                   "Effect": "Allow",
                   "Resource": [
-                    {
-                      "Fn::Join": [
-                        "",
-                        [
-                          "arn:aws:wafv2:us-east-1:",
-                          {
-                            "Ref": "AWS::AccountId",
-                          },
-                          ":global/ipset/test-crisiscleanup-site-WebsiteAcl-2571-IPSet/*",
-                        ],
-                      ],
-                    },
-                    {
-                      "Fn::Join": [
-                        "",
-                        [
-                          "arn:aws:wafv2:us-east-1:",
-                          {
-                            "Ref": "AWS::AccountId",
-                          },
-                          ":global/webacl/test-crisiscleanup-site-WebsiteAcl-2571/*",
-                        ],
-                      ],
-                    },
-                    {
-                      "Fn::Join": [
-                        "",
-                        [
-                          "arn:aws:wafv2:us-east-1:",
-                          {
-                            "Ref": "AWS::AccountId",
-                          },
-                          ":global/managedruleset/*/*",
-                        ],
-                      ],
-                    },
+                    "arn:aws:wafv2:us-east-1:123:global/ipset/test-crisiscleanup-site-WebsiteAcl-2571-IPSet/*",
+                    "arn:aws:wafv2:us-east-1:123:global/webacl/test-crisiscleanup-site-WebsiteAcl-2571/*",
+                    "arn:aws:wafv2:us-east-1:123:global/managedruleset/*/*",
                   ],
                 },
                 {
@@ -1972,18 +1909,7 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
                     "wafv2:GetIPSet",
                   ],
                   "Effect": "Allow",
-                  "Resource": {
-                    "Fn::Join": [
-                      "",
-                      [
-                        "arn:aws:wafv2:us-east-1:",
-                        {
-                          "Ref": "AWS::AccountId",
-                        },
-                        ":global/ipset/test-crisiscleanup-site-WebsiteAcl-2571-IPSet/*",
-                      ],
-                    ],
-                  },
+                  "Resource": "arn:aws:wafv2:us-east-1:123:global/ipset/test-crisiscleanup-site-WebsiteAcl-2571-IPSet/*",
                 },
               ],
               "Version": "2012-10-17",
@@ -2449,9 +2375,7 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
       },
       "Properties": {
         "Content": {
-          "S3Bucket": {
-            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
-          },
+          "S3Bucket": "cdk-hnb659fds-assets-123-us-east-1",
           "S3Key": "e2277687077a2abf9ae1af1cc9565e6715e2ebb62f79ec53aa75a1af9298f642.zip",
         },
         "Description": "/opt/awscli/aws",
@@ -2539,9 +2463,7 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
           ],
         },
         "SourceBucketNames": [
-          {
-            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
-          },
+          "cdk-hnb659fds-assets-123-us-east-1",
         ],
         "SourceObjectKeys": [
           "1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0.zip",
@@ -2549,6 +2471,32 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
       },
       "Type": "Custom::CDKBucketDeployment",
       "UpdateReplacePolicy": "Delete",
+    },
+    "testcrisiscleanupsitecertificate7F632B9C": {
+      "Properties": {
+        "DomainName": "test.example.org",
+        "DomainValidationOptions": [
+          {
+            "DomainName": "test.example.org",
+            "HostedZoneId": "DUMMY",
+          },
+          {
+            "DomainName": "app.test.example.org",
+            "HostedZoneId": "DUMMY",
+          },
+        ],
+        "SubjectAlternativeNames": [
+          "app.test.example.org",
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "test-crisiscleanup-site/test-crisiscleanup-site-certificate",
+          },
+        ],
+        "ValidationMethod": "DNS",
+      },
+      "Type": "AWS::CertificateManager::Certificate",
     },
   },
   "Rules": {
