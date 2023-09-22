@@ -190,7 +190,7 @@ export class ARCScaleSet extends blueprints.HelmAddOn {
 			{
 				githubConfigUrl: this.options.githubConfigUrl,
 				githubConfigSecret: this.options.githubConfigSecret,
-				template: this.createTemplateSpec(),
+				template: this.createTemplate(),
 				controllerServiceAccount: {
 					namespace: sa.serviceAccountNamespace,
 					name: sa.serviceAccountName,
@@ -587,5 +587,24 @@ export class ARCScaleSet extends blueprints.HelmAddOn {
 			this.options.useDindRunner ? {} : this.createDindContainerSpec(),
 			this.createRunnerContainerSpec(),
 		)
+	}
+
+	/**
+	 * Create template helm value for runners.
+	 * @protected
+	 */
+	protected createTemplate() {
+		const spec = this.createTemplateSpec()
+		const metadata = {
+			annotations: {
+				// prevent karpenter from evicting / attempting to reschedule active runners.
+				// This may be problematic if minRunners >= 1, but should work well if minRunners = 0.
+				'karpenter.sh/do-not-evict': 'true',
+			},
+		}
+		return {
+			...spec,
+			metadata,
+		}
 	}
 }
