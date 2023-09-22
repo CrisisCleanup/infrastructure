@@ -1,13 +1,13 @@
 import { getConfig } from '@crisiscleanup/config'
 import {
+	ActionsContext,
 	GithubCodePipeline,
 	interpolateValue,
-	ActionsContext,
 } from '@crisiscleanup/construct.awscdk.github-pipeline'
 import { App } from 'aws-cdk-lib'
 import { GitHubStage, type GitHubStageProps } from 'cdk-pipelines-github'
 import type { Construct } from 'constructs'
-import { CrisisCleanupWeb } from './web'
+import { CrisisCleanupWeb, type CrisisCleanupWebProps } from './web'
 
 const { config, cwd } = await getConfig({
 	strict: true,
@@ -17,27 +17,16 @@ const { config, cwd } = await getConfig({
 
 const app = new App()
 
-interface CrisisCleanupWebStageProps {
-	/**
-	 * Domain name.
-	 */
-	domain: string
-	/**
-	 * App fqdn.
-	 */
-	fqdn: string
-}
-
 class CrisisCleanupWebStage extends GitHubStage {
 	constructor(
 		scope: Construct,
 		id: string,
-		props: CrisisCleanupWebStageProps,
+		props: Pick<CrisisCleanupWebProps, 'fqdn'> & Partial<CrisisCleanupWebProps>,
 		stageProps: GitHubStageProps,
 	) {
 		super(scope, id, stageProps)
 		const source = process.env.CCU_WEB_SITE_SOURCE
-		const domain = props.domain ?? process.env.CCU_WEB_SITE_DOMAIN
+		const domain = props.domainName ?? process.env.CCU_WEB_SITE_DOMAIN
 		if (!source) throw new Error('CCU_WEB_SITE_SOURCE is required')
 		if (!domain) throw new Error('CCU_WEB_SITE_DOMAIN is required')
 		new CrisisCleanupWeb(
@@ -49,7 +38,6 @@ class CrisisCleanupWebStage extends GitHubStage {
 				fqdn: props.fqdn,
 			},
 			{
-				env: config.cdkEnvironment,
 				description: 'CrisisCleanup Web',
 				stackName: 'crisiscleanup-web',
 			},
@@ -87,40 +75,55 @@ const pipeline = GithubCodePipeline.create({
 	.onWorkflowDispatch()
 	.concurrency({ group: 'deploy-web', cancelInProgress: false })
 
-pipeline.addStage(
+pipeline.addStageWithGitHubOptions(
 	new CrisisCleanupWebStage(
 		app,
 		'development',
 		{
-			domain: 'dev.crisiscleanup.io',
+			domainName: 'dev.crisiscleanup.io',
 			fqdn: 'app.dev.crisiscleanup.io',
 		},
-		{ env: config.$env!.development!.cdkEnvironment },
+		{
+			env: config.$env!.development!.cdkEnvironment,
+			gitHubEnvironment: {
+				name: 'development',
+				url: 'https://app.dev.crisiscleanup.io',
+			},
+		},
 	),
 )
-pipeline.addStage(
+pipeline.addStageWithGitHubOptions(
 	new CrisisCleanupWebStage(
 		app,
 		'staging',
 		{
-			domain: 'staging.crisiscleanup.io',
+			domainName: 'staging.crisiscleanup.io',
 			fqdn: 'app.staging.crisiscleanup.io',
 		},
 		{
 			env: config.$env!.staging!.cdkEnvironment,
+			gitHubEnvironment: {
+				name: 'staging',
+				url: 'https://app.staging.crisiscleanup.io',
+			},
 		},
 	),
 )
-pipeline.addStage(
+pipeline.addStageWithGitHubOptions(
 	new CrisisCleanupWebStage(
 		app,
 		'production',
 		{
-			domain: 'crisiscleanup.org',
+			domainName: 'crisiscleanup.org',
 			fqdn: 'crisiscleanup.org',
+			globalPriceClass: true,
 		},
 		{
 			env: config.$env!.production!.cdkEnvironment,
+			gitHubEnvironment: {
+				name: 'production',
+				url: 'https://crisiscleanup.org',
+			},
 		},
 	),
 )
