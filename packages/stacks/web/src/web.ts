@@ -53,6 +53,7 @@ export class CrisisCleanupWeb extends Stack {
 			this.certificate = new acm.Certificate(this, id + '-certificate', {
 				domainName: props.domainName,
 				validation: acm.CertificateValidation.fromDns(this.zone),
+				subjectAlternativeNames: [props.fqdn],
 			})
 		}
 
