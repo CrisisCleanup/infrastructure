@@ -121,6 +121,13 @@
         "cwd": "packages/stacks/web"
       }
     },
+    "test:watch": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm exec projen test:watch",
+        "cwd": "packages/stacks/web"
+      }
+    },
     "clean": {
       "executor": "nx:run-commands",
       "options": {

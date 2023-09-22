@@ -47,4 +47,5 @@ dist-types
 !/tsconfig.json
 !/tsconfig.dev.json
 cdk.context.json
+!/vitest.config.ts
 !/project.json

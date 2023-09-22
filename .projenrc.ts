@@ -515,7 +515,7 @@ new Vitest(maintenanceStack)
 // web stack
 const webStack = AwsCdkTsAppBuilder.add(
 	new CdkTsAppCompileBuilder({
-		synthPostCompileCondition: `bash -c '[[ -z "$SKIP_SYNTH" ]] && [[ -n "$WEB_SITE_SOURCE" ]]'`,
+		synthPostCompileCondition: `bash -c '[[ -z "$SKIP_SYNTH" ]] && [[ -n "$CCU_WEB_SITE_SOURCE" ]]'`,
 	}),
 ).build({
 	name: 'stacks.web',
@@ -525,6 +525,7 @@ const webStack = AwsCdkTsAppBuilder.add(
 	jest: false,
 	prettier: true,
 })
+new Vitest(webStack)
 
 monorepo.addWorkspaceDeps(
 	{ depType: DependencyType.DEVENV, addTsPath: true },

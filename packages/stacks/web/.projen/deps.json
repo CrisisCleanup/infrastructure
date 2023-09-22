@@ -76,6 +76,10 @@
       "type": "build"
     },
     {
+      "name": "vitest",
+      "type": "build"
+    },
+    {
       "name": "@aws-prototyping-sdk/static-website",
       "type": "runtime"
     },
