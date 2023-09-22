@@ -20,15 +20,28 @@ jobs:
       NX_BRANCH: ${{github.event.number}}
       NX_RUN_GROUP: ${{github.run_id}}
       NX_CLOUD_ACCESS_TOKEN: ${{secrets.NX_CLOUD_ACCESS_TOKEN}}
+      VITE_APP_API_BASE_URL: ${{vars.VITE_APP_API_BASE_URL}}
+      VITE_APP_BASE_URL: ${{vars.VITE_APP_BASE_URL}}
+      VITE_APP_WS_URL: ${{vars.VITE_APP_WS_URL}}
+      VITE_APP_AWS_CCP_URL: ${{vars.VITE_APP_AWS_CCP_URL}}
+      VITE_APP_CCP_INSTANCE: ${{vars.VITE_APP_CCP_INSTANCE}}
+      VITE_APP_STAGE: ${{vars.VITE_APP_STAGE}}
+      VITE_APP_PORTAL_KEY: ${{vars.VITE_APP_PORTAL_KEY}}
+      VITE_APP_PHONE_DEFAULT_USERNAME: ${{vars.VITE_APP_PHONE_DEFAULT_USERNAME}}
+      VITE_APP_PHONE_DEFAULT_PASSWORD: ${{vars.VITE_APP_PHONE_DEFAULT_PASSWORD}}
+      VITE_APP_ENGLISH_PHONE_GATEWAY: ${{vars.VITE_APP_ENGLISH_PHONE_GATEWAY}}
+      VITE_APP_SPANISH_PHONE_GATEWAY: ${{vars.VITE_APP_SPANISH_PHONE_GATEWAY}}
+      VITE_APP_DEFAULT_CALLER_ID: ${{vars.VITE_APP_DEFAULT_CALLER_ID}}
+      VITE_APP_CRISISCLEANUP_WEB_CLIENT_ID: ${{vars.VITE_APP_CRISISCLEANUP_WEB_CLIENT_ID}}
+      NODE_ENV: ${{vars.NODE_ENV}}
       CCU_CONFIGS_DECRYPT: "true"
-      CCU_WEB_SITE_SOURCE: ${{github.workspace}}/dist
+      CCU_WEB_SITE_SOURCE: ${{github.workspace}}/.crisiscleanup-4-web/dist
     steps:
       - name: Mask values
         run: |-
           echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
-          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
       - name: Checkout
         uses: actions/checkout@v3
@@ -48,8 +61,7 @@ jobs:
           version: 3.7.3
       - name: Install AWS CLI
         uses: unfor19/install-aws-cli-action@v1
-        if: runner.arch == 'ARM64' && (inputs.runner && !contains(inputs.runner,
-          'ubuntu'))
+        if: runner.arch == 'ARM64' && (inputs.runner && !contains(inputs.runner, 'ubuntu'))
         with:
           arch: arm64
           version: 2.13.11
@@ -57,6 +69,14 @@ jobs:
         uses: azure/setup-helm@v3
         with:
           version: 3.12.2
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: master
+          repository: CrisisCleanup/crisiscleanup-4-web
+          path: .crisiscleanup-4-web
+      - name: Build Web
+        run: pushd .crisiscleanup-4-web && pnpm install && pnpm build:app
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -119,7 +139,6 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
-          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
@@ -127,8 +146,7 @@ jobs:
         if: inputs.runner && !contains(inputs.runner, 'ubuntu')
       - name: Install AWS CLI
         uses: unfor19/install-aws-cli-action@v1
-        if: runner.arch == 'ARM64' && (inputs.runner && !contains(inputs.runner,
-          'ubuntu'))
+        if: runner.arch == 'ARM64' && (inputs.runner && !contains(inputs.runner, 'ubuntu'))
         with:
           arch: arm64
           version: 2.13.11
@@ -169,7 +187,6 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
-          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -187,16 +204,15 @@ jobs:
           aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
           aws-session-token: ${{ env.AWS_SESSION_TOKEN }}
-          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}-us-east-1
+          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}-us-east-1
           role-external-id: Pipeline
       - id: Deploy
         uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
         with:
           name: crisiscleanup-web
-          template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}-us-east-1.s3.us-east-1.amazonaws.com/${{
-            needs.publish.outputs.asset-hash1 }}.json
+          template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}-us-east-1.s3.us-east-1.amazonaws.com/${{ needs.publish.outputs.asset-hash1 }}.json
           no-fail-on-empty-changeset: "1"
-          role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}-us-east-1
+          role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}-us-east-1
   staging-crisiscleanup-web-deploy:
     name: Deploy stagingcrisiscleanupweb1118F9DE
     permissions:
@@ -214,7 +230,6 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
-          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -232,16 +247,15 @@ jobs:
           aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
           aws-session-token: ${{ env.AWS_SESSION_TOKEN }}
-          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}-us-east-1
+          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_STAGING}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_STAGING}}-us-east-1
           role-external-id: Pipeline
       - id: Deploy
         uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
         with:
           name: crisiscleanup-web
-          template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}-us-east-1.s3.us-east-1.amazonaws.com/${{
-            needs.publish.outputs.asset-hash8 }}.json
+          template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_STAGING}}-us-east-1.s3.us-east-1.amazonaws.com/${{ needs.publish.outputs.asset-hash8 }}.json
           no-fail-on-empty-changeset: "1"
-          role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}-us-east-1
+          role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_STAGING}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_STAGING}}-us-east-1
   production-crisiscleanup-web-deploy:
     name: Deploy productioncrisiscleanupwebED01140D
     permissions:
@@ -259,7 +273,6 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
-          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -283,8 +296,7 @@ jobs:
         uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
         with:
           name: crisiscleanup-web
-          template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}-us-east-1.s3.us-east-1.amazonaws.com/${{
-            needs.publish.outputs.asset-hash9 }}.json
+          template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}-us-east-1.s3.us-east-1.amazonaws.com/${{ needs.publish.outputs.asset-hash9 }}.json
           no-fail-on-empty-changeset: "1"
           role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}-us-east-1
 concurrency:

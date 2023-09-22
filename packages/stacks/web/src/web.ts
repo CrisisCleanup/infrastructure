@@ -29,7 +29,7 @@ export interface CrisisCleanupWebProps {
 }
 
 /**
- * Maintenance site for crisiscleanup.org
+ * crisiscleanup.org website
  */
 export class CrisisCleanupWeb extends Stack {
 	readonly zone?: route53.IHostedZone
