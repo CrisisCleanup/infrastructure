@@ -3,8 +3,12 @@
 
 name: Deploy CrisisCleanup Site
 on:
-  workflow_call: {}
-  workflow_dispatch: {}
+  workflow_call:
+    inputs:
+      environment:
+        type: string
+        description: Environment to deploy.
+        default: development
 jobs:
   build-deploy-crisiscleanup-site-synth:
     name: Synthesize
@@ -61,7 +65,8 @@ jobs:
           version: 3.7.3
       - name: Install AWS CLI
         uses: unfor19/install-aws-cli-action@v1
-        if: runner.arch == 'ARM64' && (inputs.runner && !contains(inputs.runner, 'ubuntu'))
+        if: runner.arch == 'ARM64' && (inputs.runner && !contains(inputs.runner,
+          'ubuntu'))
         with:
           arch: arm64
           version: 2.13.11
@@ -114,6 +119,9 @@ jobs:
           S3_SOURCE: cdk.out
           S3_DESTINATION: s3://crisiscleanup-pipeline-assets/cdk-assets/crisiscleanup-web/${{github.run_id}}-${{github.run_attempt}}/cdk.out
         run: aws s3 sync ${{env.S3_SOURCE}} ${{env.S3_DESTINATION}}
+    environment:
+      name: ${{inputs.environment}}
+      url: ${{vars.VITE_APP_BASE_URL}}
   publish:
     name: Publish Assets
     permissions:
@@ -146,7 +154,8 @@ jobs:
         if: inputs.runner && !contains(inputs.runner, 'ubuntu')
       - name: Install AWS CLI
         uses: unfor19/install-aws-cli-action@v1
-        if: runner.arch == 'ARM64' && (inputs.runner && !contains(inputs.runner, 'ubuntu'))
+        if: runner.arch == 'ARM64' && (inputs.runner && !contains(inputs.runner,
+          'ubuntu'))
         with:
           arch: arm64
           version: 2.13.11
@@ -176,6 +185,9 @@ jobs:
     permissions:
       contents: read
       id-token: write
+    environment:
+      name: development
+      url: https://app.dev.crisiscleanup.io
     needs:
       - Build-deploy-crisiscleanup-site-synth
       - publish
@@ -210,7 +222,8 @@ jobs:
         uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
         with:
           name: crisiscleanup-web
-          template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}-us-east-1.s3.us-east-1.amazonaws.com/${{ needs.publish.outputs.asset-hash1 }}.json
+          template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}-us-east-1.s3.us-east-1.amazonaws.com/${{
+            needs.publish.outputs.asset-hash1 }}.json
           no-fail-on-empty-changeset: "1"
           role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}-us-east-1
   staging-crisiscleanup-web-deploy:
@@ -218,6 +231,9 @@ jobs:
     permissions:
       contents: read
       id-token: write
+    environment:
+      name: staging
+      url: https://app.staging.crisiscleanup.io
     needs:
       - Build-deploy-crisiscleanup-site-synth
       - development-crisiscleanup-web-Deploy
@@ -253,7 +269,8 @@ jobs:
         uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
         with:
           name: crisiscleanup-web
-          template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_STAGING}}-us-east-1.s3.us-east-1.amazonaws.com/${{ needs.publish.outputs.asset-hash8 }}.json
+          template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_STAGING}}-us-east-1.s3.us-east-1.amazonaws.com/${{
+            needs.publish.outputs.asset-hash8 }}.json
           no-fail-on-empty-changeset: "1"
           role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_STAGING}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_STAGING}}-us-east-1
   production-crisiscleanup-web-deploy:
@@ -261,6 +278,9 @@ jobs:
     permissions:
       contents: read
       id-token: write
+    environment:
+      name: production
+      url: https://crisiscleanup.org
     needs:
       - Build-deploy-crisiscleanup-site-synth
       - staging-crisiscleanup-web-Deploy
@@ -296,7 +316,8 @@ jobs:
         uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
         with:
           name: crisiscleanup-web
-          template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}-us-east-1.s3.us-east-1.amazonaws.com/${{ needs.publish.outputs.asset-hash9 }}.json
+          template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}-us-east-1.s3.us-east-1.amazonaws.com/${{
+            needs.publish.outputs.asset-hash9 }}.json
           no-fail-on-empty-changeset: "1"
           role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}-us-east-1
 concurrency:
