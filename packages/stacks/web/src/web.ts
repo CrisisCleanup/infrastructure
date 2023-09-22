@@ -22,6 +22,10 @@ export interface CrisisCleanupWebProps {
 	 * App FQDN.
 	 */
 	readonly fqdn: string
+	/**
+	 * Utilize PRICE_CLASS_ALL for CloudFront distribution.
+	 */
+	readonly globalPriceClass?: boolean
 }
 
 /**
@@ -61,7 +65,9 @@ export class CrisisCleanupWeb extends Stack {
 				},
 				comment: 'CrisisCleanup Site',
 				certificate: this.certificate,
-				priceClass: cloudfront.PriceClass.PRICE_CLASS_ALL,
+				priceClass: props.globalPriceClass
+					? cloudfront.PriceClass.PRICE_CLASS_ALL
+					: cloudfront.PriceClass.PRICE_CLASS_100,
 				domainNames: [props.fqdn],
 			},
 		})
