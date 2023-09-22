@@ -330,7 +330,7 @@ export class ARCScaleSet extends blueprints.HelmAddOn {
 					name: ScaleSetContainer.DIND,
 					image: dindImage,
 					imagePullPolicy: 'IfNotPresent',
-					resources: this.containerResources,
+					resources: this.containerResources.dind,
 					securityContext: {
 						privileged: true,
 					},
@@ -362,13 +362,25 @@ export class ARCScaleSet extends blueprints.HelmAddOn {
 
 	protected get containerResources() {
 		return {
-			limits: {
-				cpu: '2.0',
-				memory: '4Gi',
+			runner: {
+				limits: {
+					cpu: '50m',
+					memory: '300Mi',
+				},
+				requests: {
+					cpu: '20m',
+					memory: '210Mi',
+				},
 			},
-			requests: {
-				cpu: '1.0',
-				memory: '1Gi',
+			dind: {
+				limits: {
+					cpu: '3.0',
+					memory: '4Gi',
+				},
+				requests: {
+					cpu: '1.0',
+					memory: '2Gi',
+				},
 			},
 		}
 	}
@@ -471,6 +483,7 @@ export class ARCScaleSet extends blueprints.HelmAddOn {
 					name: ScaleSetContainer.RUNNER,
 					image: runnerImage,
 					imagePullPolicy: 'IfNotPresent',
+					resources: this.containerResources.runner,
 					command: this.options.useDindRunner
 						? ['bash', '-c', dindCommand.join(' && ')]
 						: ['/home/runner/run.sh'],
