@@ -5,7 +5,6 @@ import {
 	interpolateValue,
 } from '@crisiscleanup/construct.awscdk.github-pipeline'
 import { App } from 'aws-cdk-lib'
-import * as ghpipelines from 'cdk-pipelines-github'
 import { GitHubStage, type GitHubStageProps } from 'cdk-pipelines-github'
 import type { Construct } from 'constructs'
 import { CrisisCleanupWeb, type CrisisCleanupWebProps } from './web'
@@ -114,6 +113,10 @@ const pipeline = GithubCodePipeline.create({
 	.synthTarget({
 		packageName: 'stacks.web',
 		workingDirectory: 'packages/stacks/web',
+		environment: {
+			name: interpolateValue(ActionsContext.INPUTS, 'environment'),
+			url: interpolateValue(ActionsContext.VARS, 'VITE_APP_BASE_URL'),
+		},
 	})
 	.synthPreStep({
 		name: 'Build Web',
