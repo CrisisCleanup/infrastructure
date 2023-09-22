@@ -2,6 +2,7 @@ import { getConfig } from '@crisiscleanup/config'
 import {
 	ActionsContext,
 	GithubCodePipeline,
+	interpolateObject,
 	interpolateValue,
 } from '@crisiscleanup/construct.awscdk.github-pipeline'
 import { App } from 'aws-cdk-lib'
@@ -58,53 +59,32 @@ const pipeline = GithubCodePipeline.create({
 		repository: 'CrisisCleanup/crisiscleanup-4-web',
 	})
 	.addSynthEnv({
-		VITE_APP_API_BASE_URL: interpolateValue(
+		...interpolateObject(
 			ActionsContext.VARS,
 			'VITE_APP_API_BASE_URL',
-		),
-		VITE_APP_BASE_URL: interpolateValue(
-			ActionsContext.VARS,
 			'VITE_APP_BASE_URL',
-		),
-		VITE_APP_WS_URL: interpolateValue(ActionsContext.VARS, 'VITE_APP_WS_URL'),
-		VITE_APP_AWS_CCP_URL: interpolateValue(
-			ActionsContext.VARS,
+			'VITE_APP_WS_URL',
 			'VITE_APP_AWS_CCP_URL',
-		),
-		VITE_APP_CCP_INSTANCE: interpolateValue(
-			ActionsContext.VARS,
 			'VITE_APP_CCP_INSTANCE',
-		),
-		VITE_APP_STAGE: interpolateValue(ActionsContext.VARS, 'VITE_APP_STAGE'),
-		VITE_APP_PORTAL_KEY: interpolateValue(
-			ActionsContext.VARS,
+			'VITE_APP_STAGE',
 			'VITE_APP_PORTAL_KEY',
-		),
-		VITE_APP_PHONE_DEFAULT_USERNAME: interpolateValue(
-			ActionsContext.VARS,
 			'VITE_APP_PHONE_DEFAULT_USERNAME',
-		),
-		VITE_APP_PHONE_DEFAULT_PASSWORD: interpolateValue(
-			ActionsContext.VARS,
 			'VITE_APP_PHONE_DEFAULT_PASSWORD',
-		),
-		VITE_APP_ENGLISH_PHONE_GATEWAY: interpolateValue(
-			ActionsContext.VARS,
 			'VITE_APP_ENGLISH_PHONE_GATEWAY',
-		),
-		VITE_APP_SPANISH_PHONE_GATEWAY: interpolateValue(
-			ActionsContext.VARS,
 			'VITE_APP_SPANISH_PHONE_GATEWAY',
-		),
-		VITE_APP_DEFAULT_CALLER_ID: interpolateValue(
-			ActionsContext.VARS,
 			'VITE_APP_DEFAULT_CALLER_ID',
-		),
-		VITE_APP_CRISISCLEANUP_WEB_CLIENT_ID: interpolateValue(
-			ActionsContext.VARS,
 			'VITE_APP_CRISISCLEANUP_WEB_CLIENT_ID',
+			'NODE_ENV',
 		),
-		NODE_ENV: interpolateValue(ActionsContext.VARS, 'NODE_ENV'),
+		...interpolateObject(
+			ActionsContext.SECRET,
+			'VITE_APP_WHAT_3_WORDS_API_KEY',
+			'VITE_APP_PITNEYBOWES_BASIC_AUTH_TOKEN',
+			'VITE_APP_PITNEYBOWES_API_KEY',
+			'VITE_APP_GOOGLE_TRANSLATE_API_KEY',
+			'VITE_APP_GOOGLE_MAPS_API_KEY',
+			'SENTRY_DSN',
+		),
 		CCU_CONFIGS_DECRYPT: 'true',
 		CCU_WEB_SITE_SOURCE:
 			interpolateValue(ActionsContext.GITHUB, 'workspace') +
