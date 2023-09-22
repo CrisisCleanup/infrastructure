@@ -121,7 +121,7 @@ export const buildKarpenter = (
 		)
 
 	return new blueprints.KarpenterAddOn({
-		version: 'v0.29.2',
+		version: 'v0.30.0',
 		requirements: [
 			{ key: Label.ARCH, op: 'In', vals: ['arm64'] },
 			{ key: Label.CAPACITY_TYPE, op: 'In', vals: ['spot', 'on-demand'] },
