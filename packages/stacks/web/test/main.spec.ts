@@ -11,12 +11,17 @@ describe('CrisisCleanupWeb', () => {
 		const sourcePath = path.join(os.tmpdir(), 'crisiscleanup-web-test')
 		const tempDir = await fs.mkdtemp(sourcePath)
 		const app = new App()
-		const stack = new CrisisCleanupWeb(app, 'test-crisiscleanup-site', {
-			source: tempDir,
-			fqdn: 'app.test.crisiscleanup.org',
-			domainName: 'test.crisiscleanup.org',
-			globalPriceClass: false,
-		})
+		const stack = new CrisisCleanupWeb(
+			app,
+			'test-crisiscleanup-site',
+			{
+				source: tempDir,
+				fqdn: 'app.test.example.org',
+				domainName: 'test.example.org',
+				globalPriceClass: false,
+			},
+			{ env: { account: '123', region: 'us-east-1' } },
+		)
 		const template = Template.fromStack(stack)
 		expect(template.toJSON()).toMatchSnapshot()
 	})
