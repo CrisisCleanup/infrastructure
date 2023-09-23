@@ -187,7 +187,7 @@ jobs:
           targets="./cdk.out/publish-Assets-FileAsset1-step.sh,./cdk.out/publish-Assets-FileAsset2-step.sh,./cdk.out/publish-Assets-FileAsset3-step.sh,./cdk.out/publish-Assets-FileAsset4-step.sh,./cdk.out/publish-Assets-FileAsset5-step.sh,./cdk.out/publish-Assets-FileAsset6-step.sh,./cdk.out/publish-Assets-FileAsset7-step.sh,./cdk.out/publish-Assets-FileAsset8-step.sh,./cdk.out/publish-Assets-FileAsset9-step.sh"
 
           echo -n "$targets" | xargs -r -d',' -t -n1 -P2 /bin/bash
-  development-crisiscleanup-web-deploy:
+  deploy-development-crisiscleanup-web-deploy:
     name: Deploy developmentcrisiscleanupweb9069437F
     if: inputs.environment == 'development'
     permissions:
@@ -234,7 +234,7 @@ jobs:
             needs.publish.outputs.asset-hash1 }}.json
           no-fail-on-empty-changeset: "1"
           role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}-us-east-1
-  staging-crisiscleanup-web-deploy:
+  deploy-staging-crisiscleanup-web-deploy:
     name: Deploy stagingcrisiscleanupweb1118F9DE
     if: inputs.environment == 'staging'
     permissions:
@@ -245,7 +245,6 @@ jobs:
       url: https://app.staging.crisiscleanup.io
     needs:
       - Build-deploy-crisiscleanup-site-synth
-      - development-crisiscleanup-web-Deploy
       - publish
     runs-on: ${{inputs.runner || 'ubuntu-latest'}}
     steps:
@@ -282,7 +281,7 @@ jobs:
             needs.publish.outputs.asset-hash8 }}.json
           no-fail-on-empty-changeset: "1"
           role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_STAGING}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_STAGING}}-us-east-1
-  production-crisiscleanup-web-deploy:
+  deploy-production-crisiscleanup-web-deploy:
     name: Deploy productioncrisiscleanupwebED01140D
     if: inputs.environment == 'production'
     permissions:
@@ -293,7 +292,6 @@ jobs:
       url: https://crisiscleanup.org
     needs:
       - Build-deploy-crisiscleanup-site-synth
-      - staging-crisiscleanup-web-Deploy
       - publish
     runs-on: ${{inputs.runner || 'ubuntu-latest'}}
     steps:
