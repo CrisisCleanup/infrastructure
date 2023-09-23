@@ -51,6 +51,9 @@ class CrisisCleanupWebStage extends GitHubStage {
 	}
 }
 
+const webRoot =
+	interpolateValue(ActionsContext.RUNNER, 'temp') + '/.crisiscleanup-4-web'
+const webDist = webRoot + '/dist'
 const pipeline = GithubCodePipeline.create({
 	rootDir: cwd!,
 	assetsS3Bucket: 'crisiscleanup-pipeline-assets',
@@ -59,10 +62,6 @@ const pipeline = GithubCodePipeline.create({
 })
 	.addConfigsEnv()
 	.addNxEnv()
-	.synthCheckout({
-		ref: 'master',
-		repository: 'CrisisCleanup/crisiscleanup-4-web',
-	})
 	.addSynthEnv({
 		...interpolateObject(
 			ActionsContext.VARS,
@@ -91,9 +90,22 @@ const pipeline = GithubCodePipeline.create({
 			'SENTRY_DSN',
 		),
 		CCU_CONFIGS_DECRYPT: 'true',
-		CCU_WEB_SITE_SOURCE:
-			interpolateValue(ActionsContext.GITHUB, 'workspace') +
-			'/.crisiscleanup-4-web/dist',
+		CCU_WEB_SITE_SOURCE: webDist,
+	})
+	.synthPreStep({
+		name: 'Build Web',
+		workingDirectory: webRoot,
+		run: 'pnpm build:app',
+	})
+	.synthPreStep({
+		name: 'Install Web',
+		workingDirectory: webRoot,
+		run: 'pnpm install',
+	})
+	.synthCheckout({
+		ref: 'master',
+		repository: 'CrisisCleanup/crisiscleanup-4-web',
+		path: webRoot,
 	})
 	.synthTarget({
 		packageName: 'stacks.web',
@@ -102,21 +114,6 @@ const pipeline = GithubCodePipeline.create({
 			name: interpolateValue(ActionsContext.INPUTS, 'environment'),
 			url: interpolateValue(ActionsContext.VARS, 'VITE_APP_BASE_URL'),
 		},
-	})
-	.synthPreStep({
-		name: 'Build Web',
-		workingDirectory: '.crisiscleanup-4-web',
-		run: 'pnpm build:app',
-	})
-	.synthPreStep({
-		name: 'Install Web',
-		workingDirectory: '.crisiscleanup-4-web',
-		run: 'pnpm install',
-	})
-	.synthCheckout({
-		ref: 'master',
-		repository: 'CrisisCleanup/crisiscleanup-4-web',
-		path: '.crisiscleanup-4-web',
 	})
 	.defaultTools()
 	.clone({
@@ -130,7 +127,11 @@ const pipeline = GithubCodePipeline.create({
 			default: 'development',
 		},
 	})
-	.concurrency({ group: 'deploy-web', cancelInProgress: false })
+	.concurrency({
+		group:
+			'deploy-web-' + interpolateValue(ActionsContext.INPUTS, 'environment'),
+		cancelInProgress: false,
+	})
 
 pipeline.addStageWithGitHubOptions(
 	new CrisisCleanupWebStage(
