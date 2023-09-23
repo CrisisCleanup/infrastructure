@@ -187,6 +187,7 @@ pipeline.addStageWithGitHubOptions(
 			domainName: 'crisiscleanup.org',
 			fqdn: 'crisiscleanup.org',
 			globalPriceClass: true,
+			additionalDomains: ['www.crisiscleanup.org'],
 		},
 		{
 			env: config.$env!.production!.cdkEnvironment,

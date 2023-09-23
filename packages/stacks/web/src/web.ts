@@ -23,6 +23,10 @@ export interface CrisisCleanupWebProps {
 	 */
 	readonly fqdn: string
 	/**
+	 * Additional domains to add to the certificate.
+	 */
+	readonly additionalDomains?: string[]
+	/**
 	 * Utilize PRICE_CLASS_ALL for CloudFront distribution.
 	 */
 	readonly globalPriceClass?: boolean
@@ -53,7 +57,10 @@ export class CrisisCleanupWeb extends Stack {
 			this.certificate = new acm.Certificate(this, id + '-certificate', {
 				domainName: props.domainName,
 				validation: acm.CertificateValidation.fromDns(this.zone),
-				subjectAlternativeNames: [props.fqdn],
+				subjectAlternativeNames: [
+					props.fqdn,
+					...(props.additionalDomains ?? []),
+				],
 			})
 		}
 
