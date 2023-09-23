@@ -151,6 +151,11 @@ pipeline.addStageWithGitHubOptions(
 			},
 		},
 	),
+	{
+		jobSettings: {
+			if: 'github.inputs == "development"',
+		},
+	},
 )
 pipeline.addStageWithGitHubOptions(
 	new CrisisCleanupWebStage(
@@ -168,6 +173,11 @@ pipeline.addStageWithGitHubOptions(
 			},
 		},
 	),
+	{
+		jobSettings: {
+			if: 'github.inputs == "staging"',
+		},
+	},
 )
 pipeline.addStageWithGitHubOptions(
 	new CrisisCleanupWebStage(
@@ -186,6 +196,11 @@ pipeline.addStageWithGitHubOptions(
 			},
 		},
 	),
+	{
+		jobSettings: {
+			if: 'github.inputs == "production"',
+		},
+	},
 )
 
 app.synth()
