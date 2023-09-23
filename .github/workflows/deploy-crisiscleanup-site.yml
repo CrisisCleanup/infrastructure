@@ -98,12 +98,12 @@ jobs:
         with:
           ref: master
           repository: CrisisCleanup/crisiscleanup-4-web
-          path: .crisiscleanup-4-web
+          path: ${{github.workspace}}/.crisiscleanup-4-web
       - name: Install Web
-        working-directory: .crisiscleanup-4-web
+        working-directory: ${{github.workspace}}/.crisiscleanup-4-web
         run: pnpm --ignore-workspace install
       - name: Build Web
-        working-directory: .crisiscleanup-4-web
+        working-directory: ${{github.workspace}}/.crisiscleanup-4-web
         run: pnpm --ignore-workspace build:app
       - name: Install
         run: pnpm install
@@ -113,7 +113,7 @@ jobs:
           pnpm -F 'stacks.web' run synth:silent
           cp -r packages/stacks/web/cdk.out ./cdk.out
         env:
-          CCU_WEB_SITE_SOURCE: .crisiscleanup-4-web/dist
+          CCU_WEB_SITE_SOURCE: ${{github.workspace}}/.crisiscleanup-4-web/dist
       - name: Push cdk.context.json
         continue-on-error: true
         env:
@@ -135,6 +135,7 @@ jobs:
       id-token: write
     outputs:
       asset-hash1: ${{steps.publish.outputs.asset-hash1}}
+      asset-hash10: ${{steps.publish.outputs.asset-hash10}}
       asset-hash2: ${{steps.publish.outputs.asset-hash2}}
       asset-hash3: ${{steps.publish.outputs.asset-hash3}}
       asset-hash4: ${{steps.publish.outputs.asset-hash4}}
@@ -183,7 +184,7 @@ jobs:
       - name: Publish
         id: publish
         run: >-
-          targets="./cdk.out/publish-Assets-FileAsset1-step.sh,./cdk.out/publish-Assets-FileAsset2-step.sh,./cdk.out/publish-Assets-FileAsset3-step.sh,./cdk.out/publish-Assets-FileAsset4-step.sh,./cdk.out/publish-Assets-FileAsset5-step.sh,./cdk.out/publish-Assets-FileAsset6-step.sh,./cdk.out/publish-Assets-FileAsset7-step.sh,./cdk.out/publish-Assets-FileAsset8-step.sh,./cdk.out/publish-Assets-FileAsset9-step.sh"
+          targets="./cdk.out/publish-Assets-FileAsset1-step.sh,./cdk.out/publish-Assets-FileAsset10-step.sh,./cdk.out/publish-Assets-FileAsset2-step.sh,./cdk.out/publish-Assets-FileAsset3-step.sh,./cdk.out/publish-Assets-FileAsset4-step.sh,./cdk.out/publish-Assets-FileAsset5-step.sh,./cdk.out/publish-Assets-FileAsset6-step.sh,./cdk.out/publish-Assets-FileAsset7-step.sh,./cdk.out/publish-Assets-FileAsset8-step.sh,./cdk.out/publish-Assets-FileAsset9-step.sh"
 
           echo -n "$targets" | xargs -r -d',' -t -n1 -P2 /bin/bash
   development-crisiscleanup-web-deploy:
@@ -276,7 +277,7 @@ jobs:
         with:
           name: crisiscleanup-web
           template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_STAGING}}-us-east-1.s3.us-east-1.amazonaws.com/${{
-            needs.publish.outputs.asset-hash8 }}.json
+            needs.publish.outputs.asset-hash9 }}.json
           no-fail-on-empty-changeset: "1"
           role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_STAGING}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_STAGING}}-us-east-1
   production-crisiscleanup-web-deploy:
@@ -323,7 +324,7 @@ jobs:
         with:
           name: crisiscleanup-web
           template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}-us-east-1.s3.us-east-1.amazonaws.com/${{
-            needs.publish.outputs.asset-hash9 }}.json
+            needs.publish.outputs.asset-hash10 }}.json
           no-fail-on-empty-changeset: "1"
           role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}-us-east-1
 concurrency:

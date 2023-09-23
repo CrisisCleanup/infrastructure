@@ -51,7 +51,8 @@ class CrisisCleanupWebStage extends GitHubStage {
 	}
 }
 
-const webRoot = '.crisiscleanup-4-web'
+const webRoot =
+	interpolateValue(ActionsContext.GITHUB, 'workspace') + '/.crisiscleanup-4-web'
 const webDist = webRoot + '/dist'
 const pipeline = GithubCodePipeline.create({
 	rootDir: cwd!,
