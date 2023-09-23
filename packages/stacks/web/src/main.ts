@@ -135,7 +135,8 @@ const pipeline = GithubCodePipeline.create({
 		cancelInProgress: false,
 	})
 
-pipeline.addStageWithGitHubOptions(
+const wave = pipeline.addGitHubWave('deploy')
+wave.addStageWithGitHubOptions(
 	new CrisisCleanupWebStage(
 		app,
 		'development',
@@ -157,7 +158,7 @@ pipeline.addStageWithGitHubOptions(
 		},
 	},
 )
-pipeline.addStageWithGitHubOptions(
+wave.addStageWithGitHubOptions(
 	new CrisisCleanupWebStage(
 		app,
 		'staging',
@@ -179,7 +180,7 @@ pipeline.addStageWithGitHubOptions(
 		},
 	},
 )
-pipeline.addStageWithGitHubOptions(
+wave.addStageWithGitHubOptions(
 	new CrisisCleanupWebStage(
 		app,
 		'production',
