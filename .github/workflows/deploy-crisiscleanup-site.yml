@@ -45,7 +45,6 @@ jobs:
       VITE_APP_GOOGLE_MAPS_API_KEY: ${{secrets.VITE_APP_GOOGLE_MAPS_API_KEY}}
       SENTRY_DSN: ${{secrets.SENTRY_DSN}}
       CCU_CONFIGS_DECRYPT: "true"
-      CCU_WEB_SITE_SOURCE: ${{runner.temp}}/.crisiscleanup-4-web/dist
     steps:
       - name: Mask values
         run: |-
@@ -113,6 +112,8 @@ jobs:
           pnpm build
           pnpm -F 'stacks.web' run synth:silent
           cp -r packages/stacks/web/cdk.out ./cdk.out
+        env:
+          CCU_WEB_SITE_SOURCE: ${{runner.temp}}/.crisiscleanup-4-web/dist
       - name: Push cdk.context.json
         continue-on-error: true
         env:

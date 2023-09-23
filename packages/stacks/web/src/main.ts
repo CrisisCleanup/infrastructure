@@ -90,7 +90,6 @@ const pipeline = GithubCodePipeline.create({
 			'SENTRY_DSN',
 		),
 		CCU_CONFIGS_DECRYPT: 'true',
-		CCU_WEB_SITE_SOURCE: webDist,
 	})
 	.synthPreStep({
 		name: 'Build Web',
@@ -110,6 +109,9 @@ const pipeline = GithubCodePipeline.create({
 	.synthTarget({
 		packageName: 'stacks.web',
 		workingDirectory: 'packages/stacks/web',
+		commandEnv: {
+			CCU_WEB_SITE_SOURCE: webDist,
+		},
 		environment: {
 			name: interpolateValue(ActionsContext.INPUTS, 'environment'),
 			url: interpolateValue(ActionsContext.VARS, 'VITE_APP_BASE_URL'),
