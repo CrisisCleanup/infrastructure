@@ -189,7 +189,7 @@ jobs:
           echo -n "$targets" | xargs -r -d',' -t -n1 -P2 /bin/bash
   development-crisiscleanup-web-deploy:
     name: Deploy developmentcrisiscleanupweb9069437F
-    if: github.inputs == "development"
+    if: github.inputs == 'development'
     permissions:
       contents: read
       id-token: write
@@ -236,7 +236,7 @@ jobs:
           role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}-us-east-1
   staging-crisiscleanup-web-deploy:
     name: Deploy stagingcrisiscleanupweb1118F9DE
-    if: github.inputs == "staging"
+    if: github.inputs == 'staging'
     permissions:
       contents: read
       id-token: write
@@ -284,7 +284,7 @@ jobs:
           role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_STAGING}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_STAGING}}-us-east-1
   production-crisiscleanup-web-deploy:
     name: Deploy productioncrisiscleanupwebED01140D
-    if: github.inputs == "production"
+    if: github.inputs == 'production'
     permissions:
       contents: read
       id-token: write
