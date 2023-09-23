@@ -104,14 +104,14 @@ const pipeline = GithubCodePipeline.create({
 		},
 	})
 	.synthPreStep({
-		name: 'Install Web',
-		workingDirectory: '.crisiscleanup-4-web',
-		run: 'pnpm install',
-	})
-	.synthPreStep({
 		name: 'Build Web',
 		workingDirectory: '.crisiscleanup-4-web',
 		run: 'pnpm build:app',
+	})
+	.synthPreStep({
+		name: 'Install Web',
+		workingDirectory: '.crisiscleanup-4-web',
+		run: 'pnpm install',
 	})
 	.synthCheckout({
 		ref: 'master',

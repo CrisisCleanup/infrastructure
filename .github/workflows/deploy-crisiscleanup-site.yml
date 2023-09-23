@@ -86,12 +86,12 @@ jobs:
           ref: master
           repository: CrisisCleanup/crisiscleanup-4-web
           path: .crisiscleanup-4-web
-      - name: Build Web
-        working-directory: .crisiscleanup-4-web
-        run: pnpm build:app
       - name: Install Web
         working-directory: .crisiscleanup-4-web
         run: pnpm install
+      - name: Build Web
+        working-directory: .crisiscleanup-4-web
+        run: pnpm build:app
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
