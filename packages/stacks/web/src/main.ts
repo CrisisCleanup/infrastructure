@@ -153,7 +153,7 @@ pipeline.addStageWithGitHubOptions(
 	),
 	{
 		jobSettings: {
-			if: `github.inputs == 'development'`,
+			if: `inputs.environment == 'development'`,
 		},
 	},
 )
@@ -175,7 +175,7 @@ pipeline.addStageWithGitHubOptions(
 	),
 	{
 		jobSettings: {
-			if: `github.inputs == 'staging'`,
+			if: `inputs.environment == 'staging'`,
 		},
 	},
 )
@@ -198,7 +198,7 @@ pipeline.addStageWithGitHubOptions(
 	),
 	{
 		jobSettings: {
-			if: `github.inputs == 'production'`,
+			if: `inputs.environment == 'production'`,
 		},
 	},
 )
