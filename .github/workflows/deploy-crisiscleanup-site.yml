@@ -37,7 +37,6 @@ jobs:
       VITE_APP_SPANISH_PHONE_GATEWAY: ${{vars.VITE_APP_SPANISH_PHONE_GATEWAY}}
       VITE_APP_DEFAULT_CALLER_ID: ${{vars.VITE_APP_DEFAULT_CALLER_ID}}
       VITE_APP_CRISISCLEANUP_WEB_CLIENT_ID: ${{vars.VITE_APP_CRISISCLEANUP_WEB_CLIENT_ID}}
-      NODE_ENV: ${{vars.NODE_ENV}}
       VITE_APP_WHAT_3_WORDS_API_KEY: ${{secrets.VITE_APP_WHAT_3_WORDS_API_KEY}}
       VITE_APP_PITNEYBOWES_BASIC_AUTH_TOKEN: ${{secrets.VITE_APP_PITNEYBOWES_BASIC_AUTH_TOKEN}}
       VITE_APP_PITNEYBOWES_API_KEY: ${{secrets.VITE_APP_PITNEYBOWES_API_KEY}}
@@ -104,6 +103,8 @@ jobs:
         run: pnpm --ignore-workspace install
       - name: Build Web
         working-directory: ${{github.workspace}}/.crisiscleanup-4-web
+        env:
+          NODE_ENV: ${{vars.NODE_ENV}}
         run: pnpm --ignore-workspace build:app
       - name: Install
         run: pnpm install

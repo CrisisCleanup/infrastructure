@@ -78,7 +78,6 @@ const pipeline = GithubCodePipeline.create({
 			'VITE_APP_SPANISH_PHONE_GATEWAY',
 			'VITE_APP_DEFAULT_CALLER_ID',
 			'VITE_APP_CRISISCLEANUP_WEB_CLIENT_ID',
-			'NODE_ENV',
 		),
 		...interpolateObject(
 			ActionsContext.SECRET,
@@ -94,6 +93,7 @@ const pipeline = GithubCodePipeline.create({
 	.synthPreStep({
 		name: 'Build Web',
 		workingDirectory: webRoot,
+		env: interpolateObject(ActionsContext.VARS, 'NODE_ENV'),
 		run: 'pnpm --ignore-workspace build:app',
 	})
 	.synthPreStep({
