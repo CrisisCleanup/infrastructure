@@ -51,8 +51,7 @@ class CrisisCleanupWebStage extends GitHubStage {
 	}
 }
 
-const webRoot =
-	interpolateValue(ActionsContext.RUNNER, 'temp') + '/.crisiscleanup-4-web'
+const webRoot = '.crisiscleanup-4-web'
 const webDist = webRoot + '/dist'
 const pipeline = GithubCodePipeline.create({
 	rootDir: cwd!,
@@ -94,12 +93,12 @@ const pipeline = GithubCodePipeline.create({
 	.synthPreStep({
 		name: 'Build Web',
 		workingDirectory: webRoot,
-		run: 'pnpm build:app',
+		run: 'pnpm --ignore-workspace build:app',
 	})
 	.synthPreStep({
 		name: 'Install Web',
 		workingDirectory: webRoot,
-		run: 'pnpm install',
+		run: 'pnpm --ignore-workspace install',
 	})
 	.synthCheckout({
 		ref: 'master',
