@@ -76,7 +76,7 @@ export class CrisisCleanupWeb extends Stack {
 				priceClass: props.globalPriceClass
 					? cloudfront.PriceClass.PRICE_CLASS_ALL
 					: cloudfront.PriceClass.PRICE_CLASS_100,
-				domainNames: [props.fqdn],
+				domainNames: [props.fqdn, ...(props.additionalDomains ?? [])],
 			},
 		})
 
