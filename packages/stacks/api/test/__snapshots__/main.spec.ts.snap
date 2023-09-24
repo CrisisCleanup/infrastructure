@@ -2636,13 +2636,12 @@ exports[`Snapshot 1`] = `
         "teststackchartawsloadbalancercontrollerF71AE295",
         "teststackKubectlReadyBarrier041D6F85",
         "teststackmanifestSecretsStoreCsiDriverProviderAws9B659B7C",
-        "teststackwebB707437C",
       ],
       "Properties": {
         "ClusterName": {
           "Ref": "teststackF0A1F222",
         },
-        "Manifest": "[{\\"apiVersion\\":\\"networking.k8s.io/v1\\",\\"kind\\":\\"Ingress\\",\\"metadata\\":{\\"annotations\\":{\\"alb.ingress.kubernetes.io/healthcheck-path\\":\\"/health\\",\\"alb.ingress.kubernetes.io/listen-ports\\":\\"[{\\\\\\"HTTP\\\\\\": 80}, {\\\\\\"HTTPS\\\\\\":443}]\\",\\"alb.ingress.kubernetes.io/load-balancer-attributes\\":\\"idle_timeout.timeout_seconds=120\\",\\"alb.ingress.kubernetes.io/scheme\\":\\"internet-facing\\",\\"alb.ingress.kubernetes.io/ssl-redirect\\":\\"443\\",\\"alb.ingress.kubernetes.io/target-group-attributes\\":\\"load_balancing.algorithm.type=least_outstanding_requests\\",\\"alb.ingress.kubernetes.io/target-type\\":\\"ip\\"},\\"labels\\":{\\"aws.cdk.eks/prune-c8eeaa88da85c7962afda4f9f00ed8403c708d13e7\\":\\"\\",\\"app.kubernetes.io/part-of\\":\\"crisiscleanup\\"},\\"name\\":\\"crisiscleanup-ingress\\",\\"namespace\\":\\"local\\"},\\"spec\\":{\\"rules\\":[{\\"host\\":\\"api.local.crisiscleanup.io\\",\\"http\\":{\\"paths\\":[{\\"backend\\":{\\"service\\":{\\"name\\":\\"crisiscleanup-api-wsgi-service\\",\\"port\\":{\\"number\\":5000}}},\\"path\\":\\"/\\",\\"pathType\\":\\"Prefix\\"},{\\"backend\\":{\\"service\\":{\\"name\\":\\"crisiscleanup-api-asgi-service\\",\\"port\\":{\\"number\\":5000}}},\\"path\\":\\"/ws/\\",\\"pathType\\":\\"Prefix\\"}]}},{\\"host\\":\\"local.crisiscleanup.io\\",\\"http\\":{\\"paths\\":[{\\"backend\\":{\\"service\\":{\\"name\\":\\"crisiscleanup-web-frontend-web-service\\",\\"port\\":{\\"number\\":80}}},\\"path\\":\\"/\\",\\"pathType\\":\\"Prefix\\"}]}},{\\"host\\":\\"www.local.crisiscleanup.io\\",\\"http\\":{\\"paths\\":[{\\"backend\\":{\\"service\\":{\\"name\\":\\"crisiscleanup-web-frontend-web-service\\",\\"port\\":{\\"number\\":80}}},\\"path\\":\\"/\\",\\"pathType\\":\\"Prefix\\"}]}},{\\"host\\":\\"app.local.crisiscleanup.io\\",\\"http\\":{\\"paths\\":[{\\"backend\\":{\\"service\\":{\\"name\\":\\"crisiscleanup-web-frontend-web-service\\",\\"port\\":{\\"number\\":80}}},\\"path\\":\\"/\\",\\"pathType\\":\\"Prefix\\"}]}}]}}]",
+        "Manifest": "[{\\"apiVersion\\":\\"networking.k8s.io/v1\\",\\"kind\\":\\"Ingress\\",\\"metadata\\":{\\"annotations\\":{\\"alb.ingress.kubernetes.io/healthcheck-path\\":\\"/health\\",\\"alb.ingress.kubernetes.io/listen-ports\\":\\"[{\\\\\\"HTTP\\\\\\": 80}, {\\\\\\"HTTPS\\\\\\":443}]\\",\\"alb.ingress.kubernetes.io/load-balancer-attributes\\":\\"idle_timeout.timeout_seconds=120\\",\\"alb.ingress.kubernetes.io/scheme\\":\\"internet-facing\\",\\"alb.ingress.kubernetes.io/ssl-redirect\\":\\"443\\",\\"alb.ingress.kubernetes.io/target-group-attributes\\":\\"load_balancing.algorithm.type=least_outstanding_requests\\",\\"alb.ingress.kubernetes.io/target-type\\":\\"ip\\"},\\"labels\\":{\\"aws.cdk.eks/prune-c8eeaa88da85c7962afda4f9f00ed8403c708d13e7\\":\\"\\",\\"app.kubernetes.io/part-of\\":\\"crisiscleanup\\"},\\"name\\":\\"crisiscleanup-ingress\\",\\"namespace\\":\\"local\\"},\\"spec\\":{\\"rules\\":[{\\"host\\":\\"api.local.crisiscleanup.io\\",\\"http\\":{\\"paths\\":[{\\"backend\\":{\\"service\\":{\\"name\\":\\"crisiscleanup-api-wsgi-service\\",\\"port\\":{\\"number\\":5000}}},\\"path\\":\\"/\\",\\"pathType\\":\\"Prefix\\"},{\\"backend\\":{\\"service\\":{\\"name\\":\\"crisiscleanup-api-asgi-service\\",\\"port\\":{\\"number\\":5000}}},\\"path\\":\\"/ws/\\",\\"pathType\\":\\"Prefix\\"}]}}]}}]",
         "PruneLabel": "aws.cdk.eks/prune-c8eeaa88da85c7962afda4f9f00ed8403c708d13e7",
         "RoleArn": {
           "Fn::GetAtt": [
@@ -4259,67 +4258,6 @@ exports[`Snapshot 1`] = `
         },
       },
       "Type": "AWS::EC2::VPCGatewayAttachment",
-    },
-    "teststackwebB707437C": {
-      "DeletionPolicy": "Delete",
-      "DependsOn": [
-        "teststackvpcIGW03B105E6",
-        "teststackvpcPrivateSubnet1DefaultRouteD98CD628",
-        "teststackvpcPrivateSubnet1RouteTable73100B52",
-        "teststackvpcPrivateSubnet1RouteTableAssociation3900E69F",
-        "teststackvpcPrivateSubnet1SubnetF0331D8A",
-        "teststackvpcPrivateSubnet2DefaultRoute134E1612",
-        "teststackvpcPrivateSubnet2RouteTable3A43C01B",
-        "teststackvpcPrivateSubnet2RouteTableAssociation425F10F9",
-        "teststackvpcPrivateSubnet2Subnet3D907BDE",
-        "teststackvpcPrivateSubnet3DefaultRoute9B3E87CD",
-        "teststackvpcPrivateSubnet3RouteTableEE6C9D04",
-        "teststackvpcPrivateSubnet3RouteTableAssociation9E2AFFF0",
-        "teststackvpcPrivateSubnet3Subnet04F192E1",
-        "teststackvpcPublicSubnet1DefaultRoute559FCEC5",
-        "teststackvpcPublicSubnet1EIPD9571571",
-        "teststackvpcPublicSubnet1NATGateway69A82078",
-        "teststackvpcPublicSubnet1RouteTable4A6F7D68",
-        "teststackvpcPublicSubnet1RouteTableAssociation6F4CDBB8",
-        "teststackvpcPublicSubnet1Subnet98CD6475",
-        "teststackvpcPublicSubnet2DefaultRoute6D4EE093",
-        "teststackvpcPublicSubnet2EIP2A9F3E46",
-        "teststackvpcPublicSubnet2NATGateway03687D6F",
-        "teststackvpcPublicSubnet2RouteTable58C7856E",
-        "teststackvpcPublicSubnet2RouteTableAssociationE029BF04",
-        "teststackvpcPublicSubnet2SubnetDEE0C8F7",
-        "teststackvpcPublicSubnet3DefaultRoute7B38571F",
-        "teststackvpcPublicSubnet3EIP67D3B36B",
-        "teststackvpcPublicSubnet3NATGateway47881F6D",
-        "teststackvpcPublicSubnet3RouteTable5DB46CC9",
-        "teststackvpcPublicSubnet3RouteTableAssociation24AA1DD0",
-        "teststackvpcPublicSubnet3Subnet37390ED3",
-        "teststackvpcAF2EB73C",
-        "teststackvpcVPCGW05B02F5B",
-        "teststackKubectlReadyBarrier041D6F85",
-        "teststacknamespace3377A8BC",
-      ],
-      "Properties": {
-        "ClusterName": {
-          "Ref": "teststackF0A1F222",
-        },
-        "Manifest": "[{\\"apiVersion\\":\\"apps/v1\\",\\"kind\\":\\"Deployment\\",\\"metadata\\":{\\"labels\\":{\\"aws.cdk.eks/prune-c847694543e5aef833134cff9a5fcf86af16bc2fab\\":\\"\\",\\"app.kubernetes.io/component\\":\\"web\\",\\"app.kubernetes.io/name\\":\\"web\\",\\"app.kubernetes.io/part-of\\":\\"crisiscleanup\\"},\\"name\\":\\"crisiscleanup-web-frontend-web\\",\\"namespace\\":\\"local\\"},\\"spec\\":{\\"minReadySeconds\\":0,\\"progressDeadlineSeconds\\":600,\\"replicas\\":2,\\"selector\\":{\\"matchLabels\\":{\\"cdk8s.io/metadata.addr\\":\\"crisiscleanup-web-frontend-web-c8f1c77c\\"}},\\"strategy\\":{\\"rollingUpdate\\":{\\"maxSurge\\":\\"25%\\",\\"maxUnavailable\\":\\"25%\\"},\\"type\\":\\"RollingUpdate\\"},\\"template\\":{\\"metadata\\":{\\"labels\\":{\\"cdk8s.io/metadata.addr\\":\\"crisiscleanup-web-frontend-web-c8f1c77c\\"}},\\"spec\\":{\\"automountServiceAccountToken\\":false,\\"containers\\":[{\\"image\\":\\"crisiscleanup-web:latest\\",\\"imagePullPolicy\\":\\"IfNotPresent\\",\\"livenessProbe\\":{\\"failureThreshold\\":3,\\"httpGet\\":{\\"path\\":\\"/\\",\\"port\\":80,\\"scheme\\":\\"HTTP\\"},\\"periodSeconds\\":10},\\"name\\":\\"web\\",\\"ports\\":[{\\"containerPort\\":80}],\\"readinessProbe\\":{\\"failureThreshold\\":3,\\"httpGet\\":{\\"path\\":\\"/\\",\\"port\\":80,\\"scheme\\":\\"HTTP\\"},\\"periodSeconds\\":10},\\"resources\\":{\\"limits\\":{\\"cpu\\":\\"6m\\",\\"memory\\":\\"100Mi\\"},\\"requests\\":{\\"cpu\\":\\"2m\\",\\"memory\\":\\"50Mi\\"}},\\"securityContext\\":{\\"allowPrivilegeEscalation\\":false,\\"privileged\\":false,\\"readOnlyRootFilesystem\\":false,\\"runAsNonRoot\\":false},\\"startupProbe\\":{\\"failureThreshold\\":3,\\"tcpSocket\\":{\\"port\\":80}}}],\\"dnsPolicy\\":\\"ClusterFirst\\",\\"hostNetwork\\":false,\\"restartPolicy\\":\\"Always\\",\\"securityContext\\":{\\"fsGroupChangePolicy\\":\\"Always\\",\\"runAsNonRoot\\":true},\\"setHostnameAsFQDN\\":false,\\"terminationGracePeriodSeconds\\":30}}}},{\\"apiVersion\\":\\"v1\\",\\"kind\\":\\"Service\\",\\"metadata\\":{\\"labels\\":{\\"aws.cdk.eks/prune-c847694543e5aef833134cff9a5fcf86af16bc2fab\\":\\"\\",\\"app.kubernetes.io/component\\":\\"web\\",\\"app.kubernetes.io/part-of\\":\\"crisiscleanup\\"},\\"name\\":\\"crisiscleanup-web-frontend-web-service\\",\\"namespace\\":\\"local\\"},\\"spec\\":{\\"externalIPs\\":[],\\"ports\\":[{\\"port\\":80,\\"targetPort\\":80}],\\"selector\\":{\\"cdk8s.io/metadata.addr\\":\\"crisiscleanup-web-frontend-web-c8f1c77c\\"},\\"type\\":\\"ClusterIP\\"}}]",
-        "PruneLabel": "aws.cdk.eks/prune-c847694543e5aef833134cff9a5fcf86af16bc2fab",
-        "RoleArn": {
-          "Fn::GetAtt": [
-            "teststackCreationRole2F53ED2E",
-            "Arn",
-          ],
-        },
-        "ServiceToken": {
-          "Fn::GetAtt": [
-            "awscdkawseksKubectlProviderNestedStackawscdkawseksKubectlProviderNestedStackResourceA7AEBA6B",
-            "Outputs.teststackawscdkawseksKubectlProviderframeworkonEventA7D3599FArn",
-          ],
-        },
-      },
-      "Type": "Custom::AWSCDK-EKS-KubernetesResource",
-      "UpdateReplacePolicy": "Delete",
     },
     "vpccniaddOn": {
       "DependsOn": [
