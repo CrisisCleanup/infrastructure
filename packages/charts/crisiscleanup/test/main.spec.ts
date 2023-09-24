@@ -27,7 +27,6 @@ const buildChart = (app: App, values: Partial<CrisisCleanupChartProps>) => {
 				},
 				namespace: 'test',
 				domainName: 'test.crisiscleanup.io',
-				frontend: { web: { replicaCount: 1 } },
 			} as unknown as CrisisCleanupChartProps,
 		),
 	)
