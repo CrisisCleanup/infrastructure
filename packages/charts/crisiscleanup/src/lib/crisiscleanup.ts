@@ -13,64 +13,22 @@ import {
 	CeleryWorker,
 } from '@crisiscleanup/k8s.construct.api'
 import {
-	Component,
-	Label,
 	type ContainerImageProps,
 	type DeploymentProps,
+	Label,
 } from '@crisiscleanup/k8s.construct.component'
-import { Chart, type ChartProps, Duration, Size } from 'cdk8s'
+import { Chart, type ChartProps } from 'cdk8s'
 import * as kplus from 'cdk8s-plus-27'
-import { Construct } from 'constructs'
+import { type Construct } from 'constructs'
 import createDebug from 'debug'
 import defu from 'defu'
 import type { PartialDeep } from 'type-fest'
 
 const debug = createDebug('@crisiscleanup:charts.crisiscleanup')
 
-export interface FrontendProps extends DeploymentProps {}
-
-export class Web extends Component {
-	static componentName = 'web'
-
-	constructor(scope: Construct, id: string, props: DeploymentProps) {
-		super(scope, id, props)
-		const probe = kplus.Probe.fromHttpGet('/', {
-			failureThreshold: 3,
-			periodSeconds: Duration.seconds(10),
-		})
-		this.addContainer({
-			name: 'web',
-			portNumber: 80,
-			liveness: probe,
-			readiness: probe,
-			securityContext: { ensureNonRoot: false, readOnlyRootFilesystem: false },
-			resources: {
-				cpu: {
-					limit: kplus.Cpu.millis(6),
-					request: kplus.Cpu.millis(2),
-				},
-				memory: {
-					limit: Size.mebibytes(100),
-					request: Size.mebibytes(50),
-				},
-			},
-		})
-	}
-}
-
-export class Frontend extends Construct {
-	web: Web
-
-	constructor(scope: Construct, id: string, props: FrontendProps) {
-		super(scope, id)
-		this.web = new Web(this, 'web', props)
-	}
-}
-
 export interface CrisisCleanupChartProps
 	extends ChartProps,
 		ApiConstructConfig {
-	web: FrontendProps
 	domainName: string
 	apiAppConfig: ApiAppConfig
 	apiAppSecrets: ApiAppSecrets
@@ -80,16 +38,11 @@ export interface CrisisCleanupChartProps
 }
 
 export class CrisisCleanupChart extends Chart {
-	static frontendDefaultProps: FrontendProps
 	static backendDefaultProps: ApiConstructConfig
-
 	static defaultProps: Partial<CrisisCleanupChartProps>
 
 	static {
 		const backendDefaults: DeploymentProps = {
-			replicaCount: undefined,
-		}
-		this.frontendDefaultProps = {
 			replicaCount: undefined,
 		}
 
@@ -107,7 +60,6 @@ export class CrisisCleanupChart extends Chart {
 				[Label.PART_OF]: 'crisiscleanup',
 			},
 			domainName: 'local.crisiscleanup.io',
-			frontend: this.frontendDefaultProps,
 			...this.backendDefaultProps,
 		} as Partial<CrisisCleanupChartProps>
 	}
@@ -127,7 +79,6 @@ export class CrisisCleanupChart extends Chart {
 	readonly configChart: Chart
 	readonly apiChart: Chart
 	readonly celeryChart: Chart
-	readonly webChart: Chart
 
 	readonly apiConfig: ApiConfig
 	readonly wsgi: ApiWSGI
@@ -135,7 +86,6 @@ export class CrisisCleanupChart extends Chart {
 	readonly adminWebsocket: AdminWebSocket
 	readonly celeryBeat: CeleryBeat
 	readonly celeryWorkers: CeleryWorker[]
-	readonly frontend: Frontend
 	readonly ingress: kplus.Ingress
 
 	constructor(scope: Construct, id: string, props: CrisisCleanupChartProps) {
@@ -183,15 +133,6 @@ export class CrisisCleanupChart extends Chart {
 			},
 		})
 
-		this.webChart = new Chart(this, 'web', {
-			namespace: props.namespace,
-			disableResourceNameHashes: true,
-			labels: {
-				...this.labels,
-				[Label.COMPONENT]: 'web',
-			},
-		})
-
 		this.apiConfig = new ApiConfig(this.configChart, 'api', {
 			config: flattenToScreamingSnakeCase(props.apiAppConfig, {
 				nestedDelimiter: '_',
@@ -235,10 +176,6 @@ export class CrisisCleanupChart extends Chart {
 					config: this.apiConfig,
 				}),
 		)
-		this.frontend = new Frontend(this.webChart, 'frontend', {
-			...props.web,
-			image: props.web.image ?? props.webImage,
-		})
 
 		this.ingress = new kplus.Ingress(
 			this,
@@ -267,29 +204,6 @@ export class CrisisCleanupChart extends Chart {
 					serviceType: kplus.ServiceType.CLUSTER_IP,
 				}),
 			),
-		)
-
-		const webService = this.frontend.web.deployment.exposeViaService({
-			serviceType: kplus.ServiceType.CLUSTER_IP,
-		})
-		const webBackend = kplus.IngressBackend.fromService(webService)
-		this.ingress.addHostRule(
-			props.domainName,
-			'/',
-			webBackend,
-			kplus.HttpIngressPathType.PREFIX,
-		)
-		this.ingress.addHostRule(
-			`www.${props.domainName}`,
-			'/',
-			webBackend,
-			kplus.HttpIngressPathType.PREFIX,
-		)
-		this.ingress.addHostRule(
-			`app.${props.domainName}`,
-			'/',
-			webBackend,
-			kplus.HttpIngressPathType.PREFIX,
 		)
 	}
 }
