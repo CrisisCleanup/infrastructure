@@ -222,14 +222,11 @@ export class CrisisCleanupAddOn implements blueprints.ClusterAddOn {
 		const apiChart = addChart(chart.apiChart)
 		const celeryChart = addChart(chart.celeryChart)
 
-		const webChart = addChart(chart.webChart)
-
 		celeryChart.node.addDependency(configChart)
 		apiChart.node.addDependency(celeryChart)
-		webChart.node.addDependency(namespaceChart)
 
 		const chartObj = addChart(chart)
-		chartObj.node.addDependency(apiChart, webChart)
+		chartObj.node.addDependency(apiChart)
 
 		return Promise.resolve(chartObj)
 	}
