@@ -99,9 +99,6 @@ export const chartConfigSchema = z.object({
 			'alb.ingress.kubernetes.io/load-balancer-attributes':
 				'idle_timeout.timeout_seconds=120',
 		}),
-	web: baseComponentSchema
-		.describe('Frontend web component.')
-		.default({ replicaCount: 2 }),
 	wsgi: baseComponentSchema.describe('Django Api WSGI component.').default({
 		scaling: {
 			minReplicas: 1,
