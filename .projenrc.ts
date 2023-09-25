@@ -206,7 +206,7 @@ monorepo.applyRecursive(
 						commands: [
 							NodePackageUtils.command.exec(
 								project.package.packageManager,
-								'eslint --cache --fix --no-error-on-unmatched-pattern',
+								'eslint --fix --no-error-on-unmatched-pattern',
 							),
 						],
 					},
