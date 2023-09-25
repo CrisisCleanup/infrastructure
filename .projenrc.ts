@@ -47,7 +47,7 @@ const CommonDefaultsBuilder = new builders.DefaultOptionsBuilder({
 	packageManager: javascript.NodePackageManager.PNPM,
 	projenrcTs: true,
 	minNodeVersion: '18.16.0',
-	pnpmVersion: '8.6.12',
+	pnpmVersion: '8.7.6',
 	typescriptVersion: '~5.1',
 	author: 'CrisisCleanup',
 	authorName: 'CrisisCleanup',

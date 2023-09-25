@@ -61,7 +61,7 @@
   "version": "0.0.0",
   "type": "module",
   "sideEffects": true,
-  "packageManager": "pnpm@8.6.12",
+  "packageManager": "pnpm@8.7.6",
   "lint-staged": {
     "*.{ts,tsx,mts,cts,js,jsx,jts,jts}": [
       "pnpm exec eslint --fix --no-error-on-unmatched-pattern"
