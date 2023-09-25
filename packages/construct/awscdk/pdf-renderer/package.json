@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "@arroyodev-llc/utils.unbuild-composite-preset": "^0.1.3",
-    "@sparticuz/chromium": "109.0.6",
+    "@sparticuz/chromium": "109.0.0",
     "@types/aws-lambda": "^8.10.122",
     "@types/node": "^18",
     "@typescript-eslint/eslint-plugin": "^6",
@@ -65,7 +65,7 @@
     "constructs": "^10.2.70"
   },
   "dependencies": {
-    "puppeteer-core": "v19.11.1",
+    "puppeteer-core": "v19.4.0",
     "zod": "^3.22.2"
   },
   "keywords": [
