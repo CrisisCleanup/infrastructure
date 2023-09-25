@@ -14,6 +14,7 @@ export class NginxIngressController
 	extends Construct
 	implements IngressController
 {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	createController(_props: IngressControllerProps) {
 		new Include(this, 'controller', {
 			url: 'https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml',

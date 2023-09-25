@@ -23,7 +23,7 @@ const { config, cwd, layers } = await getConfig({
 const configsLayer = layers!.find(
 	(layer) => layer.meta?.repo === 'configs' && 'sources' in layer.meta,
 )
-// @ts-ignore
+// @ts-expect-error todo: fix sources
 const configsSources: Record<ConfigStage, CrisisCleanupConfigLayerMeta> =
 	Object.fromEntries(
 		configsLayer!.meta!.sources!.map((source) => [source.name, source]),

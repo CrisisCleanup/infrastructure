@@ -110,7 +110,7 @@ export abstract class ApiComponent<
 		const config = props.config ?? ApiConfig.of(scope)
 		if (!config) throw Error('Failed to resolve ApiConfig!')
 		this.config = config
-		if (props.spread) {
+		if (spread) {
 			const topoPatch = JsonPatch.add(
 				'/spec/template/spec/topologySpreadConstraints',
 				[

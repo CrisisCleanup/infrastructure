@@ -147,6 +147,7 @@ export class Database extends Construct {
 			})
 		}
 		if (
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
 			this.props.performanceInsightsRetention !==
 			rds.PerformanceInsightRetention.DEFAULT
 		) {

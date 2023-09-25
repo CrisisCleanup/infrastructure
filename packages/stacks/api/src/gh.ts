@@ -45,7 +45,7 @@ export class GithubCodePipelineBuilder extends blueprints.CodePipelineBuilder {
 		id: string,
 		stackProps?: StackProps,
 	): GithubCodePipelineStack {
-		// @ts-ignore
+		// @ts-expect-error fix override
 		const fullProps = this.props as unknown as GithubCodePipelineProps
 		const mergedProps = { ...fullProps, ...this.githubProps }
 		return new GithubCodePipelineStack(scope, mergedProps, id, stackProps)

@@ -276,7 +276,7 @@ export const flatKeysToFlatScreamingSnakeCaseKeys = <
 > => {
 	const result = mapFlatten(
 		obj,
-		(key, _) => [key, toScreamingSnakeCase(key, options?.nestedDelimiter)],
+		(key) => [key, toScreamingSnakeCase(key, options?.nestedDelimiter)],
 		{ delimiter: '.' },
 	)
 	return result as KeyToScreamingSnakeCaseKey<

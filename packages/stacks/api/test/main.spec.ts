@@ -1,4 +1,4 @@
-/// <reference path="../src/config.d.ts" />
+import '../src/config.d.ts'
 import util from 'node:util'
 import * as blueprints from '@aws-quickstart/eks-blueprints'
 import { type ResourceContext } from '@aws-quickstart/eks-blueprints'
@@ -12,7 +12,6 @@ import { Template } from 'aws-cdk-lib/assertions'
 import { KubernetesVersion } from 'aws-cdk-lib/aws-eks'
 import { type IConstruct } from 'constructs'
 import { test, expect, vi, beforeAll, afterAll } from 'vitest'
-// @ts-ignore
 import stackDefaults from '../crisiscleanup.config'
 import { CrisisCleanupAddOn } from '../src/addons'
 import {
@@ -34,7 +33,7 @@ afterAll(() => {
 })
 
 test('Snapshot', async () => {
-	// @ts-ignore
+	// @ts-expect-error ignore test
 	const config: CrisisCleanupConfig = getConfigDefaults({
 		...stackDefaults,
 		...chartDefaults,
