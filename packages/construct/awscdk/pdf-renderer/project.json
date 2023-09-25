@@ -87,6 +87,13 @@
         "cwd": "packages/construct/awscdk/pdf-renderer"
       }
     },
+    "eslint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm exec projen eslint",
+        "cwd": "packages/construct/awscdk/pdf-renderer"
+      }
+    },
     "compat": {
       "executor": "nx:run-commands",
       "options": {
@@ -133,13 +140,6 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "pnpm exec projen bundle:handler.lambda:watch",
-        "cwd": "packages/construct/awscdk/pdf-renderer"
-      }
-    },
-    "eslint": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "pnpm exec projen eslint",
         "cwd": "packages/construct/awscdk/pdf-renderer"
       }
     },
