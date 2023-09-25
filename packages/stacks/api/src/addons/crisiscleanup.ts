@@ -35,8 +35,13 @@ export interface CrisisCleanupAddOnProps {
 export class CrisisCleanupAddOn implements blueprints.ClusterAddOn {
 	constructor(readonly props: CrisisCleanupAddOnProps) {}
 
-	@blueprints.utils.dependable(blueprints.addons.SecretsStoreAddOn.name)
 	deploy(clusterInfo: blueprints.ClusterInfo): Promise<Construct> {
+		// TODO: resolve esbuild transform error that is occurring with tsx/esbuild.
+		blueprints.utils.dependable(blueprints.addons.SecretsStoreAddOn.name)(
+			this,
+			'deploy',
+			Object.getOwnPropertyDescriptor(this, 'deploy')!,
+		)
 		const cluster = clusterInfo.cluster
 		const chartConfig: CrisisCleanupChartConfig = this.props.config
 			.chart as CrisisCleanupChartConfig
