@@ -195,7 +195,7 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-123-us-east-1",
-          "S3Key": "a657308e723bb9460b800cb3b47dadb74e28243edfe246bf7755c45ec312eb97.zip",
+          "S3Key": "5194f926380567b6fdffc61629afdad2afc818614cb227df45e499c69db163a7.zip",
         },
         "Description": {
           "Fn::Join": [
@@ -1380,7 +1380,7 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-123-us-east-1",
-          "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip",
+          "S3Key": "7382a0addb9f34974a1ea6c6c9b063882af874828f366f5c93b2b7b64db15c94.zip",
         },
         "Description": "AWS CDK resource provider framework - onEvent (test-crisiscleanup-site/test-crisiscleanup-site-ccu-web-static-site/WebsiteAcl/CloudfrontAclProvider)",
         "Environment": {
@@ -1487,7 +1487,7 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-123-us-east-1",
-          "S3Key": "f9a4e3a2d1dd90ac1bfaec793acad708d019b35402700253f45a40ada6d2786a.zip",
+          "S3Key": "d4dfc9f938ca4dc05e3454ebd4ee57e8b315b4a31eda9da0238983d5e26f3fc6.zip",
         },
         "FunctionName": "test-crisiscleanup-site-AclEvent-402571",
         "Handler": "index.onEvent",

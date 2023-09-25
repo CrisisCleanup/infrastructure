@@ -1,13 +1,16 @@
 import {
 	type BuildOptions,
 	type BuildOutput,
-	BuildStep,
+	type BuildStep,
+	BaseBuildStep,
 	type TypedPropertyDescriptorMap,
 } from '@arroyodev-llc/utils.projen-builder'
 import { NodePackageUtils } from '@aws/pdk/monorepo'
 import { type awscdk, type ProjectOptions } from 'projen'
 
-export class CdkTsAppCompileBuilder extends BuildStep<{}, {}> {
+export class CdkTsAppCompileBuilder extends BaseBuildStep<{
+	synthPostCompileCondition?: string
+}> {
 	constructor(private options?: { synthPostCompileCondition?: string }) {
 		super()
 	}
@@ -20,7 +23,7 @@ export class CdkTsAppCompileBuilder extends BuildStep<{}, {}> {
 
 	applyProject(
 		project: awscdk.AwsCdkTypeScriptApp,
-	): TypedPropertyDescriptorMap<BuildOutput<this>> {
+	): TypedPropertyDescriptorMap<BuildOutput<BuildStep>> {
 		project.addGitIgnore('cdk.context.json')
 		project.cdkConfig.json.addOverride(
 			'app',
@@ -37,6 +40,6 @@ export class CdkTsAppCompileBuilder extends BuildStep<{}, {}> {
 				this.options?.synthPostCompileCondition ??
 				`bash -c '[[ -z "$SKIP_SYNTH" ]]'`,
 		})
-		return {} as TypedPropertyDescriptorMap<BuildOutput<this>>
+		return {} as TypedPropertyDescriptorMap<BuildOutput<BuildStep>>
 	}
 }

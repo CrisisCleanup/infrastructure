@@ -32,7 +32,7 @@ exports[`DataStack > renders expected template with defaults 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "4b53adc667dcab419bec9e03553dce125d10f1d9c6ac1d2c082001b9332f150f.zip",
+          "S3Key": "ca4cc4639c6bbeba984e296ee5f2a0bf0033cb3893a171c3ec84a49e61633c36.zip",
         },
         "Description": "Custom CFN resource: Manage EC2 Key Pairs",
         "FunctionName": "test-database-CFN-Resource-Custom-EC2-Key-Pair",
@@ -43,7 +43,7 @@ exports[`DataStack > renders expected template with defaults 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs14.x",
+        "Runtime": "nodejs18.x",
         "Timeout": 180,
       },
       "Type": "AWS::Lambda::Function",
@@ -234,7 +234,7 @@ exports[`DataStack > renders expected template with defaults 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "5cc92ed0cea39e2b8de2dbc527dfb5980a3af9564bd1084d840b9787c7d0467e.zip",
+          "S3Key": "5bc602ecde93c947efe5899ae355f999986a1acbe610b1c0b9c468d738857555.zip",
         },
         "Handler": "index.handler",
         "Role": {
@@ -244,6 +244,7 @@ exports[`DataStack > renders expected template with defaults 1`] = `
           ],
         },
         "Runtime": "nodejs18.x",
+        "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
     },
@@ -869,7 +870,7 @@ exports[`DataStack > renders expected template with multiple replicas 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "4b53adc667dcab419bec9e03553dce125d10f1d9c6ac1d2c082001b9332f150f.zip",
+          "S3Key": "ca4cc4639c6bbeba984e296ee5f2a0bf0033cb3893a171c3ec84a49e61633c36.zip",
         },
         "Description": "Custom CFN resource: Manage EC2 Key Pairs",
         "FunctionName": "test-database-replicas-CFN-Resource-Custom-EC2-Key-Pair",
@@ -880,7 +881,7 @@ exports[`DataStack > renders expected template with multiple replicas 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs14.x",
+        "Runtime": "nodejs18.x",
         "Timeout": 180,
       },
       "Type": "AWS::Lambda::Function",
@@ -1071,7 +1072,7 @@ exports[`DataStack > renders expected template with multiple replicas 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "5cc92ed0cea39e2b8de2dbc527dfb5980a3af9564bd1084d840b9787c7d0467e.zip",
+          "S3Key": "5bc602ecde93c947efe5899ae355f999986a1acbe610b1c0b9c468d738857555.zip",
         },
         "Handler": "index.handler",
         "Role": {
@@ -1081,6 +1082,7 @@ exports[`DataStack > renders expected template with multiple replicas 1`] = `
           ],
         },
         "Runtime": "nodejs18.x",
+        "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
     },
@@ -1748,7 +1750,7 @@ exports[`DataStack > renders expected template with performance insights 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "4b53adc667dcab419bec9e03553dce125d10f1d9c6ac1d2c082001b9332f150f.zip",
+          "S3Key": "ca4cc4639c6bbeba984e296ee5f2a0bf0033cb3893a171c3ec84a49e61633c36.zip",
         },
         "Description": "Custom CFN resource: Manage EC2 Key Pairs",
         "FunctionName": "test-database-with-insights-CFN-Resource-Custom-EC2-Key-Pair",
@@ -1759,7 +1761,7 @@ exports[`DataStack > renders expected template with performance insights 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs14.x",
+        "Runtime": "nodejs18.x",
         "Timeout": 180,
       },
       "Type": "AWS::Lambda::Function",
@@ -1950,7 +1952,7 @@ exports[`DataStack > renders expected template with performance insights 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "5cc92ed0cea39e2b8de2dbc527dfb5980a3af9564bd1084d840b9787c7d0467e.zip",
+          "S3Key": "5bc602ecde93c947efe5899ae355f999986a1acbe610b1c0b9c468d738857555.zip",
         },
         "Handler": "index.handler",
         "Role": {
@@ -1960,6 +1962,7 @@ exports[`DataStack > renders expected template with performance insights 1`] = `
           ],
         },
         "Runtime": "nodejs18.x",
+        "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
     },
