@@ -39,8 +39,8 @@
     "@types/node": "^18",
     "@typescript-eslint/eslint-plugin": "^6",
     "@typescript-eslint/parser": "^6",
-    "aws-cdk-lib": "2.93.0",
-    "constructs": "10.2.69",
+    "aws-cdk-lib": "2.97.0",
+    "constructs": "10.2.70",
     "esbuild": "^0.19.2",
     "eslint": "^8",
     "eslint-config-prettier": "^9.0.0",
@@ -61,8 +61,8 @@
     "unbuild": "^2.0.0-rc.0"
   },
   "peerDependencies": {
-    "aws-cdk-lib": "^2.93.0",
-    "constructs": "^10.2.69"
+    "aws-cdk-lib": "^2.97.0",
+    "constructs": "^10.2.70"
   },
   "dependencies": {
     "puppeteer-core": "v19.4.0",

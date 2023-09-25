@@ -29,7 +29,7 @@
     },
     {
       "name": "cdk8s-cli",
-      "version": "^2.56.0",
+      "version": "^2.103.0",
       "type": "build"
     },
     {
@@ -108,17 +108,17 @@
     },
     {
       "name": "cdk8s-plus-27",
-      "version": "^2.6.0",
+      "version": "^2.7.20",
       "type": "runtime"
     },
     {
       "name": "cdk8s",
-      "version": "^2.55.0",
+      "version": "^2.64.19",
       "type": "runtime"
     },
     {
       "name": "constructs",
-      "version": "^10.2.69",
+      "version": "^10.2.70",
       "type": "runtime"
     },
     {
