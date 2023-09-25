@@ -448,8 +448,8 @@ importers:
   packages/construct/awscdk/pdf-renderer:
     dependencies:
       puppeteer-core:
-        specifier: v19.11.1
-        version: 19.11.1(typescript@5.1.6)
+        specifier: v19.4.0
+        version: 19.4.0
       zod:
         specifier: ^3.22.2
         version: 3.22.2
@@ -458,8 +458,8 @@ importers:
         specifier: ^0.1.3
         version: 0.1.3(unbuild@2.0.0-rc.0)
       '@sparticuz/chromium':
-        specifier: 109.0.6
-        version: 109.0.6
+        specifier: 109.0.0
+        version: 109.0.0
       '@types/aws-lambda':
         specifier: ^8.10.122
         version: 8.10.122
@@ -4604,32 +4604,6 @@ packages:
       }
     engines: { node: '>=12.22.0' }
 
-  /@puppeteer/browsers@0.5.0(typescript@5.1.6):
-    resolution:
-      {
-        integrity: sha512-Uw6oB7VvmPRLE4iKsjuOh8zgDabhNX67dzo8U/BB0f9527qx+4eeUs+korU98OhG5C4ubg7ufBgVi63XYwS6TQ==,
-      }
-    engines: { node: '>=14.1.0' }
-    hasBin: true
-    peerDependencies:
-      typescript: '>= 4.7.4'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-    dependencies:
-      debug: 4.3.4(supports-color@9.4.0)
-      extract-zip: 2.0.1
-      https-proxy-agent: 5.0.1(supports-color@9.4.0)
-      progress: 2.0.3
-      proxy-from-env: 1.1.0
-      tar-fs: 2.1.1
-      typescript: 5.1.6
-      unbzip2-stream: 1.4.3
-      yargs: 17.7.1
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   /@rollup/plugin-alias@5.0.0(rollup@3.28.0):
     resolution:
       {
@@ -5404,12 +5378,12 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@sparticuz/chromium@109.0.6:
+  /@sparticuz/chromium@109.0.0:
     resolution:
       {
-        integrity: sha512-9hTE03DXnrWTiGNpfjLfmGhIfmiVAerSPinDb+x5bBdM4KF4PMM1NZ0A+V7WKazoA+CasSX/osHK8K0MuO6uqg==,
+        integrity: sha512-x1B44QCZ6zbTW1P7B5G6penrCHywcqUhPz5cRhbXvRMkxl1qNRytkdlMgy/rb6FCNhDEMurc+7gw/uP9YvF9BQ==,
       }
-    engines: { node: '>= 14.18.0' }
+    engines: { node: '>= 14' }
     dependencies:
       tar-fs: 2.1.1
     dev: true
@@ -7363,18 +7337,6 @@ packages:
       }
     engines: { node: '>=10' }
 
-  /chromium-bidi@0.4.7(devtools-protocol@0.0.1107588):
-    resolution:
-      {
-        integrity: sha512-6+mJuFXwTMU6I3vYLs6IL8A1DyQTPjCfIL971X0aMPVGRbGnNfl6i6Cl0NMbxi2bRYLGESt9T2ZIMRM5PAEcIQ==,
-      }
-    peerDependencies:
-      devtools-protocol: '*'
-    dependencies:
-      devtools-protocol: 0.0.1107588
-      mitt: 3.0.0
-    dev: false
-
   /ci-info@3.8.0:
     resolution:
       {
@@ -8411,10 +8373,10 @@ packages:
     engines: { node: '>=8' }
     dev: true
 
-  /devtools-protocol@0.0.1107588:
+  /devtools-protocol@0.0.1068969:
     resolution:
       {
-        integrity: sha512-yIR+pG9x65Xko7bErCUSQaDLrO/P1p3JUzEk7JCU4DowPcGHkTGUGQapcfcLc4qj0UaALwZ+cr0riFgiqpixcg==,
+        integrity: sha512-ATFTrPbY1dKYhPPvpjtwWKSK2mIwGmRwX54UASn9THEuIZCe2n9k3vVuMmt6jWeL+e5QaaguEv/pMyR+JQB7VQ==,
       }
     dev: false
 
@@ -8539,7 +8501,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20230924
+      typescript: 5.3.0-dev.20230925
     dev: true
 
   /duplexer@0.1.2:
@@ -12395,13 +12357,6 @@ packages:
       minipass: 3.3.6
       yallist: 4.0.0
 
-  /mitt@3.0.0:
-    resolution:
-      {
-        integrity: sha512-7dX2/10ITVyqh4aOSVI9gdape+t9l2/8QxHrFmUXu4EEUpdlxl6RudZUPZoc+zuY2hk1j7XxVroIVIan/pD/SQ==,
-      }
-    dev: false
-
   /mkdirp-classic@0.5.3:
     resolution:
       {
@@ -13756,6 +13711,7 @@ packages:
         integrity: sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==,
       }
     engines: { node: '>=0.4.0' }
+    dev: true
 
   /projen@0.73.31:
     resolution:
@@ -13897,30 +13853,23 @@ packages:
       escape-goat: 4.0.0
     dev: true
 
-  /puppeteer-core@19.11.1(typescript@5.1.6):
+  /puppeteer-core@19.4.0:
     resolution:
       {
-        integrity: sha512-qcuC2Uf0Fwdj9wNtaTZ2OvYRraXpAK+puwwVW8ofOhOgLPZyz1c68tsorfIZyCUOpyBisjr+xByu7BMbEYMepA==,
+        integrity: sha512-gG/jxseleZStinBn86x8r7trjcE4jcjx1hIQWOpACQhquHYMuKnrWxkzg+EDn8sN3wUtF/Ry9mtJgjM49oUOFQ==,
       }
-    engines: { node: '>=14.14.0' }
-    peerDependencies:
-      typescript: '>= 4.7.4'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
+    engines: { node: '>=14.1.0' }
     dependencies:
-      '@puppeteer/browsers': 0.5.0(typescript@5.1.6)
-      chromium-bidi: 0.4.7(devtools-protocol@0.0.1107588)
       cross-fetch: 3.1.5
       debug: 4.3.4(supports-color@9.4.0)
-      devtools-protocol: 0.0.1107588
+      devtools-protocol: 0.0.1068969
       extract-zip: 2.0.1
       https-proxy-agent: 5.0.1(supports-color@9.4.0)
       proxy-from-env: 1.1.0
+      rimraf: 3.0.2
       tar-fs: 2.1.1
-      typescript: 5.1.6
       unbzip2-stream: 1.4.3
-      ws: 8.13.0
+      ws: 8.10.0
     transitivePeerDependencies:
       - bufferutil
       - encoding
@@ -15709,6 +15658,7 @@ packages:
       {
         integrity: sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==,
       }
+    requiresBuild: true
 
   /traverse@0.6.7:
     resolution:
@@ -16046,10 +15996,10 @@ packages:
     engines: { node: '>=14.17' }
     hasBin: true
 
-  /typescript@5.3.0-dev.20230924:
+  /typescript@5.3.0-dev.20230925:
     resolution:
       {
-        integrity: sha512-eoURpy2KdMkio8jVtNbZp5BOuoOJV1FEQyaWK8gqq+8EzVoBKWyt50tDsblDeSIcstigCWujQGhVhOPu5bkDbg==,
+        integrity: sha512-Q8U1zNAGD0BSaVuaHmjhYB8sM5VyTcp0y6IM4Q3v40uLX3MysM5yLl6qSxzA3PTzXmQmahLy+08aM3cZA0hR5A==,
       }
     engines: { node: '>=14.17' }
     hasBin: true
@@ -16584,6 +16534,7 @@ packages:
       {
         integrity: sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==,
       }
+    requiresBuild: true
 
   /webpod@0.0.2:
     resolution:
@@ -16799,15 +16750,15 @@ packages:
       js-yaml: 4.1.0
       write-file-atomic: 5.0.1
 
-  /ws@8.13.0:
+  /ws@8.10.0:
     resolution:
       {
-        integrity: sha512-x9vcZYTrFPC7aSIbj7sRCYo7L/Xb8Iy+pW0ng0wt2vCJv7M9HOMy0UoN3rr+IFC7hb7vXoqS+P9ktyLLLhO+LA==,
+        integrity: sha512-+s49uSmZpvtAsd2h37vIPy1RBusaLawVe8of+GyEPsaJTCMpj/2v8NpeK1SHXjBlQ95lQTmQofOJnFiLoaN3yw==,
       }
     engines: { node: '>=10.0.0' }
     peerDependencies:
       bufferutil: ^4.0.1
-      utf-8-validate: '>=5.0.2'
+      utf-8-validate: ^5.0.2
     peerDependenciesMeta:
       bufferutil:
         optional: true
@@ -16977,22 +16928,6 @@ packages:
       y18n: 5.0.8
       yargs-parser: 20.2.9
     dev: true
-
-  /yargs@17.7.1:
-    resolution:
-      {
-        integrity: sha512-cwiTb08Xuv5fqF4AovYacTFNxk62th7LKJ6BL9IGUpTJrWoU7/7WdQGTP2SjKf1dUNBGzDd28p/Yfs/GI6JrLw==,
-      }
-    engines: { node: '>=12' }
-    dependencies:
-      cliui: 8.0.1
-      escalade: 3.1.1
-      get-caller-file: 2.0.5
-      require-directory: 2.1.1
-      string-width: 4.2.3
-      y18n: 5.0.8
-      yargs-parser: 21.1.1
-    dev: false
 
   /yargs@17.7.2:
     resolution:
