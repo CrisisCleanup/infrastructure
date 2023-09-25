@@ -100,7 +100,7 @@ export class CrisisCleanupAddOn implements blueprints.ClusterAddOn {
 			({ objectAlias }) => objectAlias,
 		)
 		const secretPaths: blueprints.JmesPathObject[] = Object.entries(secretKeys)
-			.filter(([_, value]) => !externalDbAliases.includes(value))
+			.filter(([, value]) => !externalDbAliases.includes(value))
 			.map(([key, value]) => ({
 				path: ['api', 'secrets', key].join('.'),
 				objectAlias: value,
@@ -129,7 +129,7 @@ export class CrisisCleanupAddOn implements blueprints.ClusterAddOn {
 			},
 			{
 				secretProvider: {
-					provide(_): ISecret | IStringParameter {
+					provide(): ISecret | IStringParameter {
 						return databaseSecret
 					},
 				},

@@ -102,7 +102,7 @@ export class Component<PropsT extends DeploymentProps = DeploymentProps> {
 									// @ts-expect-error - defu converts Size to object
 									// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
 									request: Size[resources.memory.request.unit.label](
-										// @ts-expect-error
+										// @ts-expect-error - defu converts Size to object
 										resources.memory.request.amount,
 									),
 							  }
@@ -112,7 +112,7 @@ export class Component<PropsT extends DeploymentProps = DeploymentProps> {
 									// @ts-expect-error - defu converts Size to object
 									// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
 									limit: Size[resources.memory.limit.unit.label](
-										// @ts-expect-error
+										// @ts-expect-error - defu converts Size to object
 										resources.memory.limit.amount,
 									),
 							  }

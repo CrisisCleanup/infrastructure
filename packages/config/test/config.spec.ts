@@ -74,10 +74,10 @@ describe('getConfig', () => {
 				cwd: os.tmpdir(),
 				defaultConfig: {
 					$env: {
-						// @ts-ignore
+						// @ts-expect-error in practice would have types merged
 						development: {
 							ccuStage: 'development',
-							// @ts-ignore
+							// @ts-expect-error in practice would have types merged
 							api: { config: { ccu: { apiUrl: 'https://some.dev.url.com' } } },
 						},
 					},

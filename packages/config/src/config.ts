@@ -196,7 +196,6 @@ export const getConfig = async <
 
 	if (cfg.config) {
 		const $env = cfg.config.$env
-		// @ts-ignore
 		cfg.config.$env = objectMap($env as Required<EnvConfig>, (key, value) => [
 			key,
 			getConfigDefaults(
