@@ -87,6 +87,13 @@
         "cwd": "packages/k8s/construct/api"
       }
     },
+    "eslint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm exec projen eslint",
+        "cwd": "packages/k8s/construct/api"
+      }
+    },
     "compat": {
       "executor": "nx:run-commands",
       "options": {
@@ -112,13 +119,6 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "pnpm exec projen docgen",
-        "cwd": "packages/k8s/construct/api"
-      }
-    },
-    "eslint": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "pnpm exec projen eslint",
         "cwd": "packages/k8s/construct/api"
       }
     },

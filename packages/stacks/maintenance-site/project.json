@@ -72,6 +72,13 @@
         "cwd": "packages/stacks/maintenance-site"
       }
     },
+    "eslint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm exec projen eslint",
+        "cwd": "packages/stacks/maintenance-site"
+      }
+    },
     "synth": {
       "executor": "nx:run-commands",
       "options": {
@@ -111,13 +118,6 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "pnpm exec projen bundle",
-        "cwd": "packages/stacks/maintenance-site"
-      }
-    },
-    "eslint": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "pnpm exec projen eslint",
         "cwd": "packages/stacks/maintenance-site"
       }
     },

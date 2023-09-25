@@ -1,7 +1,4 @@
-import {
-	StaticWebsite,
-	StaticWebsiteOrigin,
-} from '@aws-prototyping-sdk/static-website'
+import { StaticWebsite, StaticWebsiteOrigin } from '@aws/pdk/static-website'
 import { Duration, Stack, type StackProps } from 'aws-cdk-lib'
 import * as acm from 'aws-cdk-lib/aws-certificatemanager'
 import * as cloudfront from 'aws-cdk-lib/aws-cloudfront'

@@ -4,7 +4,7 @@ import {
 	BuildStep,
 	type TypedPropertyDescriptorMap,
 } from '@arroyodev-llc/utils.projen-builder'
-import { NodePackageUtils } from '@aws-prototyping-sdk/nx-monorepo'
+import { NodePackageUtils } from '@aws/pdk/monorepo'
 import { type awscdk, type ProjectOptions } from 'projen'
 
 export class CdkTsAppCompileBuilder extends BuildStep<{}, {}> {

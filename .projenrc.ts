@@ -21,7 +21,7 @@ import {
 } from '@arroyodev-llc/projen.project.typescript'
 import { applyOverrides } from '@arroyodev-llc/utils.projen'
 import { builders, ProjectBuilder } from '@arroyodev-llc/utils.projen-builder'
-import { NodePackageUtils, NxProject } from '@aws-prototyping-sdk/nx-monorepo'
+import { NodePackageUtils, NxProject } from '@aws/pdk/monorepo'
 import {
 	type CrisisCleanupConfig,
 	flattenToScreamingSnakeCase,
@@ -89,7 +89,7 @@ const monorepo = MonorepoBuilder.build({
 		'@arroyodev-llc/projen.component.vitest',
 		'@arroyodev-llc/utils.projen-builder',
 		'@arroyodev-llc/utils.projen',
-		'@aws-prototyping-sdk/nx-monorepo',
+		'@aws/pdk',
 		'zx',
 		'defu',
 		'destr',
@@ -506,7 +506,7 @@ const maintenanceStack = AwsCdkTsAppBuilder.add(
 	name: 'stacks.maintenance-site',
 	integrationTestAutoDiscover: true,
 	workspaceDeps: [config, ghPipelineConstruct],
-	deps: ['@aws-prototyping-sdk/static-website', 'cdk-pipelines-github'],
+	deps: ['cdk-pipelines-github', '@aws/pdk'],
 	jest: false,
 	prettier: true,
 })
@@ -521,7 +521,7 @@ const webStack = AwsCdkTsAppBuilder.add(
 	name: 'stacks.web',
 	integrationTestAutoDiscover: true,
 	workspaceDeps: [config, ghPipelineConstruct],
-	deps: ['@aws-prototyping-sdk/static-website', 'cdk-pipelines-github'],
+	deps: ['cdk-pipelines-github', '@aws/pdk'],
 	jest: false,
 	prettier: true,
 })
