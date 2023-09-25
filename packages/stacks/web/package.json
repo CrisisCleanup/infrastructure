@@ -30,7 +30,7 @@
     "@types/node": "^18",
     "@typescript-eslint/eslint-plugin": "^6",
     "@typescript-eslint/parser": "^6",
-    "aws-cdk": "^2.93.0",
+    "aws-cdk": "^2.97.0",
     "esbuild": "^0.19.2",
     "eslint": "^8",
     "eslint-config-prettier": "^9.0.0",
@@ -50,9 +50,9 @@
     "@aws/pdk": "^0.22.6",
     "@crisiscleanup/config": "workspace:*",
     "@crisiscleanup/construct.awscdk.github-pipeline": "workspace:*",
-    "aws-cdk-lib": "^2.93.0",
+    "aws-cdk-lib": "^2.97.0",
     "cdk-pipelines-github": "^0.4.103",
-    "constructs": "^10.2.69"
+    "constructs": "^10.2.70"
   },
   "engines": {
     "node": ">= 18.16.0"
