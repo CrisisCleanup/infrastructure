@@ -78,7 +78,7 @@ exports[`Snapshot 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234567890-us-east-1",
-          "S3Key": "28739348edff6f1084f6a50d8d934e2d3fc2a3bb77442d8a9a1361d51ccd03c0.zip",
+          "S3Key": "f7fc8760e0f3c8e0059c1fb08137d328a5e548dac0a4ba7927fae7839b92ea12.zip",
         },
         "Handler": "__entrypoint__.handler",
         "MemorySize": 128,
@@ -191,7 +191,7 @@ exports[`Snapshot 1`] = `
               {
                 "Ref": "AWS::URLSuffix",
               },
-              "/cdk-hnb659fds-assets-1234567890-us-east-1/7cddb1365ea240750a2cc8c120f51852e73ce7a92fb22eadbe14048ff64e62b7.json",
+              "/cdk-hnb659fds-assets-1234567890-us-east-1/883c364cfcbd5b26d52dc7b714f3b67ef750d72d8c2342085f6208825c42ea58.json",
             ],
           ],
         },
@@ -243,7 +243,7 @@ exports[`Snapshot 1`] = `
               {
                 "Ref": "AWS::URLSuffix",
               },
-              "/cdk-hnb659fds-assets-1234567890-us-east-1/3d1b954b08e6fdda46859b0135926d0cb691b3590215def96f137fb1e029fbc8.json",
+              "/cdk-hnb659fds-assets-1234567890-us-east-1/a551315794e89024d8afb21e375b5de6611f8eb39b0aa39556562ec82836097c.json",
             ],
           ],
         },
