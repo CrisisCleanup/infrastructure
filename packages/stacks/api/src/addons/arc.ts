@@ -172,14 +172,20 @@ export class ARCScaleSet extends blueprints.HelmAddOn {
 	constructor(props?: ARCScaleSetProps) {
 		super({ ...scaleSetDefaultProps, ...props })
 		this.options = this.props as ARCScaleSetProps
+		// TODO: resolve esbuild transform error that is occurring with tsx/esbuild.
+		const newDeploy = blueprints.utils.dependable(
+			ARCScaleSetController.name,
+			blueprints.addons.SecretsStoreAddOn.name,
+		)(
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+			Object.getPrototypeOf(this),
+			'deploy',
+			Object.getOwnPropertyDescriptor(Object.getPrototypeOf(this), 'deploy')!,
+		)
+		Object.defineProperty(Object.getPrototypeOf(this), 'deploy', newDeploy)
 	}
 
 	deploy(clusterInfo: ClusterInfo): Promise<Construct> {
-		// TODO: resolve esbuild transform error that is occurring with tsx/esbuild.
-		blueprints.utils.dependable(
-			ARCScaleSetController.name,
-			blueprints.addons.SecretsStoreAddOn.name,
-		)(this, 'deploy', Object.getOwnPropertyDescriptor(this, 'deploy')!)
 		const resourceContext = clusterInfo.getResourceContext()
 
 		const sa = getRequiredResource<ServiceAccount>(
