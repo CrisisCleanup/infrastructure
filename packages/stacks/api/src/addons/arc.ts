@@ -371,8 +371,8 @@ export class ARCScaleSet extends blueprints.HelmAddOn {
 		return {
 			runner: {
 				limits: {
-					cpu: '2.0',
-					memory: '2Gi',
+					cpu: '4.0',
+					memory: '4Gi',
 				},
 				requests: {
 					cpu: '200m',
