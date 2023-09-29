@@ -46,6 +46,7 @@ RUN apt-get update -y \
   openssh-client \
   parallel \
   python3-pip \
+  python3-venv \
   rsync \
   shellcheck \
   sudo \
@@ -103,3 +104,6 @@ RUN export ARCH=$(echo ${TARGETPLATFORM} | cut -d / -f2) \
   && docker compose version
 
 USER runner
+
+# install pipx
+RUN bash -c 'python -m pip install --user pipx && python -m pipx ensurepath'
