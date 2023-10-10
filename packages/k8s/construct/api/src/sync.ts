@@ -51,20 +51,19 @@ export class DatabaseSync extends Construct {
 		if (props.sourceDsn) {
 			syncArgs.push(`--source-dsn=${props.sourceDsn}`)
 		}
-		const syncContainer = new kplus.Container({
-			name: 'sync',
-			...ContainerImage.fromProps(props.image).containerProps,
-			command: ['python'],
-			args: syncArgs,
-		})
-		syncContainer.mount('/config', configVolume)
 
 		this.syncCronJob = new kplus.CronJob(this, id + '-job', {
 			schedule: Cron.schedule(props.schedule),
 			ttlAfterFinished: Duration.hours(2),
 			restartPolicy: RestartPolicy.NEVER,
 			backoffLimit: 2,
-			containers: [syncContainer],
+		})
+		this.syncCronJob.addContainer({
+			name: 'sync',
+			...ContainerImage.fromProps(props.image).containerProps,
+			command: ['python'],
+			args: syncArgs,
+			volumeMounts: [{ path: '/config', volume: configVolume }],
 		})
 		this.syncCronJob.addVolume(configVolume)
 	}
