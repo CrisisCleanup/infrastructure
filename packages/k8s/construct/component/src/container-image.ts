@@ -6,7 +6,12 @@ export interface ContainerImageProps {
 	readonly pullPolicy?: kplus.ImagePullPolicy | string
 }
 
-export class ContainerImage {
+export interface IContainerImage {
+	imageFqn: string
+	containerProps: Pick<kplus.ContainerProps, 'image' | 'imagePullPolicy'>
+}
+
+export class ContainerImage implements IContainerImage {
 	static fromProps(props: ContainerImageProps): ContainerImage {
 		if (props instanceof ContainerImage) return props
 		return new ContainerImage(
