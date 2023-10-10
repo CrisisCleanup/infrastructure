@@ -11,6 +11,7 @@ import {
 	ApiWSGI,
 	CeleryBeat,
 	CeleryWorker,
+	DatabaseSync,
 } from '@crisiscleanup/k8s.construct.api'
 import {
 	type ContainerImageProps,
@@ -83,6 +84,7 @@ export class CrisisCleanupChart extends Chart {
 	readonly apiConfig: ApiConfig
 	readonly wsgi: ApiWSGI
 	readonly asgi: ApiASGI
+	readonly sync?: DatabaseSync
 	readonly adminWebsocket: AdminWebSocket
 	readonly celeryBeat: CeleryBeat
 	readonly celeryWorkers: CeleryWorker[]
@@ -141,6 +143,10 @@ export class CrisisCleanupChart extends Chart {
 				nestedDelimiter: '_',
 			}),
 		})
+
+		if (props.sync) {
+			this.sync = new DatabaseSync(this.configChart, 'sync', props.sync)
+		}
 
 		this.celeryChart.addDependency(this.apiConfig)
 		this.apiChart.addDependency(this.celeryChart)
