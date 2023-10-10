@@ -86,6 +86,9 @@ export class CrisisCleanupAddOn implements blueprints.ClusterAddOn {
 				chartConfig.adminWebsocket,
 				saProps,
 			) as CrisisCleanupChartProps['adminWebsocket'],
+			sync: (chartConfig.sync
+				? defu(chartConfig.sync, saProps)
+				: chartConfig.sync) as CrisisCleanupChartProps['sync'],
 		})
 
 		let secretName = this.props.secretName
@@ -228,6 +231,12 @@ export class CrisisCleanupAddOn implements blueprints.ClusterAddOn {
 		mountCsiComponent(chart.celeryBeat)
 		chart.celeryWorkers.forEach(mountCsiComponent)
 		mountCsiComponent(chart.adminWebsocket)
+
+		// mount for sync cronjob
+		chart.sync?.syncCronJob?.addVolume?.(csiVolume)
+		chart.sync?.syncCronJob?.containers?.forEach?.((cont) =>
+			mountCsiContainer(cont),
+		)
 
 		const apiChart = addChart(chart.apiChart)
 		const celeryChart = addChart(chart.celeryChart)
