@@ -62,71 +62,98 @@ const celerySchema = z.record(
 
 const baseComponentSchema = withScaling(deploymentSchema)
 
-export const chartConfigSchema = z.object({
-	namespace: z
-		.string()
-		.min(1)
-		.default('local')
-		.describe('Target k8s namespace name.'),
-	domainName: z.string().min(1).default('local.crisiscleanup.io'),
-	apiImage: containerImageSchema
-		.describe('Default image to use for api components.')
-		.optional()
-		.default({
-			repository: 'crisiscleanup-api',
-			tag: 'latest',
-			pullPolicy: 'IfNotPresent',
+const CronOptions = z.object({
+	minute: z.string().optional(),
+	hour: z.string().optional(),
+	day: z.string().optional(),
+	month: z.string().optional(),
+	weekDay: z.string().optional(),
+})
+
+const syncSchema = z.object({
+	image: containerImageSchema.optional(),
+	schedule: CronOptions.default({ hour: '0' }),
+	sourceDsn: z.string().nullable().default(null),
+	target: z.object({
+		bastionHost: z.string(),
+		bastionKey: z.string(),
+		databaseDsn: z.string(),
+		dev: z.boolean().default(true),
+	}),
+})
+
+export const chartConfigSchema = z
+	.object({
+		namespace: z
+			.string()
+			.min(1)
+			.default('local')
+			.describe('Target k8s namespace name.'),
+		domainName: z.string().min(1).default('local.crisiscleanup.io'),
+		apiImage: containerImageSchema
+			.describe('Default image to use for api components.')
+			.optional()
+			.default({
+				repository: 'crisiscleanup-api',
+				tag: 'latest',
+				pullPolicy: 'IfNotPresent',
+			}),
+		webImage: containerImageSchema
+			.describe('Default image to use for web components.')
+			.optional()
+			.default({
+				repository: 'crisiscleanup-web',
+				tag: 'latest',
+				pullPolicy: 'IfNotPresent',
+			}),
+		ingressAnnotations: z
+			.record(z.string())
+			.describe('Annotations to add to ingress resource.')
+			.default({
+				'alb.ingress.kubernetes.io/listen-ports':
+					'[{"HTTP": 80}, {"HTTPS":443}]',
+				'alb.ingress.kubernetes.io/ssl-redirect': '443',
+				'alb.ingress.kubernetes.io/scheme': 'internet-facing',
+				'alb.ingress.kubernetes.io/target-type': 'ip',
+				'alb.ingress.kubernetes.io/target-group-attributes':
+					'load_balancing.algorithm.type=least_outstanding_requests',
+				'alb.ingress.kubernetes.io/healthcheck-path': '/health',
+				'alb.ingress.kubernetes.io/load-balancer-attributes':
+					'idle_timeout.timeout_seconds=120',
+			}),
+		wsgi: baseComponentSchema.describe('Django Api WSGI component.').default({
+			scaling: {
+				minReplicas: 1,
+				maxReplicas: 3,
+			},
 		}),
-	webImage: containerImageSchema
-		.describe('Default image to use for web components.')
-		.optional()
-		.default({
-			repository: 'crisiscleanup-web',
-			tag: 'latest',
-			pullPolicy: 'IfNotPresent',
+		asgi: baseComponentSchema.describe('Django Api ASGI component.').default({
+			scaling: {
+				minReplicas: 1,
+				maxReplicas: 2,
+			},
 		}),
-	ingressAnnotations: z
-		.record(z.string())
-		.describe('Annotations to add to ingress resource.')
-		.default({
-			'alb.ingress.kubernetes.io/listen-ports': '[{"HTTP": 80}, {"HTTPS":443}]',
-			'alb.ingress.kubernetes.io/ssl-redirect': '443',
-			'alb.ingress.kubernetes.io/scheme': 'internet-facing',
-			'alb.ingress.kubernetes.io/target-type': 'ip',
-			'alb.ingress.kubernetes.io/target-group-attributes':
-				'load_balancing.algorithm.type=least_outstanding_requests',
-			'alb.ingress.kubernetes.io/healthcheck-path': '/health',
-			'alb.ingress.kubernetes.io/load-balancer-attributes':
-				'idle_timeout.timeout_seconds=120',
-		}),
-	wsgi: baseComponentSchema.describe('Django Api WSGI component.').default({
-		scaling: {
-			minReplicas: 1,
-			maxReplicas: 3,
-		},
-	}),
-	asgi: baseComponentSchema.describe('Django Api ASGI component.').default({
-		scaling: {
-			minReplicas: 1,
-			maxReplicas: 2,
-		},
-	}),
-	celeryBeat: baseComponentSchema.describe('Celery Beat component.').default({
-		replicaCount: 1,
-	}),
-	celery: celerySchema.describe('Celery worker components.').default({
-		celery: { queues: ['celery'], scaling: { minReplicas: 1, maxReplicas: 2 } },
-		signal: {
-			queues: ['signal', 'phone', 'metrics'],
-			scaling: { minReplicas: 1, maxReplicas: 2 },
-		},
-	}),
-	adminWebsocket: baseComponentSchema
-		.describe('Connect Admin Websocket component')
-		.default({
+		celeryBeat: baseComponentSchema.describe('Celery Beat component.').default({
 			replicaCount: 1,
 		}),
-})
+		celery: celerySchema.describe('Celery worker components.').default({
+			celery: {
+				queues: ['celery'],
+				scaling: { minReplicas: 1, maxReplicas: 2 },
+			},
+			signal: {
+				queues: ['signal', 'phone', 'metrics'],
+				scaling: { minReplicas: 1, maxReplicas: 2 },
+			},
+		}),
+		adminWebsocket: baseComponentSchema
+			.describe('Connect Admin Websocket component')
+			.default({
+				replicaCount: 1,
+			}),
+		sync: syncSchema.optional(),
+	})
+	.partial({ sync: true })
 
 export interface CrisisCleanupChartConfig
 	extends z.infer<typeof chartConfigSchema> {}
