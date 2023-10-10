@@ -45,6 +45,27 @@ const propCases: [
 			wsgi: { spread: true, replicaCount: 4 },
 		},
 	],
+	[
+		'with sync',
+		{
+			sync: {
+				schedule: {
+					minute: '0',
+					hour: '0',
+				},
+				target: {
+					dev: true,
+					bastionHost: 'bastion.example.com',
+					bastionKey: 'some/path.pem',
+					databaseDsn: 'postgres://myurl:5432/mydb',
+				},
+				image: {
+					repository: 'myrepo',
+					tag: 'synctag',
+				},
+			},
+		},
+	],
 ]
 
 describe.each(propCases)('CrisisCleanupChart: %o', (caseName, props, keys) => {
