@@ -6,6 +6,7 @@ import {
 } from '@crisiscleanup/config'
 import { type DeploymentProps } from '@crisiscleanup/k8s.construct.component'
 import type * as kplus from 'cdk8s-plus-27'
+import type { DatabaseSyncProps } from './sync'
 
 export interface ApiConfigProps {
 	config: ScreamingSnakeCaseProperties<FlattenObject<ApiAppConfig, '_'>>
@@ -48,4 +49,5 @@ export interface ApiConstructConfig {
 	celery: Record<string, Omit<CeleryProps, 'config'>>
 	celeryBeat: Omit<ApiProps, 'config'>
 	adminWebsocket: Omit<ApiProps, 'config'>
+	sync?: DatabaseSyncProps | undefined
 }
