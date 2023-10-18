@@ -5,8 +5,8 @@ import {
 	type CrisisCleanupChartProps,
 } from '@crisiscleanup/charts.crisiscleanup'
 import {
-	flatKeysToFlatScreamingSnakeCaseKeys,
 	type CrisisCleanupConfig,
+	flatKeysToFlatScreamingSnakeCaseKeys,
 } from '@crisiscleanup/config'
 import type { Component } from '@crisiscleanup/k8s.construct.component'
 import type { ISecret } from 'aws-cdk-lib/aws-secretsmanager'
@@ -243,6 +243,11 @@ export class CrisisCleanupAddOn implements blueprints.ClusterAddOn {
 
 		celeryChart.node.addDependency(configChart)
 		apiChart.node.addDependency(celeryChart)
+
+		if (chart.syncChart) {
+			const syncChart = addChart(chart.syncChart)
+			syncChart.node.addDependency(configChart)
+		}
 
 		const chartObj = addChart(chart)
 		chartObj.node.addDependency(apiChart)
