@@ -3555,100 +3555,6 @@ exports[`CrisisCleanupChart: 'with sync' > config matches snapshot > with sync-c
       "namespace": "test",
     },
   },
-  {
-    "apiVersion": "batch/v1",
-    "kind": "CronJob",
-    "metadata": {
-      "labels": {
-        "app.kubernetes.io/component": "config",
-        "app.kubernetes.io/part-of": "crisiscleanup",
-      },
-      "name": "crisiscleanup-config-sync-sync-job",
-      "namespace": "test",
-    },
-    "spec": {
-      "concurrencyPolicy": "Forbid",
-      "failedJobsHistoryLimit": 1,
-      "jobTemplate": {
-        "spec": {
-          "backoffLimit": 2,
-          "template": {
-            "metadata": {
-              "labels": {
-                "cdk8s.io/metadata.addr": "crisiscleanup-config-sync-sync-job-c801fcaa",
-              },
-            },
-            "spec": {
-              "automountServiceAccountToken": false,
-              "containers": [
-                {
-                  "args": [
-                    "manage.py",
-                    "pgsync_db",
-                    "--config-path=/config/pg.yaml",
-                    "--target-bastion=bastion.example.com",
-                    "--target-bastion-key=some/path.pem",
-                    "--target-dsn=postgres://myurl:5432/mydb",
-                    "--dev",
-                  ],
-                  "command": [
-                    "python",
-                  ],
-                  "image": "myrepo:synctag",
-                  "imagePullPolicy": "Always",
-                  "name": "sync",
-                  "resources": {
-                    "limits": {
-                      "cpu": "1500m",
-                      "memory": "2048Mi",
-                    },
-                    "requests": {
-                      "cpu": "1000m",
-                      "memory": "512Mi",
-                    },
-                  },
-                  "securityContext": {
-                    "allowPrivilegeEscalation": false,
-                    "privileged": false,
-                    "readOnlyRootFilesystem": true,
-                    "runAsNonRoot": true,
-                  },
-                  "volumeMounts": [
-                    {
-                      "mountPath": "/config",
-                      "name": "config",
-                    },
-                  ],
-                },
-              ],
-              "dnsPolicy": "ClusterFirst",
-              "hostNetwork": false,
-              "restartPolicy": "Never",
-              "securityContext": {
-                "fsGroupChangePolicy": "Always",
-                "runAsNonRoot": true,
-              },
-              "setHostnameAsFQDN": false,
-              "terminationGracePeriodSeconds": 30,
-              "volumes": [
-                {
-                  "emptyDir": {
-                    "medium": "Memory",
-                  },
-                  "name": "config",
-                },
-              ],
-            },
-          },
-          "ttlSecondsAfterFinished": 7200,
-        },
-      },
-      "schedule": "0 0 * * *",
-      "startingDeadlineSeconds": 10,
-      "successfulJobsHistoryLimit": 3,
-      "suspend": false,
-    },
-  },
 ]
 `;
 
@@ -3726,6 +3632,105 @@ exports[`CrisisCleanupChart: 'with sync' > namespace matches snapshot > with syn
       "namespace": "test",
     },
     "spec": {},
+  },
+]
+`;
+
+exports[`CrisisCleanupChart: 'with sync' > sync matches snapshot > with sync-sync 1`] = `
+[
+  {
+    "apiVersion": "batch/v1",
+    "kind": "CronJob",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/component": "sync",
+        "app.kubernetes.io/part-of": "crisiscleanup",
+      },
+      "name": "crisiscleanup-sync-sync-job",
+      "namespace": "test",
+    },
+    "spec": {
+      "concurrencyPolicy": "Forbid",
+      "failedJobsHistoryLimit": 1,
+      "jobTemplate": {
+        "spec": {
+          "backoffLimit": 2,
+          "template": {
+            "metadata": {
+              "labels": {
+                "cdk8s.io/metadata.addr": "crisiscleanup-sync-sync-job-c86b8db7",
+              },
+            },
+            "spec": {
+              "automountServiceAccountToken": false,
+              "containers": [
+                {
+                  "args": [
+                    "manage.py",
+                    "pgsync_db",
+                    "--config-path=/tmp/pg.yaml",
+                    "--target-bastion=bastion.example.com",
+                    "--target-bastion-key=some/path.pem",
+                    "--target-dsn=postgres://myurl:5432/mydb",
+                    "--dev",
+                  ],
+                  "command": [
+                    "python",
+                  ],
+                  "image": "myrepo:synctag",
+                  "imagePullPolicy": "Always",
+                  "name": "sync",
+                  "resources": {
+                    "limits": {
+                      "cpu": "1500m",
+                      "memory": "2048Mi",
+                    },
+                    "requests": {
+                      "cpu": "1000m",
+                      "memory": "512Mi",
+                    },
+                  },
+                  "securityContext": {
+                    "allowPrivilegeEscalation": false,
+                    "privileged": false,
+                    "readOnlyRootFilesystem": true,
+                    "runAsNonRoot": true,
+                  },
+                  "volumeMounts": [
+                    {
+                      "mountPath": "/tmp",
+                      "name": "config",
+                    },
+                  ],
+                },
+              ],
+              "dnsPolicy": "ClusterFirst",
+              "hostNetwork": false,
+              "restartPolicy": "Never",
+              "securityContext": {
+                "fsGroupChangePolicy": "Always",
+                "runAsNonRoot": true,
+              },
+              "setHostnameAsFQDN": false,
+              "terminationGracePeriodSeconds": 30,
+              "volumes": [
+                {
+                  "emptyDir": {
+                    "medium": "Memory",
+                  },
+                  "name": "config",
+                },
+              ],
+            },
+          },
+          "ttlSecondsAfterFinished": 7200,
+        },
+      },
+      "schedule": "0 0 * * *",
+      "startingDeadlineSeconds": 10,
+      "successfulJobsHistoryLimit": 3,
+      "suspend": false,
+    },
   },
 ]
 `;
