@@ -80,6 +80,7 @@ export class CrisisCleanupChart extends Chart {
 	readonly configChart: Chart
 	readonly apiChart: Chart
 	readonly celeryChart: Chart
+	readonly syncChart?: Chart
 
 	readonly apiConfig: ApiConfig
 	readonly wsgi: ApiWSGI
@@ -145,7 +146,15 @@ export class CrisisCleanupChart extends Chart {
 		})
 
 		if (props.sync) {
-			this.sync = new DatabaseSync(this.configChart, 'sync', props.sync)
+			this.syncChart = new Chart(this, 'sync', {
+				namespace: props.namespace,
+				disableResourceNameHashes: true,
+				labels: {
+					...this.labels,
+					[Label.COMPONENT]: 'sync',
+				},
+			})
+			this.sync = new DatabaseSync(this.syncChart, 'sync', props.sync)
 		}
 
 		this.celeryChart.addDependency(this.apiConfig)
