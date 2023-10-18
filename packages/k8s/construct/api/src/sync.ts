@@ -28,6 +28,8 @@ export class DatabaseSync extends Construct {
 	constructor(scope: Construct, id: string, props: DatabaseSyncProps) {
 		super(scope, id)
 
+		const { image, target, sourceDsn, schedule, ...rest } = props
+
 		const configVolume = kplus.Volume.fromEmptyDir(
 			this,
 			'config-volume',
@@ -40,30 +42,31 @@ export class DatabaseSync extends Construct {
 		const syncArgs = [
 			'manage.py',
 			'pgsync_db',
-			'--config-path=/config/pg.yaml',
-			`--target-bastion=${props.target.bastionHost}`,
-			`--target-bastion-key=${props.target.bastionKey}`,
-			`--target-dsn=${props.target.databaseDsn}`,
+			'--config-path=/tmp/pg.yaml',
+			`--target-bastion=${target.bastionHost}`,
+			`--target-bastion-key=${target.bastionKey}`,
+			`--target-dsn=${target.databaseDsn}`,
 		]
-		if (props.target.dev) {
+		if (target.dev) {
 			syncArgs.push('--dev')
 		}
-		if (props.sourceDsn) {
+		if (sourceDsn) {
 			syncArgs.push(`--source-dsn=${props.sourceDsn}`)
 		}
 
 		this.syncCronJob = new kplus.CronJob(this, id + '-job', {
-			schedule: Cron.schedule(props.schedule),
+			schedule: Cron.schedule(schedule),
 			ttlAfterFinished: Duration.hours(2),
 			restartPolicy: RestartPolicy.NEVER,
 			backoffLimit: 2,
+			...rest,
 		})
 		this.syncCronJob.addContainer({
 			name: 'sync',
-			...ContainerImage.fromProps(props.image).containerProps,
+			...ContainerImage.fromProps(image).containerProps,
 			command: ['python'],
 			args: syncArgs,
-			volumeMounts: [{ path: '/config', volume: configVolume }],
+			volumeMounts: [{ path: '/tmp', volume: configVolume }],
 		})
 		this.syncCronJob.addVolume(configVolume)
 	}
