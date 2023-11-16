@@ -126,6 +126,10 @@ const zendeskSchema = z.object({
 	apiKey: z.string(),
 })
 
+const stripeSchema = z.object({
+	apiKey: z.string(),
+})
+
 const connectFirstSchema = z.object({
 	password: z.string().default(''),
 })
@@ -174,6 +178,7 @@ const apiAppSecretsSchema = z
 		zendesk: zendeskSchema,
 		connectFirst: connectFirstSchema,
 		aws: awsSchema,
+		stripe: stripeSchema,
 		cloudfront: cloudfrontSchema,
 		saml: samlSchema.default({
 			awsProvider: '',
