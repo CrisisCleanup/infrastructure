@@ -1,28 +1,33 @@
-FROM mcr.microsoft.com/dotnet/runtime-deps:6.0 as build
+FROM mcr.microsoft.com/dotnet/runtime-deps:6.0-jammy as build
 
 # Replace value with the latest runner release version
 # source: https://github.com/actions/runner/releases
 # ex: 2.303.0
-ARG RUNNER_VERSION="2.309.0"
+ARG RUNNER_VERSION="2.311.0"
 ARG RUNNER_ARCH="arm64"
 # Replace value with the latest runner-container-hooks release version
 # source: https://github.com/actions/runner-container-hooks/releases
 # ex: 0.3.1
-ARG RUNNER_CONTAINER_HOOKS_VERSION="0.3.2"
-
-ENV DEBIAN_FRONTEND=noninteractive
-ENV RUNNER_MANUALLY_TRAP_SIG=1
-ENV ACTIONS_RUNNER_PRINT_LOG_TO_STDOUT=1
+ARG RUNNER_CONTAINER_HOOKS_VERSION="0.5.0"
 
 ARG TARGETPLATFORM
+ARG TARGETOS
+ARG TARGETARCH
+ARG RUNNER_VERSION
 
 # Docker and Docker Compose arguments
 ARG CHANNEL=stable
-ARG DOCKER_VERSION=20.10.23
+ARG DOCKER_VERSION=24.0.6
+ARG BUILDX_VERSION=0.11.2
 ARG DOCKER_COMPOSE_VERSION=v2.20.0
 ARG DUMB_INIT_VERSION=1.2.5
 ARG RUNNER_USER_UID=1001
 ARG DOCKER_GROUP_GID=121
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV RUNNER_MANUALLY_TRAP_SIG=1
+ENV ACTIONS_RUNNER_PRINT_LOG_TO_STDOUT=1
+ENV ImageOS=ubuntu22
 
 RUN apt-get update -y \
   && apt-get install -y software-properties-common gnupg libc6 \
@@ -84,6 +89,7 @@ RUN curl -f -L -o runner-container-hooks.zip https://github.com/actions/runner-c
   && unzip ./runner-container-hooks.zip -d ./k8s \
   && rm runner-container-hooks.zip
 
+# Install Docker
 RUN set -vx; \
   export ARCH=$(echo ${TARGETPLATFORM} | cut -d / -f2) \
   && if [ "$ARCH" = "arm64" ]; then export ARCH=aarch64 ; fi \
@@ -91,17 +97,17 @@ RUN set -vx; \
   && curl -fLo docker.tgz https://download.docker.com/linux/static/${CHANNEL}/${ARCH}/docker-${DOCKER_VERSION}.tgz \
   && tar zxvf docker.tgz \
   && install -o root -g root -m 755 docker/* /usr/bin/ \
-  && rm -rf docker docker.tgz
+  && rm -rf docker docker.tgz \
+  # Buildx
+  && mkdir -p /usr/local/lib/docker/cli-plugins \
+  && curl -fLo /usr/local/lib/docker/cli-plugins/docker-buildx \
+  "https://github.com/docker/buildx/releases/download/v${BUILDX_VERSION}/buildx-v${BUILDX_VERSION}.linux-${TARGETARCH}" \
+  && chmod +x /usr/local/lib/docker/cli-plugins/docker-buildx \
+  # Compose
+  && curl -fLo /usr/local/lib/docker/cli-plugins/docker-compose \
+  "https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-linux-${ARCH}" \
+  && chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
 
-RUN export ARCH=$(echo ${TARGETPLATFORM} | cut -d / -f2) \
-  && if [ "$ARCH" = "arm64" ]; then export ARCH=aarch64 ; fi \
-  && if [ "$ARCH" = "amd64" ] || [ "$ARCH" = "i386" ]; then export ARCH=x86_64 ; fi \
-  && mkdir -p /usr/libexec/docker/cli-plugins \
-  && curl -fLo /usr/libexec/docker/cli-plugins/docker-compose https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-linux-${ARCH} \
-  && chmod +x /usr/libexec/docker/cli-plugins/docker-compose \
-  && ln -s /usr/libexec/docker/cli-plugins/docker-compose /usr/bin/docker-compose \
-  && which docker-compose \
-  && docker compose version
 
 USER runner
 
