@@ -52,6 +52,7 @@ RUN apt-get update -y \
   parallel \
   python3-pip \
   python3-venv \
+  python-dev \
   rsync \
   shellcheck \
   sudo \
