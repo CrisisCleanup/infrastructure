@@ -50,6 +50,8 @@ export const databaseConfigSchema = z.object({
 	databaseName: z.string().optional().nullable().default(null),
 	snapshotIdentifier: z
 		.string()
+		.nullable()
+		.default(null)
 		.describe('Snapshot identifier to restore from.'),
 	engineVersion: z
 		.string()
