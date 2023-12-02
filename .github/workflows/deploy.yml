@@ -57,6 +57,7 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Checkout
         uses: actions/checkout@v3
         with:
@@ -157,6 +158,15 @@ jobs:
       asset-hash39: ${{steps.publish.outputs.asset-hash39}}
       asset-hash4: ${{steps.publish.outputs.asset-hash4}}
       asset-hash40: ${{steps.publish.outputs.asset-hash40}}
+      asset-hash41: ${{steps.publish.outputs.asset-hash41}}
+      asset-hash42: ${{steps.publish.outputs.asset-hash42}}
+      asset-hash43: ${{steps.publish.outputs.asset-hash43}}
+      asset-hash44: ${{steps.publish.outputs.asset-hash44}}
+      asset-hash45: ${{steps.publish.outputs.asset-hash45}}
+      asset-hash46: ${{steps.publish.outputs.asset-hash46}}
+      asset-hash47: ${{steps.publish.outputs.asset-hash47}}
+      asset-hash48: ${{steps.publish.outputs.asset-hash48}}
+      asset-hash49: ${{steps.publish.outputs.asset-hash49}}
       asset-hash5: ${{steps.publish.outputs.asset-hash5}}
       asset-hash6: ${{steps.publish.outputs.asset-hash6}}
       asset-hash7: ${{steps.publish.outputs.asset-hash7}}
@@ -173,6 +183,7 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
@@ -203,7 +214,7 @@ jobs:
       - name: Publish
         id: publish
         run: >-
-          targets="./cdk.out/publish-Assets-FileAsset1-step.sh,./cdk.out/publish-Assets-FileAsset10-step.sh,./cdk.out/publish-Assets-FileAsset11-step.sh,./cdk.out/publish-Assets-FileAsset12-step.sh,./cdk.out/publish-Assets-FileAsset13-step.sh,./cdk.out/publish-Assets-FileAsset14-step.sh,./cdk.out/publish-Assets-FileAsset15-step.sh,./cdk.out/publish-Assets-FileAsset16-step.sh,./cdk.out/publish-Assets-FileAsset17-step.sh,./cdk.out/publish-Assets-FileAsset18-step.sh,./cdk.out/publish-Assets-FileAsset19-step.sh,./cdk.out/publish-Assets-FileAsset2-step.sh,./cdk.out/publish-Assets-FileAsset20-step.sh,./cdk.out/publish-Assets-FileAsset21-step.sh,./cdk.out/publish-Assets-FileAsset22-step.sh,./cdk.out/publish-Assets-FileAsset23-step.sh,./cdk.out/publish-Assets-FileAsset24-step.sh,./cdk.out/publish-Assets-FileAsset25-step.sh,./cdk.out/publish-Assets-FileAsset26-step.sh,./cdk.out/publish-Assets-FileAsset27-step.sh,./cdk.out/publish-Assets-FileAsset28-step.sh,./cdk.out/publish-Assets-FileAsset29-step.sh,./cdk.out/publish-Assets-FileAsset3-step.sh,./cdk.out/publish-Assets-FileAsset30-step.sh,./cdk.out/publish-Assets-FileAsset31-step.sh,./cdk.out/publish-Assets-FileAsset32-step.sh,./cdk.out/publish-Assets-FileAsset33-step.sh,./cdk.out/publish-Assets-FileAsset34-step.sh,./cdk.out/publish-Assets-FileAsset35-step.sh,./cdk.out/publish-Assets-FileAsset36-step.sh,./cdk.out/publish-Assets-FileAsset37-step.sh,./cdk.out/publish-Assets-FileAsset38-step.sh,./cdk.out/publish-Assets-FileAsset39-step.sh,./cdk.out/publish-Assets-FileAsset4-step.sh,./cdk.out/publish-Assets-FileAsset40-step.sh,./cdk.out/publish-Assets-FileAsset5-step.sh,./cdk.out/publish-Assets-FileAsset6-step.sh,./cdk.out/publish-Assets-FileAsset7-step.sh,./cdk.out/publish-Assets-FileAsset8-step.sh,./cdk.out/publish-Assets-FileAsset9-step.sh"
+          targets="./cdk.out/publish-Assets-FileAsset1-step.sh,./cdk.out/publish-Assets-FileAsset10-step.sh,./cdk.out/publish-Assets-FileAsset11-step.sh,./cdk.out/publish-Assets-FileAsset12-step.sh,./cdk.out/publish-Assets-FileAsset13-step.sh,./cdk.out/publish-Assets-FileAsset14-step.sh,./cdk.out/publish-Assets-FileAsset15-step.sh,./cdk.out/publish-Assets-FileAsset16-step.sh,./cdk.out/publish-Assets-FileAsset17-step.sh,./cdk.out/publish-Assets-FileAsset18-step.sh,./cdk.out/publish-Assets-FileAsset19-step.sh,./cdk.out/publish-Assets-FileAsset2-step.sh,./cdk.out/publish-Assets-FileAsset20-step.sh,./cdk.out/publish-Assets-FileAsset21-step.sh,./cdk.out/publish-Assets-FileAsset22-step.sh,./cdk.out/publish-Assets-FileAsset23-step.sh,./cdk.out/publish-Assets-FileAsset24-step.sh,./cdk.out/publish-Assets-FileAsset25-step.sh,./cdk.out/publish-Assets-FileAsset26-step.sh,./cdk.out/publish-Assets-FileAsset27-step.sh,./cdk.out/publish-Assets-FileAsset28-step.sh,./cdk.out/publish-Assets-FileAsset29-step.sh,./cdk.out/publish-Assets-FileAsset3-step.sh,./cdk.out/publish-Assets-FileAsset30-step.sh,./cdk.out/publish-Assets-FileAsset31-step.sh,./cdk.out/publish-Assets-FileAsset32-step.sh,./cdk.out/publish-Assets-FileAsset33-step.sh,./cdk.out/publish-Assets-FileAsset34-step.sh,./cdk.out/publish-Assets-FileAsset35-step.sh,./cdk.out/publish-Assets-FileAsset36-step.sh,./cdk.out/publish-Assets-FileAsset37-step.sh,./cdk.out/publish-Assets-FileAsset38-step.sh,./cdk.out/publish-Assets-FileAsset39-step.sh,./cdk.out/publish-Assets-FileAsset4-step.sh,./cdk.out/publish-Assets-FileAsset40-step.sh,./cdk.out/publish-Assets-FileAsset41-step.sh,./cdk.out/publish-Assets-FileAsset42-step.sh,./cdk.out/publish-Assets-FileAsset43-step.sh,./cdk.out/publish-Assets-FileAsset44-step.sh,./cdk.out/publish-Assets-FileAsset45-step.sh,./cdk.out/publish-Assets-FileAsset46-step.sh,./cdk.out/publish-Assets-FileAsset47-step.sh,./cdk.out/publish-Assets-FileAsset48-step.sh,./cdk.out/publish-Assets-FileAsset49-step.sh,./cdk.out/publish-Assets-FileAsset5-step.sh,./cdk.out/publish-Assets-FileAsset6-step.sh,./cdk.out/publish-Assets-FileAsset7-step.sh,./cdk.out/publish-Assets-FileAsset8-step.sh,./cdk.out/publish-Assets-FileAsset9-step.sh"
 
           echo -n "$targets" | xargs -r -d',' -t -n1 -P2 /bin/bash
   deploy-development-development-delegator-zone-deploy:
@@ -229,6 +240,7 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -279,6 +291,7 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -329,6 +342,7 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -379,6 +393,7 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -430,6 +445,7 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -480,6 +496,7 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -508,6 +525,110 @@ jobs:
           no-fail-on-empty-changeset: "1"
           capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM
           role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}-us-east-1
+  deploy-production-au-production-au-delegator-zone-deploy:
+    name: Deploy
+      crisiscleanupinfrapipelinestackproductionauproductionaudelegatorzone8EA79912
+    if: contains((github.event.inputs.environments || inputs.environments),
+      'production-au')
+    permissions:
+      contents: read
+      id-token: write
+    environment:
+      name: production-au
+      url: https://app.au.crisiscleanup.io
+    needs:
+      - Build-crisiscleanup-infra-pipeline-synth
+      - publish
+    runs-on: ${{inputs.runner || 'ubuntu-latest'}}
+    steps:
+      - name: Mask values
+        run: |-
+          echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
+      - name: Authenticate Via OIDC Role
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-region: us-east-1
+          role-duration-seconds: 1800
+          role-skip-session-tagging: true
+          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
+          role-session-name: deploy
+      - name: Assume CDK Deploy Role
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-region: us-east-1
+          role-duration-seconds: 1800
+          role-skip-session-tagging: true
+          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ env.AWS_SESSION_TOKEN }}
+          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_PIPELINE}}-us-east-1
+          role-external-id: Pipeline
+      - id: Deploy
+        uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
+        with:
+          name: production-au-production-au-delegator-zone
+          template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PIPELINE}}-us-east-1.s3.us-east-1.amazonaws.com/${{
+            needs.publish.outputs.asset-hash41 }}.json
+          no-fail-on-empty-changeset: "1"
+          capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM
+          role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_PIPELINE}}-us-east-1
+  deploy-production-au-production-au-network-deploy:
+    name: Deploy
+      crisiscleanupinfrapipelinestackproductionauproductionaunetwork7E1FB32A
+    if: contains((github.event.inputs.environments || inputs.environments),
+      'production-au')
+    permissions:
+      contents: read
+      id-token: write
+    environment:
+      name: production-au
+      url: https://app.au.crisiscleanup.io
+    needs:
+      - Build-crisiscleanup-infra-pipeline-synth
+      - publish
+    runs-on: ${{inputs.runner || 'ubuntu-latest'}}
+    steps:
+      - name: Mask values
+        run: |-
+          echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
+      - name: Authenticate Via OIDC Role
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-region: ap-southeast-2
+          role-duration-seconds: 1800
+          role-skip-session-tagging: true
+          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
+          role-session-name: deploy
+      - name: Assume CDK Deploy Role
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-region: ap-southeast-2
+          role-duration-seconds: 1800
+          role-skip-session-tagging: true
+          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ env.AWS_SESSION_TOKEN }}
+          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}-ap-southeast-2
+          role-external-id: Pipeline
+      - id: Deploy
+        uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
+        with:
+          name: production-au-production-au-network
+          template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}-ap-southeast-2.s3.ap-southeast-2.amazonaws.com/${{
+            needs.publish.outputs.asset-hash42 }}.json
+          no-fail-on-empty-changeset: "1"
+          capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM
+          role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}-ap-southeast-2
   deploy-development-development-delegate-zone-deploy:
     name: Deploy
       crisiscleanupinfrapipelinestackdevelopmentdevelopmentdelegatezone51325A0B
@@ -532,6 +653,7 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -583,6 +705,7 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -634,6 +757,7 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -686,6 +810,7 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -714,6 +839,111 @@ jobs:
           no-fail-on-empty-changeset: "1"
           capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM
           role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}-us-east-1
+  deploy-production-au-production-au-cache-deploy:
+    name: Deploy crisiscleanupinfrapipelinestackproductionauproductionaucache9C91AE3B
+    if: contains((github.event.inputs.environments || inputs.environments),
+      'production-au')
+    permissions:
+      contents: read
+      id-token: write
+    environment:
+      name: production-au
+      url: https://app.au.crisiscleanup.io
+    needs:
+      - Build-crisiscleanup-infra-pipeline-synth
+      - deploy-production-au-production-au-network-Deploy
+      - publish
+    runs-on: ${{inputs.runner || 'ubuntu-latest'}}
+    steps:
+      - name: Mask values
+        run: |-
+          echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
+      - name: Authenticate Via OIDC Role
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-region: ap-southeast-2
+          role-duration-seconds: 1800
+          role-skip-session-tagging: true
+          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
+          role-session-name: deploy
+      - name: Assume CDK Deploy Role
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-region: ap-southeast-2
+          role-duration-seconds: 1800
+          role-skip-session-tagging: true
+          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ env.AWS_SESSION_TOKEN }}
+          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}-ap-southeast-2
+          role-external-id: Pipeline
+      - id: Deploy
+        uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
+        with:
+          name: production-au-production-au-cache
+          template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}-ap-southeast-2.s3.ap-southeast-2.amazonaws.com/${{
+            needs.publish.outputs.asset-hash43 }}.json
+          no-fail-on-empty-changeset: "1"
+          capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM
+          role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}-ap-southeast-2
+  deploy-production-au-production-au-delegate-zone-deploy:
+    name: Deploy
+      crisiscleanupinfrapipelinestackproductionauproductionaudelegatezoneF13528CD
+    if: contains((github.event.inputs.environments || inputs.environments),
+      'production-au')
+    permissions:
+      contents: read
+      id-token: write
+    environment:
+      name: production-au
+      url: https://app.au.crisiscleanup.io
+    needs:
+      - Build-crisiscleanup-infra-pipeline-synth
+      - deploy-production-au-production-au-delegator-zone-Deploy
+      - publish
+    runs-on: ${{inputs.runner || 'ubuntu-latest'}}
+    steps:
+      - name: Mask values
+        run: |-
+          echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
+      - name: Authenticate Via OIDC Role
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-region: ap-southeast-2
+          role-duration-seconds: 1800
+          role-skip-session-tagging: true
+          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
+          role-session-name: deploy
+      - name: Assume CDK Deploy Role
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-region: ap-southeast-2
+          role-duration-seconds: 1800
+          role-skip-session-tagging: true
+          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ env.AWS_SESSION_TOKEN }}
+          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}-ap-southeast-2
+          role-external-id: Pipeline
+      - id: Deploy
+        uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
+        with:
+          name: production-au-production-au-delegate-zone
+          template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}-ap-southeast-2.s3.ap-southeast-2.amazonaws.com/${{
+            needs.publish.outputs.asset-hash44 }}.json
+          no-fail-on-empty-changeset: "1"
+          capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM
+          role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}-ap-southeast-2
   deploy-development-development-data-deploy:
     name: Deploy crisiscleanupinfrapipelinestackdevelopmentdevelopmentdataE98C910D
     if: contains((github.event.inputs.environments || inputs.environments),
@@ -738,6 +968,7 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -790,6 +1021,7 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -842,6 +1074,7 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -870,6 +1103,59 @@ jobs:
           no-fail-on-empty-changeset: "1"
           capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM
           role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}-us-east-1
+  deploy-production-au-production-au-data-deploy:
+    name: Deploy crisiscleanupinfrapipelinestackproductionauproductionaudataB1041D83
+    if: contains((github.event.inputs.environments || inputs.environments),
+      'production-au')
+    permissions:
+      contents: read
+      id-token: write
+    environment:
+      name: production-au
+      url: https://app.au.crisiscleanup.io
+    needs:
+      - Build-crisiscleanup-infra-pipeline-synth
+      - deploy-production-au-production-au-network-Deploy
+      - deploy-production-au-production-au-delegate-zone-Deploy
+      - publish
+    runs-on: ${{inputs.runner || 'ubuntu-latest'}}
+    steps:
+      - name: Mask values
+        run: |-
+          echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
+      - name: Authenticate Via OIDC Role
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-region: ap-southeast-2
+          role-duration-seconds: 1800
+          role-skip-session-tagging: true
+          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
+          role-session-name: deploy
+      - name: Assume CDK Deploy Role
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-region: ap-southeast-2
+          role-duration-seconds: 1800
+          role-skip-session-tagging: true
+          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ env.AWS_SESSION_TOKEN }}
+          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}-ap-southeast-2
+          role-external-id: Pipeline
+      - id: Deploy
+        uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
+        with:
+          name: production-au-production-au-data
+          template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}-ap-southeast-2.s3.ap-southeast-2.amazonaws.com/${{
+            needs.publish.outputs.asset-hash45 }}.json
+          no-fail-on-empty-changeset: "1"
+          capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM
+          role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}-ap-southeast-2
   deploy-development-development-blueprint-deploy:
     name: Deploy
       crisiscleanupinfrapipelinestackdevelopmentdevelopmentblueprint44D37614
@@ -895,6 +1181,7 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -947,6 +1234,7 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -999,6 +1287,7 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -1027,6 +1316,60 @@ jobs:
           no-fail-on-empty-changeset: "1"
           capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM
           role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}-us-east-1
+  deploy-production-au-production-au-blueprint-deploy:
+    name: Deploy
+      crisiscleanupinfrapipelinestackproductionauproductionaublueprintDA48AA19
+    if: contains((github.event.inputs.environments || inputs.environments),
+      'production-au')
+    permissions:
+      contents: read
+      id-token: write
+    environment:
+      name: production-au
+      url: https://app.au.crisiscleanup.io
+    needs:
+      - Build-crisiscleanup-infra-pipeline-synth
+      - deploy-production-au-production-au-network-Deploy
+      - deploy-production-au-production-au-data-Deploy
+      - publish
+    runs-on: ${{inputs.runner || 'ubuntu-latest'}}
+    steps:
+      - name: Mask values
+        run: |-
+          echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
+      - name: Authenticate Via OIDC Role
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-region: ap-southeast-2
+          role-duration-seconds: 1800
+          role-skip-session-tagging: true
+          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
+          role-session-name: deploy
+      - name: Assume CDK Deploy Role
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-region: ap-southeast-2
+          role-duration-seconds: 1800
+          role-skip-session-tagging: true
+          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ env.AWS_SESSION_TOKEN }}
+          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}-ap-southeast-2
+          role-external-id: Pipeline
+      - id: Deploy
+        uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
+        with:
+          name: production-au-production-au-blueprint
+          template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}-ap-southeast-2.s3.ap-southeast-2.amazonaws.com/${{
+            needs.publish.outputs.asset-hash46 }}.json
+          no-fail-on-empty-changeset: "1"
+          capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM
+          role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}-ap-southeast-2
 concurrency:
   group: deploy-infra
   cancel-in-progress: false
