@@ -202,6 +202,7 @@ export const Environment = z.enum([
 	'development',
 	'staging',
 	'production',
+	'production-au',
 	'test',
 ])
 export type Stage = z.infer<typeof Environment>
