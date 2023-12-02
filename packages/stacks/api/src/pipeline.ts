@@ -159,6 +159,7 @@ export class Pipeline {
 					production: 'crisiscleanup.org',
 					staging: 'staging.crisiscleanup.io',
 					development: 'dev.crisiscleanup.io',
+					'production-au': 'au.crisiscleanup.io',
 				}
 				const subZoneDomain = subdomains[env.id as keyof typeof subdomains]
 				const subZone = delegatorZone.delegate(
