@@ -123,9 +123,6 @@ export class Database extends Construct {
 		if (this.props.snapshotIdentifier) {
 			clusterProps = {
 				...baseClusterProps,
-				storageType: this.props.ioOptimized
-					? rds.DBClusterStorageType.AURORA_IOPT1
-					: DBClusterStorageType.AURORA,
 				snapshotIdentifier: this.props.snapshotIdentifier,
 				snapshotCredentials: rds.SnapshotCredentials.fromGeneratedSecret(
 					this.props.username ?? 'postgres',
@@ -139,6 +136,9 @@ export class Database extends Construct {
 		} else {
 			clusterProps = {
 				...baseClusterProps,
+				storageType: this.props.ioOptimized
+					? rds.DBClusterStorageType.AURORA_IOPT1
+					: DBClusterStorageType.AURORA,
 				credentials: this.props.credentialsSecret
 					? rds.Credentials.fromSecret(
 							this.props.credentialsSecret,
