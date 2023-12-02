@@ -2,6 +2,7 @@ import * as cdk from 'aws-cdk-lib'
 import * as ec2 from 'aws-cdk-lib/aws-ec2'
 import * as kms from 'aws-cdk-lib/aws-kms'
 import * as rds from 'aws-cdk-lib/aws-rds'
+import { DBClusterStorageType } from 'aws-cdk-lib/aws-rds'
 import * as route53 from 'aws-cdk-lib/aws-route53'
 import { type ISecret, Secret } from 'aws-cdk-lib/aws-secretsmanager'
 import { KeyPair } from 'cdk-ec2-key-pair'
@@ -73,16 +74,13 @@ export class Database extends Construct {
 				? rds.InstanceUpdateBehaviour.ROLLING
 				: rds.InstanceUpdateBehaviour.BULK
 
-		const clusterProps: rds.DatabaseClusterFromSnapshotProps = {
+		const baseClusterProps: rds.DatabaseClusterProps = {
 			vpc,
 			engine,
 			vpcSubnets: {
 				subnetType,
 			},
 			securityGroups: [this.securityGroup],
-			snapshotCredentials: rds.SnapshotCredentials.fromGeneratedSecret(
-				this.props.username ?? 'postgres',
-			),
 			iamAuthentication: true,
 			port: 5432,
 			// WARNING:
@@ -107,22 +105,56 @@ export class Database extends Construct {
 				retention: cdk.Duration.days(props.backupRetentionDays),
 			},
 			// default: inherit from snapshot.
-			// this is ignored anyways, but changes lead to cluster recreate.
+			// this is ignored anyways for snapshot, but changes lead to cluster recreate.
 			...(props.databaseName
 				? { defaultDatabaseName: props.databaseName }
 				: {}),
-			snapshotIdentifier: this.props.snapshotIdentifier,
 			...(this.props.performanceInsights
 				? {
 						monitoringInterval: cdk.Duration.minutes(1),
 				  }
 				: {}),
 		}
-		this.cluster = new rds.DatabaseClusterFromSnapshot(
-			this,
-			id + '-cluster',
-			clusterProps,
-		)
+
+		let clusterProps:
+			| rds.DatabaseClusterProps
+			| rds.DatabaseClusterFromSnapshotProps
+
+		if (this.props.snapshotIdentifier) {
+			clusterProps = {
+				...baseClusterProps,
+				storageType: this.props.ioOptimized
+					? rds.DBClusterStorageType.AURORA_IOPT1
+					: DBClusterStorageType.AURORA,
+				snapshotIdentifier: this.props.snapshotIdentifier,
+				snapshotCredentials: rds.SnapshotCredentials.fromGeneratedSecret(
+					this.props.username ?? 'postgres',
+				),
+			}
+			this.cluster = new rds.DatabaseClusterFromSnapshot(
+				this,
+				id + '-cluster',
+				clusterProps,
+			)
+		} else {
+			clusterProps = {
+				...baseClusterProps,
+				credentials: this.props.credentialsSecret
+					? rds.Credentials.fromSecret(
+							this.props.credentialsSecret,
+							this.props.username ?? 'postgres',
+					  )
+					: rds.Credentials.fromGeneratedSecret(
+							this.props.username ?? 'postgres',
+					  ),
+			}
+			this.cluster = new rds.DatabaseCluster(
+				this,
+				id + '-cluster',
+				clusterProps,
+			)
+		}
+
 		// enable devops guru
 		if (this.props.performanceInsights) {
 			cdk.Tags.of(this.cluster).add(
@@ -302,6 +334,12 @@ export class DataStack extends cdk.Stack {
 					excludePunctuation: true,
 					includeSpace: false,
 					generateStringKey: 'password',
+					// backwards compat for instances restored from snapshot:
+					...(this.props.clusterProps.snapshotIdentifier
+						? {}
+						: {
+								excludeCharacters: '%+~`#$&*()|[]{}:;?!\'/@"\\',
+						  }),
 				},
 			})
 
