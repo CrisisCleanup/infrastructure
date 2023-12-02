@@ -1,4 +1,5 @@
 import * as cdk from 'aws-cdk-lib'
+import { Stack } from 'aws-cdk-lib'
 import * as ec2 from 'aws-cdk-lib/aws-ec2'
 import * as kms from 'aws-cdk-lib/aws-kms'
 import * as rds from 'aws-cdk-lib/aws-rds'
@@ -251,11 +252,17 @@ export class DatabaseBastion extends Construct {
 			'Bastion Allow list.',
 		)
 
-		this.keyPair = new KeyPair(this, id + '-key-pair', {
+		const stackName = Stack.of(this).stackName
+		this.keyPair = new KeyPair(this, id + '-key-pair'.slice(0, 60), {
 			kms: encryptionKey as kms.Key,
 			description: 'SSH key pair for bastion host',
 			name: 'database/bastion/key-pair',
 			storePublicKey: true,
+			// resolve some stages (prod-au) exceeding 64 char limit.
+			resourcePrefix:
+				stackName.length >= 32
+					? stackName.split('-').slice(1).join('-')
+					: stackName,
 		})
 
 		this.bastion = new ec2.BastionHostLinux(this, id + '-bastion', {
