@@ -54,6 +54,12 @@ const prodSecretsProvider = new SopsSecretProvider({
 	sopsFilePath: <string>configsSources.production.secretsPath,
 })
 
+const prodAUSecretsProvider = new SopsSecretProvider({
+	secretName: 'crisiscleanup-productionau-api',
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+	sopsFilePath: <string>configsSources['production-au']!.secretsPath,
+})
+
 const pipeline = Pipeline.builder({
 	id: 'crisiscleanup',
 	rootDir: cwd,
@@ -120,6 +126,19 @@ const pipeline = Pipeline.builder({
 				),
 		config: config.$env!.production as unknown as CrisisCleanupConfig,
 		secretsProvider: prodSecretsProvider,
+	})
+	.target({
+		name: 'production-au',
+		stackBuilder: (builder) =>
+			builder.enableControlPlaneLogTypes(
+				<blueprints.ControlPlaneLogType>'api',
+				<blueprints.ControlPlaneLogType>'controllerManager',
+				<blueprints.ControlPlaneLogType>'audit',
+				<blueprints.ControlPlaneLogType>'authenticator',
+				<blueprints.ControlPlaneLogType>'scheduler',
+			),
+		config: config.$env!['production-au'] as unknown as CrisisCleanupConfig,
+		secretsProvider: prodAUSecretsProvider,
 	})
 	.build(app, {
 		env: {
