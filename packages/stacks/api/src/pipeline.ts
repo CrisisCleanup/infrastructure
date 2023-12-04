@@ -142,10 +142,7 @@ export class Pipeline {
 					env.id + '-delegator-zone',
 					{
 						delegateAccountId: env.account,
-						zoneName:
-							env.id === 'production'
-								? 'crisiscleanup.org'
-								: 'crisiscleanup.io',
+						zoneName: config.apiStack!.dns.zoneName,
 						roleName: 'CrossAccountZoneDelegationRole-' + env.id,
 					},
 					{
@@ -155,13 +152,7 @@ export class Pipeline {
 				const delegateZoneStack = new Stack(scope, env.id + '-delegate-zone', {
 					env: env.env,
 				})
-				const subdomains = {
-					production: 'crisiscleanup.org',
-					staging: 'staging.crisiscleanup.io',
-					development: 'dev.crisiscleanup.io',
-					'production-au': 'au.crisiscleanup.io',
-				}
-				const subZoneDomain = subdomains[env.id as keyof typeof subdomains]
+				const subZoneDomain = config.apiStack!.dns.subDomain
 				const subZone = delegatorZone.delegate(
 					delegateZoneStack,
 					subZoneDomain + '-delegate-zone',
