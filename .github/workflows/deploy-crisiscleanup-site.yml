@@ -372,16 +372,16 @@ jobs:
           aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
           aws-session-token: ${{ env.AWS_SESSION_TOKEN }}
-          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}-ap-southeast-2
+          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}-ap-southeast-2
           role-external-id: Pipeline
       - id: Deploy
         uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
         with:
           name: crisiscleanup-web
-          template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}-ap-southeast-2.s3.ap-southeast-2.amazonaws.com/${{
+          template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}-ap-southeast-2.s3.ap-southeast-2.amazonaws.com/${{
             needs.publish.outputs.asset-hash10 }}.json
           no-fail-on-empty-changeset: "1"
-          role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}-ap-southeast-2
+          role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}-ap-southeast-2
 concurrency:
   group: deploy-web-${{inputs.environment}}
   cancel-in-progress: false
