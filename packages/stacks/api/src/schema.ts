@@ -163,6 +163,11 @@ export const arcConfigSchema = z.object({
 		}),
 })
 
+export const dnsConfigSchema = z.object({
+	zoneName: z.string().default('crisiscleanup.io'),
+	subDomain: z.string().default('dev.crisiscleanup.io'),
+})
+
 export const apiStackConfigSchema = z.object({
 	eks: eksConfigSchema.default({}).describe('EKS configuration.'),
 	database: databaseConfigSchema.default({ snapshotIdentifier: '' }),
@@ -171,6 +176,7 @@ export const apiStackConfigSchema = z.object({
 	arc: arcConfigSchema.default({}),
 	codeStarConnectionArn: z.string().optional(),
 	kubecostToken: z.string().optional(),
+	dns: dnsConfigSchema.default({}),
 })
 
 export interface ApiStackConfig extends z.infer<typeof apiStackConfigSchema> {}
