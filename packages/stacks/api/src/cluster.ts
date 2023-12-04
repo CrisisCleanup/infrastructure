@@ -163,6 +163,7 @@ export const buildKarpenter = (
 
 export const buildClusterBuilder = (
 	k8sVersion: string,
+	fargateProfileName?: string,
 ): blueprints.ClusterBuilder => {
 	const version = KubernetesVersion.of(k8sVersion)
 	return blueprints.clusters
@@ -181,6 +182,11 @@ export const buildClusterBuilder = (
 				blueprints.GlobalResources.Vpc,
 			),
 			selectors: [{ namespace: 'karpenter' }, { namespace: 'cert-manager' }],
+			...(fargateProfileName
+				? {
+						fargateProfileName,
+				  }
+				: {}),
 		})
 }
 
