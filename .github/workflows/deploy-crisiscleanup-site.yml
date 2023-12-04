@@ -51,6 +51,7 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Checkout
         uses: actions/checkout@v3
         with:
@@ -136,6 +137,7 @@ jobs:
       id-token: write
     outputs:
       asset-hash1: ${{steps.publish.outputs.asset-hash1}}
+      asset-hash10: ${{steps.publish.outputs.asset-hash10}}
       asset-hash2: ${{steps.publish.outputs.asset-hash2}}
       asset-hash3: ${{steps.publish.outputs.asset-hash3}}
       asset-hash4: ${{steps.publish.outputs.asset-hash4}}
@@ -154,6 +156,7 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
@@ -184,7 +187,7 @@ jobs:
       - name: Publish
         id: publish
         run: >-
-          targets="./cdk.out/publish-Assets-FileAsset1-step.sh,./cdk.out/publish-Assets-FileAsset2-step.sh,./cdk.out/publish-Assets-FileAsset3-step.sh,./cdk.out/publish-Assets-FileAsset4-step.sh,./cdk.out/publish-Assets-FileAsset5-step.sh,./cdk.out/publish-Assets-FileAsset6-step.sh,./cdk.out/publish-Assets-FileAsset7-step.sh,./cdk.out/publish-Assets-FileAsset8-step.sh,./cdk.out/publish-Assets-FileAsset9-step.sh"
+          targets="./cdk.out/publish-Assets-FileAsset1-step.sh,./cdk.out/publish-Assets-FileAsset10-step.sh,./cdk.out/publish-Assets-FileAsset2-step.sh,./cdk.out/publish-Assets-FileAsset3-step.sh,./cdk.out/publish-Assets-FileAsset4-step.sh,./cdk.out/publish-Assets-FileAsset5-step.sh,./cdk.out/publish-Assets-FileAsset6-step.sh,./cdk.out/publish-Assets-FileAsset7-step.sh,./cdk.out/publish-Assets-FileAsset8-step.sh,./cdk.out/publish-Assets-FileAsset9-step.sh"
 
           echo -n "$targets" | xargs -r -d',' -t -n1 -P2 /bin/bash
   deploy-development-crisiscleanup-web-deploy:
@@ -207,6 +210,7 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -254,6 +258,7 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -301,6 +306,7 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -328,6 +334,54 @@ jobs:
             needs.publish.outputs.asset-hash9 }}.json
           no-fail-on-empty-changeset: "1"
           role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}-us-east-1
+  deploy-production-au-crisiscleanup-web-deploy:
+    name: Deploy productionaucrisiscleanupweb443288D3
+    if: inputs.environment == 'production-au'
+    permissions:
+      contents: read
+      id-token: write
+    environment:
+      name: production-au
+      url: https://crisiscleanup.org.au
+    needs:
+      - Build-deploy-crisiscleanup-site-synth
+      - publish
+    runs-on: ${{inputs.runner || 'ubuntu-latest'}}
+    steps:
+      - name: Mask values
+        run: |-
+          echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_STAGING}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
+      - name: Authenticate Via OIDC Role
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-region: ap-southeast-2
+          role-duration-seconds: 1800
+          role-skip-session-tagging: true
+          role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
+          role-session-name: deploy-crisiscleanup-site
+      - name: Assume CDK Deploy Role
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-region: ap-southeast-2
+          role-duration-seconds: 1800
+          role-skip-session-tagging: true
+          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ env.AWS_SESSION_TOKEN }}
+          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}-ap-southeast-2
+          role-external-id: Pipeline
+      - id: Deploy
+        uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
+        with:
+          name: crisiscleanup-web
+          template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}-ap-southeast-2.s3.ap-southeast-2.amazonaws.com/${{
+            needs.publish.outputs.asset-hash10 }}.json
+          no-fail-on-empty-changeset: "1"
+          role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}-ap-southeast-2
 concurrency:
   group: deploy-web-${{inputs.environment}}
   cancel-in-progress: false
