@@ -220,7 +220,11 @@ export class Pipeline {
 					.clusterProvider(
 						(
 							clusterBuilder ??
-							buildClusterBuilder(config.apiStack!.eks.k8s.version)
+							buildClusterBuilder(
+								config.apiStack!.eks.k8s.version,
+								// avoid fargate profile name char limit
+								env.id.length > 12 ? env.id + '-fargate-profile' : undefined,
+							)
 						).build(),
 					)
 					.addOns(
