@@ -204,5 +204,29 @@ wave.addStageWithGitHubOptions(
 		},
 	},
 )
+wave.addStageWithGitHubOptions(
+	new CrisisCleanupWebStage(
+		app,
+		'production-au',
+		{
+			domainName: 'crisiscleanup.org.au',
+			fqdn: 'crisiscleanup.org.au',
+			globalPriceClass: true,
+			additionalDomains: ['www.crisiscleanup.org.au'],
+		},
+		{
+			env: config.$env!['production-au']!.cdkEnvironment,
+			gitHubEnvironment: {
+				name: 'production-au',
+				url: 'https://crisiscleanup.org.au',
+			},
+		},
+	),
+	{
+		jobSettings: {
+			if: `inputs.environment == 'production-au'`,
+		},
+	},
+)
 
 app.synth()
