@@ -228,6 +228,7 @@ export class Pipeline {
 						).build(),
 					)
 					.addOns(
+						// TODO: extract
 						new blueprints.NestedStackAddOn({
 							id: 'pdf-renderer',
 							builder: {
@@ -241,6 +242,7 @@ export class Pipeline {
 										nestedId + '-pdf-renderer',
 										nestedStackProps,
 									)
+
 									const pdfRendererFunction = new PDFRendererFunction(
 										nestedStack,
 										nestedId + '-function',
@@ -254,7 +256,7 @@ export class Pipeline {
 												lambda.LayerVersion.fromLayerVersionArn(
 													nestedStack,
 													id + '-chrome-layer',
-													'arn:aws:lambda:us-east-1:764866452798:layer:chrome-aws-lambda:33',
+													`arn:aws:lambda:${env.region}:764866452798:layer:chrome-aws-lambda:33`,
 												),
 											],
 										},
