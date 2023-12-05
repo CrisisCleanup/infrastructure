@@ -31,8 +31,10 @@ on:
           - development
           - staging
           - production
+          - production-au
           - development,staging
           - development,staging,production
+          - development,staging,production,production-au
         default: development,staging
 jobs:
   build-crisiscleanup-infra-pipeline-synth:
@@ -618,17 +620,17 @@ jobs:
           aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
           aws-session-token: ${{ env.AWS_SESSION_TOKEN }}
-          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}-ap-southeast-2
+          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}-ap-southeast-2
           role-external-id: Pipeline
       - id: Deploy
         uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
         with:
           name: production-au-production-au-network
-          template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}-ap-southeast-2.s3.ap-southeast-2.amazonaws.com/${{
+          template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}-ap-southeast-2.s3.ap-southeast-2.amazonaws.com/${{
             needs.publish.outputs.asset-hash42 }}.json
           no-fail-on-empty-changeset: "1"
           capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM
-          role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}-ap-southeast-2
+          role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}-ap-southeast-2
   deploy-development-development-delegate-zone-deploy:
     name: Deploy
       crisiscleanupinfrapipelinestackdevelopmentdevelopmentdelegatezone51325A0B
@@ -880,17 +882,17 @@ jobs:
           aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
           aws-session-token: ${{ env.AWS_SESSION_TOKEN }}
-          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}-ap-southeast-2
+          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}-ap-southeast-2
           role-external-id: Pipeline
       - id: Deploy
         uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
         with:
           name: production-au-production-au-cache
-          template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}-ap-southeast-2.s3.ap-southeast-2.amazonaws.com/${{
+          template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}-ap-southeast-2.s3.ap-southeast-2.amazonaws.com/${{
             needs.publish.outputs.asset-hash43 }}.json
           no-fail-on-empty-changeset: "1"
           capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM
-          role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}-ap-southeast-2
+          role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}-ap-southeast-2
   deploy-production-au-production-au-delegate-zone-deploy:
     name: Deploy
       crisiscleanupinfrapipelinestackproductionauproductionaudelegatezoneF13528CD
@@ -933,17 +935,17 @@ jobs:
           aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
           aws-session-token: ${{ env.AWS_SESSION_TOKEN }}
-          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}-ap-southeast-2
+          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}-ap-southeast-2
           role-external-id: Pipeline
       - id: Deploy
         uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
         with:
           name: production-au-production-au-delegate-zone
-          template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}-ap-southeast-2.s3.ap-southeast-2.amazonaws.com/${{
+          template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}-ap-southeast-2.s3.ap-southeast-2.amazonaws.com/${{
             needs.publish.outputs.asset-hash44 }}.json
           no-fail-on-empty-changeset: "1"
           capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM
-          role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}-ap-southeast-2
+          role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}-ap-southeast-2
   deploy-development-development-data-deploy:
     name: Deploy crisiscleanupinfrapipelinestackdevelopmentdevelopmentdataE98C910D
     if: contains((github.event.inputs.environments || inputs.environments),
@@ -1145,17 +1147,17 @@ jobs:
           aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
           aws-session-token: ${{ env.AWS_SESSION_TOKEN }}
-          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}-ap-southeast-2
+          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}-ap-southeast-2
           role-external-id: Pipeline
       - id: Deploy
         uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
         with:
           name: production-au-production-au-data
-          template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}-ap-southeast-2.s3.ap-southeast-2.amazonaws.com/${{
+          template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}-ap-southeast-2.s3.ap-southeast-2.amazonaws.com/${{
             needs.publish.outputs.asset-hash45 }}.json
           no-fail-on-empty-changeset: "1"
           capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM
-          role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}-ap-southeast-2
+          role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}-ap-southeast-2
   deploy-development-development-blueprint-deploy:
     name: Deploy
       crisiscleanupinfrapipelinestackdevelopmentdevelopmentblueprint44D37614
@@ -1359,17 +1361,17 @@ jobs:
           aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
           aws-session-token: ${{ env.AWS_SESSION_TOKEN }}
-          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}-ap-southeast-2
+          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}-ap-southeast-2
           role-external-id: Pipeline
       - id: Deploy
         uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
         with:
           name: production-au-production-au-blueprint
-          template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}-ap-southeast-2.s3.ap-southeast-2.amazonaws.com/${{
+          template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}-ap-southeast-2.s3.ap-southeast-2.amazonaws.com/${{
             needs.publish.outputs.asset-hash46 }}.json
           no-fail-on-empty-changeset: "1"
           capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM
-          role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION-AU}}-ap-southeast-2
+          role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}-ap-southeast-2
 concurrency:
   group: deploy-infra
   cancel-in-progress: false
