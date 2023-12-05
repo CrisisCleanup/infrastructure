@@ -43,7 +43,10 @@ export class CrisisCleanupWeb extends Stack {
 		props: CrisisCleanupWebProps,
 		stackProps?: StackProps,
 	) {
-		super(scope, id, stackProps)
+		super(scope, id, {
+			...(stackProps ?? {}),
+			crossRegionReferences: true,
+		})
 
 		if (stackProps?.env) {
 			this.zone = route53.HostedZone.fromLookup(this, id + '-hosted-zone', {
@@ -51,7 +54,18 @@ export class CrisisCleanupWeb extends Stack {
 				privateZone: false,
 			})
 
-			this.certificate = new acm.Certificate(this, id + '-certificate', {
+			// Cloudfront requires ACM certificates to be in us-east-1 (ACM isn't global like cloudfront is).
+			// eslint-disable-next-line @typescript-eslint/no-this-alias
+			let certStack: Stack = this
+			if (this.region !== 'us-east-1') {
+				certStack = new Stack(this, id + '-cert-stack', {
+					description: 'ACM us-east-1 certificate for global cloudfront.',
+					crossRegionReferences: true,
+					env: { account: this.account, region: 'us-east-1' },
+				})
+			}
+
+			this.certificate = new acm.Certificate(certStack, id + '-certificate', {
 				domainName: props.domainName,
 				validation: acm.CertificateValidation.fromDns(this.zone),
 				subjectAlternativeNames: [
