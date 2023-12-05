@@ -396,7 +396,7 @@ jobs:
       url: https://crisiscleanup.org.au
     needs:
       - Build-deploy-crisiscleanup-site-synth
-      - deploy-production-au-crisiscleanupwebcrisiscleanupwebcertstack02635DCB-Deploy
+      - deploy-production-au-crisiscleanupwebcrisiscleanupwebcertstack02635-dcb-deploy
       - publish
     runs-on: ${{inputs.runner || 'ubuntu-latest'}}
     steps:
