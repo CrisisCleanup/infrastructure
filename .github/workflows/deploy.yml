@@ -537,7 +537,7 @@ jobs:
       id-token: write
     environment:
       name: production-au
-      url: https://app.au.crisiscleanup.io
+      url: https://crisiscleanup.org.au
     needs:
       - Build-crisiscleanup-infra-pipeline-synth
       - publish
@@ -589,7 +589,7 @@ jobs:
       id-token: write
     environment:
       name: production-au
-      url: https://app.au.crisiscleanup.io
+      url: https://crisiscleanup.org.au
     needs:
       - Build-crisiscleanup-infra-pipeline-synth
       - publish
@@ -850,7 +850,7 @@ jobs:
       id-token: write
     environment:
       name: production-au
-      url: https://app.au.crisiscleanup.io
+      url: https://crisiscleanup.org.au
     needs:
       - Build-crisiscleanup-infra-pipeline-synth
       - deploy-production-au-production-au-network-Deploy
@@ -903,7 +903,7 @@ jobs:
       id-token: write
     environment:
       name: production-au
-      url: https://app.au.crisiscleanup.io
+      url: https://crisiscleanup.org.au
     needs:
       - Build-crisiscleanup-infra-pipeline-synth
       - deploy-production-au-production-au-delegator-zone-Deploy
@@ -1114,7 +1114,7 @@ jobs:
       id-token: write
     environment:
       name: production-au
-      url: https://app.au.crisiscleanup.io
+      url: https://crisiscleanup.org.au
     needs:
       - Build-crisiscleanup-infra-pipeline-synth
       - deploy-production-au-production-au-network-Deploy
@@ -1328,7 +1328,7 @@ jobs:
       id-token: write
     environment:
       name: production-au
-      url: https://app.au.crisiscleanup.io
+      url: https://crisiscleanup.org.au
     needs:
       - Build-crisiscleanup-infra-pipeline-synth
       - deploy-production-au-production-au-network-Deploy
