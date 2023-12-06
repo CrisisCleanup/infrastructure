@@ -20,6 +20,20 @@ const djangoSchema = z.object({
 		.boolean()
 		.default(true)
 		.describe('Secure CSRF cookie'),
+	corsOriginWhitelist: z
+		.array(z.string())
+		.describe('CORS allowed origins.')
+		.default([
+			'https://local.crisiscleanup.io',
+			'https://app.local.crisiscleanup.io',
+		]),
+	csrfTrustedOrigins: z
+		.array(z.string())
+		.describe('CSRF trusted origins.')
+		.default([
+			'https://local.crisiscleanup.io',
+			'https://app.local.crisiscleanup.io',
+		]),
 	secureSslRedirect: z.coerce.boolean().default(false),
 	sessionCookieSecure: z.coerce.boolean().default(true),
 	emailBackend: z
