@@ -330,8 +330,8 @@ export class CeleryBeat extends ApiComponent {
 					request: kplus.Cpu.millis(20),
 				},
 				memory: {
-					request: Size.mebibytes(300),
-					limit: Size.mebibytes(300),
+					request: Size.mebibytes(400),
+					limit: Size.mebibytes(400),
 				},
 			},
 		})
