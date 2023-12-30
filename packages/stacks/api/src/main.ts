@@ -5,7 +5,7 @@ import {
 	getConfig,
 	type Stage as ConfigStage,
 } from '@crisiscleanup/config'
-import { App } from 'aws-cdk-lib'
+import { App, Tags } from 'aws-cdk-lib'
 import {
 	KubePrometheusStackAddOn,
 	RedisStackAddOn,
@@ -149,6 +149,9 @@ const pipeline = Pipeline.builder({
 	})
 
 await pipeline.waitForAsyncTasks()
+if (config.pipeline.appRegistryTag) {
+	Tags.of(pipeline).add('awsApplication', config.pipeline.appRegistryTag)
+}
 app.synth({ validateOnSynthesis: true })
 
 export default pipeline

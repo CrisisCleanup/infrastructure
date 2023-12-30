@@ -12,6 +12,7 @@ import {
 	Stack,
 	type StackProps,
 	Duration,
+	Tags,
 } from 'aws-cdk-lib'
 import * as apigateway from 'aws-cdk-lib/aws-apigateway'
 import * as iam from 'aws-cdk-lib/aws-iam'
@@ -185,8 +186,9 @@ export class Pipeline {
 				)
 				data.bastion.createDnsRecord(subZone)
 
+				let cacheStack: Stack | undefined = undefined
 				if (config.apiStack!.cache.enabled) {
-					new CacheStack(
+					cacheStack = new CacheStack(
 						scope,
 						env.id + '-cache',
 						{
@@ -197,7 +199,7 @@ export class Pipeline {
 					)
 				}
 
-				return envStackBuilder
+				const clusterStack = envStackBuilder
 					.resourceProvider(
 						blueprints.GlobalResources.Vpc,
 						new blueprints.DirectVpcProvider(network.vpc),
@@ -282,6 +284,23 @@ export class Pipeline {
 						}),
 					)
 					.build(scope, id, stackProps)
+
+				const stacks = [
+					delegatorZone,
+					delegateZoneStack,
+					network,
+					data,
+					cacheStack,
+					clusterStack,
+				].filter(Boolean) as Array<Stack>
+
+				if (config.pipeline.appRegistryTag) {
+					stacks.forEach((stack) => {
+						Tags.of(stack).add('awsApplication', config.pipeline.appRegistryTag)
+						Tags.of(stack).add('crisiscleanup:environment', env.id)
+					})
+				}
+				return clusterStack
 			},
 			async buildAsync(
 				scope: Construct,
