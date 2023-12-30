@@ -230,6 +230,7 @@ const pipelineSchema = z.object({
 		.string()
 		.default('crisiscleanup-pipeline-assets')
 		.describe('Name of S3 bucket used to store pipeline assets.'),
+	appRegistryTag: z.string().default('').describe('AWS myApplications tag.'),
 })
 
 export const configValuesSchema = z
