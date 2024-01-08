@@ -450,7 +450,7 @@ exports[`CrisisCleanupChart: 'defaults' > api matches snapshot > defaults-api 1`
               "command": [
                 "/serve.sh",
                 "asgi",
-                "--workers=1",
+                "--workers=2",
               ],
               "envFrom": [
                 {
@@ -1652,7 +1652,7 @@ exports[`CrisisCleanupChart: 'with spread' > api matches snapshot > with spread-
               "command": [
                 "/serve.sh",
                 "asgi",
-                "--workers=1",
+                "--workers=2",
               ],
               "envFrom": [
                 {
@@ -2852,7 +2852,7 @@ exports[`CrisisCleanupChart: 'with sync' > api matches snapshot > with sync-api 
               "command": [
                 "/serve.sh",
                 "asgi",
-                "--workers=1",
+                "--workers=2",
               ],
               "envFrom": [
                 {
