@@ -296,7 +296,7 @@ export class ApiASGI
 		super(scope, id, props)
 		this.addContainer({
 			name: 'hypercorn',
-			command: ['/serve.sh', 'asgi', `--workers=${props.workers ?? 1}`],
+			command: ['/serve.sh', 'asgi', `--workers=${props.workers ?? 2}`],
 			portNumber: 5000,
 			envFrom: this.config.env.sources,
 			envVariables: this.config.env.variables,
