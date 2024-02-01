@@ -37,6 +37,7 @@
     "entryPoints": [
       "./packages/charts/crisiscleanup",
       "./packages/config",
+      "./packages/construct/awscdk/cloudfront-url-rewrite",
       "./packages/construct/awscdk/github-pipeline",
       "./packages/construct/awscdk/pdf-renderer",
       "./packages/k8s/construct/api",
