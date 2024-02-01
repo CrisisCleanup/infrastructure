@@ -21,6 +21,10 @@ import {
 } from '@arroyodev-llc/projen.project.typescript'
 import { applyOverrides } from '@arroyodev-llc/utils.projen'
 import { builders, ProjectBuilder } from '@arroyodev-llc/utils.projen-builder'
+import {
+	setMergeStrategy,
+	ArrayLiteralMergeStrategyType,
+} from '@arroyodev-llc/utils.ts-ast'
 import { NodePackageUtils, NxProject } from '@aws/pdk/monorepo'
 import {
 	type CrisisCleanupConfig,
@@ -472,6 +476,23 @@ const cloudfrontUrlRewriteConstruct = AwsCdkTsConstructBuilder.build({
 	jest: false,
 	unbuild: true,
 })
+cloudfrontUrlRewriteConstruct.unbuild!.addConfig({
+	declaration: false,
+	failOnWarn: false,
+	entries: [
+		setMergeStrategy(
+			{
+				input: './src/index',
+				declaration: true,
+			},
+			ArrayLiteralMergeStrategyType.OVERWRITE,
+		),
+		{
+			input: './src/handler.function',
+			declaration: false,
+		},
+	],
+})
 cloudfrontUrlRewriteConstruct.package.file.addDeletionOverride('main')
 cloudfrontUrlRewriteConstruct.tasks.tryFind('docgen')?.reset?.()
 NxProject.ensure(cloudfrontUrlRewriteConstruct).addBuildTargetFiles(
@@ -479,6 +500,9 @@ NxProject.ensure(cloudfrontUrlRewriteConstruct).addBuildTargetFiles(
 	['{projectRoot}/assets'],
 )
 new Vitest(cloudfrontUrlRewriteConstruct)
+cloudfrontUrlRewriteConstruct.tasks
+	.tryFind('test')!
+	.prependSpawn(cloudfrontUrlRewriteConstruct.tasks.tryFind('compile')!)
 
 // Stacks
 const apiStack = AwsCdkTsAppBuilder.add(new CdkTsAppCompileBuilder()).build({
