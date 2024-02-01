@@ -5,9 +5,19 @@ import { defineBuildConfig } from 'unbuild'
 
 export default defineBuildConfig({
 	name: 'construct.awscdk.cloudfront-url-rewrite',
-	declaration: true,
+	declaration: false,
 	clean: true,
-	entries: ['./src/index'],
+	entries: [
+		'./src/index',
+		{
+			input: './src/index',
+			declaration: true,
+		},
+		{
+			input: './src/handler.function',
+			declaration: false,
+		},
+	],
 	sourcemap: true,
 	rollup: {
 		emitCJS: true,
@@ -18,4 +28,5 @@ export default defineBuildConfig({
 		},
 	},
 	preset: compositePreset(),
+	failOnWarn: false,
 })
