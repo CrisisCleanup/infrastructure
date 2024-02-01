@@ -30,9 +30,6 @@ jspm_packages/
 .yarn-integrity
 .cache
 !/.projenrc.js
-/test-reports/
-junit.xml
-/coverage/
 !/.prettierignore
 !/.prettierrc.json
 !/.npmrc
@@ -49,3 +46,4 @@ dist-types
 !/tsconfig.dev.json
 !/build.config.ts
 !/project.json
+!/vitest.config.ts
