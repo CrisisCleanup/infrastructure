@@ -71,10 +71,11 @@ exports[`CloudFrontUrlRewrite > should create a CloudFront distribution with the
     "MyUrlRewriteHandlerC655E710": {
       "Properties": {
         "AutoPublish": true,
-        "FunctionCode": "const FROM_HOSTNAME = \\"original.example.com\\";
-const REDIRECT_URI_PATTERN = new RegExp(\\"^/oldpath/(.*)\\", \\"g\\");
-const TO_HOSTNAME = \\"new.example.com\\";
-const TARGET_URI_PATTERN = \\"/newpath/$1\\";
+        "FunctionCode": "// src/handler.function.ts
+var FROM_HOSTNAME = \\"original.example.com\\";
+var REDIRECT_URI_PATTERN = new RegExp(\\"^/oldpath/(.*)\\", \\"g\\");
+var TO_HOSTNAME = \\"new.example.com\\";
+var TARGET_URI_PATTERN = \\"/newpath/$1\\";
 async function handler(event) {
   const { request } = event;
   const { headers, uri } = request;
@@ -92,9 +93,9 @@ async function handler(event) {
     }
   };
 }
-
-export { handler };
-//# sourceMappingURL=handler.function.mjs.map
+export {
+  handler
+};
 ",
         "FunctionConfig": {
           "Comment": "src/handler.lambda.ts",
