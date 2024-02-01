@@ -38,6 +38,7 @@
     "@typescript-eslint/parser": "^6",
     "aws-cdk-lib": "2.97.0",
     "constructs": "10.2.70",
+    "esbuild": "^0.19.3",
     "eslint": "^8",
     "eslint-config-prettier": "^9.0.0",
     "eslint-import-resolver-node": "^0.3.9",
