@@ -8,15 +8,11 @@
         "^default",
         "!{projectRoot}/.jsii",
         "!{projectRoot}/dist/**/*",
-        "!{projectRoot}/dist/**/*",
-        "!{projectRoot}/coverage/**/*",
-        "!{projectRoot}/test-reports/**/*"
+        "!{projectRoot}/dist/**/*"
       ],
       "outputs": [
         "{projectRoot}/.jsii",
         "{projectRoot}/dist",
-        "{projectRoot}/coverage",
-        "{projectRoot}/test-reports",
         "{projectRoot}/assets"
       ],
       "dependsOn": [
@@ -67,13 +63,6 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "pnpm exec projen package",
-        "cwd": "packages/construct/awscdk/cloudfront-url-rewrite"
-      }
-    },
-    "test:watch": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "pnpm exec projen test:watch",
         "cwd": "packages/construct/awscdk/cloudfront-url-rewrite"
       }
     },
@@ -144,6 +133,13 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "pnpm exec projen post-install",
+        "cwd": "packages/construct/awscdk/cloudfront-url-rewrite"
+      }
+    },
+    "test:watch": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm exec projen test:watch",
         "cwd": "packages/construct/awscdk/cloudfront-url-rewrite"
       }
     },

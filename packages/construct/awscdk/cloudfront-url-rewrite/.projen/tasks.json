@@ -150,20 +150,27 @@
       "description": "Run tests",
       "steps": [
         {
-          "exec": "jest --passWithNoTests --coverageProvider=v8 --updateSnapshot",
-          "receiveArgs": true
+          "spawn": "compile"
         },
         {
           "spawn": "eslint"
+        },
+        {
+          "exec": "vitest",
+          "args": [
+            "--run"
+          ],
+          "receiveArgs": true
         }
       ]
     },
     "test:watch": {
       "name": "test:watch",
-      "description": "Run jest in watch mode",
+      "description": "Run tests on changes.",
       "steps": [
         {
-          "exec": "jest --watch"
+          "exec": "vitest",
+          "receiveArgs": true
         }
       ]
     },
@@ -178,13 +185,13 @@
           "exec": "pnpm update npm-check-updates"
         },
         {
-          "exec": "npm-check-updates --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@arroyodev-llc/utils.unbuild-composite-preset,@types/aws-lambda,@types/jest,@types/node,@typescript-eslint/eslint-plugin,@typescript-eslint/parser,eslint-config-prettier,eslint-import-resolver-node,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-prettier,eslint,jest,jest-junit,jsii-diff,jsii-docgen,jsii-pacmak,lint-staged,npm-check-updates,prettier,projen,ts-jest,unbuild,aws-cdk-lib,constructs,zod"
+          "exec": "npm-check-updates --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@arroyodev-llc/utils.unbuild-composite-preset,@types/aws-lambda,@types/node,@typescript-eslint/eslint-plugin,@typescript-eslint/parser,eslint-config-prettier,eslint-import-resolver-node,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-prettier,eslint,jsii-diff,jsii-docgen,jsii-pacmak,lint-staged,npm-check-updates,prettier,projen,unbuild,vitest,aws-cdk-lib,constructs"
         },
         {
           "exec": "pnpm i --no-frozen-lockfile"
         },
         {
-          "exec": "pnpm update @arroyodev-llc/utils.unbuild-composite-preset @types/aws-lambda @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-config-prettier eslint-import-resolver-node eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint jest jest-junit jsii-diff jsii-docgen jsii-pacmak lint-staged npm-check-updates prettier projen ts-jest unbuild aws-cdk-lib constructs zod"
+          "exec": "pnpm update @arroyodev-llc/utils.unbuild-composite-preset @types/aws-lambda @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-config-prettier eslint-import-resolver-node eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint jsii-diff jsii-docgen jsii-pacmak lint-staged npm-check-updates prettier projen unbuild vitest aws-cdk-lib constructs"
         },
         {
           "exec": "npx projen"
