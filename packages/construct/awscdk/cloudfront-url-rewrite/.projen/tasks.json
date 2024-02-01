@@ -51,6 +51,9 @@
         {
           "exec": "pnpm exec unbuild",
           "name": "Unbuild"
+        },
+        {
+          "exec": "esbuild --bundle src/handler.function.ts --format=\"esm\" --target=\"node18\" --platform=\"node\" --outfile=\"dist/handler.function.mjs\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/*"
         }
       ]
     },
@@ -185,13 +188,13 @@
           "exec": "pnpm update npm-check-updates"
         },
         {
-          "exec": "npm-check-updates --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@arroyodev-llc/utils.unbuild-composite-preset,@types/aws-lambda,@types/node,@typescript-eslint/eslint-plugin,@typescript-eslint/parser,eslint-config-prettier,eslint-import-resolver-node,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-prettier,eslint,jsii-diff,jsii-docgen,jsii-pacmak,lint-staged,npm-check-updates,prettier,projen,unbuild,vitest,aws-cdk-lib,constructs"
+          "exec": "npm-check-updates --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@arroyodev-llc/utils.unbuild-composite-preset,@types/aws-lambda,@types/node,@typescript-eslint/eslint-plugin,@typescript-eslint/parser,esbuild,eslint-config-prettier,eslint-import-resolver-node,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-prettier,eslint,jsii-diff,jsii-docgen,jsii-pacmak,lint-staged,npm-check-updates,prettier,projen,unbuild,vitest,aws-cdk-lib,constructs"
         },
         {
           "exec": "pnpm i --no-frozen-lockfile"
         },
         {
-          "exec": "pnpm update @arroyodev-llc/utils.unbuild-composite-preset @types/aws-lambda @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-config-prettier eslint-import-resolver-node eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint jsii-diff jsii-docgen jsii-pacmak lint-staged npm-check-updates prettier projen unbuild vitest aws-cdk-lib constructs"
+          "exec": "pnpm update @arroyodev-llc/utils.unbuild-composite-preset @types/aws-lambda @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser esbuild eslint-config-prettier eslint-import-resolver-node eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint jsii-diff jsii-docgen jsii-pacmak lint-staged npm-check-updates prettier projen unbuild vitest aws-cdk-lib constructs"
         },
         {
           "exec": "npx projen"

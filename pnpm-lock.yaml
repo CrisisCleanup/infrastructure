@@ -57,9 +57,6 @@ importers:
       '@arroyodev-llc/utils.projen-builder':
         specifier: ^0.1.5
         version: 0.1.5
-      '@arroyodev-llc/utils.ts-ast':
-        specifier: ^0.1.11
-        version: 0.1.11
       '@aws/pdk':
         specifier: ^0
         version: 0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.93.0-alpha.0)(@pnpm/logger@5.0.0)(@types/node@18.16.19)(aws-cdk-lib@2.97.0)(cdk-nag@2.27.141)(constructs@10.2.70)(projen@0.73.31)(typescript@5.1.6)
@@ -360,8 +357,8 @@ importers:
         specifier: ^0.1.3
         version: 0.1.3(unbuild@2.0.0)
       '@types/aws-lambda':
-        specifier: ^8.10.122
-        version: 8.10.122
+        specifier: ^8.10.133
+        version: 8.10.133
       '@types/node':
         specifier: ^18
         version: 18.16.19
@@ -377,6 +374,9 @@ importers:
       constructs:
         specifier: 10.2.70
         version: 10.2.70
+      esbuild:
+        specifier: ^0.19.3
+        version: 0.19.3
       eslint:
         specifier: ^8
         version: 8.47.0(supports-color@9.4.0)
@@ -542,8 +542,8 @@ importers:
         specifier: 109.0.0
         version: 109.0.0
       '@types/aws-lambda':
-        specifier: ^8.10.122
-        version: 8.10.122
+        specifier: ^8.10.133
+        version: 8.10.133
       '@types/node':
         specifier: ^18
         version: 18.16.19
@@ -1007,6 +1007,9 @@ importers:
       '@crisiscleanup/config':
         specifier: workspace:*
         version: link:../../config
+      '@crisiscleanup/construct.awscdk.cloudfront-url-rewrite':
+        specifier: workspace:*
+        version: link:../../construct/awscdk/cloudfront-url-rewrite
       '@crisiscleanup/construct.awscdk.github-pipeline':
         specifier: workspace:*
         version: link:../../construct/awscdk/github-pipeline
@@ -1349,16 +1352,6 @@ packages:
       pathe: 1.1.1
     dev: true
 
-  /@arroyodev-llc/utils.fs@0.1.14:
-    resolution:
-      {
-        integrity: sha512-vaXCptxT3P9tJazprTYNSXiy0/l+KyXVkd2bxJHJqjwfC6WNPZEPBJ0G4zpqdgI5z9vdCTRL7rIkj0BVSNj4yQ==,
-      }
-    dependencies:
-      fs-extra: 11.1.1
-      pathe: 1.1.1
-    dev: true
-
   /@arroyodev-llc/utils.projen-builder@0.1.5:
     resolution:
       {
@@ -1393,20 +1386,6 @@ packages:
       '@sindresorhus/is': 6.0.0
       projen: 0.73.31
       reflect-metadata: 0.1.13
-      ts-morph: 19.0.0
-      type-fest: 4.3.1
-    dev: true
-
-  /@arroyodev-llc/utils.ts-ast@0.1.11:
-    resolution:
-      {
-        integrity: sha512-YfqiEBLyH80Fvhr/yQX1SJdX1L4CsyiqJa8obPXhNrUzXCEYyTiJptMAXMHzX6ulJL7aDuIaDxl4SivRED7MqQ==,
-      }
-    dependencies:
-      '@arroyodev-llc/utils.fs': 0.1.14
-      '@sindresorhus/is': 6.1.0
-      projen: 0.76.0
-      reflect-metadata: 0.1.14
       ts-morph: 19.0.0
       type-fest: 4.3.1
     dev: true
@@ -2855,6 +2834,19 @@ packages:
       '@babel/highlight': 7.22.20
       chalk: 2.4.2
 
+  /@babel/code-frame@7.23.5:
+    resolution:
+      {
+        integrity: sha512-CgH3s1a96LipHCmSUmYFPwY7MNx8C3avkq7i4Wl3cfa662ldtUe4VM1TPXX70pfmrlWTb6jLqTYrZyT2ZTJBgA==,
+      }
+    engines: { node: '>=6.9.0' }
+    requiresBuild: true
+    dependencies:
+      '@babel/highlight': 7.23.4
+      chalk: 2.4.2
+    dev: true
+    optional: true
+
   /@babel/compat-data@7.22.20:
     resolution:
       {
@@ -3250,6 +3242,20 @@ packages:
       '@babel/helper-validator-identifier': 7.22.20
       chalk: 2.4.2
       js-tokens: 4.0.0
+
+  /@babel/highlight@7.23.4:
+    resolution:
+      {
+        integrity: sha512-acGdbYSfp2WheJoJm/EBBBLh/ID8KDc64ISZ9DYtBmC8/Q204PZJLHyzeB5qMzJ5trcOkybd78M4x2KWsUq++A==,
+      }
+    engines: { node: '>=6.9.0' }
+    requiresBuild: true
+    dependencies:
+      '@babel/helper-validator-identifier': 7.22.20
+      chalk: 2.4.2
+      js-tokens: 4.0.0
+    dev: true
+    optional: true
 
   /@babel/parser@7.22.10:
     resolution:
@@ -5623,14 +5629,6 @@ packages:
     engines: { node: '>=16' }
     dev: true
 
-  /@sindresorhus/is@6.1.0:
-    resolution:
-      {
-        integrity: sha512-BuvU07zq3tQ/2SIgBsEuxKYDyDjC0n7Zir52bpHy2xnBbW81+po43aLFPLbeV3HRAheFbGud1qgcqSYfhtHMAg==,
-      }
-    engines: { node: '>=16' }
-    dev: true
-
   /@smithy/abort-controller@2.0.9:
     resolution:
       {
@@ -6702,10 +6700,10 @@ packages:
       }
     dev: false
 
-  /@types/aws-lambda@8.10.122:
+  /@types/aws-lambda@8.10.133:
     resolution:
       {
-        integrity: sha512-vBkIh9AY22kVOCEKo5CJlyCgmSWvasC+SWUxL/x/vOwRobMpI/HG1xp/Ae3AqmSiZeLUbOhW0FCD3ZjqqUxmXw==,
+        integrity: sha512-sr852MAL/79rjDelXP6ZuJ6GwOvXIRrFAoC8a+w91mZ5XR71CuzSgo1d0+pG1qgfPhjFgaibu7SWaoC5BA7pyQ==,
       }
     dev: true
 
@@ -6984,10 +6982,10 @@ packages:
       }
     dev: true
 
-  /@types/yauzl@2.10.0:
+  /@types/yauzl@2.10.3:
     resolution:
       {
-        integrity: sha512-Cn6WYCm0tXv8p6k+A8PvbDG763EDpBoTzHdA+Q/MF6H3sapGjCm9NzoaJncJS9tUKSuCoDs9XHxYYsQDgxR6kw==,
+        integrity: sha512-oJoftv0LSuaDZE3Le4DbKX+KS9G36NzOeSap90UIK0yMA/NhKJhqlSGtNDORNRaIbQfzjXDrQa0ytJ6mNRGz/Q==,
       }
     requiresBuild: true
     dependencies:
@@ -10596,7 +10594,7 @@ packages:
       get-stream: 5.2.0
       yauzl: 2.10.0
     optionalDependencies:
-      '@types/yauzl': 2.10.0
+      '@types/yauzl': 2.10.3
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -14997,43 +14995,6 @@ packages:
       - yaml
       - yargs
 
-  /projen@0.76.0:
-    resolution:
-      {
-        integrity: sha512-j5PFs/cLJhWtb6yTMxFBTgERLO8kPmKfTDKvvtgNwp33W8bykESiznPAEJVOyzpkxKxi9a7qq+jwwDovHK494w==,
-      }
-    engines: { node: '>= 16.0.0' }
-    hasBin: true
-    dependencies:
-      '@iarna/toml': 2.2.5
-      case: 1.6.3
-      chalk: 4.1.2
-      comment-json: 4.2.2
-      conventional-changelog-config-spec: 2.1.0
-      fast-json-patch: 3.1.1
-      glob: 8.1.0
-      ini: 2.0.0
-      semver: 7.5.4
-      shx: 0.3.4
-      xmlbuilder2: 3.1.1
-      yaml: 2.3.4
-      yargs: 17.7.2
-    dev: true
-    bundledDependencies:
-      - '@iarna/toml'
-      - case
-      - chalk
-      - comment-json
-      - conventional-changelog-config-spec
-      - fast-json-patch
-      - glob
-      - ini
-      - semver
-      - shx
-      - xmlbuilder2
-      - yaml
-      - yargs
-
   /promise-inflight@1.0.1:
     resolution:
       {
@@ -15412,6 +15373,7 @@ packages:
       {
         integrity: sha512-ZhYeb6nRaXCfhnndflDK8qI6ZQ/YcWZCISRAWICW9XYqMUwjZM9Z0DveWX/ABN01oxSHwVxKQmxeYZSsm0jh5A==,
       }
+    dev: false
 
   /regexp.prototype.flags@1.5.0:
     resolution:
@@ -15632,7 +15594,7 @@ packages:
       rollup: 3.28.0
       typescript: 5.1.6
     optionalDependencies:
-      '@babel/code-frame': 7.22.13
+      '@babel/code-frame': 7.23.5
     dev: true
 
   /rollup-plugin-dts@6.0.2(rollup@3.29.3)(typescript@5.1.6):
@@ -15649,7 +15611,7 @@ packages:
       rollup: 3.29.3
       typescript: 5.1.6
     optionalDependencies:
-      '@babel/code-frame': 7.22.13
+      '@babel/code-frame': 7.23.5
     dev: true
 
   /rollup@3.28.0:
@@ -18164,6 +18126,7 @@ packages:
         integrity: sha512-8aAvwVUSHpfEqTQ4w/KMlf3HcRdt50E5ODIQJBw1fQ5RL34xabzxtUlzTXVqc4rkZsPbvrXKWnABCD7kWSmocA==,
       }
     engines: { node: '>= 14' }
+    dev: false
 
   /yargs-parser@18.1.3:
     resolution:

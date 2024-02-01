@@ -21,10 +21,6 @@ import {
 } from '@arroyodev-llc/projen.project.typescript'
 import { applyOverrides } from '@arroyodev-llc/utils.projen'
 import { builders, ProjectBuilder } from '@arroyodev-llc/utils.projen-builder'
-import {
-	setMergeStrategy,
-	ArrayLiteralMergeStrategyType,
-} from '@arroyodev-llc/utils.ts-ast'
 import { NodePackageUtils, NxProject } from '@aws/pdk/monorepo'
 import {
 	type CrisisCleanupConfig,
@@ -38,10 +34,10 @@ import {
 	awscdk,
 	cdk8s,
 	DependencyType,
+	github,
 	javascript,
 	LogLevel,
 	type typescript,
-	github,
 } from 'projen'
 import { secretToString } from 'projen/lib/github/util'
 import { CdkTsAppCompileBuilder } from './projenrc/builders'
@@ -93,7 +89,6 @@ const monorepo = MonorepoBuilder.build({
 		'@arroyodev-llc/projen.component.vitest',
 		'@arroyodev-llc/utils.projen-builder',
 		'@arroyodev-llc/utils.projen',
-		'@arroyodev-llc/utils.ts-ast',
 		'@aws/pdk',
 		'zx',
 		'defu',
@@ -470,32 +465,17 @@ NxProject.ensure(pdfRendererConstruct).addBuildTargetFiles(
  */
 const cloudfrontUrlRewriteConstruct = AwsCdkTsConstructBuilder.build({
 	name: 'construct.awscdk.cloudfront-url-rewrite',
-	devDeps: ['@types/aws-lambda'],
-	lambdaOptions: {
-		edgeLambda: true,
-		runtime: awscdk.LambdaRuntime.NODEJS_18_X,
-	},
+	devDeps: ['@types/aws-lambda', 'esbuild'],
 	prettier: true,
 	jest: false,
 	unbuild: true,
 })
-cloudfrontUrlRewriteConstruct.unbuild!.addConfig({
-	declaration: false,
-	failOnWarn: false,
-	entries: [
-		setMergeStrategy(
-			{
-				input: './src/index',
-				declaration: true,
-			},
-			ArrayLiteralMergeStrategyType.OVERWRITE,
-		),
-		{
-			input: './src/handler.function',
-			declaration: false,
-		},
-	],
-})
+// TODO: support unbuild array configs
+cloudfrontUrlRewriteConstruct.tasks
+	.tryFind('compile')!
+	.exec(
+		`esbuild --bundle src/handler.function.ts --format="esm" --target="node18" --platform="node" --outfile="dist/handler.function.mjs" --tsconfig="tsconfig.dev.json" --external:@aws-sdk/*`,
+	)
 cloudfrontUrlRewriteConstruct.package.file.addDeletionOverride('main')
 cloudfrontUrlRewriteConstruct.tasks.tryFind('docgen')?.reset?.()
 NxProject.ensure(cloudfrontUrlRewriteConstruct).addBuildTargetFiles(
