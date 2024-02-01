@@ -460,6 +460,25 @@ NxProject.ensure(pdfRendererConstruct).addBuildTargetFiles(
 	['{projectRoot}/assets'],
 )
 
+const cloudfrontUrlRewriteConstruct = AwsCdkTsConstructBuilder.build({
+	name: 'construct.awscdk.cloudfront-url-rewrite',
+	deps: ['zod'],
+	devDeps: ['@types/aws-lambda'],
+	lambdaOptions: {
+		edgeLambda: true,
+		runtime: awscdk.LambdaRuntime.NODEJS_18_X,
+	},
+	prettier: true,
+	jest: true,
+	unbuild: true,
+})
+cloudfrontUrlRewriteConstruct.package.file.addDeletionOverride('main')
+cloudfrontUrlRewriteConstruct.tasks.tryFind('docgen')?.reset?.()
+NxProject.ensure(cloudfrontUrlRewriteConstruct).addBuildTargetFiles(
+	[],
+	['{projectRoot}/assets'],
+)
+
 // Stacks
 const apiStack = AwsCdkTsAppBuilder.add(new CdkTsAppCompileBuilder()).build({
 	name: 'stacks.api',
