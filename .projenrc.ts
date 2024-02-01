@@ -465,6 +465,9 @@ NxProject.ensure(pdfRendererConstruct).addBuildTargetFiles(
 	['{projectRoot}/assets'],
 )
 
+/**
+ * Cloudfront URL Rewrite Construct
+ */
 const cloudfrontUrlRewriteConstruct = AwsCdkTsConstructBuilder.build({
 	name: 'construct.awscdk.cloudfront-url-rewrite',
 	devDeps: ['@types/aws-lambda'],
