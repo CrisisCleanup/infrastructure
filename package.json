@@ -42,6 +42,7 @@
     "@arroyodev-llc/projen.project.typescript": "^0.1.27",
     "@arroyodev-llc/utils.projen": "^0.1.20",
     "@arroyodev-llc/utils.projen-builder": "^0.1.5",
+    "@arroyodev-llc/utils.ts-ast": "^0.1.11",
     "@aws/pdk": "^0",
     "@crisiscleanup/charts.crisiscleanup": "workspace:*",
     "@crisiscleanup/config": "workspace:*",
