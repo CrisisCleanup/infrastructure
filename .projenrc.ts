@@ -89,6 +89,7 @@ const monorepo = MonorepoBuilder.build({
 		'@arroyodev-llc/projen.component.vitest',
 		'@arroyodev-llc/utils.projen-builder',
 		'@arroyodev-llc/utils.projen',
+		'@arroyodev-llc/utils.ts-ast',
 		'@aws/pdk',
 		'zx',
 		'defu',
