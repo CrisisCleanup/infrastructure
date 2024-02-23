@@ -511,7 +511,7 @@ export class ARCScaleSet extends blueprints.HelmAddOn {
 			[ScaleSetVolumes.WORK]: {
 				ephemeral: {
 					volumeClaimTemplate: this.createVolumeClaimTemplate(
-						'20Gi',
+						'40Gi',
 						'arc-gp3-sc',
 					),
 				},
@@ -522,7 +522,7 @@ export class ARCScaleSet extends blueprints.HelmAddOn {
 			[ScaleSetVolumes.VAR_DOCKER]: {
 				ephemeral: {
 					volumeClaimTemplate: this.createVolumeClaimTemplate(
-						'20Gi',
+						'40Gi',
 						'arc-gp3-sc',
 					),
 				},
