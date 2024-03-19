@@ -229,7 +229,10 @@ export class ApiWSGI
 
 		const jobResources: kplus.ContainerProps['resources'] = {
 			cpu: this.props.containerDefaults!.resources!.cpu!,
-			memory: this.props.containerDefaults!.resources!.memory!,
+			memory: {
+				...this.props.containerDefaults!.resources!.memory!,
+				limit: Size.gibibytes(3),
+			},
 		}
 
 		// migrate + collectstatic jobs

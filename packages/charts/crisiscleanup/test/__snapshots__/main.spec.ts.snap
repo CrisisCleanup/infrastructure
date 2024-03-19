@@ -191,7 +191,7 @@ exports[`CrisisCleanupChart: 'defaults' > api matches snapshot > defaults-api 1`
               "name": "migrate",
               "resources": {
                 "limits": {
-                  "memory": "1024Mi",
+                  "memory": "3072Mi",
                 },
                 "requests": {
                   "cpu": "100m",
@@ -268,7 +268,7 @@ exports[`CrisisCleanupChart: 'defaults' > api matches snapshot > defaults-api 1`
               "name": "collectstatic",
               "resources": {
                 "limits": {
-                  "memory": "1024Mi",
+                  "memory": "3072Mi",
                 },
                 "requests": {
                   "cpu": "100m",
@@ -1445,7 +1445,7 @@ exports[`CrisisCleanupChart: 'with spread' > api matches snapshot > with spread-
               "name": "migrate",
               "resources": {
                 "limits": {
-                  "memory": "1024Mi",
+                  "memory": "3072Mi",
                 },
                 "requests": {
                   "cpu": "100m",
@@ -1522,7 +1522,7 @@ exports[`CrisisCleanupChart: 'with spread' > api matches snapshot > with spread-
               "name": "collectstatic",
               "resources": {
                 "limits": {
-                  "memory": "1024Mi",
+                  "memory": "3072Mi",
                 },
                 "requests": {
                   "cpu": "100m",
@@ -2595,7 +2595,7 @@ exports[`CrisisCleanupChart: 'with sync' > api matches snapshot > with sync-api 
               "name": "migrate",
               "resources": {
                 "limits": {
-                  "memory": "1024Mi",
+                  "memory": "3072Mi",
                 },
                 "requests": {
                   "cpu": "100m",
@@ -2672,7 +2672,7 @@ exports[`CrisisCleanupChart: 'with sync' > api matches snapshot > with sync-api 
               "name": "collectstatic",
               "resources": {
                 "limits": {
-                  "memory": "1024Mi",
+                  "memory": "3072Mi",
                 },
                 "requests": {
                   "cpu": "100m",
