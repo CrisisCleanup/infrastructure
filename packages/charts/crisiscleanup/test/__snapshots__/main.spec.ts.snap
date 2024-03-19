@@ -491,10 +491,11 @@ exports[`CrisisCleanupChart: 'defaults' > api matches snapshot > defaults-api 1`
               },
               "resources": {
                 "limits": {
-                  "memory": "1024Mi",
+                  "cpu": "3",
+                  "memory": "3072Mi",
                 },
                 "requests": {
-                  "cpu": "100m",
+                  "cpu": "200m",
                   "memory": "1024Mi",
                 },
               },
@@ -1693,10 +1694,11 @@ exports[`CrisisCleanupChart: 'with spread' > api matches snapshot > with spread-
               },
               "resources": {
                 "limits": {
-                  "memory": "1024Mi",
+                  "cpu": "3",
+                  "memory": "3072Mi",
                 },
                 "requests": {
-                  "cpu": "100m",
+                  "cpu": "200m",
                   "memory": "1024Mi",
                 },
               },
@@ -2893,10 +2895,11 @@ exports[`CrisisCleanupChart: 'with sync' > api matches snapshot > with sync-api 
               },
               "resources": {
                 "limits": {
-                  "memory": "1024Mi",
+                  "cpu": "3",
+                  "memory": "3072Mi",
                 },
                 "requests": {
-                  "cpu": "100m",
+                  "cpu": "200m",
                   "memory": "1024Mi",
                 },
               },

@@ -306,6 +306,16 @@ export class ApiASGI
 				user: 1000,
 				group: 1000,
 			},
+			resources: {
+				cpu: {
+					limit: kplus.Cpu.units(3),
+					request: kplus.Cpu.millis(200),
+				},
+				memory: {
+					limit: Size.gibibytes(3),
+					request: Size.gibibytes(1),
+				},
+			},
 		})
 	}
 }
