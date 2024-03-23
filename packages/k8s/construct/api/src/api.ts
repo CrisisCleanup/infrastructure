@@ -297,6 +297,31 @@ export class ApiASGI
 
 	constructor(scope: Construct, id: string, props: ApiASGIProps) {
 		super(scope, id, props)
+
+		// NLP processing tokenizers / related
+		// (share via host for now, may move to csi provided volume)
+		const nltkDataVol = kplus.Volume.fromHostPath(
+			this,
+			id + '-nltk-volume',
+			'nltk-data',
+			{
+				type: kplus.HostPathVolumeType.DIRECTORY_OR_CREATE,
+				path: '/ccu/nltk_data',
+			},
+		)
+
+		// Huggingface sourced models
+		// (share via host for now, may move to csi provided volume)
+		const hfDataVol = kplus.Volume.fromHostPath(
+			this,
+			id + '-hf-volume',
+			'hf-data',
+			{
+				type: kplus.HostPathVolumeType.DIRECTORY_OR_CREATE,
+				path: '/ccu/.cache/huggingface',
+			},
+		)
+
 		this.addContainer({
 			name: 'hypercorn',
 			command: ['/serve.sh', 'asgi', `--workers=${props.workers ?? 2}`],
@@ -309,17 +334,34 @@ export class ApiASGI
 				user: 1000,
 				group: 1000,
 			},
+		})
+
+		// rag channels worker sidecar
+		// TODO: probably move to a separate deployment
+		// (need to figure scaling triggers/metrics)
+		const ragSidecar = this.addContainer({
+			name: 'rag-channels',
+			command: ['./serve.sh', 'channelsworker', 'rag-document'],
+			envFrom: this.config.env.sources,
+			envVariables: this.config.env.variables,
+			securityContext: {
+				readOnlyRootFilesystem: false,
+				user: 1000,
+				group: 1000,
+			},
 			resources: {
 				cpu: {
 					limit: kplus.Cpu.units(3),
 					request: kplus.Cpu.millis(200),
 				},
 				memory: {
-					limit: Size.gibibytes(3),
+					limit: Size.gibibytes(4),
 					request: Size.gibibytes(1),
 				},
 			},
 		})
+		ragSidecar.mount('/ccu/nltk_data', nltkDataVol, { readOnly: false })
+		ragSidecar.mount('/ccu/.cache/huggingface', hfDataVol, { readOnly: false })
 	}
 }
 
