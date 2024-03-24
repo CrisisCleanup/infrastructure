@@ -566,6 +566,49 @@ exports[`CrisisCleanupChart: 'defaults' > api matches snapshot > defaults-api 1`
           ],
           "dnsPolicy": "ClusterFirst",
           "hostNetwork": false,
+          "initContainers": [
+            {
+              "command": [
+                "chown",
+                "-R",
+                "1000:1000",
+                "/ccu",
+              ],
+              "image": "public.ecr.aws/docker/library/busybox:stable",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "host-mounts-init",
+              "resources": {
+                "limits": {
+                  "cpu": "30m",
+                  "memory": "50Mi",
+                },
+                "requests": {
+                  "cpu": "20m",
+                  "memory": "20Mi",
+                },
+              },
+              "securityContext": {
+                "allowPrivilegeEscalation": false,
+                "privileged": false,
+                "readOnlyRootFilesystem": false,
+                "runAsGroup": 0,
+                "runAsNonRoot": false,
+                "runAsUser": 0,
+              },
+              "volumeMounts": [
+                {
+                  "mountPath": "/ccu/nltk_data",
+                  "name": "nltk-data",
+                  "readOnly": false,
+                },
+                {
+                  "mountPath": "/ccu/.cache/huggingface",
+                  "name": "hf-data",
+                  "readOnly": false,
+                },
+              ],
+            },
+          ],
           "restartPolicy": "Always",
           "securityContext": {
             "fsGroupChangePolicy": "Always",
@@ -1831,6 +1874,49 @@ exports[`CrisisCleanupChart: 'with spread' > api matches snapshot > with spread-
           ],
           "dnsPolicy": "ClusterFirst",
           "hostNetwork": false,
+          "initContainers": [
+            {
+              "command": [
+                "chown",
+                "-R",
+                "1000:1000",
+                "/ccu",
+              ],
+              "image": "public.ecr.aws/docker/library/busybox:stable",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "host-mounts-init",
+              "resources": {
+                "limits": {
+                  "cpu": "30m",
+                  "memory": "50Mi",
+                },
+                "requests": {
+                  "cpu": "20m",
+                  "memory": "20Mi",
+                },
+              },
+              "securityContext": {
+                "allowPrivilegeEscalation": false,
+                "privileged": false,
+                "readOnlyRootFilesystem": false,
+                "runAsGroup": 0,
+                "runAsNonRoot": false,
+                "runAsUser": 0,
+              },
+              "volumeMounts": [
+                {
+                  "mountPath": "/ccu/nltk_data",
+                  "name": "nltk-data",
+                  "readOnly": false,
+                },
+                {
+                  "mountPath": "/ccu/.cache/huggingface",
+                  "name": "hf-data",
+                  "readOnly": false,
+                },
+              ],
+            },
+          ],
           "restartPolicy": "Always",
           "securityContext": {
             "fsGroupChangePolicy": "Always",
@@ -3094,6 +3180,49 @@ exports[`CrisisCleanupChart: 'with sync' > api matches snapshot > with sync-api 
           ],
           "dnsPolicy": "ClusterFirst",
           "hostNetwork": false,
+          "initContainers": [
+            {
+              "command": [
+                "chown",
+                "-R",
+                "1000:1000",
+                "/ccu",
+              ],
+              "image": "public.ecr.aws/docker/library/busybox:stable",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "host-mounts-init",
+              "resources": {
+                "limits": {
+                  "cpu": "30m",
+                  "memory": "50Mi",
+                },
+                "requests": {
+                  "cpu": "20m",
+                  "memory": "20Mi",
+                },
+              },
+              "securityContext": {
+                "allowPrivilegeEscalation": false,
+                "privileged": false,
+                "readOnlyRootFilesystem": false,
+                "runAsGroup": 0,
+                "runAsNonRoot": false,
+                "runAsUser": 0,
+              },
+              "volumeMounts": [
+                {
+                  "mountPath": "/ccu/nltk_data",
+                  "name": "nltk-data",
+                  "readOnly": false,
+                },
+                {
+                  "mountPath": "/ccu/.cache/huggingface",
+                  "name": "hf-data",
+                  "readOnly": false,
+                },
+              ],
+            },
+          ],
           "restartPolicy": "Always",
           "securityContext": {
             "fsGroupChangePolicy": "Always",
