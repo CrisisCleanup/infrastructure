@@ -518,7 +518,7 @@ exports[`CrisisCleanupChart: 'defaults' > api matches snapshot > defaults-api 1`
             },
             {
               "command": [
-                "./serve.sh",
+                "/serve.sh",
                 "channelsworker",
                 "rag-document",
               ],
@@ -1783,7 +1783,7 @@ exports[`CrisisCleanupChart: 'with spread' > api matches snapshot > with spread-
             },
             {
               "command": [
-                "./serve.sh",
+                "/serve.sh",
                 "channelsworker",
                 "rag-document",
               ],
@@ -3046,7 +3046,7 @@ exports[`CrisisCleanupChart: 'with sync' > api matches snapshot > with sync-api 
             },
             {
               "command": [
-                "./serve.sh",
+                "/serve.sh",
                 "channelsworker",
                 "rag-document",
               ],
