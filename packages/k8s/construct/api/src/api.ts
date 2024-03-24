@@ -336,9 +336,38 @@ export class ApiASGI
 			},
 		})
 
+		// setup host mount permissions
+		const hostMountsInit = this.addContainer({
+			name: 'host-mounts-init',
+			command: ['chown', '-R', '1000:1000', '/ccu'],
+			init: true,
+			securityContext: {
+				readOnlyRootFilesystem: false,
+				ensureNonRoot: false,
+				user: 0,
+				group: 0,
+			},
+			image: {
+				repository: 'public.ecr.aws/docker/library/busybox',
+				tag: 'stable',
+				pullPolicy: 'IfNotPresent',
+			},
+			resources: {
+				cpu: {
+					request: kplus.Cpu.millis(20),
+					limit: kplus.Cpu.millis(30),
+				},
+				memory: {
+					request: Size.mebibytes(20),
+					limit: Size.mebibytes(50),
+				},
+			},
+		})
+
 		// rag channels worker sidecar
 		// TODO: probably move to a separate deployment
 		// (need to figure scaling triggers/metrics)
+
 		const ragSidecar = this.addContainer({
 			name: 'rag-channels',
 			command: ['/serve.sh', 'channelsworker', 'rag-document'],
@@ -360,8 +389,11 @@ export class ApiASGI
 				},
 			},
 		})
-		ragSidecar.mount('/ccu/nltk_data', nltkDataVol, { readOnly: false })
-		ragSidecar.mount('/ccu/.cache/huggingface', hfDataVol, { readOnly: false })
+		const ragMountContainers = [hostMountsInit, ragSidecar]
+		ragMountContainers.forEach((container) => {
+			container.mount('/ccu/nltk_data', nltkDataVol, { readOnly: false })
+			container.mount('/ccu/.cache/huggingface', hfDataVol, { readOnly: false })
+		})
 	}
 }
 
