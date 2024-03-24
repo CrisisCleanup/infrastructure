@@ -341,7 +341,7 @@ export class ApiASGI
 		// (need to figure scaling triggers/metrics)
 		const ragSidecar = this.addContainer({
 			name: 'rag-channels',
-			command: ['./serve.sh', 'channelsworker', 'rag-document'],
+			command: ['/serve.sh', 'channelsworker', 'rag-document'],
 			envFrom: this.config.env.sources,
 			envVariables: this.config.env.variables,
 			securityContext: {
