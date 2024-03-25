@@ -34,10 +34,10 @@ import {
 	awscdk,
 	cdk8s,
 	DependencyType,
+	github,
 	javascript,
 	LogLevel,
 	type typescript,
-	github,
 } from 'projen'
 import { secretToString } from 'projen/lib/github/util'
 import { CdkTsAppCompileBuilder } from './projenrc/builders'
@@ -459,6 +459,33 @@ NxProject.ensure(pdfRendererConstruct).addBuildTargetFiles(
 	[],
 	['{projectRoot}/assets'],
 )
+
+/**
+ * Cloudfront URL Rewrite Construct
+ */
+const cloudfrontUrlRewriteConstruct = AwsCdkTsConstructBuilder.build({
+	name: 'construct.awscdk.cloudfront-url-rewrite',
+	devDeps: ['@types/aws-lambda', 'esbuild'],
+	prettier: true,
+	jest: false,
+	unbuild: true,
+})
+// TODO: support unbuild array configs
+cloudfrontUrlRewriteConstruct.tasks
+	.tryFind('compile')!
+	.exec(
+		`esbuild --bundle src/handler.function.ts --format="esm" --target="node18" --platform="node" --outfile="dist/handler.function.mjs" --tsconfig="tsconfig.dev.json" --external:@aws-sdk/*`,
+	)
+cloudfrontUrlRewriteConstruct.package.file.addDeletionOverride('main')
+cloudfrontUrlRewriteConstruct.tasks.tryFind('docgen')?.reset?.()
+NxProject.ensure(cloudfrontUrlRewriteConstruct).addBuildTargetFiles(
+	[],
+	['{projectRoot}/assets'],
+)
+new Vitest(cloudfrontUrlRewriteConstruct)
+cloudfrontUrlRewriteConstruct.tasks
+	.tryFind('test')!
+	.prependSpawn(cloudfrontUrlRewriteConstruct.tasks.tryFind('compile')!)
 
 // Stacks
 const apiStack = AwsCdkTsAppBuilder.add(new CdkTsAppCompileBuilder()).build({

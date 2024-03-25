@@ -1,0 +1,147 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`CloudFrontUrlRewrite > should create a CloudFront distribution with the correct behavior 1`] = `
+{
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "MyDistribution6271DFB5": {
+      "Properties": {
+        "DistributionConfig": {
+          "CacheBehaviors": [
+            {
+              "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+              "Compress": true,
+              "FunctionAssociations": [
+                {
+                  "EventType": "viewer-request",
+                  "FunctionARN": {
+                    "Fn::GetAtt": [
+                      "MyUrlRewriteHandlerC655E710",
+                      "FunctionARN",
+                    ],
+                  },
+                },
+              ],
+              "PathPattern": "/*",
+              "TargetOriginId": "TestStackMyDistributionOrigin2B54A80B9",
+              "ViewerProtocolPolicy": "allow-all",
+            },
+          ],
+          "DefaultCacheBehavior": {
+            "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+            "Compress": true,
+            "TargetOriginId": "TestStackMyDistributionOrigin1485E8085",
+            "ViewerProtocolPolicy": "allow-all",
+          },
+          "Enabled": true,
+          "HttpVersion": "http2",
+          "IPV6Enabled": true,
+          "Origins": [
+            {
+              "CustomOriginConfig": {
+                "OriginProtocolPolicy": "https-only",
+                "OriginSSLProtocols": [
+                  "TLSv1.2",
+                ],
+              },
+              "DomainName": "example.com",
+              "Id": "TestStackMyDistributionOrigin1485E8085",
+            },
+            {
+              "CustomOriginConfig": {
+                "OriginProtocolPolicy": "https-only",
+                "OriginSSLProtocols": [
+                  "TLSv1.2",
+                ],
+              },
+              "DomainName": "original.example.com",
+              "Id": "TestStackMyDistributionOrigin2B54A80B9",
+            },
+          ],
+        },
+      },
+      "Type": "AWS::CloudFront::Distribution",
+    },
+    "MyUrlRewriteHandlerC655E710": {
+      "Properties": {
+        "AutoPublish": true,
+        "FunctionCode": "// src/handler.function.ts
+var FROM_HOSTNAME = \\"original.example.com\\";
+var REDIRECT_URI_PATTERN = new RegExp(\\"^/oldpath/(.*)\\", \\"g\\");
+var TO_HOSTNAME = \\"new.example.com\\";
+var TARGET_URI_PATTERN = \\"/newpath/$1\\";
+async function handler(event) {
+  const { request } = event;
+  const { headers, uri } = request;
+  const host = headers.host?.value;
+  if (!host || host !== FROM_HOSTNAME) {
+    return request;
+  }
+  const newUri = uri.replace(REDIRECT_URI_PATTERN, TARGET_URI_PATTERN);
+  const newUrl = \`https://\${TO_HOSTNAME}\${newUri}\`;
+  return {
+    statusCode: 301,
+    statusDescription: \\"Moved Permanently\\",
+    headers: {
+      location: { value: newUrl }
+    }
+  };
+}
+export {
+  handler
+};
+",
+        "FunctionConfig": {
+          "Comment": "src/handler.lambda.ts",
+          "Runtime": "cloudfront-js-1.0",
+        },
+        "Name": {
+          "Fn::Join": [
+            "",
+            [
+              {
+                "Ref": "AWS::Region",
+              },
+              "TestStackMyUrlRewriteHandlerD49D13ED",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::CloudFront::Function",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;
