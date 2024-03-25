@@ -20,7 +20,7 @@ export const eksAddonSchema = z.object({
 		.describe('VPC CNI driver version.'),
 	ebsCsiVersion: z
 		.string()
-		.default('v1.21.0-eksbuild.1')
+		.default('v1.28.0-eksbuild.1')
 		.describe('EBS CSI driver version.'),
 })
 
