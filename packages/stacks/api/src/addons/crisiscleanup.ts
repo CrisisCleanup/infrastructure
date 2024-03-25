@@ -9,6 +9,7 @@ import {
 	flatKeysToFlatScreamingSnakeCaseKeys,
 } from '@crisiscleanup/config'
 import type { Component } from '@crisiscleanup/k8s.construct.component'
+import { KubernetesManifest } from 'aws-cdk-lib/aws-eks'
 import type { ISecret } from 'aws-cdk-lib/aws-secretsmanager'
 import { type IStringParameter } from 'aws-cdk-lib/aws-ssm'
 import { App, type Chart } from 'cdk8s'
@@ -54,6 +55,9 @@ export class CrisisCleanupAddOn implements blueprints.ClusterAddOn {
 		const sa = cluster.addServiceAccount('crisiscleanup-api', {
 			namespace: chartConfig.namespace,
 			name: 'crisiscleanup-api',
+			labels: {
+				'app.kubernetes.io/app': 'crisiscleanup',
+			},
 		})
 
 		const cdk8sApp = new App()
@@ -62,6 +66,7 @@ export class CrisisCleanupAddOn implements blueprints.ClusterAddOn {
 				cdk8sApp,
 				'crisiscleanup-service-account',
 				'crisiscleanup-api',
+				{ namespaceName: chartConfig.namespace },
 			),
 		}
 		const chart = CrisisCleanupChart.withDefaults(cdk8sApp, {
@@ -227,7 +232,10 @@ export class CrisisCleanupAddOn implements blueprints.ClusterAddOn {
 		chart.wsgi.collectStaticJob.containers.map((c) => mountCsiContainer(c))
 		chart.wsgi.migrateJob.containers.map((c) => mountCsiContainer(c))
 
-		mountCsiComponent(chart.asgi)
+		chart.asgi.mountCsiSecrets(
+			csiVolume,
+			secretEnvsValues as [key: string, secretName: kplus.EnvValue][],
+		)
 		mountCsiComponent(chart.celeryBeat)
 		chart.celeryWorkers.forEach(mountCsiComponent)
 		mountCsiComponent(chart.adminWebsocket)
@@ -238,7 +246,33 @@ export class CrisisCleanupAddOn implements blueprints.ClusterAddOn {
 			mountCsiContainer(cont),
 		)
 
-		const apiChart = addChart(chart.apiChart)
+		// TODO(BUG): Workaround for cdk8s refusing to synth storage requests for volume claim templates
+		const apiChartJson = chart.apiChart.toJson()
+		const apiChartPatchedJson = apiChartJson.map((obj) => {
+			if (
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
+				obj.metadata?.name?.includes?.('rag') &&
+				'spec' in obj &&
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+				'volumeClaimTemplates' in obj.spec
+			) {
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+				obj.spec.volumeClaimTemplates[0].spec.resources = {
+					requests: {
+						storage: '10Gi',
+					},
+				}
+			}
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-return
+			return obj
+		})
+
+		const apiChart = new KubernetesManifest(cluster, chart.apiChart.node.id, {
+			cluster,
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+			manifest: apiChartPatchedJson,
+		})
+		// const apiChart = addChart(chart.apiChart)
 		const celeryChart = addChart(chart.celeryChart)
 
 		celeryChart.node.addDependency(configChart)
