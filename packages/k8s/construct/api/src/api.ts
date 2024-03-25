@@ -1,10 +1,13 @@
 import { stringifyObjectValues } from '@crisiscleanup/config'
 import {
 	Component,
+	ComponentScaling,
 	ContainerImage,
+	Label,
 } from '@crisiscleanup/k8s.construct.component'
-import { Chart, Duration, Size, JsonPatch, ApiObject } from 'cdk8s'
+import { ApiObject, Chart, Duration, JsonPatch, Size } from 'cdk8s'
 import * as kplus from 'cdk8s-plus-27'
+import { type EnvValue } from 'cdk8s-plus-27'
 import { Construct } from 'constructs'
 import createDebug from 'debug'
 import defu from 'defu'
@@ -163,6 +166,19 @@ export abstract class ApiComponent<
 			startup: startProbe,
 		}
 	}
+
+	mountCsiSecrets(
+		csiVolume: kplus.Volume,
+		secretNames: [key: string, env_name: kplus.EnvValue][],
+	) {
+		this.deployment.addVolume(csiVolume)
+		this.containers.forEach((cont) => {
+			cont.mount('/mnt/secrets-store', csiVolume, { readOnly: true })
+			secretNames.forEach(([key, value]) => {
+				cont.env.addVariable(key, value)
+			})
+		})
+	}
 }
 
 export class ApiWSGI
@@ -295,32 +311,24 @@ export class ApiASGI
 	static componentName = 'asgi'
 	httpProbePath = '/ws/health'
 
+	ragStatefulSet: kplus.StatefulSet
+
 	constructor(scope: Construct, id: string, props: ApiASGIProps) {
 		super(scope, id, props)
 
-		// NLP processing tokenizers / related
-		// (share via host for now, may move to csi provided volume)
-		const nltkDataVol = kplus.Volume.fromHostPath(
-			this,
-			id + '-nltk-volume',
-			'nltk-data',
-			{
-				type: kplus.HostPathVolumeType.DIRECTORY_OR_CREATE,
-				path: '/ccu/nltk_data',
+		// Storage class for node-shared io2 volume pool for rag models.
+		const storageClass = new kplus.k8s.KubeStorageClass(this, id + '-rag-sc', {
+			metadata: {
+				name: 'rag-models',
 			},
-		)
-
-		// Huggingface sourced models
-		// (share via host for now, may move to csi provided volume)
-		const hfDataVol = kplus.Volume.fromHostPath(
-			this,
-			id + '-hf-volume',
-			'hf-data',
-			{
-				type: kplus.HostPathVolumeType.DIRECTORY_OR_CREATE,
-				path: '/ccu/.cache/huggingface',
+			provisioner: 'ebs.csi.aws.com',
+			volumeBindingMode: 'WaitForFirstConsumer',
+			parameters: {
+				type: 'io2',
+				iops: '1000',
+				allowAutoIOPSPerGBIncrease: 'true',
 			},
-		)
+		})
 
 		this.addContainer({
 			name: 'hypercorn',
@@ -336,43 +344,47 @@ export class ApiASGI
 			},
 		})
 
-		// setup host mount permissions
-		const hostMountsInit = this.addContainer({
-			name: 'host-mounts-init',
-			command: ['chown', '-R', '1000:1000', '/ccu'],
-			init: true,
-			securityContext: {
-				readOnlyRootFilesystem: false,
-				ensureNonRoot: false,
-				user: 0,
-				group: 0,
-			},
-			image: {
-				repository: 'public.ecr.aws/docker/library/busybox',
-				tag: 'stable',
-				pullPolicy: 'IfNotPresent',
-			},
-			resources: {
-				cpu: {
-					request: kplus.Cpu.millis(20),
-					limit: kplus.Cpu.millis(30),
+		// rag channels stateful set
+		// TODO: probably move to a separate component
+		// (need to figure scaling triggers/metrics)
+		// Uses stateful set to reuse pvcs
+
+		const ragService = new kplus.Service(this, id + '-rag-service', {
+			type: kplus.ServiceType.CLUSTER_IP,
+			clusterIP: 'None',
+			ports: [
+				{
+					name: 'channels',
+					port: 5000,
 				},
-				memory: {
-					request: Size.mebibytes(20),
-					limit: Size.mebibytes(50),
-				},
-			},
+			],
 		})
 
-		// rag channels worker sidecar
-		// TODO: probably move to a separate deployment
-		// (need to figure scaling triggers/metrics)
+		this.ragStatefulSet = new kplus.StatefulSet(this, 'rag', {
+			spread: true,
+			serviceAccount: props.serviceAccount,
+			service: ragService,
+			metadata: {
+				...Chart.of(this).labels,
+				[Label.NAME]: 'rag',
+			},
+		})
+		new ComponentScaling(this, 'rag-scaling', {
+			minReplicas: 1,
+			maxReplicas: 6,
+			cpuUtilPercent: 50,
+			memUtilPercent: 80,
+			target: this.ragStatefulSet,
+		})
 
-		const ragSidecar = this.addContainer({
+		// channels worker
+		this.ragStatefulSet.addContainer({
 			name: 'rag-channels',
 			command: ['/serve.sh', 'channelsworker', 'rag-document'],
 			envFrom: this.config.env.sources,
 			envVariables: this.config.env.variables,
+			image: ContainerImage.fromProps(props.image!).imageFqn,
+			imagePullPolicy: props.image!.pullPolicy as kplus.ImagePullPolicy,
 			securityContext: {
 				readOnlyRootFilesystem: false,
 				user: 1000,
@@ -389,10 +401,110 @@ export class ApiASGI
 				},
 			},
 		})
-		const ragMountContainers = [hostMountsInit, ragSidecar]
-		ragMountContainers.forEach((container) => {
-			container.mount('/ccu/nltk_data', nltkDataVol, { readOnly: false })
-			container.mount('/ccu/.cache/huggingface', hfDataVol, { readOnly: false })
+
+		// init volume + setup permissions
+		this.ragStatefulSet.addInitContainer({
+			name: 'host-mounts-init',
+			command: ['sh', '-x', '-c', 'mkdir -p /ccu && chown -R 1000:1000 /ccu'],
+			securityContext: {
+				readOnlyRootFilesystem: false,
+				ensureNonRoot: false,
+				user: 0,
+				group: 0,
+			},
+			image: 'public.ecr.aws/docker/library/busybox:stable',
+			imagePullPolicy: kplus.ImagePullPolicy.IF_NOT_PRESENT,
+			envFrom: undefined,
+			envVariables: undefined,
+			resources: {
+				cpu: {
+					request: kplus.Cpu.millis(20),
+					limit: kplus.Cpu.millis(30),
+				},
+				memory: {
+					request: Size.mebibytes(20),
+					limit: Size.mebibytes(50),
+				},
+			},
+		})
+		this.containers.set(
+			'host-mounts-init',
+			this.ragStatefulSet.initContainers[0],
+		)
+		this.containers.set('rag-channels', this.ragStatefulSet.containers[0])
+
+		// rag models volume claim template
+		const volumeClaimTemplates = [
+			{
+				metadata: {
+					name: 'rag-volume',
+				},
+				spec: {
+					accessModes: ['ReadWriteOnce'],
+					storageClassName: storageClass.metadata.name,
+					requests: {
+						// TODO(BUG): For some reason CDK refuses to synth this as anything
+						// but undefined (even with more json patches and with overriding _toKube() or using Size).
+						// Workaround for now is to manually modify it after synth and `.toJSON()` in cdk.
+						storage: '10Gi',
+					},
+				},
+			},
+		]
+
+		const patches = [
+			JsonPatch.add('/spec/volumeClaimTemplates', []),
+			JsonPatch.add('/spec/volumeClaimTemplates/-', volumeClaimTemplates[0]),
+			// Leaving for reference, but neither fix the issue of undefined
+			// JsonPatch.add('/spec/volumeClaimTemplates/0/spec/resources', {
+			// 	requests: {
+			// 		storage: '10Gi',
+			// 	},
+			// }),
+			// JsonPatch.add(
+			// 	'/spec/volumeClaimTemplates/0/spec/resources/requests/storage',
+			// 	'10Gi',
+			// ),
+			JsonPatch.add('/spec/template/spec/containers/0/volumeMounts', []),
+			JsonPatch.add('/spec/template/spec/initContainers/0/volumeMounts', []),
+		]
+
+		const mountsMap = {
+			nltk_data: '/ccu/nltk_data',
+			hf_data: '/ccu/.cache/huggingface',
+			mp_data: '/ccu/.cache/matplotlib',
+		}
+
+		// cdk8s stateful step doesnt support volume claim templates well at all.
+		Object.entries(mountsMap).forEach(([subPath, mountPath]) => {
+			const mount = {
+				name: 'rag-volume',
+				mountPath,
+				subPath,
+			}
+			patches.push(
+				JsonPatch.add(`/spec/template/spec/containers/0/volumeMounts/-`, mount),
+				JsonPatch.add(
+					`/spec/template/spec/initContainers/0/volumeMounts/-`,
+					mount,
+				),
+			)
+		})
+
+		ApiObject.of(this.ragStatefulSet).addJsonPatch(...patches)
+	}
+
+	mountCsiSecrets(
+		csiVolume: kplus.Volume,
+		secretNames: [key: string, env_name: EnvValue][],
+	) {
+		super.mountCsiSecrets(csiVolume, secretNames)
+		this.ragStatefulSet.addVolume(csiVolume)
+		this.ragStatefulSet.containers.forEach((cont) => {
+			cont.mount('/mnt/secrets-store', csiVolume, { readOnly: true })
+			secretNames.forEach(([key, value]) => {
+				cont.env.addVariable(key, value)
+			})
 		})
 	}
 }
