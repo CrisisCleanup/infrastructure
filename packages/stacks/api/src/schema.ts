@@ -108,8 +108,8 @@ export const cacheConfigSchema = z.object({
 	nodeType: z
 		.string()
 		.describe('ElastiCache Node Type')
-		.default('cache.m7g.large'),
-	engineVersion: z.string().describe('Redis Engine Version').default('7.0'),
+		.default('cache.r7g.xlarge'),
+	engineVersion: z.string().describe('Redis Engine Version').default('7.1'),
 	nodes: z.number().describe('Number of nodes to create.').default(1),
 	replicas: z.number().describe('Number of replicas to create.').default(1),
 	clusterMode: z
