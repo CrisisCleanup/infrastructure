@@ -137,6 +137,10 @@
       "steps": [
         {
           "exec": "pnpm i --frozen-lockfile"
+        },
+        {
+          "exec": "pnpm exec nx run-many --target=install:ci --output-style=stream --nx-bail",
+          "receiveArgs": true
         }
       ]
     },
@@ -243,13 +247,13 @@
           "exec": "pnpm update npm-check-updates"
         },
         {
-          "exec": "npm-check-updates --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@arroyodev-llc/projen.component.dir-env,@arroyodev-llc/projen.component.git-hooks,@arroyodev-llc/projen.component.linting,@arroyodev-llc/projen.component.tool-versions,@arroyodev-llc/projen.component.vitest,@arroyodev-llc/projen.project.nx-monorepo,@arroyodev-llc/projen.project.typescript,@arroyodev-llc/utils.projen,@arroyodev-llc/utils.projen-builder,@aws/pdk,@types/node,@typescript-eslint/eslint-plugin,@typescript-eslint/parser,defu,destr,eslint-config-prettier,eslint-import-resolver-node,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-prettier,eslint,lint-staged,npm-check-updates,nx-cloud,prettier,projen,rimraf,simple-git-hooks,syncpack,ts-node,tsx,typedoc,vitest,zod,zod-to-json-schema,zx,nx,aws-cdk-lib,cdk-nag,constructs"
+          "exec": "npm-check-updates --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@arroyodev-llc/projen.component.dir-env,@arroyodev-llc/projen.component.git-hooks,@arroyodev-llc/projen.component.linting,@arroyodev-llc/projen.component.tool-versions,@arroyodev-llc/projen.component.vitest,@arroyodev-llc/projen.project.nx-monorepo,@arroyodev-llc/projen.project.typescript,@arroyodev-llc/utils.projen,@arroyodev-llc/utils.projen-builder,@aws/pdk,@types/node,@typescript-eslint/eslint-plugin,@typescript-eslint/parser,defu,destr,eslint-config-prettier,eslint-import-resolver-node,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-prettier,eslint,lint-staged,npm-check-updates,nx-cloud,prettier,projen,rimraf,simple-git-hooks,syncpack,ts-node,tsx,typedoc,vitest,zod,zod-to-json-schema,zx,nx,aws-cdk-lib,cdk-nag"
         },
         {
           "exec": "pnpm i --no-frozen-lockfile"
         },
         {
-          "exec": "pnpm update @arroyodev-llc/projen.component.dir-env @arroyodev-llc/projen.component.git-hooks @arroyodev-llc/projen.component.linting @arroyodev-llc/projen.component.tool-versions @arroyodev-llc/projen.component.vitest @arroyodev-llc/projen.project.nx-monorepo @arroyodev-llc/projen.project.typescript @arroyodev-llc/utils.projen @arroyodev-llc/utils.projen-builder @aws/pdk @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser defu destr eslint-config-prettier eslint-import-resolver-node eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint lint-staged npm-check-updates nx-cloud prettier projen rimraf simple-git-hooks syncpack ts-node tsx typedoc vitest zod zod-to-json-schema zx nx aws-cdk-lib cdk-nag constructs"
+          "exec": "pnpm update @arroyodev-llc/projen.component.dir-env @arroyodev-llc/projen.component.git-hooks @arroyodev-llc/projen.component.linting @arroyodev-llc/projen.component.tool-versions @arroyodev-llc/projen.component.vitest @arroyodev-llc/projen.project.nx-monorepo @arroyodev-llc/projen.project.typescript @arroyodev-llc/utils.projen @arroyodev-llc/utils.projen-builder @aws/pdk @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser defu destr eslint-config-prettier eslint-import-resolver-node eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint lint-staged npm-check-updates nx-cloud prettier projen rimraf simple-git-hooks syncpack ts-node tsx typedoc vitest zod zod-to-json-schema zx nx aws-cdk-lib cdk-nag"
         },
         {
           "exec": "pnpm exec projen"
@@ -261,12 +265,16 @@
     },
     "upgrade-deps": {
       "name": "upgrade-deps",
+      "description": "Upgrade dependencies in the monorepo",
       "steps": [
         {
           "exec": "pnpm exec npm-check-updates --deep --rejectVersion 0.0.0 -u --dep prod,dev,peer,optional,bundle --target=minor"
         },
         {
           "exec": "pnpm exec syncpack fix-mismatches"
+        },
+        {
+          "exec": "rm pnpm-lock.yaml"
         },
         {
           "exec": "pnpm i"
