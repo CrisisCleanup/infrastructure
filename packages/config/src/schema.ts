@@ -148,6 +148,16 @@ const connectFirstSchema = z.object({
 	password: z.string().default(''),
 })
 
+const langchainSchema = z.object({
+	tracingV2: z.boolean().default(false),
+	endpoint: z.string().default('https://api.smith.langchain.com'),
+	project: z.string().default('crisiscleanup-3-api'),
+})
+
+const langchainSecretsSchema = z.object({
+	apiKey: z.string().default('').optional(),
+})
+
 const apiAppConfigSchema = z.object({
 	celery: celerySchema.default({}),
 	django: djangoSchema.default({}),
@@ -157,6 +167,7 @@ const apiAppConfigSchema = z.object({
 	sentry: sentrySchema.default({}),
 	connect: connectSchema.default({}),
 	phone: phoneSchema.default({}),
+	langchain: langchainSchema.default({}),
 })
 export interface ApiAppConfig extends z.infer<typeof apiAppConfigSchema> {}
 
@@ -199,6 +210,7 @@ const apiAppSecretsSchema = z
 			awsRole: '',
 		}),
 		django: djangoSecretsSchema.default({}),
+		langchain: langchainSecretsSchema.default({}),
 	})
 	.passthrough()
 
