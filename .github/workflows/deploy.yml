@@ -75,18 +75,18 @@ jobs:
       - name: Install SOPs
         uses: CrisisCleanup/mozilla-sops-action@main
         with:
-          version: 3.7.3
+          version: 3.8.1
       - name: Install AWS CLI
         uses: unfor19/install-aws-cli-action@v1
         if: runner.arch == 'ARM64' && (inputs.runner && !contains(inputs.runner,
           'ubuntu'))
         with:
           arch: arm64
-          version: 2.13.11
+          version: 2.15.49
       - name: Install Helm
         uses: azure/setup-helm@v3
         with:
-          version: 3.12.2
+          version: 3.14.4
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -197,7 +197,7 @@ jobs:
           'ubuntu'))
         with:
           arch: arm64
-          version: 2.13.11
+          version: 2.15.49
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:

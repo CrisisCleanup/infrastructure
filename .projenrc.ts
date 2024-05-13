@@ -146,13 +146,13 @@ applyWorkflowEnvOverrides('static', 'deploy')
 
 const tools = new ToolVersions(monorepo, {
 	tools: {
-		direnv: ['2.32.3'],
+		direnv: ['2.34.0'],
 		nodejs: [monorepo.package.minNodeVersion!],
 		pnpm: [monorepo.package.pnpmVersion!],
 		kind: ['0.20.0'],
-		awscli: ['2.13.11'],
-		sops: ['3.7.3'],
-		helm: ['3.12.2'],
+		awscli: ['2.15.49'],
+		sops: ['3.8.1'],
+		helm: ['3.14.4'],
 		kubectl: ['1.27.3'],
 		kubectx: ['0.9.5'],
 	},
