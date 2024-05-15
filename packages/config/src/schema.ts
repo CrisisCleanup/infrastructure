@@ -154,6 +154,12 @@ const langchainSchema = z.object({
 	project: z.string().default('crisiscleanup-3-api'),
 })
 
+const ragSchema = z.object({
+	chatModel: z.string().default('gpt-4o'),
+	documentEmbedModel: z.string().default('text-embedding-3-large'),
+	queryEmbedModel: z.string().default('text-embedding-3-small'),
+})
+
 const langchainSecretsSchema = z.object({
 	apiKey: z.string().default('').optional(),
 })
@@ -168,6 +174,7 @@ const apiAppConfigSchema = z.object({
 	connect: connectSchema.default({}),
 	phone: phoneSchema.default({}),
 	langchain: langchainSchema.default({}),
+	rag: ragSchema.default({}),
 })
 export interface ApiAppConfig extends z.infer<typeof apiAppConfigSchema> {}
 
