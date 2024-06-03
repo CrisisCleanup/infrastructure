@@ -3,7 +3,7 @@ FROM mcr.microsoft.com/dotnet/runtime-deps:6.0-jammy as build
 # Replace value with the latest runner release version
 # source: https://github.com/actions/runner/releases
 # ex: 2.303.0
-ARG RUNNER_VERSION="2.316.1"
+ARG RUNNER_VERSION="2.317.0"
 ARG RUNNER_ARCH="arm64"
 # Replace value with the latest runner-container-hooks release version
 # source: https://github.com/actions/runner-container-hooks/releases
