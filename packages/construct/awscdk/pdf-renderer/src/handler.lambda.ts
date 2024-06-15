@@ -33,21 +33,47 @@ const doRender = async (
 	return pdf
 }
 
+const launchBrowserWithRetry = async (
+	path: string,
+	retries = 3,
+	delay = 1000,
+) => {
+	while (retries > 0) {
+		try {
+			const browser = await puppeteer.launch({
+				executablePath: path,
+				headless: chrome.headless,
+				args: chrome.args,
+			})
+			return browser
+		} catch (error) {
+			if (retries > 1) {
+				console.warn(
+					`Retrying to launch browser... ${retries - 1} retries left.`,
+				)
+				retries--
+				await new Promise((res) => setTimeout(res, delay))
+			} else {
+				throw error
+			}
+		}
+	}
+}
+
 export async function handler(event: APIGatewayEvent) {
 	console.log('Incoming event:', event)
 
 	const payload = await schema.parseAsync(JSON.parse(event.body!))
 	console.log('Received payload:', payload)
+
 	const path = await chrome.executablePath
-	console.log('Path is:', path)
-
-	const browser = await puppeteer.launch({
-		executablePath: path,
-		headless: chrome.headless,
-		args: chrome.args,
-	})
-
+	console.log('Resolved Chromium path:', path)
+	let browser: Browser | undefined
 	try {
+		browser = await launchBrowserWithRetry(path || '/usr/bin/chromium-browser')
+		if (!browser) {
+			throw new Error('Failed to launch browser')
+		}
 		const pdf = await doRender(browser, payload)
 		return {
 			statusCode: 200,
@@ -63,15 +89,15 @@ export async function handler(event: APIGatewayEvent) {
 		console.error('Error rendering PDF:', e)
 		return {
 			statusCode: 500,
-			headers: {
-				'Content-Type': 'application/json',
-			},
+			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({
 				error: e instanceof Error ? e.message : String(e),
 			}),
 		}
 	} finally {
 		console.log('Closing browser')
-		await browser.close()
+		if (browser) {
+			await browser.close()
+		}
 	}
 }
