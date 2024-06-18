@@ -84,7 +84,7 @@ GithubCodePipeline.create({
 	.onWorkflowDispatch()
 	.concurrency({ group: 'deploy-offline-au', cancelInProgress: false })
 	.addStage(
-		new MaintenanceStage(app, 'au-offline-pipeline', {
+		new MaintenanceStage(app, 'production-au', {
 			env: config.$env!['production-au']!.cdkEnvironment,
 			domainName: 'crisiscleanup.org.au',
 			name: 'au-offline-site',

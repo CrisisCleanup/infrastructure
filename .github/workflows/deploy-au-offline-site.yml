@@ -26,7 +26,7 @@ jobs:
       - name: Mask values
         run: |-
           echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
-          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_AU_OFFLINE_PIPELINE}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Checkout
         uses: actions/checkout@v3
         with:
@@ -110,7 +110,7 @@ jobs:
       - name: Mask values
         run: |-
           echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
-          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_AU_OFFLINE_PIPELINE}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
@@ -144,8 +144,8 @@ jobs:
           targets="./cdk.out/publish-Assets-FileAsset1-step.sh,./cdk.out/publish-Assets-FileAsset2-step.sh,./cdk.out/publish-Assets-FileAsset3-step.sh,./cdk.out/publish-Assets-FileAsset4-step.sh,./cdk.out/publish-Assets-FileAsset5-step.sh"
 
           echo -n "$targets" | xargs -r -d',' -t -n1 -P2 /bin/bash
-  au-offline-pipeline-au-offline-site-deploy:
-    name: Deploy auofflinepipelineauofflinesiteD8BF64B5
+  production-au-au-offline-site-deploy:
+    name: Deploy productionauauofflinesiteDEEFF1C4
     permissions:
       contents: read
       id-token: write
@@ -157,7 +157,7 @@ jobs:
       - name: Mask values
         run: |-
           echo ::add-mask::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
-          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_AU_OFFLINE_PIPELINE}}
+          echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -175,16 +175,16 @@ jobs:
           aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
           aws-session-token: ${{ env.AWS_SESSION_TOKEN }}
-          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_AU_OFFLINE_PIPELINE}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_AU_OFFLINE_PIPELINE}}-ap-southeast-2
+          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}-ap-southeast-2
           role-external-id: Pipeline
       - id: Deploy
         uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
         with:
           name: au-offline-site
-          template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_AU_OFFLINE_PIPELINE}}-ap-southeast-2.s3.ap-southeast-2.amazonaws.com/${{
+          template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}-ap-southeast-2.s3.ap-southeast-2.amazonaws.com/${{
             needs.publish.outputs.asset-hash1 }}.json
           no-fail-on-empty-changeset: "1"
-          role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_AU_OFFLINE_PIPELINE}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_AU_OFFLINE_PIPELINE}}-ap-southeast-2
+          role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}-ap-southeast-2
 concurrency:
   group: deploy-offline-au
   cancel-in-progress: false
