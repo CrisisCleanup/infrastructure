@@ -498,6 +498,7 @@ const apiStack = AwsCdkTsAppBuilder.add(new CdkTsAppCompileBuilder()).build({
 apiStack.tsconfigDev.addInclude('crisiscleanup.config.ts')
 new Vitest(apiStack)
 
+// maintenance stack
 const maintenanceStack = AwsCdkTsAppBuilder.add(
 	new CdkTsAppCompileBuilder({
 		synthPostCompileCondition: `bash -c '[[ -z "$SKIP_SYNTH" ]] && [[ -n "$MAINTENANCE_SITE_SOURCE" ]]'`,
