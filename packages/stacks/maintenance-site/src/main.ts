@@ -85,7 +85,9 @@ GithubCodePipeline.create({
 	.concurrency({ group: 'deploy-offline-au', cancelInProgress: false })
 	.addStage(
 		new MaintenanceStage(app, 'au-offline-pipeline', {
-			env: config.$env!['production-au']!,
+			env: config.$env!['production-au']!.cdkEnvironment,
+			name: 'au-offline-site',
+			description: 'AU Offline Site',
 		}),
 	)
 
