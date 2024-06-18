@@ -11,6 +11,11 @@ export interface MaintenanceSiteProps {
 	 * Path to site source files.
 	 */
 	readonly source: string
+	/**
+	 * Domain name to use.
+	 * @default crisiscleanup.org
+	 */
+	readonly domainName?: string
 }
 
 /**
@@ -20,6 +25,7 @@ export class MaintenanceSite extends Stack {
 	readonly zone?: route53.IHostedZone
 	readonly certificate?: acm.ICertificate
 	readonly website: StaticWebsite
+	readonly domainName: string
 
 	constructor(
 		scope: Construct,
@@ -28,16 +34,18 @@ export class MaintenanceSite extends Stack {
 		stackProps?: StackProps,
 	) {
 		super(scope, id, stackProps)
+		this.domainName = props.domainName ?? 'crisiscleanup.org'
+		const cnameRecord = `maintenance.${this.domainName}`
 
 		if (stackProps?.env) {
 			this.zone = route53.HostedZone.fromLookup(this, id + '-hosted-zone', {
-				domainName: 'crisiscleanup.org',
+				domainName: this.domainName,
 			})
 
 			this.certificate = new acm.Certificate(this, id + '-certificate', {
-				domainName: 'crisiscleanup.org',
+				domainName: this.domainName,
 				validation: acm.CertificateValidation.fromDns(this.zone),
-				subjectAlternativeNames: ['maintenance.crisiscleanup.org'],
+				subjectAlternativeNames: [cnameRecord],
 			})
 		}
 
@@ -52,7 +60,7 @@ export class MaintenanceSite extends Stack {
 				comment: 'Maintenance Site',
 				certificate: this.certificate,
 				priceClass: cloudfront.PriceClass.PRICE_CLASS_100,
-				domainNames: ['maintenance.crisiscleanup.org'],
+				domainNames: [cnameRecord],
 			},
 		})
 
@@ -66,7 +74,7 @@ export class MaintenanceSite extends Stack {
 					),
 				),
 				ttl: Duration.seconds(300),
-				recordName: 'maintenance.crisiscleanup.org',
+				recordName: cnameRecord,
 			})
 		}
 	}
