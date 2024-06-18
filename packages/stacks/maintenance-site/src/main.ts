@@ -86,6 +86,7 @@ GithubCodePipeline.create({
 	.addStage(
 		new MaintenanceStage(app, 'au-offline-pipeline', {
 			env: config.$env!['production-au']!.cdkEnvironment,
+			domainName: 'crisiscleanup.org.au',
 			name: 'au-offline-site',
 			description: 'AU Offline Site',
 		}),
