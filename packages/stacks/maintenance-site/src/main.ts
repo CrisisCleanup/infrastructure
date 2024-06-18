@@ -29,7 +29,7 @@ class MaintenanceStage extends GitHubStage {
 				source: source,
 			},
 			{
-				env: config.cdkEnvironment,
+				env: props.env,
 				description: 'Maintenance Site',
 				stackName: 'maintenance-site',
 			},
