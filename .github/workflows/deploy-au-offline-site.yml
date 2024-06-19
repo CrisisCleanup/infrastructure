@@ -147,8 +147,8 @@ jobs:
           targets="./cdk.out/publish-Assets-FileAsset1-step.sh,./cdk.out/publish-Assets-FileAsset2-step.sh,./cdk.out/publish-Assets-FileAsset3-step.sh,./cdk.out/publish-Assets-FileAsset4-step.sh,./cdk.out/publish-Assets-FileAsset5-step.sh,./cdk.out/publish-Assets-FileAsset6-step.sh,./cdk.out/publish-Assets-FileAsset7-step.sh,./cdk.out/publish-Assets-FileAsset8-step.sh"
 
           echo -n "$targets" | xargs -r -d',' -t -n1 -P2 /bin/bash
-  production-au-auofflinesiteauofflinesitezonestack-eaac685-e-deploy:
-    name: Deploy productionauauofflinesiteauofflinesitezonestackDB775D5A
+  production-au-au-offline-site-zone-stack-deploy:
+    name: Deploy productionauauofflinesitezonestackCFFB701E
     permissions:
       contents: read
       id-token: write
@@ -183,7 +183,7 @@ jobs:
       - id: Deploy
         uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
         with:
-          name: production-au-auofflinesiteauofflinesitezonestackEAAC685E
+          name: production-au-au-offline-site-zone-stack
           template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}-us-east-1.s3.us-east-1.amazonaws.com/${{
             needs.publish.outputs.asset-hash1 }}.json
           no-fail-on-empty-changeset: "1"
@@ -195,7 +195,7 @@ jobs:
       id-token: write
     needs:
       - Build-deploy-au-offline-site-synth
-      - production-au-auofflinesiteauofflinesitezonestackEAAC685E-Deploy
+      - production-au-au-offline-site-zone-stack-Deploy
       - publish
     runs-on: ${{inputs.runner || 'ubuntu-latest'}}
     steps:
