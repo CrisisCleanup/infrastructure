@@ -445,7 +445,7 @@ const pdfRendererConstruct = AwsCdkTsConstructBuilder.build({
 	name: 'construct.awscdk.pdf-renderer',
 	deps: ['puppeteer-core@v19.4.0', 'zod'],
 	// served via lambda layer during runtime
-	devDeps: ['@sparticuz/chromium@109.0.0', '@types/aws-lambda'],
+	devDeps: ['@sparticuz/chromium-min@123.0.1', '@types/aws-lambda'],
 	lambdaOptions: {
 		runtime: awscdk.LambdaRuntime.NODEJS_18_X,
 	},

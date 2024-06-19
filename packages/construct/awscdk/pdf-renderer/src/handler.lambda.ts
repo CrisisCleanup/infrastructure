@@ -1,4 +1,4 @@
-import chrome from '@sparticuz/chromium'
+import chromium from '@sparticuz/chromium-min'
 import type { APIGatewayEvent } from 'aws-lambda'
 import puppeteer, { type Browser } from 'puppeteer-core'
 import { z } from 'zod'
@@ -33,44 +33,24 @@ const doRender = async (
 	return pdf
 }
 
-const launchBrowserWithRetry = async (
-	path: string,
-	retries = 3,
-	delay = 1000,
-) => {
-	while (retries > 0) {
-		try {
-			const browser = await puppeteer.launch({
-				executablePath: path,
-				headless: chrome.headless,
-				args: chrome.args,
-			})
-			return browser
-		} catch (error) {
-			if (retries > 1) {
-				console.warn(
-					`Retrying to launch browser... ${retries - 1} retries left.`,
-				)
-				retries--
-				await new Promise((res) => setTimeout(res, delay))
-			} else {
-				throw error
-			}
-		}
-	}
-}
-
-export async function handler(event: APIGatewayEvent) {
+export const handler = async (event: APIGatewayEvent) => {
 	console.log('Incoming event:', event)
 
 	const payload = await schema.parseAsync(JSON.parse(event.body!))
 	console.log('Received payload:', payload)
 
-	const path = await chrome.executablePath
-	console.log('Resolved Chromium path:', path)
+	const executablePath = await chromium.executablePath(
+		'https://github.com/Sparticuz/chromium/releases/download/v123.0.1/chromium-v123.0.1-pack.tar',
+	)
+	console.log('Resolved Chromium path:', executablePath)
+
 	let browser: Browser | undefined
 	try {
-		browser = await launchBrowserWithRetry(path || '/usr/bin/chromium-browser')
+		browser = await puppeteer.launch({
+			args: chromium.args,
+			defaultViewport: chromium.defaultViewport,
+			executablePath: executablePath,
+		})
 		if (!browser) {
 			throw new Error('Failed to launch browser')
 		}
