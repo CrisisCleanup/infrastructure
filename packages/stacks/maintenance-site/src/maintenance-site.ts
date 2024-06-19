@@ -45,11 +45,12 @@ export class MaintenanceSite extends Stack {
 		// eslint-disable-next-line @typescript-eslint/no-this-alias
 		let certStack: Stack = this
 		if (this.region !== 'us-east-1') {
-			certStack = new Stack(this, id + '-zone-stack', {
+			certStack = new Stack(scope, id + '-zone-stack', {
 				description: `Zone Stack for maintenance site`,
 				crossRegionReferences: true,
 				env: { account: this.account, region: 'us-east-1' },
 			})
+			this.node.addDependency(certStack)
 		}
 
 		if (stackProps?.env) {
