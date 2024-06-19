@@ -33,16 +33,31 @@ export class MaintenanceSite extends Stack {
 		props: MaintenanceSiteProps,
 		stackProps?: StackProps,
 	) {
-		super(scope, id, stackProps)
+		const { crossRegionReferences = true, ...restStackProps } = stackProps ?? {}
+		super(scope, id, {
+			...restStackProps,
+			crossRegionReferences,
+		})
 		this.domainName = props.domainName ?? 'crisiscleanup.org'
 		const cnameRecord = `maintenance.${this.domainName}`
+
+		// Cloudfront requires ACM certificates to be in us-east-1 (ACM isn't global like cloudfront is).
+		// eslint-disable-next-line @typescript-eslint/no-this-alias
+		let certStack: Stack = this
+		if (this.region !== 'us-east-1') {
+			certStack = new Stack(this, id + '-zone-stack', {
+				description: `Zone Stack for maintenance site`,
+				crossRegionReferences: true,
+				env: { account: this.account, region: 'us-east-1' },
+			})
+		}
 
 		if (stackProps?.env) {
 			this.zone = route53.HostedZone.fromLookup(this, id + '-hosted-zone', {
 				domainName: this.domainName,
 			})
 
-			this.certificate = new acm.Certificate(this, id + '-certificate', {
+			this.certificate = new acm.Certificate(certStack, id + '-certificate', {
 				domainName: this.domainName,
 				validation: acm.CertificateValidation.fromDns(this.zone),
 				subjectAlternativeNames: [cnameRecord],
