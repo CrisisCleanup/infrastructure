@@ -50,7 +50,6 @@ export class MaintenanceSite extends Stack {
 				crossRegionReferences: true,
 				env: { account: this.account, region: 'us-east-1' },
 			})
-			this.node.addDependency(certStack)
 		}
 
 		if (stackProps?.env) {
@@ -61,7 +60,11 @@ export class MaintenanceSite extends Stack {
 			this.certificate = new acm.Certificate(certStack, id + '-certificate', {
 				domainName: this.domainName,
 				validation: acm.CertificateValidation.fromDns(this.zone),
-				subjectAlternativeNames: [cnameRecord],
+				subjectAlternativeNames: [
+					cnameRecord,
+					`*.${this.domainName}`,
+					this.domainName,
+				],
 			})
 		}
 
