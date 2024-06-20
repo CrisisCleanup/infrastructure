@@ -5,8 +5,8 @@
       "type": "build"
     },
     {
-      "name": "@sparticuz/chromium",
-      "version": "109.0.0",
+      "name": "@sparticuz/chromium-min",
+      "version": "123.0.1",
       "type": "build"
     },
     {
