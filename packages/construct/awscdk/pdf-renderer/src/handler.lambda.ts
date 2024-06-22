@@ -40,9 +40,10 @@ const doRender = async (
 		})
 	} else {
 		if (width || height) {
+			const defaultViewport = { width: 1280, height: 720 }
 			await page.setViewport({
-				width: width ? parseInt(width, 10) : page.viewport().width,
-				height: height ? parseInt(height, 10) : page.viewport().height,
+				width: width ? parseInt(width, 10) : defaultViewport.width,
+				height: height ? parseInt(height, 10) : defaultViewport.height,
 			})
 		}
 		const screenshot = await page.screenshot({
