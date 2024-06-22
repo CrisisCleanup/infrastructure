@@ -6,11 +6,18 @@ import { z } from 'zod'
 const schema = z
 	.object({
 		content: z.string().describe('Raw HTML content to render'),
-		width: z.string().optional().describe('Width of the PDF in px, in, or mm'),
+		width: z
+			.string()
+			.optional()
+			.describe('Width of the output in px, in, or mm'),
 		height: z
 			.string()
 			.optional()
-			.describe('Height of the PDF in px, in, or mm'),
+			.describe('Height of the output in px, in, or mm'),
+		format: z
+			.enum(['pdf', 'image'])
+			.default('pdf')
+			.describe('Output format: pdf or image'),
 	})
 	.partial({ width: true, height: true })
 
@@ -18,19 +25,32 @@ const doRender = async (
 	browser: Browser,
 	props: z.infer<typeof schema>,
 ): Promise<Buffer> => {
-	const { content, height, width } = props
+	const { content, height, width, format } = props
 	const page = await browser.newPage()
 	await page.setContent(content, {
 		waitUntil: 'networkidle0',
 	})
 
-	const pdf = await page.pdf({
-		printBackground: true,
-		width: width,
-		height: height,
-		pageRanges: '1',
-	})
-	return pdf
+	if (format === 'pdf') {
+		return page.pdf({
+			printBackground: true,
+			width: width,
+			height: height,
+			pageRanges: '1',
+		})
+	} else {
+		if (width || height) {
+			await page.setViewport({
+				width: width ? parseInt(width, 10) : page.viewport().width,
+				height: height ? parseInt(height, 10) : page.viewport().height,
+			})
+		}
+		const screenshot = await page.screenshot({
+			fullPage: !width && !height,
+			encoding: 'binary',
+		})
+		return Buffer.from(screenshot)
+	}
 }
 
 export const handler = async (event: APIGatewayEvent) => {
@@ -54,19 +74,23 @@ export const handler = async (event: APIGatewayEvent) => {
 		if (!browser) {
 			throw new Error('Failed to launch browser')
 		}
-		const pdf = await doRender(browser, payload)
+		const output = await doRender(browser, payload)
+		const contentType =
+			payload.format === 'pdf' ? 'application/pdf' : 'image/png'
+		const fileName = payload.format === 'pdf' ? 'result.pdf' : 'result.png'
+
 		return {
 			statusCode: 200,
 			headers: {
-				'Content-Type': 'application/pdf',
-				'Content-Disposition': 'attachment; filename="result.pdf"',
+				'Content-Type': contentType,
+				'Content-Disposition': `attachment; filename="${fileName}"`,
 				'Content-Encoding': 'base64',
 			},
-			body: pdf.toString('base64'),
+			body: output.toString('base64'),
 			isBase64Encoded: true,
 		}
 	} catch (e: unknown) {
-		console.error('Error rendering PDF:', e)
+		console.error('Error rendering output:', e)
 		return {
 			statusCode: 500,
 			headers: { 'Content-Type': 'application/json' },
