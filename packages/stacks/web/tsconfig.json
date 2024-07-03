@@ -31,6 +31,9 @@
     },
     {
       "path": "../../construct/awscdk/github-pipeline/tsconfig.json"
+    },
+    {
+      "path": "../../construct/awscdk/cloudfront-url-rewrite/tsconfig.json"
     }
   ]
 }

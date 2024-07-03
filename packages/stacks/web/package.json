@@ -49,6 +49,7 @@
   "dependencies": {
     "@aws/pdk": "^0.22.6",
     "@crisiscleanup/config": "workspace:*",
+    "@crisiscleanup/construct.awscdk.cloudfront-url-rewrite": "workspace:*",
     "@crisiscleanup/construct.awscdk.github-pipeline": "workspace:*",
     "aws-cdk-lib": "^2.97.0",
     "cdk-pipelines-github": "^0.4.103",
