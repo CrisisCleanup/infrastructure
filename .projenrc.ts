@@ -548,7 +548,7 @@ const webStack = AwsCdkTsAppBuilder.add(
 ).build({
 	name: 'stacks.web',
 	integrationTestAutoDiscover: true,
-	workspaceDeps: [config, ghPipelineConstruct],
+	workspaceDeps: [config, ghPipelineConstruct, cloudfrontUrlRewriteConstruct],
 	deps: ['cdk-pipelines-github', '@aws/pdk'],
 	jest: false,
 	prettier: true,

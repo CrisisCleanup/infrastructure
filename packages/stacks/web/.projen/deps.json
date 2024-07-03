@@ -89,6 +89,11 @@
       "type": "runtime"
     },
     {
+      "name": "@crisiscleanup/construct.awscdk.cloudfront-url-rewrite",
+      "version": "workspace:*",
+      "type": "runtime"
+    },
+    {
       "name": "@crisiscleanup/construct.awscdk.github-pipeline",
       "version": "workspace:*",
       "type": "runtime"
