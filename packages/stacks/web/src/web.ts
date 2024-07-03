@@ -53,6 +53,12 @@ export class CrisisCleanupWeb extends Stack {
 			crossRegionReferences: true,
 		})
 
+		const names = [
+			props.fqdn,
+			...(props.additionalDomains ?? []),
+			...(props.enableBlogRedirect ? ['blog.' + props.domainName] : []),
+		]
+
 		if (stackProps?.env) {
 			this.zone = route53.HostedZone.fromLookup(this, id + '-hosted-zone', {
 				domainName: props.domainName,
@@ -73,10 +79,7 @@ export class CrisisCleanupWeb extends Stack {
 			this.certificate = new acm.Certificate(certStack, id + '-certificate', {
 				domainName: props.domainName,
 				validation: acm.CertificateValidation.fromDns(this.zone),
-				subjectAlternativeNames: [
-					props.fqdn,
-					...(props.additionalDomains ?? []),
-				],
+				subjectAlternativeNames: names,
 			})
 		}
 
@@ -92,19 +95,19 @@ export class CrisisCleanupWeb extends Stack {
 				priceClass: props.globalPriceClass
 					? cloudfront.PriceClass.PRICE_CLASS_ALL
 					: cloudfront.PriceClass.PRICE_CLASS_100,
-				domainNames: [props.fqdn, ...(props.additionalDomains ?? [])],
+				domainNames: names,
 			},
 		})
+
+		const target = route53.RecordTarget.fromAlias(
+			new route53Targets.CloudFrontTarget(this.website.cloudFrontDistribution),
+		)
 
 		if (this.zone) {
 			new route53.ARecord(this, id + '-alias-record', {
 				zone: this.zone,
 				comment: 'CCU Web',
-				target: route53.RecordTarget.fromAlias(
-					new route53Targets.CloudFrontTarget(
-						this.website.cloudFrontDistribution,
-					),
-				),
+				target,
 				ttl: Duration.seconds(300),
 				recordName: props.fqdn,
 			})
@@ -118,6 +121,15 @@ export class CrisisCleanupWeb extends Stack {
 				redirectUriPattern: '^/d{4}/d{2}/(.*).html',
 				targetUriPattern: '/blog/post/$1',
 			})
+			if (this.zone) {
+				new route53.ARecord(this, id + '-alias-record-blog', {
+					zone: this.zone,
+					comment: 'CCU Web Blog',
+					target,
+					ttl: Duration.seconds(300),
+					recordName: `blog.${props.domainName}`,
+				})
+			}
 		}
 	}
 }
