@@ -165,6 +165,7 @@ wave.addStageWithGitHubOptions(
 		{
 			domainName: 'staging.crisiscleanup.io',
 			fqdn: 'app.staging.crisiscleanup.io',
+			enableBlogRedirect: true,
 		},
 		{
 			env: config.$env!.staging!.cdkEnvironment,

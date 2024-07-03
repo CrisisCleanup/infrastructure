@@ -1,4 +1,5 @@
 import { StaticWebsite, StaticWebsiteOrigin } from '@aws/pdk/static-website'
+import { CloudFrontUrlRewrite } from '@crisiscleanup/construct.awscdk.cloudfront-url-rewrite'
 import { Duration, Stack, type StackProps } from 'aws-cdk-lib'
 import * as acm from 'aws-cdk-lib/aws-certificatemanager'
 import * as cloudfront from 'aws-cdk-lib/aws-cloudfront'
@@ -27,6 +28,10 @@ export interface CrisisCleanupWebProps {
 	 * Utilize PRICE_CLASS_ALL for CloudFront distribution.
 	 */
 	readonly globalPriceClass?: boolean
+	/**
+	 * Enable blog.crisiscleanup -> crisiscleanup/blog redirect.
+	 */
+	readonly enableBlogRedirect?: boolean
 }
 
 /**
@@ -102,6 +107,16 @@ export class CrisisCleanupWeb extends Stack {
 				),
 				ttl: Duration.seconds(300),
 				recordName: props.fqdn,
+			})
+		}
+
+		if (props.enableBlogRedirect) {
+			new CloudFrontUrlRewrite(this, id + '-BlogRedirect', {
+				distribution: this.website.cloudFrontDistribution,
+				fromHostname: `blog.${props.domainName}`,
+				toHostname: props.fqdn,
+				redirectUriPattern: '^/d{4}/d{2}/(.*).html',
+				targetUriPattern: '/blog/post/$1',
 			})
 		}
 	}
