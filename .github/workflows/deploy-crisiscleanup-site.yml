@@ -58,27 +58,27 @@ jobs:
           repository: CrisisCleanup/infrastructure
           ref: main
       - name: Setup PNPM
-        uses: pnpm/action-setup@v2.4.0
+        uses: pnpm/action-setup@v4
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: "18"
           cache: pnpm
       - name: Install SOPs
         uses: CrisisCleanup/mozilla-sops-action@main
         with:
-          version: 3.7.3
+          version: 3.8.1
       - name: Install AWS CLI
         uses: unfor19/install-aws-cli-action@v1
         if: runner.arch == 'ARM64' && (inputs.runner && !contains(inputs.runner,
           'ubuntu'))
         with:
           arch: arm64
-          version: 2.13.11
+          version: 2.15.49
       - name: Install Helm
         uses: azure/setup-helm@v3
         with:
-          version: 3.12.2
+          version: 3.14.4
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -94,7 +94,7 @@ jobs:
           S3_DESTINATION: packages/stacks/web/cdk.context.json
         run: aws s3 cp ${{env.S3_SOURCE}} ${{env.S3_DESTINATION}}
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: master
           repository: CrisisCleanup/crisiscleanup-4-web
@@ -161,7 +161,7 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: "18"
         if: inputs.runner && !contains(inputs.runner, 'ubuntu')
@@ -171,7 +171,7 @@ jobs:
           'ubuntu'))
         with:
           arch: arm64
-          version: 2.13.11
+          version: 2.15.49
       - name: Authenticate Via OIDC Role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -396,7 +396,7 @@ jobs:
       url: https://crisiscleanup.org.au
     needs:
       - Build-deploy-crisiscleanup-site-synth
-      - deploy-production-au-crisiscleanupwebcrisiscleanupwebcertstack02635-dcb-deploy
+      - deploy-production-au-crisiscleanupwebcrisiscleanupwebcertstack02635DCB-Deploy
       - publish
     runs-on: ${{inputs.runner || 'ubuntu-latest'}}
     steps:
