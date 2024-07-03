@@ -71,18 +71,32 @@ exports[`CloudFrontUrlRewrite > should create a CloudFront distribution with the
     "MyUrlRewriteHandlerC655E710": {
       "Properties": {
         "AutoPublish": true,
-        "FunctionCode": "import jiti from \\"file:///home/bradenmars/projects/work/crisiscleanup/crisiscleanup-infrastructure/node_modules/.pnpm/jiti@1.20.0/node_modules/jiti/lib/index.js\\";
-
-/** @type {import(\\"/home/bradenmars/projects/work/crisiscleanup/crisiscleanup-infrastructure/packages/construct/awscdk/cloudfront-url-rewrite/src/handler.function\\")} */
-const _module = jiti(null, {
-  \\"esmResolve\\": true,
-  \\"interopDefault\\": true,
-  \\"alias\\": {
-    \\"@crisiscleanup/construct.awscdk.cloudfront-url-rewrite\\": \\"/home/bradenmars/projects/work/crisiscleanup/crisiscleanup-infrastructure/packages/construct/awscdk/cloudfront-url-rewrite\\"
+        "FunctionCode": "// src/handler.function.ts
+var FROM_HOSTNAME = \\"original.example.com\\";
+var REDIRECT_URI_PATTERN = new RegExp(\\"^/oldpath/(.*)\\", \\"g\\");
+var TO_HOSTNAME = \\"new.example.com\\";
+var TARGET_URI_PATTERN = \\"/newpath/$1\\";
+async function handler(event) {
+  const { request } = event;
+  const { headers, uri } = request;
+  const host = headers.host?.value;
+  if (!host || host !== FROM_HOSTNAME) {
+    return request;
   }
-})(\\"/home/bradenmars/projects/work/crisiscleanup/crisiscleanup-infrastructure/packages/construct/awscdk/cloudfront-url-rewrite/src/handler.function.ts\\");
-
-export const handler = _module.handler;",
+  const newUri = uri.replace(REDIRECT_URI_PATTERN, TARGET_URI_PATTERN);
+  const newUrl = \`https://\${TO_HOSTNAME}\${newUri}\`;
+  return {
+    statusCode: 301,
+    statusDescription: \\"Moved Permanently\\",
+    headers: {
+      location: { value: newUrl }
+    }
+  };
+}
+export {
+  handler
+};
+",
         "FunctionConfig": {
           "Comment": "src/handler.lambda.ts",
           "Runtime": "cloudfront-js-1.0",
