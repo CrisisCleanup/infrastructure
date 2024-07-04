@@ -76,10 +76,15 @@ var FROM_HOSTNAME = \\"original.example.com\\";
 var REDIRECT_URI_PATTERN = new RegExp(\\"^/oldpath/(.*)\\", \\"g\\");
 var TO_HOSTNAME = \\"new.example.com\\";
 var TARGET_URI_PATTERN = \\"/newpath/$1\\";
-async function handler(event) {
-  const { request } = event;
-  const { headers, uri } = request;
-  const host = headers.host?.value;
+function handler(event) {
+  const request = event.request;
+  const headers = request.headers;
+  const uri = request.uri;
+  const hostParams = headers.host;
+  let host = \\"\\";
+  if (hostParams && hostParams.value) {
+    host = hostParams.value;
+  }
   if (!host || host !== FROM_HOSTNAME) {
     return request;
   }
@@ -92,11 +97,7 @@ async function handler(event) {
       location: { value: newUrl }
     }
   };
-}
-export {
-  handler
-};
-",
+}",
         "FunctionConfig": {
           "Comment": "src/handler.lambda.ts",
           "Runtime": "cloudfront-js-1.0",
