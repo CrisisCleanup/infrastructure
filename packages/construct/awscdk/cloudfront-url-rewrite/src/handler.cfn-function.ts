@@ -36,12 +36,15 @@ export class HandlerLambdaCloudFrontFunction extends cloudfront.Function {
 		props: HandlerLambdaCloudFrontFunctionProps,
 	) {
 		const filePath = path.join(__dirname, '../dist/handler.function.mjs')
-		const content = fs
+		let content = fs
 			.readFileSync(filePath, 'utf8')
 			.replace('<FROM_HOSTNAME>', props.fromHostname)
 			.replace('<TO_HOSTNAME>', props.toHostname)
 			.replace('<REDIRECT_URI_PATTERN>', props.redirectUriPattern)
 			.replace('<TARGET_URI_PATTERN>', props.targetUriPattern)
+		const lines = content.split('\n')
+		// trim function export, which is not supported or expected by cloudfront js
+		content = lines.slice(0, -5).join('\n')
 		super(scope, id, {
 			comment: 'src/handler.lambda.ts',
 			...props,
