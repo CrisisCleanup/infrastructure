@@ -5,12 +5,21 @@ const REDIRECT_URI_PATTERN = new RegExp('<REDIRECT_URI_PATTERN>', 'g')
 const TO_HOSTNAME = '<TO_HOSTNAME>'
 const TARGET_URI_PATTERN = '<TARGET_URI_PATTERN>'
 
+/**
+ * cloudfront-js supports a limited subset of javascript/ecma features.
+ */
 // eslint-disable-next-line @typescript-eslint/require-await,@typescript-eslint/no-unused-vars
-export async function handler(event: CloudFrontFunctionsEvent) {
-	const { request } = event
-	const { headers, uri } = request
+function handler(event: CloudFrontFunctionsEvent) {
+	const request = event.request
+	const headers = request.headers
+	const uri = request.uri
 
-	const host = headers.host?.value
+	const hostParams = headers.host
+	let host = ''
+	if (hostParams && hostParams.value) {
+		host = hostParams.value
+	}
+
 	if (!host || host !== FROM_HOSTNAME) {
 		return request
 	}
@@ -25,3 +34,5 @@ export async function handler(event: CloudFrontFunctionsEvent) {
 		},
 	}
 }
+
+export default handler
