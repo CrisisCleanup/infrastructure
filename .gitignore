@@ -6,7 +6,6 @@
 !/.github/workflows/pull-request-lint.yml
 !/.github/workflows/auto-approve.yml
 !/package.json
-!/LICENSE
 !/.npmignore
 logs
 *.log
@@ -45,10 +44,10 @@ jspm_packages/
 /dist
 /dist/
 !/.eslintrc.json
-.nx/cache
+.nx/*
+!.nx/plugins
 !/nx.json
 !/.nxignore
-!/.syncpackrc.json
 .idea
 .idea/**
 !/.ncurc.json
@@ -68,3 +67,5 @@ docs/**
 .envrc.local
 .envrc.*
 !/pnpm-workspace.yaml
+!/.syncpackrc.json
+!/LICENSE
