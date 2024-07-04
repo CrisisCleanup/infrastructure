@@ -3,6 +3,7 @@ import { CloudFrontUrlRewrite } from '@crisiscleanup/construct.awscdk.cloudfront
 import { Duration, Stack, type StackProps } from 'aws-cdk-lib'
 import * as acm from 'aws-cdk-lib/aws-certificatemanager'
 import * as cloudfront from 'aws-cdk-lib/aws-cloudfront'
+import * as origins from 'aws-cdk-lib/aws-cloudfront-origins'
 import * as route53 from 'aws-cdk-lib/aws-route53'
 import * as route53Targets from 'aws-cdk-lib/aws-route53-targets'
 import type { Construct } from 'constructs'
@@ -114,12 +115,15 @@ export class CrisisCleanupWeb extends Stack {
 		}
 
 		if (props.enableBlogRedirect) {
+			const blogOrigin = new origins.HttpOrigin('blog.' + props.domainName)
 			new CloudFrontUrlRewrite(this, id + '-BlogRedirect', {
 				distribution: this.website.cloudFrontDistribution,
 				fromHostname: `blog.${props.domainName}`,
 				toHostname: props.fqdn,
-				redirectUriPattern: '^/d{4}/d{2}/(.*).html',
+				redirectUriPattern: '^/\\\\d{4}/\\\\d{2}/(.*)\\\\.html$',
 				targetUriPattern: '/blog/post/$1',
+				behaviorPath: '/*/*/*.html',
+				origin: blogOrigin,
 			})
 			if (this.zone) {
 				new route53.ARecord(this, id + '-alias-record-blog', {
