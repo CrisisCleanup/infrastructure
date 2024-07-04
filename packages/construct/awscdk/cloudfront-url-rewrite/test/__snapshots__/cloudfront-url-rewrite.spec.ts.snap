@@ -77,19 +77,19 @@ var REDIRECT_URI_PATTERN = new RegExp(\\"^/oldpath/(.*)\\", \\"g\\");
 var TO_HOSTNAME = \\"new.example.com\\";
 var TARGET_URI_PATTERN = \\"/newpath/$1\\";
 function handler(event) {
-  const request = event.request;
-  const headers = request.headers;
-  const uri = request.uri;
-  const hostParams = headers.host;
-  let host = \\"\\";
+  var request = event.request;
+  var headers = request.headers;
+  var uri = request.uri;
+  var hostParams = headers.host;
+  var host = \\"\\";
   if (hostParams && hostParams.value) {
     host = hostParams.value;
   }
   if (!host || host !== FROM_HOSTNAME) {
     return request;
   }
-  const newUri = uri.replace(REDIRECT_URI_PATTERN, TARGET_URI_PATTERN);
-  const newUrl = \`https://\${TO_HOSTNAME}\${newUri}\`;
+  var newUri = uri.replace(REDIRECT_URI_PATTERN, TARGET_URI_PATTERN);
+  var newUrl = \`https://\${TO_HOSTNAME}\${newUri}\`;
   return {
     statusCode: 301,
     statusDescription: \\"Moved Permanently\\",
