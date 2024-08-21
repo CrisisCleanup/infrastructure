@@ -3,12 +3,12 @@ FROM mcr.microsoft.com/dotnet/runtime-deps:6.0-jammy as build
 # Replace value with the latest runner release version
 # source: https://github.com/actions/runner/releases
 # ex: 2.303.0
-ARG RUNNER_VERSION="2.317.0"
+ARG RUNNER_VERSION="2.319.1"
 ARG RUNNER_ARCH="arm64"
 # Replace value with the latest runner-container-hooks release version
 # source: https://github.com/actions/runner-container-hooks/releases
 # ex: 0.3.1
-ARG RUNNER_CONTAINER_HOOKS_VERSION="0.6.0"
+ARG RUNNER_CONTAINER_HOOKS_VERSION="0.6.1"
 
 ARG TARGETPLATFORM
 ARG TARGETOS
@@ -17,9 +17,9 @@ ARG RUNNER_VERSION
 
 # Docker and Docker Compose arguments
 ARG CHANNEL=stable
-ARG DOCKER_VERSION=25.0.5
-ARG BUILDX_VERSION=0.13.1
-ARG DOCKER_COMPOSE_VERSION=v2.27.1
+ARG DOCKER_VERSION=27.1.1
+ARG BUILDX_VERSION=0.16.2
+ARG DOCKER_COMPOSE_VERSION=v2.29.2
 ARG DUMB_INIT_VERSION=1.2.5
 ARG RUNNER_USER_UID=1001
 ARG DOCKER_GROUP_GID=121
