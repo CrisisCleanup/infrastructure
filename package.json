@@ -122,7 +122,7 @@
       "packages/stacks/web"
     ]
   },
-  "packageManager": "pnpm@9.2.0",
+  "packageManager": "pnpm@9.7.1",
   "simple-git-hooks": {
     "pre-commit": "pnpm exec lint-staged",
     "preserveUnused": true
