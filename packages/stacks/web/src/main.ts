@@ -190,6 +190,7 @@ wave.addStageWithGitHubOptions(
 			fqdn: 'crisiscleanup.org',
 			globalPriceClass: true,
 			additionalDomains: ['www.crisiscleanup.org'],
+			enableBlogRedirect: true,
 		},
 		{
 			env: config.$env!.production!.cdkEnvironment,
