@@ -57,7 +57,7 @@ const prodSecretsProvider = new SopsSecretProvider({
 const prodAUSecretsProvider = new SopsSecretProvider({
 	secretName: 'crisiscleanup-productionau-api',
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-	sopsFilePath: <string>configsSources['production-au']!.secretsPath,
+	sopsFilePath: <string>configsSources['production-au'].secretsPath,
 })
 
 const pipeline = Pipeline.builder({
