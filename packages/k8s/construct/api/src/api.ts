@@ -122,7 +122,7 @@ export abstract class ApiComponent<
 						whenUnsatisfiable: 'ScheduleAnyway',
 						labelSelector: this.deployment
 							.toPodSelector()!
-							.toPodSelectorConfig()!
+							.toPodSelectorConfig()
 							.labelSelector._toKube(),
 						topologyKey: kplus.Topology.ZONE.key,
 					},
@@ -132,7 +132,7 @@ export abstract class ApiComponent<
 			this.addPdb({
 				selectors: this.deployment
 					.toPodSelector()!
-					.toPodSelectorConfig()!
+					.toPodSelectorConfig()
 					.labelSelector._toKube(),
 				minAvailable: '35%',
 			})
