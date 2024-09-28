@@ -143,6 +143,13 @@ const applyWorkflowEnvOverrides = (workflowName: string, jobName: string) => {
 }
 applyWorkflowEnvOverrides('build', 'build')
 applyWorkflowEnvOverrides('static', 'deploy')
+// set actions versions
+const actionsProvider = github.GitHub.of(monorepo)!.actions
+actionsProvider.set('actions/checkout', 'actions/checkout@v4')
+actionsProvider.set('pnpm/action-setup', 'pnpm/action-setup@v4')
+actionsProvider.set('actions/setup-node', 'actions/setup-node@v4')
+actionsProvider.set('actions/download-artifact', 'actions/download-artifact@v4')
+actionsProvider.set('actions/upload-artifact', 'actions/upload-artifact@v4')
 
 const tools = new ToolVersions(monorepo, {
 	tools: {
