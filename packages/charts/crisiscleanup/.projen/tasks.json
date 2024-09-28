@@ -54,7 +54,8 @@
       "description": "Runs eslint against the codebase",
       "steps": [
         {
-          "exec": "eslint --ext .ts,.tsx --fix --no-error-on-unmatched-pattern src test build-tools"
+          "exec": "eslint --ext .ts,.tsx --fix --no-error-on-unmatched-pattern $@ src test build-tools",
+          "receiveArgs": true
         }
       ]
     },
@@ -166,16 +167,13 @@
       },
       "steps": [
         {
-          "exec": "pnpm update npm-check-updates"
-        },
-        {
-          "exec": "npm-check-updates --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@arroyodev-llc/utils.unbuild-composite-preset,@types/debug,@types/js-yaml,@types/node,@typescript-eslint/eslint-plugin,@typescript-eslint/parser,cdk8s-cli,eslint-config-prettier,eslint-import-resolver-node,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-prettier,eslint,lint-staged,npm-check-updates,prettier,projen,tsx,unbuild,vitest,cdk8s-plus-27,cdk8s,constructs,debug,defu,js-yaml,type-fest,zod"
+          "exec": "pnpm dlx npm-check-updates@16 --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@arroyodev-llc/utils.unbuild-composite-preset,@types/debug,@types/js-yaml,eslint-config-prettier,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-prettier,lint-staged,prettier,tsx,unbuild,vitest,debug,defu,js-yaml,type-fest,zod"
         },
         {
           "exec": "pnpm i --no-frozen-lockfile"
         },
         {
-          "exec": "pnpm update @arroyodev-llc/utils.unbuild-composite-preset @types/debug @types/js-yaml @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser cdk8s-cli eslint-config-prettier eslint-import-resolver-node eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint lint-staged npm-check-updates prettier projen tsx unbuild vitest cdk8s-plus-27 cdk8s constructs debug defu js-yaml type-fest zod"
+          "exec": "pnpm update @arroyodev-llc/utils.unbuild-composite-preset @types/debug @types/js-yaml @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser cdk8s-cli eslint-config-prettier eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint lint-staged prettier tsx typescript unbuild vitest @crisiscleanup/config @crisiscleanup/k8s.construct.api @crisiscleanup/k8s.construct.component cdk8s-plus-27 cdk8s constructs debug defu js-yaml type-fest zod"
         },
         {
           "exec": "npx projen"
