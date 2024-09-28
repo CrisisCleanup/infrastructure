@@ -46,6 +46,7 @@ const CommonDefaultsBuilder = new builders.DefaultOptionsBuilder({
 	defaultReleaseBranch: 'main',
 	packageManager: javascript.NodePackageManager.PNPM,
 	projenrcTs: true,
+	projenVersion: '0.83.1',
 	minNodeVersion: '18.16.0',
 	pnpmVersion: '9.7.1',
 	typescriptVersion: '~5.2',
@@ -113,6 +114,9 @@ const monorepo = MonorepoBuilder.build({
 	},
 	docgen: true,
 })
+monorepo.package.addPackageResolutions(
+	`projen@${monorepo.options.projenVersion!}`,
+)
 monorepo.nx.useNxCloud(nxReadOnlyPublicToken)
 monorepo.nx.npmScope = '@crisiscleanup'
 monorepo.nx.nxIgnore.addPatterns('**/cdk.out/**')
@@ -168,7 +172,7 @@ const tools = new ToolVersions(monorepo, {
 const dirEnv = new DirEnv(monorepo)
 	.buildDefaultEnvRc({
 		localEnvRc: '.envrc.local',
-		minDirEnvVersion: tools.versionsOf('direnv')[0]!,
+		minDirEnvVersion: tools.versionsOf('direnv')[0],
 	})
 	.addComment('Expose Tool Versions')
 	.addEnvVar('TOOLS_AWSCLI_VERSION', tools.versionsOf('awscli')[0])
@@ -579,4 +583,5 @@ monorepo.package.addPackageResolutions(
 	`constructs@${CdkVersionsBuilder.defaultOptions.constructsVersion!}`,
 )
 
+monorepo.tryRemoveFile('.github/workflows/release_config.yml')
 monorepo.synth()
