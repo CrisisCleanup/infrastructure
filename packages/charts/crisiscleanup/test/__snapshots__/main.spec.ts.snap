@@ -87,10 +87,11 @@ exports[`CrisisCleanupChart: 'defaults' > api matches snapshot > defaults-api 1`
               },
               "resources": {
                 "limits": {
+                  "cpu": "1800m",
                   "memory": "1200Mi",
                 },
                 "requests": {
-                  "cpu": "100m",
+                  "cpu": "1000m",
                   "memory": "1200Mi",
                 },
               },
@@ -491,10 +492,11 @@ exports[`CrisisCleanupChart: 'defaults' > api matches snapshot > defaults-api 1`
               },
               "resources": {
                 "limits": {
+                  "cpu": "1500m",
                   "memory": "1024Mi",
                 },
                 "requests": {
-                  "cpu": "100m",
+                  "cpu": "500m",
                   "memory": "1024Mi",
                 },
               },
@@ -650,7 +652,6 @@ exports[`CrisisCleanupChart: 'defaults' > api matches snapshot > defaults-api 1`
               "name": "rag-channels",
               "resources": {
                 "limits": {
-                  "cpu": "3",
                   "memory": "4096Mi",
                 },
                 "requests": {
@@ -1641,10 +1642,11 @@ exports[`CrisisCleanupChart: 'with spread' > api matches snapshot > with spread-
               },
               "resources": {
                 "limits": {
+                  "cpu": "1800m",
                   "memory": "1200Mi",
                 },
                 "requests": {
-                  "cpu": "100m",
+                  "cpu": "1000m",
                   "memory": "1200Mi",
                 },
               },
@@ -2006,10 +2008,11 @@ exports[`CrisisCleanupChart: 'with spread' > api matches snapshot > with spread-
               },
               "resources": {
                 "limits": {
+                  "cpu": "1500m",
                   "memory": "1024Mi",
                 },
                 "requests": {
-                  "cpu": "100m",
+                  "cpu": "500m",
                   "memory": "1024Mi",
                 },
               },
@@ -2177,7 +2180,6 @@ exports[`CrisisCleanupChart: 'with spread' > api matches snapshot > with spread-
               "name": "rag-channels",
               "resources": {
                 "limits": {
-                  "cpu": "3",
                   "memory": "4096Mi",
                 },
                 "requests": {
@@ -3115,10 +3117,11 @@ exports[`CrisisCleanupChart: 'with sync' > api matches snapshot > with sync-api 
               },
               "resources": {
                 "limits": {
+                  "cpu": "1800m",
                   "memory": "1200Mi",
                 },
                 "requests": {
-                  "cpu": "100m",
+                  "cpu": "1000m",
                   "memory": "1200Mi",
                 },
               },
@@ -3519,10 +3522,11 @@ exports[`CrisisCleanupChart: 'with sync' > api matches snapshot > with sync-api 
               },
               "resources": {
                 "limits": {
+                  "cpu": "1500m",
                   "memory": "1024Mi",
                 },
                 "requests": {
-                  "cpu": "100m",
+                  "cpu": "500m",
                   "memory": "1024Mi",
                 },
               },
@@ -3678,7 +3682,6 @@ exports[`CrisisCleanupChart: 'with sync' > api matches snapshot > with sync-api 
               "name": "rag-channels",
               "resources": {
                 "limits": {
-                  "cpu": "3",
                   "memory": "4096Mi",
                 },
                 "requests": {
