@@ -59,7 +59,8 @@
   "dependencies": {
     "debug": "^4.3.4",
     "defu": "^6.1.2",
-    "js-yaml": "^4.1.0"
+    "js-yaml": "^4.1.0",
+    "zod": "^3.23.8"
   },
   "keywords": [
     "cdk"
