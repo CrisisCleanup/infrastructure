@@ -12,6 +12,23 @@ const containerImageSchema = z
 
 const metricPercent = z.number().min(0).max(100)
 
+const K8sMillicores = z.number().describe('Kubernetes CPU Millicores')
+const K8sMemoryMebibytes = z.number().describe('Kubernetes Memory Mebibytes')
+
+const resourcesSchema = z
+	.object({
+		cpu: z.object({
+			limit: K8sMillicores.optional(),
+			request: K8sMillicores.optional(),
+		}),
+		memory: z.object({
+			limit: K8sMemoryMebibytes.optional(),
+			request: K8sMemoryMebibytes.optional(),
+		}),
+	})
+	.describe('Kubernetes resource limits/requests')
+	.deepPartial()
+
 const scalingSchema = z
 	.object({
 		minReplicas: z.number().optional(),
@@ -32,6 +49,7 @@ const scalingSchema = z
 const deploymentSchema = z.object({
 	image: containerImageSchema.optional(),
 	spread: z.boolean().default(false),
+	resources: resourcesSchema.optional(),
 })
 
 const withScaling = <T extends typeof deploymentSchema>(inSchema: T) =>
