@@ -669,6 +669,9 @@ importers:
       js-yaml:
         specifier: ^4.1.0
         version: 4.1.0
+      zod:
+        specifier: ^3.23.8
+        version: 3.23.8
     devDependencies:
       '@arroyodev-llc/utils.unbuild-composite-preset':
         specifier: ^0.1.6
@@ -11791,10 +11794,10 @@ packages:
     engines: { node: '>=14.17' }
     hasBin: true
 
-  typescript@5.7.0-dev.20240927:
+  typescript@5.7.0-dev.20240930:
     resolution:
       {
-        integrity: sha512-IWKZHTHAlS8BglLp8iM4rUHhy0h79B9r9vj6b6zpa8U38ofctFS1fLiKY7okZ3JYeG15kUHuOwsLwOmvc5+e1Q==,
+        integrity: sha512-mGW96cpbwcYuc264UPqGpKBLNebFFtVEXRLPwSwxVEub9tSyMI+XGFGxsznop7pU8E1ntx4OC4cN1n5MnzO0+Q==,
       }
     engines: { node: '>=14.17' }
     hasBin: true
@@ -17122,7 +17125,7 @@ snapshots:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.7.0-dev.20240927
+      typescript: 5.7.0-dev.20240930
 
   duplexer@0.1.2: {}
 
@@ -20514,7 +20517,7 @@ snapshots:
 
   typescript@5.2.2: {}
 
-  typescript@5.7.0-dev.20240927: {}
+  typescript@5.7.0-dev.20240930: {}
 
   ufo@1.1.2: {}
 

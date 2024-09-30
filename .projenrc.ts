@@ -365,7 +365,7 @@ const Cdk8sConstructBuilder = new ProjectBuilder(cdk8s.ConstructLibraryCdk8s)
 // K8s Constructs
 const k8sComponentConstruct = Cdk8sConstructBuilder.build({
 	name: 'k8s.construct.component',
-	deps: ['debug', 'defu', 'js-yaml'],
+	deps: ['debug', 'defu', 'js-yaml', 'zod'],
 	devDeps: ['@types/debug'],
 	jest: false,
 })
