@@ -223,7 +223,8 @@ export class ApiWSGI
 			// todo: allow config via configs schema
 			resources: {
 				cpu: {
-					request: kplus.Cpu.millis(900),
+					request: kplus.Cpu.millis(1000),
+					limit: kplus.Cpu.millis(1800),
 				},
 				memory: {
 					request: Size.mebibytes(1200),
@@ -345,6 +346,14 @@ export class ApiASGI
 				user: 1000,
 				group: 1000,
 			},
+			resources: {
+				// todo: properly expose via configs
+				memory: this.props.containerDefaults!.resources!.memory!,
+				cpu: {
+					request: kplus.Cpu.millis(500),
+					limit: kplus.Cpu.millis(1500),
+				},
+			},
 		})
 
 		// rag channels stateful set
@@ -395,7 +404,7 @@ export class ApiASGI
 			},
 			resources: {
 				cpu: {
-					limit: kplus.Cpu.units(3),
+					//limit: kplus.Cpu.units(3),
 					request: kplus.Cpu.millis(200),
 				},
 				memory: {
