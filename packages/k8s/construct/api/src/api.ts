@@ -205,6 +205,17 @@ export class ApiWSGI
 		}) as ApiWSGIProps
 		super(scope, id, propsWithDefaults)
 
+		const resources = this.getResources({
+			cpu: {
+				request: 1000,
+				limit: 1800,
+			},
+			memory: {
+				request: 1200,
+				limit: 1200,
+			},
+		})
+
 		const backend = this.addContainer({
 			name: 'gunicorn',
 			portNumber: 5000,
@@ -220,17 +231,7 @@ export class ApiWSGI
 				'--timeout=90',
 			],
 			...(props.probes ?? this.createHttpProbes(this.httpProbePath)),
-			// todo: allow config via configs schema
-			resources: {
-				cpu: {
-					request: kplus.Cpu.millis(1000),
-					limit: kplus.Cpu.millis(1800),
-				},
-				memory: {
-					request: Size.mebibytes(1200),
-					limit: Size.mebibytes(1200),
-				},
-			},
+			resources,
 		})
 
 		const staticVolume = kplus.Volume.fromEmptyDir(
@@ -526,6 +527,15 @@ export class CeleryBeat extends ApiComponent {
 
 	constructor(scope: Construct, id: string, props: ApiProps) {
 		super(scope, id, props)
+		const resources = this.getResources({
+			cpu: {
+				request: 20,
+			},
+			memory: {
+				request: 400,
+				limit: 400,
+			},
+		})
 		this.addContainer({
 			name: 'celerybeat',
 			command: ['/serve.sh', 'celerybeat'],
@@ -536,15 +546,7 @@ export class CeleryBeat extends ApiComponent {
 				user: 1000,
 				group: 1000,
 			},
-			resources: {
-				cpu: {
-					request: kplus.Cpu.millis(20),
-				},
-				memory: {
-					request: Size.mebibytes(400),
-					limit: Size.mebibytes(400),
-				},
-			},
+			resources,
 		})
 	}
 
@@ -563,6 +565,13 @@ export class CeleryWorker extends ApiComponent<CeleryProps> {
 		const hostname = `${name}@%%h`
 
 		const queues = [...new Set(props.queues)]
+
+		const resources = this.getResources({
+			memory: {
+				limit: 900,
+				request: 900,
+			},
+		})
 
 		this.addContainer({
 			name,
@@ -583,13 +592,7 @@ export class CeleryWorker extends ApiComponent<CeleryProps> {
 				user: 1000,
 				group: 1000,
 			},
-			resources: {
-				cpu: this.props.containerDefaults!.resources!.cpu!,
-				memory: {
-					limit: Size.mebibytes(900),
-					request: Size.mebibytes(900),
-				},
-			},
+			resources,
 		})
 	}
 }
@@ -599,6 +602,15 @@ export class AdminWebSocket extends ApiComponent {
 
 	constructor(scope: Construct, id: string, props: ApiProps) {
 		super(scope, id, props)
+		const resources = this.getResources({
+			cpu: {
+				request: 3,
+			},
+			memory: {
+				request: 250,
+				limit: 250,
+			},
+		})
 		this.addContainer({
 			name: 'adminwebsocket',
 			command: ['/serve.sh', 'adminwebsocket'],
@@ -609,15 +621,7 @@ export class AdminWebSocket extends ApiComponent {
 				user: 1000,
 				group: 1000,
 			},
-			resources: {
-				cpu: {
-					request: kplus.Cpu.millis(3),
-				},
-				memory: {
-					request: Size.mebibytes(250),
-					limit: Size.mebibytes(250),
-				},
-			},
+			resources,
 		})
 	}
 }
