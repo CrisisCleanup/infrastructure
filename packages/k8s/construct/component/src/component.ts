@@ -3,6 +3,7 @@ import * as kplus from 'cdk8s-plus-27'
 import { type Construct, type Node } from 'constructs'
 import createDebug from 'debug'
 import defu from 'defu'
+import { z } from 'zod'
 import { ContainerImage, type ContainerImageProps } from './container-image'
 import { Label } from './labels'
 import { PodDisruptionBudget, type PodDisruptionBudgetProps } from './pdb'
@@ -10,12 +11,59 @@ import { ComponentScaling, type ComponentScalingProps } from './scaling'
 
 const debug = createDebug('@crisiscleanup:k8s.construct.component')
 
+export interface ContainerResources {
+	cpu?: kplus.CpuResources
+	memory?: kplus.MemoryResources
+}
+
+export interface ContainerResourceProps {
+	cpu?: {
+		request?: number
+		limit?: number
+	}
+	memory?: {
+		request?: number
+		limit?: number
+	}
+}
+
+const K8sMillicores = z
+	.number()
+	.describe('Kubernetes CPU Millicores')
+	.transform((v) => kplus.Cpu.millis(v))
+const K8sMemoryMebibytes = z
+	.number()
+	.describe('Kubernetes Memory Mebibytes')
+	.transform((v) => Size.mebibytes(v))
+
+const K8sCpuToMillicores = z.string().transform((v) => {
+	if (v.endsWith('m')) {
+		return parseInt(v.slice(0, -1))
+	}
+	return parseInt(v) * 1000
+})
+
+const resourcesSchema = z
+	.object({
+		cpu: z.object({
+			limit: K8sMillicores.optional(),
+			request: K8sMillicores.optional(),
+		}),
+		memory: z.object({
+			limit: K8sMemoryMebibytes.optional(),
+			request: K8sMemoryMebibytes.optional(),
+		}),
+	})
+	.describe('Kubernetes resource limits/requests')
+	.partial()
+
 export interface DeploymentProps extends kplus.WorkloadProps {
 	replicaCount?: number
 	image?: ContainerImageProps
 	probes?: Pick<kplus.ContainerProps, 'liveness' | 'startup' | 'readiness'>
 	scaling?: ComponentScalingProps
 	containerDefaults?: Partial<kplus.ContainerProps>
+	resources?: ContainerResourceProps
 }
 
 export type ComponentContainerProps = Omit<kplus.ContainerProps, 'image'> & {
@@ -66,6 +114,45 @@ export class Component<PropsT extends DeploymentProps = DeploymentProps> {
 
 	get containers(): Map<string, kplus.Container> {
 		return new Map(this.#containers)
+	}
+
+	protected getResources(
+		defaults?: ContainerResourceProps,
+	): ContainerResources {
+		const { cpu: cpuDefaults, memory: memoryDefaults } =
+			this.props.containerDefaults?.resources ?? {}
+		const containerDefaults = {
+			...(cpuDefaults
+				? {
+						cpu: {
+							limit: cpuDefaults.limit
+								? K8sCpuToMillicores.parse(cpuDefaults.limit.amount)
+								: undefined,
+							request: cpuDefaults.request
+								? K8sCpuToMillicores.parse(cpuDefaults.request.amount)
+								: undefined,
+						},
+				  }
+				: {}),
+			...(memoryDefaults
+				? {
+						memory: {
+							limit: memoryDefaults.limit
+								? memoryDefaults.limit.toMebibytes()
+								: undefined,
+							request: memoryDefaults.request
+								? memoryDefaults.request.toMebibytes()
+								: undefined,
+						},
+				  }
+				: {}),
+		}
+		const resourcesIn = defu(
+			this.props.resources ?? {},
+			defaults ?? {},
+			containerDefaults,
+		)
+		return resourcesSchema.parse(resourcesIn)
 	}
 
 	protected createDeploymentProps(): kplus.DeploymentProps {
