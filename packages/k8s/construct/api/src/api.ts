@@ -220,8 +220,11 @@ export class ApiWSGI
 				'--timeout=90',
 			],
 			...(props.probes ?? this.createHttpProbes(this.httpProbePath)),
+			// todo: allow config via configs schema
 			resources: {
-				cpu: this.props.containerDefaults!.resources!.cpu!,
+				cpu: {
+					request: kplus.Cpu.millis(900),
+				},
 				memory: {
 					request: Size.mebibytes(1200),
 					limit: Size.mebibytes(1200),
