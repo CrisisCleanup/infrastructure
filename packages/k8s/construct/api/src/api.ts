@@ -224,7 +224,7 @@ export class ApiWSGI
 			command: [
 				'/serve.sh',
 				'wsgi',
-				`--workers=${props.workers ?? 3}`,
+				`--workers=${props.workers ?? 5}`,
 				`--threads=${props.threads ?? 4}`,
 				'--worker-class=gthread',
 				'--worker-tmp-dir=/worker-tmp',
