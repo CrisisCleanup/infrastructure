@@ -145,15 +145,15 @@ export abstract class ApiComponent<
 		const liveProbe = kplus.Probe.fromHttpGet(httpPath, {
 			initialDelaySeconds: Duration.seconds(20),
 			periodSeconds: Duration.seconds(10),
-			timeoutSeconds: Duration.seconds(6),
-			failureThreshold: 6,
+			timeoutSeconds: Duration.seconds(8),
+			failureThreshold: 30,
 		})
 
 		const readyProbe = kplus.Probe.fromHttpGet(httpPath, {
 			initialDelaySeconds: Duration.seconds(20),
 			periodSeconds: Duration.seconds(10),
-			timeoutSeconds: Duration.seconds(6),
-			failureThreshold: 6,
+			timeoutSeconds: Duration.seconds(8),
+			failureThreshold: 30,
 		})
 
 		const startProbe = kplus.Probe.fromHttpGet(httpPath, {
@@ -224,7 +224,7 @@ export class ApiWSGI
 			command: [
 				'/serve.sh',
 				'wsgi',
-				`--workers=${props.workers ?? 2}`,
+				`--workers=${props.workers ?? 3}`,
 				`--threads=${props.threads ?? 4}`,
 				'--worker-class=gthread',
 				'--worker-tmp-dir=/worker-tmp',
