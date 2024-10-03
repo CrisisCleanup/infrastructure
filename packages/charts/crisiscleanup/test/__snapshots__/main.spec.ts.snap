@@ -42,7 +42,7 @@ exports[`CrisisCleanupChart: 'defaults' > api matches snapshot > defaults-api 1`
               "command": [
                 "/serve.sh",
                 "wsgi",
-                "--workers=5",
+                "--workers=2",
                 "--threads=4",
                 "--worker-class=gthread",
                 "--worker-tmp-dir=/worker-tmp",
@@ -1597,7 +1597,7 @@ exports[`CrisisCleanupChart: 'with spread' > api matches snapshot > with spread-
               "command": [
                 "/serve.sh",
                 "wsgi",
-                "--workers=5",
+                "--workers=2",
                 "--threads=4",
                 "--worker-class=gthread",
                 "--worker-tmp-dir=/worker-tmp",
@@ -3072,7 +3072,7 @@ exports[`CrisisCleanupChart: 'with sync' > api matches snapshot > with sync-api 
               "command": [
                 "/serve.sh",
                 "wsgi",
-                "--workers=5",
+                "--workers=2",
                 "--threads=4",
                 "--worker-class=gthread",
                 "--worker-tmp-dir=/worker-tmp",
