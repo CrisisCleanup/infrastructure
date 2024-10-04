@@ -16,7 +16,7 @@ import { App, type Chart } from 'cdk8s'
 import * as kplus from 'cdk8s-plus-27'
 import type { Construct } from 'constructs'
 import defu from 'defu'
-import { VerticalPodAutoscalerStackAddOn } from './vertical-pod-autoscaler'
+import { VerticalPodAutoscalerAddOn } from './vertical-pod-autoscaler'
 import { type NamedSecretsProvider } from '../secrets'
 import { getRequiredResource } from '../util'
 
@@ -39,7 +39,7 @@ export class CrisisCleanupAddOn implements blueprints.ClusterAddOn {
 		// TODO: resolve esbuild transform error that is occurring with tsx/esbuild.
 		const newDeploy = blueprints.utils.dependable(
 			blueprints.addons.SecretsStoreAddOn.name,
-			VerticalPodAutoscalerStackAddOn.name,
+			VerticalPodAutoscalerAddOn.name,
 		)(
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 			Object.getPrototypeOf(this),
