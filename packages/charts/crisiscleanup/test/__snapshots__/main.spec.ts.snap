@@ -861,6 +861,28 @@ exports[`CrisisCleanupChart: 'defaults' > api matches snapshot > defaults-api 1`
     },
   },
   {
+    "apiVersion": "autoscaling.k8s.io/v1",
+    "kind": "VerticalPodAutoscaler",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/component": "api",
+        "app.kubernetes.io/part-of": "crisiscleanup",
+      },
+      "name": "crisiscleanup-api-asgi-asgi-rag-vpa",
+      "namespace": "test",
+    },
+    "spec": {
+      "targetRef": {
+        "apiVersion": "apps/v1",
+        "kind": "StatefulSet",
+        "name": "crisiscleanup-api-asgi-rag",
+      },
+      "updatePolicy": {
+        "updateMode": "Auto",
+      },
+    },
+  },
+  {
     "apiVersion": "v1",
     "kind": "Service",
     "metadata": {
@@ -2521,6 +2543,28 @@ exports[`CrisisCleanupChart: 'with spread' > api matches snapshot > with spread-
     },
   },
   {
+    "apiVersion": "autoscaling.k8s.io/v1",
+    "kind": "VerticalPodAutoscaler",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/component": "api",
+        "app.kubernetes.io/part-of": "crisiscleanup",
+      },
+      "name": "crisiscleanup-api-asgi-asgi-rag-vpa",
+      "namespace": "test",
+    },
+    "spec": {
+      "targetRef": {
+        "apiVersion": "apps/v1",
+        "kind": "StatefulSet",
+        "name": "crisiscleanup-api-asgi-rag",
+      },
+      "updatePolicy": {
+        "updateMode": "Auto",
+      },
+    },
+  },
+  {
     "apiVersion": "v1",
     "kind": "Service",
     "metadata": {
@@ -4151,6 +4195,28 @@ exports[`CrisisCleanupChart: 'with sync' > api matches snapshot > with sync-api 
         "apiVersion": "apps/v1",
         "kind": "StatefulSet",
         "name": "crisiscleanup-api-asgi-rag",
+      },
+    },
+  },
+  {
+    "apiVersion": "autoscaling.k8s.io/v1",
+    "kind": "VerticalPodAutoscaler",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/component": "api",
+        "app.kubernetes.io/part-of": "crisiscleanup",
+      },
+      "name": "crisiscleanup-api-asgi-asgi-rag-vpa",
+      "namespace": "test",
+    },
+    "spec": {
+      "targetRef": {
+        "apiVersion": "apps/v1",
+        "kind": "StatefulSet",
+        "name": "crisiscleanup-api-asgi-rag",
+      },
+      "updatePolicy": {
+        "updateMode": "Auto",
       },
     },
   },
@@ -5924,6 +5990,28 @@ exports[`CrisisCleanupChart: 'with vertical scaling' > api matches snapshot > wi
         "apiVersion": "apps/v1",
         "kind": "StatefulSet",
         "name": "crisiscleanup-api-asgi-rag",
+      },
+    },
+  },
+  {
+    "apiVersion": "autoscaling.k8s.io/v1",
+    "kind": "VerticalPodAutoscaler",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/component": "api",
+        "app.kubernetes.io/part-of": "crisiscleanup",
+      },
+      "name": "crisiscleanup-api-asgi-asgi-rag-vpa",
+      "namespace": "test",
+    },
+    "spec": {
+      "targetRef": {
+        "apiVersion": "apps/v1",
+        "kind": "StatefulSet",
+        "name": "crisiscleanup-api-asgi-rag",
+      },
+      "updatePolicy": {
+        "updateMode": "Auto",
       },
     },
   },
