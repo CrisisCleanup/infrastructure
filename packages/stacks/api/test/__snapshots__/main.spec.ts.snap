@@ -4304,3 +4304,1859 @@ exports[`Snapshot 1`] = `
   },
 }
 `;
+
+exports[`VerticalPodAutoscalerAddon 1`] = `
+{
+  "Conditions": {
+    "testvpastackHasEcrPublic0FD62BCC": {
+      "Fn::Equals": [
+        {
+          "Ref": "AWS::Partition",
+        },
+        "aws",
+      ],
+    },
+  },
+  "Description": "Blueprints tracking (qs-1s1r465hk)",
+  "Outputs": {
+    "testvpastackClusterName3B556AD6": {
+      "Value": {
+        "Ref": "testvpastackA44B24A4",
+      },
+    },
+    "testvpastackConfigCommand316A2FDA": {
+      "Value": {
+        "Fn::Join": [
+          "",
+          [
+            "aws eks update-kubeconfig --name ",
+            {
+              "Ref": "testvpastackA44B24A4",
+            },
+            " --region us-east-1 --role-arn ",
+            {
+              "Fn::GetAtt": [
+                "testvpastackAccessRole8A386431",
+                "Arn",
+              ],
+            },
+          ],
+        ],
+      },
+    },
+    "testvpastackGetTokenCommand6255EA02": {
+      "Value": {
+        "Fn::Join": [
+          "",
+          [
+            "aws eks get-token --cluster-name ",
+            {
+              "Ref": "testvpastackA44B24A4",
+            },
+            " --region us-east-1 --role-arn ",
+            {
+              "Fn::GetAtt": [
+                "testvpastackAccessRole8A386431",
+                "Arn",
+              ],
+            },
+          ],
+        ],
+      },
+    },
+  },
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "awscdkawseksClusterResourceProviderNestedStackawscdkawseksClusterResourceProviderNestedStackResource9827C454": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "TemplateURL": {
+          "Fn::Join": [
+            "",
+            [
+              "https://s3.us-east-1.",
+              {
+                "Ref": "AWS::URLSuffix",
+              },
+              "/cdk-hnb659fds-assets-1234567890-us-east-1/4bc80ff775abe98c1c926c54b831f8852c6c5561d8406ff9300f56e6aec20e6a.json",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::CloudFormation::Stack",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "awscdkawseksKubectlProviderNestedStackawscdkawseksKubectlProviderNestedStackResourceA7AEBA6B": {
+      "DeletionPolicy": "Delete",
+      "DependsOn": [
+        "testvpastackvpcPrivateSubnet1DefaultRouteDB1163E7",
+        "testvpastackvpcPrivateSubnet1RouteTableAssociationB1567A03",
+        "testvpastackvpcPrivateSubnet2DefaultRoute084776BA",
+        "testvpastackvpcPrivateSubnet2RouteTableAssociationE95EDD63",
+        "testvpastackvpcPrivateSubnet3DefaultRoute2C6FEAE7",
+        "testvpastackvpcPrivateSubnet3RouteTableAssociation0188DDB9",
+        "testvpastackKubectlHandlerRoleDefaultPolicyD76393FE",
+        "testvpastackKubectlHandlerRole108ED1D6",
+      ],
+      "Properties": {
+        "Parameters": {
+          "referencetotestvpastack8CD69CC6ClusterSecurityGroupId": {
+            "Fn::GetAtt": [
+              "testvpastackA44B24A4",
+              "ClusterSecurityGroupId",
+            ],
+          },
+          "referencetotestvpastackKubectlHandlerRoleA756BA66Arn": {
+            "Fn::GetAtt": [
+              "testvpastackKubectlHandlerRole108ED1D6",
+              "Arn",
+            ],
+          },
+          "referencetotestvpastacktestvpastackvpcPrivateSubnet1Subnet90A30CA9Ref": {
+            "Ref": "testvpastackvpcPrivateSubnet1SubnetC54635A4",
+          },
+          "referencetotestvpastacktestvpastackvpcPrivateSubnet2SubnetBF14062CRef": {
+            "Ref": "testvpastackvpcPrivateSubnet2Subnet75DEF204",
+          },
+          "referencetotestvpastacktestvpastackvpcPrivateSubnet3Subnet8F497521Ref": {
+            "Ref": "testvpastackvpcPrivateSubnet3Subnet73275763",
+          },
+        },
+        "TemplateURL": {
+          "Fn::Join": [
+            "",
+            [
+              "https://s3.us-east-1.",
+              {
+                "Ref": "AWS::URLSuffix",
+              },
+              "/cdk-hnb659fds-assets-1234567890-us-east-1/6d46c512a946ee5c90db3496adcc7cadf5dc059e88b86ba7342cbbe099a24c39.json",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::CloudFormation::Stack",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "kubectllayer275BD88CD2": {
+      "Properties": {
+        "Content": {
+          "S3Bucket": "cdk-hnb659fds-assets-1234567890-us-east-1",
+          "S3Key": "8e18eb5caccd2617fb76e648fa6a35dc0ece98c4681942bc6861f41afdff6a1b.zip",
+        },
+        "Description": "/opt/kubectl/kubectl 1.27; /opt/helm/helm 3.12",
+        "LicenseInfo": "Apache-2.0",
+      },
+      "Type": "AWS::Lambda::LayerVersion",
+    },
+    "testvpastackA44B24A4": {
+      "DeletionPolicy": "Delete",
+      "DependsOn": [
+        "testvpastackvpcIGW626F1E20",
+        "testvpastackvpcPrivateSubnet1DefaultRouteDB1163E7",
+        "testvpastackvpcPrivateSubnet1RouteTableDC248E4C",
+        "testvpastackvpcPrivateSubnet1RouteTableAssociationB1567A03",
+        "testvpastackvpcPrivateSubnet1SubnetC54635A4",
+        "testvpastackvpcPrivateSubnet2DefaultRoute084776BA",
+        "testvpastackvpcPrivateSubnet2RouteTableF950E7E4",
+        "testvpastackvpcPrivateSubnet2RouteTableAssociationE95EDD63",
+        "testvpastackvpcPrivateSubnet2Subnet75DEF204",
+        "testvpastackvpcPrivateSubnet3DefaultRoute2C6FEAE7",
+        "testvpastackvpcPrivateSubnet3RouteTable8B746899",
+        "testvpastackvpcPrivateSubnet3RouteTableAssociation0188DDB9",
+        "testvpastackvpcPrivateSubnet3Subnet73275763",
+        "testvpastackvpcPublicSubnet1DefaultRoute53D0CA69",
+        "testvpastackvpcPublicSubnet1EIP877A95D5",
+        "testvpastackvpcPublicSubnet1NATGatewayDECAD558",
+        "testvpastackvpcPublicSubnet1RouteTable8558F55A",
+        "testvpastackvpcPublicSubnet1RouteTableAssociation74FF9906",
+        "testvpastackvpcPublicSubnet1Subnet04627F09",
+        "testvpastackvpcPublicSubnet2DefaultRoute3FC28FBE",
+        "testvpastackvpcPublicSubnet2EIP6732590D",
+        "testvpastackvpcPublicSubnet2NATGateway68090B44",
+        "testvpastackvpcPublicSubnet2RouteTableB217972E",
+        "testvpastackvpcPublicSubnet2RouteTableAssociationED9522C4",
+        "testvpastackvpcPublicSubnet2SubnetA12075B4",
+        "testvpastackvpcPublicSubnet3DefaultRoute9DA5C897",
+        "testvpastackvpcPublicSubnet3EIPD9E40A79",
+        "testvpastackvpcPublicSubnet3NATGateway53C95A43",
+        "testvpastackvpcPublicSubnet3RouteTable601CC309",
+        "testvpastackvpcPublicSubnet3RouteTableAssociation2ADDB3AE",
+        "testvpastackvpcPublicSubnet3Subnet42F4C57D",
+        "testvpastackvpcDE690657",
+        "testvpastackvpcVPCGWB95BCDC6",
+        "testvpastackCreationRoleDefaultPolicyC5F5CF94",
+        "testvpastackCreationRole3D272630",
+      ],
+      "Properties": {
+        "AssumeRoleArn": {
+          "Fn::GetAtt": [
+            "testvpastackCreationRole3D272630",
+            "Arn",
+          ],
+        },
+        "AttributesRevision": 2,
+        "Config": {
+          "encryptionConfig": [
+            {
+              "provider": {
+                "keyArn": {
+                  "Fn::GetAtt": [
+                    "testvpastackkmskeyF167D305",
+                    "Arn",
+                  ],
+                },
+              },
+              "resources": [
+                "secrets",
+              ],
+            },
+          ],
+          "kubernetesNetworkConfig": {
+            "ipFamily": "ipv4",
+          },
+          "name": "test-vpa-stack",
+          "resourcesVpcConfig": {
+            "endpointPrivateAccess": true,
+            "endpointPublicAccess": true,
+            "securityGroupIds": [
+              {
+                "Fn::GetAtt": [
+                  "testvpastackControlPlaneSecurityGroup22F4EFCD",
+                  "GroupId",
+                ],
+              },
+            ],
+            "subnetIds": [
+              {
+                "Ref": "testvpastackvpcPublicSubnet1Subnet04627F09",
+              },
+              {
+                "Ref": "testvpastackvpcPublicSubnet2SubnetA12075B4",
+              },
+              {
+                "Ref": "testvpastackvpcPublicSubnet3Subnet42F4C57D",
+              },
+              {
+                "Ref": "testvpastackvpcPrivateSubnet1SubnetC54635A4",
+              },
+              {
+                "Ref": "testvpastackvpcPrivateSubnet2Subnet75DEF204",
+              },
+              {
+                "Ref": "testvpastackvpcPrivateSubnet3Subnet73275763",
+              },
+            ],
+          },
+          "roleArn": {
+            "Fn::GetAtt": [
+              "testvpastackRole472FAAE9",
+              "Arn",
+            ],
+          },
+          "version": "1.27",
+        },
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "awscdkawseksClusterResourceProviderNestedStackawscdkawseksClusterResourceProviderNestedStackResource9827C454",
+            "Outputs.testvpastackawscdkawseksClusterResourceProviderframeworkonEvent4C9A5815Arn",
+          ],
+        },
+      },
+      "Type": "Custom::AWSCDK-EKS-Cluster",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "testvpastackAccessRole8A386431": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":iam::1234567890:root",
+                    ],
+                  ],
+                },
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "testvpastackAwsAuthmanifest6A043ECC": {
+      "DeletionPolicy": "Delete",
+      "DependsOn": [
+        "testvpastackvpcIGW626F1E20",
+        "testvpastackvpcPrivateSubnet1DefaultRouteDB1163E7",
+        "testvpastackvpcPrivateSubnet1RouteTableDC248E4C",
+        "testvpastackvpcPrivateSubnet1RouteTableAssociationB1567A03",
+        "testvpastackvpcPrivateSubnet1SubnetC54635A4",
+        "testvpastackvpcPrivateSubnet2DefaultRoute084776BA",
+        "testvpastackvpcPrivateSubnet2RouteTableF950E7E4",
+        "testvpastackvpcPrivateSubnet2RouteTableAssociationE95EDD63",
+        "testvpastackvpcPrivateSubnet2Subnet75DEF204",
+        "testvpastackvpcPrivateSubnet3DefaultRoute2C6FEAE7",
+        "testvpastackvpcPrivateSubnet3RouteTable8B746899",
+        "testvpastackvpcPrivateSubnet3RouteTableAssociation0188DDB9",
+        "testvpastackvpcPrivateSubnet3Subnet73275763",
+        "testvpastackvpcPublicSubnet1DefaultRoute53D0CA69",
+        "testvpastackvpcPublicSubnet1EIP877A95D5",
+        "testvpastackvpcPublicSubnet1NATGatewayDECAD558",
+        "testvpastackvpcPublicSubnet1RouteTable8558F55A",
+        "testvpastackvpcPublicSubnet1RouteTableAssociation74FF9906",
+        "testvpastackvpcPublicSubnet1Subnet04627F09",
+        "testvpastackvpcPublicSubnet2DefaultRoute3FC28FBE",
+        "testvpastackvpcPublicSubnet2EIP6732590D",
+        "testvpastackvpcPublicSubnet2NATGateway68090B44",
+        "testvpastackvpcPublicSubnet2RouteTableB217972E",
+        "testvpastackvpcPublicSubnet2RouteTableAssociationED9522C4",
+        "testvpastackvpcPublicSubnet2SubnetA12075B4",
+        "testvpastackvpcPublicSubnet3DefaultRoute9DA5C897",
+        "testvpastackvpcPublicSubnet3EIPD9E40A79",
+        "testvpastackvpcPublicSubnet3NATGateway53C95A43",
+        "testvpastackvpcPublicSubnet3RouteTable601CC309",
+        "testvpastackvpcPublicSubnet3RouteTableAssociation2ADDB3AE",
+        "testvpastackvpcPublicSubnet3Subnet42F4C57D",
+        "testvpastackvpcDE690657",
+        "testvpastackvpcVPCGWB95BCDC6",
+        "testvpastackKubectlReadyBarrier59EC1861",
+      ],
+      "Properties": {
+        "ClusterName": {
+          "Ref": "testvpastackA44B24A4",
+        },
+        "Manifest": {
+          "Fn::Join": [
+            "",
+            [
+              "[{\\"apiVersion\\":\\"v1\\",\\"kind\\":\\"ConfigMap\\",\\"metadata\\":{\\"name\\":\\"aws-auth\\",\\"namespace\\":\\"kube-system\\",\\"labels\\":{\\"aws.cdk.eks/prune-c8ea8e708b3c427b825a1b3445e0d83c4e9b341d40\\":\\"\\"}},\\"data\\":{\\"mapRoles\\":\\"[{\\\\\\"rolearn\\\\\\":\\\\\\"",
+              {
+                "Fn::GetAtt": [
+                  "testvpastackAccessRole8A386431",
+                  "Arn",
+                ],
+              },
+              "\\\\\\",\\\\\\"username\\\\\\":\\\\\\"",
+              {
+                "Fn::GetAtt": [
+                  "testvpastackAccessRole8A386431",
+                  "Arn",
+                ],
+              },
+              "\\\\\\",\\\\\\"groups\\\\\\":[\\\\\\"system:masters\\\\\\"]},{\\\\\\"rolearn\\\\\\":\\\\\\"",
+              {
+                "Fn::GetAtt": [
+                  "testvpastackfargateprofileserverlessPodExecutionRole7C68BDC1",
+                  "Arn",
+                ],
+              },
+              "\\\\\\",\\\\\\"username\\\\\\":\\\\\\"system:node:{{SessionName}}\\\\\\",\\\\\\"groups\\\\\\":[\\\\\\"system:bootstrappers\\\\\\",\\\\\\"system:nodes\\\\\\",\\\\\\"system:node-proxier\\\\\\"]}]\\",\\"mapUsers\\":\\"[]\\",\\"mapAccounts\\":\\"[]\\"}}]",
+            ],
+          ],
+        },
+        "Overwrite": true,
+        "PruneLabel": "aws.cdk.eks/prune-c8ea8e708b3c427b825a1b3445e0d83c4e9b341d40",
+        "RoleArn": {
+          "Fn::GetAtt": [
+            "testvpastackCreationRole3D272630",
+            "Arn",
+          ],
+        },
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "awscdkawseksKubectlProviderNestedStackawscdkawseksKubectlProviderNestedStackResourceA7AEBA6B",
+            "Outputs.testvpastackawscdkawseksKubectlProviderframeworkonEventB682DB3CArn",
+          ],
+        },
+      },
+      "Type": "Custom::AWSCDK-EKS-KubernetesResource",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "testvpastackControlPlaneSecurityGroup22F4EFCD": {
+      "DependsOn": [
+        "testvpastackvpcIGW626F1E20",
+        "testvpastackvpcPrivateSubnet1DefaultRouteDB1163E7",
+        "testvpastackvpcPrivateSubnet1RouteTableDC248E4C",
+        "testvpastackvpcPrivateSubnet1RouteTableAssociationB1567A03",
+        "testvpastackvpcPrivateSubnet1SubnetC54635A4",
+        "testvpastackvpcPrivateSubnet2DefaultRoute084776BA",
+        "testvpastackvpcPrivateSubnet2RouteTableF950E7E4",
+        "testvpastackvpcPrivateSubnet2RouteTableAssociationE95EDD63",
+        "testvpastackvpcPrivateSubnet2Subnet75DEF204",
+        "testvpastackvpcPrivateSubnet3DefaultRoute2C6FEAE7",
+        "testvpastackvpcPrivateSubnet3RouteTable8B746899",
+        "testvpastackvpcPrivateSubnet3RouteTableAssociation0188DDB9",
+        "testvpastackvpcPrivateSubnet3Subnet73275763",
+        "testvpastackvpcPublicSubnet1DefaultRoute53D0CA69",
+        "testvpastackvpcPublicSubnet1EIP877A95D5",
+        "testvpastackvpcPublicSubnet1NATGatewayDECAD558",
+        "testvpastackvpcPublicSubnet1RouteTable8558F55A",
+        "testvpastackvpcPublicSubnet1RouteTableAssociation74FF9906",
+        "testvpastackvpcPublicSubnet1Subnet04627F09",
+        "testvpastackvpcPublicSubnet2DefaultRoute3FC28FBE",
+        "testvpastackvpcPublicSubnet2EIP6732590D",
+        "testvpastackvpcPublicSubnet2NATGateway68090B44",
+        "testvpastackvpcPublicSubnet2RouteTableB217972E",
+        "testvpastackvpcPublicSubnet2RouteTableAssociationED9522C4",
+        "testvpastackvpcPublicSubnet2SubnetA12075B4",
+        "testvpastackvpcPublicSubnet3DefaultRoute9DA5C897",
+        "testvpastackvpcPublicSubnet3EIPD9E40A79",
+        "testvpastackvpcPublicSubnet3NATGateway53C95A43",
+        "testvpastackvpcPublicSubnet3RouteTable601CC309",
+        "testvpastackvpcPublicSubnet3RouteTableAssociation2ADDB3AE",
+        "testvpastackvpcPublicSubnet3Subnet42F4C57D",
+        "testvpastackvpcDE690657",
+        "testvpastackvpcVPCGWB95BCDC6",
+      ],
+      "Properties": {
+        "GroupDescription": "EKS Control Plane Security Group",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "VpcId": {
+          "Ref": "testvpastackvpcDE690657",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "testvpastackCreationRole3D272630": {
+      "DependsOn": [
+        "testvpastackvpcIGW626F1E20",
+        "testvpastackvpcPrivateSubnet1DefaultRouteDB1163E7",
+        "testvpastackvpcPrivateSubnet1RouteTableDC248E4C",
+        "testvpastackvpcPrivateSubnet1RouteTableAssociationB1567A03",
+        "testvpastackvpcPrivateSubnet1SubnetC54635A4",
+        "testvpastackvpcPrivateSubnet2DefaultRoute084776BA",
+        "testvpastackvpcPrivateSubnet2RouteTableF950E7E4",
+        "testvpastackvpcPrivateSubnet2RouteTableAssociationE95EDD63",
+        "testvpastackvpcPrivateSubnet2Subnet75DEF204",
+        "testvpastackvpcPrivateSubnet3DefaultRoute2C6FEAE7",
+        "testvpastackvpcPrivateSubnet3RouteTable8B746899",
+        "testvpastackvpcPrivateSubnet3RouteTableAssociation0188DDB9",
+        "testvpastackvpcPrivateSubnet3Subnet73275763",
+        "testvpastackvpcPublicSubnet1DefaultRoute53D0CA69",
+        "testvpastackvpcPublicSubnet1EIP877A95D5",
+        "testvpastackvpcPublicSubnet1NATGatewayDECAD558",
+        "testvpastackvpcPublicSubnet1RouteTable8558F55A",
+        "testvpastackvpcPublicSubnet1RouteTableAssociation74FF9906",
+        "testvpastackvpcPublicSubnet1Subnet04627F09",
+        "testvpastackvpcPublicSubnet2DefaultRoute3FC28FBE",
+        "testvpastackvpcPublicSubnet2EIP6732590D",
+        "testvpastackvpcPublicSubnet2NATGateway68090B44",
+        "testvpastackvpcPublicSubnet2RouteTableB217972E",
+        "testvpastackvpcPublicSubnet2RouteTableAssociationED9522C4",
+        "testvpastackvpcPublicSubnet2SubnetA12075B4",
+        "testvpastackvpcPublicSubnet3DefaultRoute9DA5C897",
+        "testvpastackvpcPublicSubnet3EIPD9E40A79",
+        "testvpastackvpcPublicSubnet3NATGateway53C95A43",
+        "testvpastackvpcPublicSubnet3RouteTable601CC309",
+        "testvpastackvpcPublicSubnet3RouteTableAssociation2ADDB3AE",
+        "testvpastackvpcPublicSubnet3Subnet42F4C57D",
+        "testvpastackvpcDE690657",
+        "testvpastackvpcVPCGWB95BCDC6",
+      ],
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::GetAtt": [
+                    "awscdkawseksClusterResourceProviderNestedStackawscdkawseksClusterResourceProviderNestedStackResource9827C454",
+                    "Outputs.testvpastackawscdkawseksClusterResourceProviderOnEventHandlerServiceRole0D588D6CArn",
+                  ],
+                },
+              },
+            },
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::GetAtt": [
+                    "awscdkawseksClusterResourceProviderNestedStackawscdkawseksClusterResourceProviderNestedStackResource9827C454",
+                    "Outputs.testvpastackawscdkawseksClusterResourceProviderIsCompleteHandlerServiceRoleFE1BD10DArn",
+                  ],
+                },
+              },
+            },
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::GetAtt": [
+                    "testvpastackKubectlHandlerRole108ED1D6",
+                    "Arn",
+                  ],
+                },
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "testvpastackCreationRoleDefaultPolicyC5F5CF94": {
+      "DependsOn": [
+        "testvpastackvpcIGW626F1E20",
+        "testvpastackvpcPrivateSubnet1DefaultRouteDB1163E7",
+        "testvpastackvpcPrivateSubnet1RouteTableDC248E4C",
+        "testvpastackvpcPrivateSubnet1RouteTableAssociationB1567A03",
+        "testvpastackvpcPrivateSubnet1SubnetC54635A4",
+        "testvpastackvpcPrivateSubnet2DefaultRoute084776BA",
+        "testvpastackvpcPrivateSubnet2RouteTableF950E7E4",
+        "testvpastackvpcPrivateSubnet2RouteTableAssociationE95EDD63",
+        "testvpastackvpcPrivateSubnet2Subnet75DEF204",
+        "testvpastackvpcPrivateSubnet3DefaultRoute2C6FEAE7",
+        "testvpastackvpcPrivateSubnet3RouteTable8B746899",
+        "testvpastackvpcPrivateSubnet3RouteTableAssociation0188DDB9",
+        "testvpastackvpcPrivateSubnet3Subnet73275763",
+        "testvpastackvpcPublicSubnet1DefaultRoute53D0CA69",
+        "testvpastackvpcPublicSubnet1EIP877A95D5",
+        "testvpastackvpcPublicSubnet1NATGatewayDECAD558",
+        "testvpastackvpcPublicSubnet1RouteTable8558F55A",
+        "testvpastackvpcPublicSubnet1RouteTableAssociation74FF9906",
+        "testvpastackvpcPublicSubnet1Subnet04627F09",
+        "testvpastackvpcPublicSubnet2DefaultRoute3FC28FBE",
+        "testvpastackvpcPublicSubnet2EIP6732590D",
+        "testvpastackvpcPublicSubnet2NATGateway68090B44",
+        "testvpastackvpcPublicSubnet2RouteTableB217972E",
+        "testvpastackvpcPublicSubnet2RouteTableAssociationED9522C4",
+        "testvpastackvpcPublicSubnet2SubnetA12075B4",
+        "testvpastackvpcPublicSubnet3DefaultRoute9DA5C897",
+        "testvpastackvpcPublicSubnet3EIPD9E40A79",
+        "testvpastackvpcPublicSubnet3NATGateway53C95A43",
+        "testvpastackvpcPublicSubnet3RouteTable601CC309",
+        "testvpastackvpcPublicSubnet3RouteTableAssociation2ADDB3AE",
+        "testvpastackvpcPublicSubnet3Subnet42F4C57D",
+        "testvpastackvpcDE690657",
+        "testvpastackvpcVPCGWB95BCDC6",
+      ],
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "iam:PassRole",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "testvpastackRole472FAAE9",
+                  "Arn",
+                ],
+              },
+            },
+            {
+              "Action": [
+                "eks:CreateCluster",
+                "eks:DescribeCluster",
+                "eks:DescribeUpdate",
+                "eks:DeleteCluster",
+                "eks:UpdateClusterVersion",
+                "eks:UpdateClusterConfig",
+                "eks:CreateFargateProfile",
+                "eks:TagResource",
+                "eks:UntagResource",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":eks:us-east-1:1234567890:cluster/test-vpa-stack",
+                    ],
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":eks:us-east-1:1234567890:cluster/test-vpa-stack/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": [
+                "eks:DescribeFargateProfile",
+                "eks:DeleteFargateProfile",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":eks:us-east-1:1234567890:fargateprofile/test-vpa-stack/*",
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": [
+                "iam:GetRole",
+                "iam:listAttachedRolePolicies",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": "iam:CreateServiceLinkedRole",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "ec2:DescribeInstances",
+                "ec2:DescribeNetworkInterfaces",
+                "ec2:DescribeSecurityGroups",
+                "ec2:DescribeSubnets",
+                "ec2:DescribeRouteTables",
+                "ec2:DescribeDhcpOptions",
+                "ec2:DescribeVpcs",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "kms:Encrypt",
+                "kms:Decrypt",
+                "kms:DescribeKey",
+                "kms:CreateGrant",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "testvpastackkmskeyF167D305",
+                  "Arn",
+                ],
+              },
+            },
+            {
+              "Action": "iam:PassRole",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "testvpastackfargateprofileserverlessPodExecutionRole7C68BDC1",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "testvpastackCreationRoleDefaultPolicyC5F5CF94",
+        "Roles": [
+          {
+            "Ref": "testvpastackCreationRole3D272630",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "testvpastackKubectlHandlerRole108ED1D6": {
+      "DependsOn": [
+        "testvpastackvpcIGW626F1E20",
+        "testvpastackvpcPrivateSubnet1DefaultRouteDB1163E7",
+        "testvpastackvpcPrivateSubnet1RouteTableDC248E4C",
+        "testvpastackvpcPrivateSubnet1RouteTableAssociationB1567A03",
+        "testvpastackvpcPrivateSubnet1SubnetC54635A4",
+        "testvpastackvpcPrivateSubnet2DefaultRoute084776BA",
+        "testvpastackvpcPrivateSubnet2RouteTableF950E7E4",
+        "testvpastackvpcPrivateSubnet2RouteTableAssociationE95EDD63",
+        "testvpastackvpcPrivateSubnet2Subnet75DEF204",
+        "testvpastackvpcPrivateSubnet3DefaultRoute2C6FEAE7",
+        "testvpastackvpcPrivateSubnet3RouteTable8B746899",
+        "testvpastackvpcPrivateSubnet3RouteTableAssociation0188DDB9",
+        "testvpastackvpcPrivateSubnet3Subnet73275763",
+        "testvpastackvpcPublicSubnet1DefaultRoute53D0CA69",
+        "testvpastackvpcPublicSubnet1EIP877A95D5",
+        "testvpastackvpcPublicSubnet1NATGatewayDECAD558",
+        "testvpastackvpcPublicSubnet1RouteTable8558F55A",
+        "testvpastackvpcPublicSubnet1RouteTableAssociation74FF9906",
+        "testvpastackvpcPublicSubnet1Subnet04627F09",
+        "testvpastackvpcPublicSubnet2DefaultRoute3FC28FBE",
+        "testvpastackvpcPublicSubnet2EIP6732590D",
+        "testvpastackvpcPublicSubnet2NATGateway68090B44",
+        "testvpastackvpcPublicSubnet2RouteTableB217972E",
+        "testvpastackvpcPublicSubnet2RouteTableAssociationED9522C4",
+        "testvpastackvpcPublicSubnet2SubnetA12075B4",
+        "testvpastackvpcPublicSubnet3DefaultRoute9DA5C897",
+        "testvpastackvpcPublicSubnet3EIPD9E40A79",
+        "testvpastackvpcPublicSubnet3NATGateway53C95A43",
+        "testvpastackvpcPublicSubnet3RouteTable601CC309",
+        "testvpastackvpcPublicSubnet3RouteTableAssociation2ADDB3AE",
+        "testvpastackvpcPublicSubnet3Subnet42F4C57D",
+        "testvpastackvpcDE690657",
+        "testvpastackvpcVPCGWB95BCDC6",
+      ],
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole",
+              ],
+            ],
+          },
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
+              ],
+            ],
+          },
+          {
+            "Fn::If": [
+              "testvpastackHasEcrPublic0FD62BCC",
+              {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":iam::aws:policy/AmazonElasticContainerRegistryPublicReadOnly",
+                  ],
+                ],
+              },
+              {
+                "Ref": "AWS::NoValue",
+              },
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "testvpastackKubectlHandlerRoleDefaultPolicyD76393FE": {
+      "DependsOn": [
+        "testvpastackvpcIGW626F1E20",
+        "testvpastackvpcPrivateSubnet1DefaultRouteDB1163E7",
+        "testvpastackvpcPrivateSubnet1RouteTableDC248E4C",
+        "testvpastackvpcPrivateSubnet1RouteTableAssociationB1567A03",
+        "testvpastackvpcPrivateSubnet1SubnetC54635A4",
+        "testvpastackvpcPrivateSubnet2DefaultRoute084776BA",
+        "testvpastackvpcPrivateSubnet2RouteTableF950E7E4",
+        "testvpastackvpcPrivateSubnet2RouteTableAssociationE95EDD63",
+        "testvpastackvpcPrivateSubnet2Subnet75DEF204",
+        "testvpastackvpcPrivateSubnet3DefaultRoute2C6FEAE7",
+        "testvpastackvpcPrivateSubnet3RouteTable8B746899",
+        "testvpastackvpcPrivateSubnet3RouteTableAssociation0188DDB9",
+        "testvpastackvpcPrivateSubnet3Subnet73275763",
+        "testvpastackvpcPublicSubnet1DefaultRoute53D0CA69",
+        "testvpastackvpcPublicSubnet1EIP877A95D5",
+        "testvpastackvpcPublicSubnet1NATGatewayDECAD558",
+        "testvpastackvpcPublicSubnet1RouteTable8558F55A",
+        "testvpastackvpcPublicSubnet1RouteTableAssociation74FF9906",
+        "testvpastackvpcPublicSubnet1Subnet04627F09",
+        "testvpastackvpcPublicSubnet2DefaultRoute3FC28FBE",
+        "testvpastackvpcPublicSubnet2EIP6732590D",
+        "testvpastackvpcPublicSubnet2NATGateway68090B44",
+        "testvpastackvpcPublicSubnet2RouteTableB217972E",
+        "testvpastackvpcPublicSubnet2RouteTableAssociationED9522C4",
+        "testvpastackvpcPublicSubnet2SubnetA12075B4",
+        "testvpastackvpcPublicSubnet3DefaultRoute9DA5C897",
+        "testvpastackvpcPublicSubnet3EIPD9E40A79",
+        "testvpastackvpcPublicSubnet3NATGateway53C95A43",
+        "testvpastackvpcPublicSubnet3RouteTable601CC309",
+        "testvpastackvpcPublicSubnet3RouteTableAssociation2ADDB3AE",
+        "testvpastackvpcPublicSubnet3Subnet42F4C57D",
+        "testvpastackvpcDE690657",
+        "testvpastackvpcVPCGWB95BCDC6",
+      ],
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "eks:DescribeCluster",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "testvpastackA44B24A4",
+                  "Arn",
+                ],
+              },
+            },
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "testvpastackCreationRole3D272630",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "testvpastackKubectlHandlerRoleDefaultPolicyD76393FE",
+        "Roles": [
+          {
+            "Ref": "testvpastackKubectlHandlerRole108ED1D6",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "testvpastackKubectlReadyBarrier59EC1861": {
+      "DependsOn": [
+        "testvpastackvpcIGW626F1E20",
+        "testvpastackvpcPrivateSubnet1DefaultRouteDB1163E7",
+        "testvpastackvpcPrivateSubnet1RouteTableDC248E4C",
+        "testvpastackvpcPrivateSubnet1RouteTableAssociationB1567A03",
+        "testvpastackvpcPrivateSubnet1SubnetC54635A4",
+        "testvpastackvpcPrivateSubnet2DefaultRoute084776BA",
+        "testvpastackvpcPrivateSubnet2RouteTableF950E7E4",
+        "testvpastackvpcPrivateSubnet2RouteTableAssociationE95EDD63",
+        "testvpastackvpcPrivateSubnet2Subnet75DEF204",
+        "testvpastackvpcPrivateSubnet3DefaultRoute2C6FEAE7",
+        "testvpastackvpcPrivateSubnet3RouteTable8B746899",
+        "testvpastackvpcPrivateSubnet3RouteTableAssociation0188DDB9",
+        "testvpastackvpcPrivateSubnet3Subnet73275763",
+        "testvpastackvpcPublicSubnet1DefaultRoute53D0CA69",
+        "testvpastackvpcPublicSubnet1EIP877A95D5",
+        "testvpastackvpcPublicSubnet1NATGatewayDECAD558",
+        "testvpastackvpcPublicSubnet1RouteTable8558F55A",
+        "testvpastackvpcPublicSubnet1RouteTableAssociation74FF9906",
+        "testvpastackvpcPublicSubnet1Subnet04627F09",
+        "testvpastackvpcPublicSubnet2DefaultRoute3FC28FBE",
+        "testvpastackvpcPublicSubnet2EIP6732590D",
+        "testvpastackvpcPublicSubnet2NATGateway68090B44",
+        "testvpastackvpcPublicSubnet2RouteTableB217972E",
+        "testvpastackvpcPublicSubnet2RouteTableAssociationED9522C4",
+        "testvpastackvpcPublicSubnet2SubnetA12075B4",
+        "testvpastackvpcPublicSubnet3DefaultRoute9DA5C897",
+        "testvpastackvpcPublicSubnet3EIPD9E40A79",
+        "testvpastackvpcPublicSubnet3NATGateway53C95A43",
+        "testvpastackvpcPublicSubnet3RouteTable601CC309",
+        "testvpastackvpcPublicSubnet3RouteTableAssociation2ADDB3AE",
+        "testvpastackvpcPublicSubnet3Subnet42F4C57D",
+        "testvpastackvpcDE690657",
+        "testvpastackvpcVPCGWB95BCDC6",
+        "testvpastackfargateprofileserverlessPodExecutionRole7C68BDC1",
+        "testvpastackfargateprofileserverlessCA08010C",
+        "testvpastackCreationRoleDefaultPolicyC5F5CF94",
+        "testvpastackCreationRole3D272630",
+        "testvpastackA44B24A4",
+      ],
+      "Properties": {
+        "Type": "String",
+        "Value": "aws:cdk:eks:kubectl-ready",
+      },
+      "Type": "AWS::SSM::Parameter",
+    },
+    "testvpastackRole472FAAE9": {
+      "DependsOn": [
+        "testvpastackvpcIGW626F1E20",
+        "testvpastackvpcPrivateSubnet1DefaultRouteDB1163E7",
+        "testvpastackvpcPrivateSubnet1RouteTableDC248E4C",
+        "testvpastackvpcPrivateSubnet1RouteTableAssociationB1567A03",
+        "testvpastackvpcPrivateSubnet1SubnetC54635A4",
+        "testvpastackvpcPrivateSubnet2DefaultRoute084776BA",
+        "testvpastackvpcPrivateSubnet2RouteTableF950E7E4",
+        "testvpastackvpcPrivateSubnet2RouteTableAssociationE95EDD63",
+        "testvpastackvpcPrivateSubnet2Subnet75DEF204",
+        "testvpastackvpcPrivateSubnet3DefaultRoute2C6FEAE7",
+        "testvpastackvpcPrivateSubnet3RouteTable8B746899",
+        "testvpastackvpcPrivateSubnet3RouteTableAssociation0188DDB9",
+        "testvpastackvpcPrivateSubnet3Subnet73275763",
+        "testvpastackvpcPublicSubnet1DefaultRoute53D0CA69",
+        "testvpastackvpcPublicSubnet1EIP877A95D5",
+        "testvpastackvpcPublicSubnet1NATGatewayDECAD558",
+        "testvpastackvpcPublicSubnet1RouteTable8558F55A",
+        "testvpastackvpcPublicSubnet1RouteTableAssociation74FF9906",
+        "testvpastackvpcPublicSubnet1Subnet04627F09",
+        "testvpastackvpcPublicSubnet2DefaultRoute3FC28FBE",
+        "testvpastackvpcPublicSubnet2EIP6732590D",
+        "testvpastackvpcPublicSubnet2NATGateway68090B44",
+        "testvpastackvpcPublicSubnet2RouteTableB217972E",
+        "testvpastackvpcPublicSubnet2RouteTableAssociationED9522C4",
+        "testvpastackvpcPublicSubnet2SubnetA12075B4",
+        "testvpastackvpcPublicSubnet3DefaultRoute9DA5C897",
+        "testvpastackvpcPublicSubnet3EIPD9E40A79",
+        "testvpastackvpcPublicSubnet3NATGateway53C95A43",
+        "testvpastackvpcPublicSubnet3RouteTable601CC309",
+        "testvpastackvpcPublicSubnet3RouteTableAssociation2ADDB3AE",
+        "testvpastackvpcPublicSubnet3Subnet42F4C57D",
+        "testvpastackvpcDE690657",
+        "testvpastackvpcVPCGWB95BCDC6",
+      ],
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "eks.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/AmazonEKSClusterPolicy",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "testvpastackchartverticalpodautoscaler72E5B2F6": {
+      "DeletionPolicy": "Delete",
+      "DependsOn": [
+        "testvpastackvpcIGW626F1E20",
+        "testvpastackvpcPrivateSubnet1DefaultRouteDB1163E7",
+        "testvpastackvpcPrivateSubnet1RouteTableDC248E4C",
+        "testvpastackvpcPrivateSubnet1RouteTableAssociationB1567A03",
+        "testvpastackvpcPrivateSubnet1SubnetC54635A4",
+        "testvpastackvpcPrivateSubnet2DefaultRoute084776BA",
+        "testvpastackvpcPrivateSubnet2RouteTableF950E7E4",
+        "testvpastackvpcPrivateSubnet2RouteTableAssociationE95EDD63",
+        "testvpastackvpcPrivateSubnet2Subnet75DEF204",
+        "testvpastackvpcPrivateSubnet3DefaultRoute2C6FEAE7",
+        "testvpastackvpcPrivateSubnet3RouteTable8B746899",
+        "testvpastackvpcPrivateSubnet3RouteTableAssociation0188DDB9",
+        "testvpastackvpcPrivateSubnet3Subnet73275763",
+        "testvpastackvpcPublicSubnet1DefaultRoute53D0CA69",
+        "testvpastackvpcPublicSubnet1EIP877A95D5",
+        "testvpastackvpcPublicSubnet1NATGatewayDECAD558",
+        "testvpastackvpcPublicSubnet1RouteTable8558F55A",
+        "testvpastackvpcPublicSubnet1RouteTableAssociation74FF9906",
+        "testvpastackvpcPublicSubnet1Subnet04627F09",
+        "testvpastackvpcPublicSubnet2DefaultRoute3FC28FBE",
+        "testvpastackvpcPublicSubnet2EIP6732590D",
+        "testvpastackvpcPublicSubnet2NATGateway68090B44",
+        "testvpastackvpcPublicSubnet2RouteTableB217972E",
+        "testvpastackvpcPublicSubnet2RouteTableAssociationED9522C4",
+        "testvpastackvpcPublicSubnet2SubnetA12075B4",
+        "testvpastackvpcPublicSubnet3DefaultRoute9DA5C897",
+        "testvpastackvpcPublicSubnet3EIPD9E40A79",
+        "testvpastackvpcPublicSubnet3NATGateway53C95A43",
+        "testvpastackvpcPublicSubnet3RouteTable601CC309",
+        "testvpastackvpcPublicSubnet3RouteTableAssociation2ADDB3AE",
+        "testvpastackvpcPublicSubnet3Subnet42F4C57D",
+        "testvpastackvpcDE690657",
+        "testvpastackvpcVPCGWB95BCDC6",
+        "testvpastackKubectlReadyBarrier59EC1861",
+      ],
+      "Properties": {
+        "Chart": "vertical-pod-autoscaler",
+        "ClusterName": {
+          "Ref": "testvpastackA44B24A4",
+        },
+        "Namespace": "kube-system",
+        "Release": "vertical-pod-autoscaler",
+        "Repository": "https://cowboysysop.github.io/charts",
+        "RoleArn": {
+          "Fn::GetAtt": [
+            "testvpastackCreationRole3D272630",
+            "Arn",
+          ],
+        },
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "awscdkawseksKubectlProviderNestedStackawscdkawseksKubectlProviderNestedStackResourceA7AEBA6B",
+            "Outputs.testvpastackawscdkawseksKubectlProviderframeworkonEventB682DB3CArn",
+          ],
+        },
+        "Values": "{}",
+        "Version": "9.9.0",
+      },
+      "Type": "Custom::AWSCDK-EKS-HelmChart",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "testvpastackfargateprofileserverlessCA08010C": {
+      "DeletionPolicy": "Delete",
+      "DependsOn": [
+        "testvpastackvpcIGW626F1E20",
+        "testvpastackvpcPrivateSubnet1DefaultRouteDB1163E7",
+        "testvpastackvpcPrivateSubnet1RouteTableDC248E4C",
+        "testvpastackvpcPrivateSubnet1RouteTableAssociationB1567A03",
+        "testvpastackvpcPrivateSubnet1SubnetC54635A4",
+        "testvpastackvpcPrivateSubnet2DefaultRoute084776BA",
+        "testvpastackvpcPrivateSubnet2RouteTableF950E7E4",
+        "testvpastackvpcPrivateSubnet2RouteTableAssociationE95EDD63",
+        "testvpastackvpcPrivateSubnet2Subnet75DEF204",
+        "testvpastackvpcPrivateSubnet3DefaultRoute2C6FEAE7",
+        "testvpastackvpcPrivateSubnet3RouteTable8B746899",
+        "testvpastackvpcPrivateSubnet3RouteTableAssociation0188DDB9",
+        "testvpastackvpcPrivateSubnet3Subnet73275763",
+        "testvpastackvpcPublicSubnet1DefaultRoute53D0CA69",
+        "testvpastackvpcPublicSubnet1EIP877A95D5",
+        "testvpastackvpcPublicSubnet1NATGatewayDECAD558",
+        "testvpastackvpcPublicSubnet1RouteTable8558F55A",
+        "testvpastackvpcPublicSubnet1RouteTableAssociation74FF9906",
+        "testvpastackvpcPublicSubnet1Subnet04627F09",
+        "testvpastackvpcPublicSubnet2DefaultRoute3FC28FBE",
+        "testvpastackvpcPublicSubnet2EIP6732590D",
+        "testvpastackvpcPublicSubnet2NATGateway68090B44",
+        "testvpastackvpcPublicSubnet2RouteTableB217972E",
+        "testvpastackvpcPublicSubnet2RouteTableAssociationED9522C4",
+        "testvpastackvpcPublicSubnet2SubnetA12075B4",
+        "testvpastackvpcPublicSubnet3DefaultRoute9DA5C897",
+        "testvpastackvpcPublicSubnet3EIPD9E40A79",
+        "testvpastackvpcPublicSubnet3NATGateway53C95A43",
+        "testvpastackvpcPublicSubnet3RouteTable601CC309",
+        "testvpastackvpcPublicSubnet3RouteTableAssociation2ADDB3AE",
+        "testvpastackvpcPublicSubnet3Subnet42F4C57D",
+        "testvpastackvpcDE690657",
+        "testvpastackvpcVPCGWB95BCDC6",
+      ],
+      "Properties": {
+        "AssumeRoleArn": {
+          "Fn::GetAtt": [
+            "testvpastackCreationRole3D272630",
+            "Arn",
+          ],
+        },
+        "Config": {
+          "clusterName": {
+            "Ref": "testvpastackA44B24A4",
+          },
+          "podExecutionRoleArn": {
+            "Fn::GetAtt": [
+              "testvpastackfargateprofileserverlessPodExecutionRole7C68BDC1",
+              "Arn",
+            ],
+          },
+          "selectors": [
+            {
+              "namespace": "karpenter",
+            },
+            {
+              "namespace": "cert-manager",
+            },
+          ],
+          "subnets": [
+            {
+              "Ref": "testvpastackvpcPrivateSubnet1SubnetC54635A4",
+            },
+            {
+              "Ref": "testvpastackvpcPrivateSubnet2Subnet75DEF204",
+            },
+            {
+              "Ref": "testvpastackvpcPrivateSubnet3Subnet73275763",
+            },
+          ],
+        },
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "awscdkawseksClusterResourceProviderNestedStackawscdkawseksClusterResourceProviderNestedStackResource9827C454",
+            "Outputs.testvpastackawscdkawseksClusterResourceProviderframeworkonEvent4C9A5815Arn",
+          ],
+        },
+      },
+      "Type": "Custom::AWSCDK-EKS-FargateProfile",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "testvpastackfargateprofileserverlessPodExecutionRole7C68BDC1": {
+      "DependsOn": [
+        "testvpastackvpcIGW626F1E20",
+        "testvpastackvpcPrivateSubnet1DefaultRouteDB1163E7",
+        "testvpastackvpcPrivateSubnet1RouteTableDC248E4C",
+        "testvpastackvpcPrivateSubnet1RouteTableAssociationB1567A03",
+        "testvpastackvpcPrivateSubnet1SubnetC54635A4",
+        "testvpastackvpcPrivateSubnet2DefaultRoute084776BA",
+        "testvpastackvpcPrivateSubnet2RouteTableF950E7E4",
+        "testvpastackvpcPrivateSubnet2RouteTableAssociationE95EDD63",
+        "testvpastackvpcPrivateSubnet2Subnet75DEF204",
+        "testvpastackvpcPrivateSubnet3DefaultRoute2C6FEAE7",
+        "testvpastackvpcPrivateSubnet3RouteTable8B746899",
+        "testvpastackvpcPrivateSubnet3RouteTableAssociation0188DDB9",
+        "testvpastackvpcPrivateSubnet3Subnet73275763",
+        "testvpastackvpcPublicSubnet1DefaultRoute53D0CA69",
+        "testvpastackvpcPublicSubnet1EIP877A95D5",
+        "testvpastackvpcPublicSubnet1NATGatewayDECAD558",
+        "testvpastackvpcPublicSubnet1RouteTable8558F55A",
+        "testvpastackvpcPublicSubnet1RouteTableAssociation74FF9906",
+        "testvpastackvpcPublicSubnet1Subnet04627F09",
+        "testvpastackvpcPublicSubnet2DefaultRoute3FC28FBE",
+        "testvpastackvpcPublicSubnet2EIP6732590D",
+        "testvpastackvpcPublicSubnet2NATGateway68090B44",
+        "testvpastackvpcPublicSubnet2RouteTableB217972E",
+        "testvpastackvpcPublicSubnet2RouteTableAssociationED9522C4",
+        "testvpastackvpcPublicSubnet2SubnetA12075B4",
+        "testvpastackvpcPublicSubnet3DefaultRoute9DA5C897",
+        "testvpastackvpcPublicSubnet3EIPD9E40A79",
+        "testvpastackvpcPublicSubnet3NATGateway53C95A43",
+        "testvpastackvpcPublicSubnet3RouteTable601CC309",
+        "testvpastackvpcPublicSubnet3RouteTableAssociation2ADDB3AE",
+        "testvpastackvpcPublicSubnet3Subnet42F4C57D",
+        "testvpastackvpcDE690657",
+        "testvpastackvpcVPCGWB95BCDC6",
+      ],
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "eks-fargate-pods.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/AmazonEKSFargatePodExecutionRolePolicy",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "testvpastackkmskeyF167D305": {
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "Description": "Key for EKS Cluster 'test-vpa-stack'",
+        "KeyPolicy": {
+          "Statement": [
+            {
+              "Action": "kms:*",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":iam::1234567890:root",
+                    ],
+                  ],
+                },
+              },
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::KMS::Key",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "testvpastackvpcDE690657": {
+      "Properties": {
+        "CidrBlock": "10.0.0.0/16",
+        "EnableDnsHostnames": true,
+        "EnableDnsSupport": true,
+        "InstanceTenancy": "default",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "test-vpa-stack/test-vpa-stack-vpc",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::VPC",
+    },
+    "testvpastackvpcIGW626F1E20": {
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "test-vpa-stack/test-vpa-stack-vpc",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::InternetGateway",
+    },
+    "testvpastackvpcPrivateSubnet1DefaultRouteDB1163E7": {
+      "Properties": {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "NatGatewayId": {
+          "Ref": "testvpastackvpcPublicSubnet1NATGatewayDECAD558",
+        },
+        "RouteTableId": {
+          "Ref": "testvpastackvpcPrivateSubnet1RouteTableDC248E4C",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "testvpastackvpcPrivateSubnet1RouteTableAssociationB1567A03": {
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "testvpastackvpcPrivateSubnet1RouteTableDC248E4C",
+        },
+        "SubnetId": {
+          "Ref": "testvpastackvpcPrivateSubnet1SubnetC54635A4",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "testvpastackvpcPrivateSubnet1RouteTableDC248E4C": {
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "kubernetes.io/role/internal-elb",
+            "Value": "1",
+          },
+          {
+            "Key": "Name",
+            "Value": "test-vpa-stack/test-vpa-stack-vpc/PrivateSubnet1",
+          },
+        ],
+        "VpcId": {
+          "Ref": "testvpastackvpcDE690657",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "testvpastackvpcPrivateSubnet1SubnetC54635A4": {
+      "Properties": {
+        "AvailabilityZone": "dummy1a",
+        "CidrBlock": "10.0.96.0/19",
+        "MapPublicIpOnLaunch": false,
+        "Tags": [
+          {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Private",
+          },
+          {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Private",
+          },
+          {
+            "Key": "kubernetes.io/role/internal-elb",
+            "Value": "1",
+          },
+          {
+            "Key": "Name",
+            "Value": "test-vpa-stack/test-vpa-stack-vpc/PrivateSubnet1",
+          },
+        ],
+        "VpcId": {
+          "Ref": "testvpastackvpcDE690657",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+    "testvpastackvpcPrivateSubnet2DefaultRoute084776BA": {
+      "Properties": {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "NatGatewayId": {
+          "Ref": "testvpastackvpcPublicSubnet2NATGateway68090B44",
+        },
+        "RouteTableId": {
+          "Ref": "testvpastackvpcPrivateSubnet2RouteTableF950E7E4",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "testvpastackvpcPrivateSubnet2RouteTableAssociationE95EDD63": {
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "testvpastackvpcPrivateSubnet2RouteTableF950E7E4",
+        },
+        "SubnetId": {
+          "Ref": "testvpastackvpcPrivateSubnet2Subnet75DEF204",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "testvpastackvpcPrivateSubnet2RouteTableF950E7E4": {
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "kubernetes.io/role/internal-elb",
+            "Value": "1",
+          },
+          {
+            "Key": "Name",
+            "Value": "test-vpa-stack/test-vpa-stack-vpc/PrivateSubnet2",
+          },
+        ],
+        "VpcId": {
+          "Ref": "testvpastackvpcDE690657",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "testvpastackvpcPrivateSubnet2Subnet75DEF204": {
+      "Properties": {
+        "AvailabilityZone": "dummy1b",
+        "CidrBlock": "10.0.128.0/19",
+        "MapPublicIpOnLaunch": false,
+        "Tags": [
+          {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Private",
+          },
+          {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Private",
+          },
+          {
+            "Key": "kubernetes.io/role/internal-elb",
+            "Value": "1",
+          },
+          {
+            "Key": "Name",
+            "Value": "test-vpa-stack/test-vpa-stack-vpc/PrivateSubnet2",
+          },
+        ],
+        "VpcId": {
+          "Ref": "testvpastackvpcDE690657",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+    "testvpastackvpcPrivateSubnet3DefaultRoute2C6FEAE7": {
+      "Properties": {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "NatGatewayId": {
+          "Ref": "testvpastackvpcPublicSubnet3NATGateway53C95A43",
+        },
+        "RouteTableId": {
+          "Ref": "testvpastackvpcPrivateSubnet3RouteTable8B746899",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "testvpastackvpcPrivateSubnet3RouteTable8B746899": {
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "kubernetes.io/role/internal-elb",
+            "Value": "1",
+          },
+          {
+            "Key": "Name",
+            "Value": "test-vpa-stack/test-vpa-stack-vpc/PrivateSubnet3",
+          },
+        ],
+        "VpcId": {
+          "Ref": "testvpastackvpcDE690657",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "testvpastackvpcPrivateSubnet3RouteTableAssociation0188DDB9": {
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "testvpastackvpcPrivateSubnet3RouteTable8B746899",
+        },
+        "SubnetId": {
+          "Ref": "testvpastackvpcPrivateSubnet3Subnet73275763",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "testvpastackvpcPrivateSubnet3Subnet73275763": {
+      "Properties": {
+        "AvailabilityZone": "dummy1c",
+        "CidrBlock": "10.0.160.0/19",
+        "MapPublicIpOnLaunch": false,
+        "Tags": [
+          {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Private",
+          },
+          {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Private",
+          },
+          {
+            "Key": "kubernetes.io/role/internal-elb",
+            "Value": "1",
+          },
+          {
+            "Key": "Name",
+            "Value": "test-vpa-stack/test-vpa-stack-vpc/PrivateSubnet3",
+          },
+        ],
+        "VpcId": {
+          "Ref": "testvpastackvpcDE690657",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+    "testvpastackvpcPublicSubnet1DefaultRoute53D0CA69": {
+      "DependsOn": [
+        "testvpastackvpcVPCGWB95BCDC6",
+      ],
+      "Properties": {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": {
+          "Ref": "testvpastackvpcIGW626F1E20",
+        },
+        "RouteTableId": {
+          "Ref": "testvpastackvpcPublicSubnet1RouteTable8558F55A",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "testvpastackvpcPublicSubnet1EIP877A95D5": {
+      "Properties": {
+        "Domain": "vpc",
+        "Tags": [
+          {
+            "Key": "kubernetes.io/role/elb",
+            "Value": "1",
+          },
+          {
+            "Key": "Name",
+            "Value": "test-vpa-stack/test-vpa-stack-vpc/PublicSubnet1",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::EIP",
+    },
+    "testvpastackvpcPublicSubnet1NATGatewayDECAD558": {
+      "DependsOn": [
+        "testvpastackvpcPublicSubnet1DefaultRoute53D0CA69",
+        "testvpastackvpcPublicSubnet1RouteTableAssociation74FF9906",
+      ],
+      "Properties": {
+        "AllocationId": {
+          "Fn::GetAtt": [
+            "testvpastackvpcPublicSubnet1EIP877A95D5",
+            "AllocationId",
+          ],
+        },
+        "SubnetId": {
+          "Ref": "testvpastackvpcPublicSubnet1Subnet04627F09",
+        },
+        "Tags": [
+          {
+            "Key": "kubernetes.io/role/elb",
+            "Value": "1",
+          },
+          {
+            "Key": "Name",
+            "Value": "test-vpa-stack/test-vpa-stack-vpc/PublicSubnet1",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::NatGateway",
+    },
+    "testvpastackvpcPublicSubnet1RouteTable8558F55A": {
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "kubernetes.io/role/elb",
+            "Value": "1",
+          },
+          {
+            "Key": "Name",
+            "Value": "test-vpa-stack/test-vpa-stack-vpc/PublicSubnet1",
+          },
+        ],
+        "VpcId": {
+          "Ref": "testvpastackvpcDE690657",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "testvpastackvpcPublicSubnet1RouteTableAssociation74FF9906": {
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "testvpastackvpcPublicSubnet1RouteTable8558F55A",
+        },
+        "SubnetId": {
+          "Ref": "testvpastackvpcPublicSubnet1Subnet04627F09",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "testvpastackvpcPublicSubnet1Subnet04627F09": {
+      "Properties": {
+        "AvailabilityZone": "dummy1a",
+        "CidrBlock": "10.0.0.0/19",
+        "MapPublicIpOnLaunch": true,
+        "Tags": [
+          {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Public",
+          },
+          {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Public",
+          },
+          {
+            "Key": "kubernetes.io/role/elb",
+            "Value": "1",
+          },
+          {
+            "Key": "Name",
+            "Value": "test-vpa-stack/test-vpa-stack-vpc/PublicSubnet1",
+          },
+        ],
+        "VpcId": {
+          "Ref": "testvpastackvpcDE690657",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+    "testvpastackvpcPublicSubnet2DefaultRoute3FC28FBE": {
+      "DependsOn": [
+        "testvpastackvpcVPCGWB95BCDC6",
+      ],
+      "Properties": {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": {
+          "Ref": "testvpastackvpcIGW626F1E20",
+        },
+        "RouteTableId": {
+          "Ref": "testvpastackvpcPublicSubnet2RouteTableB217972E",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "testvpastackvpcPublicSubnet2EIP6732590D": {
+      "Properties": {
+        "Domain": "vpc",
+        "Tags": [
+          {
+            "Key": "kubernetes.io/role/elb",
+            "Value": "1",
+          },
+          {
+            "Key": "Name",
+            "Value": "test-vpa-stack/test-vpa-stack-vpc/PublicSubnet2",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::EIP",
+    },
+    "testvpastackvpcPublicSubnet2NATGateway68090B44": {
+      "DependsOn": [
+        "testvpastackvpcPublicSubnet2DefaultRoute3FC28FBE",
+        "testvpastackvpcPublicSubnet2RouteTableAssociationED9522C4",
+      ],
+      "Properties": {
+        "AllocationId": {
+          "Fn::GetAtt": [
+            "testvpastackvpcPublicSubnet2EIP6732590D",
+            "AllocationId",
+          ],
+        },
+        "SubnetId": {
+          "Ref": "testvpastackvpcPublicSubnet2SubnetA12075B4",
+        },
+        "Tags": [
+          {
+            "Key": "kubernetes.io/role/elb",
+            "Value": "1",
+          },
+          {
+            "Key": "Name",
+            "Value": "test-vpa-stack/test-vpa-stack-vpc/PublicSubnet2",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::NatGateway",
+    },
+    "testvpastackvpcPublicSubnet2RouteTableAssociationED9522C4": {
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "testvpastackvpcPublicSubnet2RouteTableB217972E",
+        },
+        "SubnetId": {
+          "Ref": "testvpastackvpcPublicSubnet2SubnetA12075B4",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "testvpastackvpcPublicSubnet2RouteTableB217972E": {
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "kubernetes.io/role/elb",
+            "Value": "1",
+          },
+          {
+            "Key": "Name",
+            "Value": "test-vpa-stack/test-vpa-stack-vpc/PublicSubnet2",
+          },
+        ],
+        "VpcId": {
+          "Ref": "testvpastackvpcDE690657",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "testvpastackvpcPublicSubnet2SubnetA12075B4": {
+      "Properties": {
+        "AvailabilityZone": "dummy1b",
+        "CidrBlock": "10.0.32.0/19",
+        "MapPublicIpOnLaunch": true,
+        "Tags": [
+          {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Public",
+          },
+          {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Public",
+          },
+          {
+            "Key": "kubernetes.io/role/elb",
+            "Value": "1",
+          },
+          {
+            "Key": "Name",
+            "Value": "test-vpa-stack/test-vpa-stack-vpc/PublicSubnet2",
+          },
+        ],
+        "VpcId": {
+          "Ref": "testvpastackvpcDE690657",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+    "testvpastackvpcPublicSubnet3DefaultRoute9DA5C897": {
+      "DependsOn": [
+        "testvpastackvpcVPCGWB95BCDC6",
+      ],
+      "Properties": {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": {
+          "Ref": "testvpastackvpcIGW626F1E20",
+        },
+        "RouteTableId": {
+          "Ref": "testvpastackvpcPublicSubnet3RouteTable601CC309",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "testvpastackvpcPublicSubnet3EIPD9E40A79": {
+      "Properties": {
+        "Domain": "vpc",
+        "Tags": [
+          {
+            "Key": "kubernetes.io/role/elb",
+            "Value": "1",
+          },
+          {
+            "Key": "Name",
+            "Value": "test-vpa-stack/test-vpa-stack-vpc/PublicSubnet3",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::EIP",
+    },
+    "testvpastackvpcPublicSubnet3NATGateway53C95A43": {
+      "DependsOn": [
+        "testvpastackvpcPublicSubnet3DefaultRoute9DA5C897",
+        "testvpastackvpcPublicSubnet3RouteTableAssociation2ADDB3AE",
+      ],
+      "Properties": {
+        "AllocationId": {
+          "Fn::GetAtt": [
+            "testvpastackvpcPublicSubnet3EIPD9E40A79",
+            "AllocationId",
+          ],
+        },
+        "SubnetId": {
+          "Ref": "testvpastackvpcPublicSubnet3Subnet42F4C57D",
+        },
+        "Tags": [
+          {
+            "Key": "kubernetes.io/role/elb",
+            "Value": "1",
+          },
+          {
+            "Key": "Name",
+            "Value": "test-vpa-stack/test-vpa-stack-vpc/PublicSubnet3",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::NatGateway",
+    },
+    "testvpastackvpcPublicSubnet3RouteTable601CC309": {
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "kubernetes.io/role/elb",
+            "Value": "1",
+          },
+          {
+            "Key": "Name",
+            "Value": "test-vpa-stack/test-vpa-stack-vpc/PublicSubnet3",
+          },
+        ],
+        "VpcId": {
+          "Ref": "testvpastackvpcDE690657",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "testvpastackvpcPublicSubnet3RouteTableAssociation2ADDB3AE": {
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "testvpastackvpcPublicSubnet3RouteTable601CC309",
+        },
+        "SubnetId": {
+          "Ref": "testvpastackvpcPublicSubnet3Subnet42F4C57D",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "testvpastackvpcPublicSubnet3Subnet42F4C57D": {
+      "Properties": {
+        "AvailabilityZone": "dummy1c",
+        "CidrBlock": "10.0.64.0/19",
+        "MapPublicIpOnLaunch": true,
+        "Tags": [
+          {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Public",
+          },
+          {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Public",
+          },
+          {
+            "Key": "kubernetes.io/role/elb",
+            "Value": "1",
+          },
+          {
+            "Key": "Name",
+            "Value": "test-vpa-stack/test-vpa-stack-vpc/PublicSubnet3",
+          },
+        ],
+        "VpcId": {
+          "Ref": "testvpastackvpcDE690657",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+    "testvpastackvpcVPCGWB95BCDC6": {
+      "Properties": {
+        "InternetGatewayId": {
+          "Ref": "testvpastackvpcIGW626F1E20",
+        },
+        "VpcId": {
+          "Ref": "testvpastackvpcDE690657",
+        },
+      },
+      "Type": "AWS::EC2::VPCGatewayAttachment",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;

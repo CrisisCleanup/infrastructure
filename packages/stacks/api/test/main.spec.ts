@@ -13,7 +13,10 @@ import { KubernetesVersion } from 'aws-cdk-lib/aws-eks'
 import { type IConstruct } from 'constructs'
 import { test, expect, vi, beforeAll, afterAll } from 'vitest'
 import stackDefaults from '../crisiscleanup.config'
-import { CrisisCleanupAddOn } from '../src/addons'
+import {
+	CrisisCleanupAddOn,
+	VerticalPodAutoscalerStackAddOn,
+} from '../src/addons'
 import {
 	buildClusterBuilder,
 	getCoreAddons,
@@ -79,6 +82,34 @@ test('Snapshot', async () => {
 			}),
 		)
 		.buildAsync(app, 'test-stack')
+
+	const template = Template.fromStack(stack)
+	expect(template.toJSON()).toMatchSnapshot()
+})
+
+test('VerticalPodAutoscalerAddon', async () => {
+	// @ts-expect-error ignore test
+	const config: CrisisCleanupConfig = getConfigDefaults({
+		...stackDefaults,
+		...chartDefaults,
+		cdkEnvironment: {
+			account: '1234567890',
+			region: 'us-east-1',
+		},
+	})
+	console.log(config)
+	const app = new App({
+		context: {
+			config,
+			'giget-auth': 'fake-token',
+		},
+	})
+	const cluster = buildClusterBuilder(config.apiStack!.eks.k8s.version).build()
+	const stack = await blueprints.EksBlueprint.builder()
+		.version(KubernetesVersion.of(config.apiStack!.eks.k8s.version))
+		.addOns(new VerticalPodAutoscalerStackAddOn())
+		.clusterProvider(cluster)
+		.buildAsync(app, 'test-vpa-stack')
 
 	const template = Template.fromStack(stack)
 	expect(template.toJSON()).toMatchSnapshot()
