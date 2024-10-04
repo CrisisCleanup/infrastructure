@@ -4630,12 +4630,11 @@ exports[`CrisisCleanupChart: 'with sync' > sync matches snapshot > with sync-syn
                   "name": "sync",
                   "resources": {
                     "limits": {
-                      "cpu": "1500m",
                       "memory": "2048Mi",
                     },
                     "requests": {
-                      "cpu": "1000m",
-                      "memory": "512Mi",
+                      "cpu": "2",
+                      "memory": "1024Mi",
                     },
                   },
                   "securityContext": {
