@@ -8,6 +8,11 @@ import { ContainerImage, type ContainerImageProps } from './container-image'
 import { Label } from './labels'
 import { PodDisruptionBudget, type PodDisruptionBudgetProps } from './pdb'
 import { ComponentScaling, type ComponentScalingProps } from './scaling'
+import {
+	VerticalPodAutoscaler,
+	type ContainerPolicy,
+	type ResourceLimits,
+} from './vertical-pod-autoscaler'
 
 const debug = createDebug('@crisiscleanup:k8s.construct.component')
 
@@ -25,6 +30,11 @@ export interface ContainerResourceProps {
 		request?: number
 		limit?: number
 	}
+}
+
+export interface VerticalAutoscalingDeploymentProps {
+	enabled?: boolean
+	policies?: ContainerPolicy[]
 }
 
 const K8sMillicores = z
@@ -57,6 +67,28 @@ const resourcesSchema = z
 	.describe('Kubernetes resource limits/requests')
 	.partial()
 
+/**
+ * @see https://github.com/colinhacks/zod/issues/384
+ */
+const CpuInstanceSchema = z.custom<kplus.Cpu>(
+	(data) => data instanceof kplus.Cpu,
+)
+const SizeInstanceSchema = z.custom<Size>((data) => data instanceof Size)
+
+const resourcesRangeSchema = z
+	.object({
+		cpu: z.union([CpuInstanceSchema, K8sMillicores]).optional(),
+		memory: z.union([SizeInstanceSchema, K8sMemoryMebibytes]).optional(),
+	})
+	.describe('Resource limits for vertical scaling.')
+	.partial()
+	.pipe(
+		z.object({
+			cpu: CpuInstanceSchema.optional(),
+			memory: SizeInstanceSchema.optional(),
+		}),
+	)
+
 export interface DeploymentProps extends kplus.WorkloadProps {
 	replicaCount?: number
 	image?: ContainerImageProps
@@ -64,6 +96,7 @@ export interface DeploymentProps extends kplus.WorkloadProps {
 	scaling?: ComponentScalingProps
 	containerDefaults?: Partial<kplus.ContainerProps>
 	resources?: ContainerResourceProps
+	verticalScaling?: VerticalAutoscalingDeploymentProps
 }
 
 export type ComponentContainerProps = Omit<kplus.ContainerProps, 'image'> & {
@@ -75,6 +108,7 @@ export class Component<PropsT extends DeploymentProps = DeploymentProps> {
 	static componentName: string = ''
 	readonly deployment: kplus.Deployment
 	readonly scaling?: ComponentScaling = undefined
+	readonly vpa?: VerticalPodAutoscaler = undefined
 	readonly node: Node
 	#containers: Map<string, kplus.Container> = new Map()
 
@@ -107,6 +141,26 @@ export class Component<PropsT extends DeploymentProps = DeploymentProps> {
 			this.scaling = new ComponentScaling(this.scope, this.id, {
 				...(props.scaling ?? { maxReplicas: 2 }),
 				target: this.deployment,
+			})
+		}
+		if (props.verticalScaling?.enabled) {
+			this.vpa = new VerticalPodAutoscaler(this.scope, this.id + '-VPA', {
+				target: this.deployment,
+				resourcePolicy: props.verticalScaling?.policies
+					? {
+							containerPolicies: props.verticalScaling?.policies?.map?.(
+								({ containerName, minAllowed, maxAllowed }) => ({
+									containerName,
+									minAllowed: minAllowed
+										? (resourcesRangeSchema.parse(minAllowed) as ResourceLimits)
+										: undefined,
+									maxAllowed: maxAllowed
+										? (resourcesRangeSchema.parse(maxAllowed) as ResourceLimits)
+										: undefined,
+								}),
+							),
+					  }
+					: undefined,
 			})
 		}
 		this.node = this.deployment.node
