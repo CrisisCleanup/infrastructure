@@ -100,7 +100,7 @@ const deploymentSchema = z.object({
 	image: containerImageSchema.optional(),
 	spread: z.boolean().default(false),
 	resources: resourcesSchema.optional(),
-	verticalScaling: verticalScalingSchema.optional(),
+	verticalScaling: verticalScalingSchema.optional().default({ enabled: true }),
 })
 
 const withScaling = <T extends typeof deploymentSchema>(inSchema: T) =>
