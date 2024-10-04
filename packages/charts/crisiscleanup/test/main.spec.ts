@@ -1,6 +1,6 @@
 import { baseConfig } from '@crisiscleanup/config'
-import { type App, Chart, Testing } from 'cdk8s'
-import { ImagePullPolicy } from 'cdk8s-plus-27'
+import { type App, Chart, Size, Testing } from 'cdk8s'
+import { Cpu, ImagePullPolicy } from 'cdk8s-plus-27'
 import defu from 'defu'
 import { describe, expect, it } from 'vitest'
 import defaultChartConfig from '../crisiscleanup.config'
@@ -62,6 +62,36 @@ const propCases: [
 				image: {
 					repository: 'myrepo',
 					tag: 'synctag',
+				},
+			},
+		},
+	],
+	[
+		'with vertical scaling',
+		{
+			asgi: {
+				spread: true,
+				replicaCount: 4,
+				verticalScaling: { enabled: true },
+			},
+			wsgi: {
+				spread: true,
+				replicaCount: 4,
+				verticalScaling: {
+					enabled: true,
+					policies: [
+						{
+							containerName: '*',
+							minAllowed: {
+								cpu: Cpu.millis(500),
+								memory: Size.mebibytes(1200),
+							},
+							maxAllowed: {
+								cpu: Cpu.units(3),
+								memory: Size.gibibytes(3),
+							},
+						},
+					],
 				},
 			},
 		},
