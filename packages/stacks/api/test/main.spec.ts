@@ -13,10 +13,7 @@ import { KubernetesVersion } from 'aws-cdk-lib/aws-eks'
 import { type IConstruct } from 'constructs'
 import { test, expect, vi, beforeAll, afterAll } from 'vitest'
 import stackDefaults from '../crisiscleanup.config'
-import {
-	CrisisCleanupAddOn,
-	VerticalPodAutoscalerStackAddOn,
-} from '../src/addons'
+import { CrisisCleanupAddOn, VerticalPodAutoscalerAddOn } from '../src/addons'
 import {
 	buildClusterBuilder,
 	getCoreAddons,
@@ -72,6 +69,7 @@ test('Snapshot', async () => {
 			},
 		})
 		.addOns(
+			new VerticalPodAutoscalerAddOn(),
 			new CrisisCleanupAddOn({
 				config,
 				databaseResourceName: '',
@@ -107,7 +105,7 @@ test('VerticalPodAutoscalerAddon', async () => {
 	const cluster = buildClusterBuilder(config.apiStack!.eks.k8s.version).build()
 	const stack = await blueprints.EksBlueprint.builder()
 		.version(KubernetesVersion.of(config.apiStack!.eks.k8s.version))
-		.addOns(new VerticalPodAutoscalerStackAddOn())
+		.addOns(new VerticalPodAutoscalerAddOn())
 		.clusterProvider(cluster)
 		.buildAsync(app, 'test-vpa-stack')
 
