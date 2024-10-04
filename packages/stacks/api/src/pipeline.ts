@@ -20,7 +20,7 @@ import * as lambda from 'aws-cdk-lib/aws-lambda'
 
 import { type GitHubEnvironment, StackCapabilities } from 'cdk-pipelines-github'
 import type { Construct } from 'constructs'
-import { CrisisCleanupAddOn, VerticalPodAutoscalerStackAddOn } from './addons'
+import { CrisisCleanupAddOn, VerticalPodAutoscalerAddOn } from './addons'
 import {
 	buildClusterBuilder,
 	buildKarpenter,
@@ -276,7 +276,7 @@ export class Pipeline {
 							undefined,
 							config.apiStack!.eks.instanceTypes ?? undefined,
 						),
-						new VerticalPodAutoscalerStackAddOn(),
+						new VerticalPodAutoscalerAddOn(),
 						new CrisisCleanupAddOn({
 							config,
 							secretsProvider,

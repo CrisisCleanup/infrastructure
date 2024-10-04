@@ -2,10 +2,10 @@ import * as blueprints from '@aws-quickstart/eks-blueprints'
 import { type Construct } from 'constructs'
 import defu from 'defu'
 
-export interface VerticalPodAutoscalerStackAddOnProps
+export interface VerticalPodAutoscalerAddOnProps
 	extends blueprints.HelmAddOnProps {}
 
-const vpaStackDefaults: VerticalPodAutoscalerStackAddOnProps = {
+const vpaStackDefaults: VerticalPodAutoscalerAddOnProps = {
 	name: 'vertical-pod-autoscaler',
 	version: '9.9.0',
 	chart: 'vertical-pod-autoscaler',
@@ -14,14 +14,14 @@ const vpaStackDefaults: VerticalPodAutoscalerStackAddOnProps = {
 	repository: 'https://cowboysysop.github.io/charts',
 }
 
-export class VerticalPodAutoscalerStackAddOn extends blueprints.HelmAddOn {
-	readonly props: VerticalPodAutoscalerStackAddOnProps
+export class VerticalPodAutoscalerAddOn extends blueprints.HelmAddOn {
+	readonly props: VerticalPodAutoscalerAddOnProps
 
-	constructor(props?: Partial<VerticalPodAutoscalerStackAddOnProps>) {
+	constructor(props?: Partial<VerticalPodAutoscalerAddOnProps>) {
 		const withDefaults = defu(
 			props ?? {},
 			vpaStackDefaults,
-		) as VerticalPodAutoscalerStackAddOnProps
+		) as VerticalPodAutoscalerAddOnProps
 		super(withDefaults)
 		this.props = withDefaults
 	}
