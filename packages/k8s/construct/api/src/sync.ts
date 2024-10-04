@@ -2,7 +2,7 @@ import {
 	ContainerImage,
 	type ContainerImageProps,
 } from '@crisiscleanup/k8s.construct.component'
-import { Cron, type CronOptions, Duration } from 'cdk8s'
+import { Cron, type CronOptions, Duration, Size } from 'cdk8s'
 import * as kplus from 'cdk8s-plus-27'
 import { RestartPolicy } from 'cdk8s-plus-27'
 import { Construct } from 'constructs'
@@ -67,6 +67,15 @@ export class DatabaseSync extends Construct {
 			command: ['python'],
 			args: syncArgs,
 			volumeMounts: [{ path: '/tmp', volume: configVolume }],
+			resources: {
+				cpu: {
+					request: kplus.Cpu.units(2),
+				},
+				memory: {
+					request: Size.gibibytes(1),
+					limit: Size.gibibytes(2),
+				},
+			},
 		})
 		this.syncCronJob.addVolume(configVolume)
 	}
