@@ -412,6 +412,28 @@ exports[`CrisisCleanupChart: 'defaults' > api matches snapshot > defaults-api 1`
     },
   },
   {
+    "apiVersion": "autoscaling.k8s.io/v1",
+    "kind": "VerticalPodAutoscaler",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/component": "api",
+        "app.kubernetes.io/part-of": "crisiscleanup",
+      },
+      "name": "crisiscleanup-api-wsgi-vpa",
+      "namespace": "test",
+    },
+    "spec": {
+      "targetRef": {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "name": "crisiscleanup-api-wsgi",
+      },
+      "updatePolicy": {
+        "updateMode": "Auto",
+      },
+    },
+  },
+  {
     "apiVersion": "apps/v1",
     "kind": "Deployment",
     "metadata": {
@@ -936,6 +958,28 @@ exports[`CrisisCleanupChart: 'defaults' > api matches snapshot > defaults-api 1`
     },
   },
   {
+    "apiVersion": "autoscaling.k8s.io/v1",
+    "kind": "VerticalPodAutoscaler",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/component": "api",
+        "app.kubernetes.io/part-of": "crisiscleanup",
+      },
+      "name": "crisiscleanup-api-asgi-vpa",
+      "namespace": "test",
+    },
+    "spec": {
+      "targetRef": {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "name": "crisiscleanup-api-asgi",
+      },
+      "updatePolicy": {
+        "updateMode": "Auto",
+      },
+    },
+  },
+  {
     "apiVersion": "apps/v1",
     "kind": "Deployment",
     "metadata": {
@@ -1016,6 +1060,28 @@ exports[`CrisisCleanupChart: 'defaults' > api matches snapshot > defaults-api 1`
           "setHostnameAsFQDN": false,
           "terminationGracePeriodSeconds": 30,
         },
+      },
+    },
+  },
+  {
+    "apiVersion": "autoscaling.k8s.io/v1",
+    "kind": "VerticalPodAutoscaler",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/component": "api",
+        "app.kubernetes.io/part-of": "crisiscleanup",
+      },
+      "name": "crisiscleanup-api-admin-websocket-vpa",
+      "namespace": "test",
+    },
+    "spec": {
+      "targetRef": {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "name": "crisiscleanup-api-admin-websocket",
+      },
+      "updatePolicy": {
+        "updateMode": "Auto",
       },
     },
   },
@@ -1105,6 +1171,28 @@ exports[`CrisisCleanupChart: 'defaults' > celery matches snapshot > defaults-cel
           "setHostnameAsFQDN": false,
           "terminationGracePeriodSeconds": 30,
         },
+      },
+    },
+  },
+  {
+    "apiVersion": "autoscaling.k8s.io/v1",
+    "kind": "VerticalPodAutoscaler",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/component": "task-queue",
+        "app.kubernetes.io/part-of": "crisiscleanup",
+      },
+      "name": "crisiscleanup-celery-celerybeat-vpa",
+      "namespace": "test",
+    },
+    "spec": {
+      "targetRef": {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "name": "crisiscleanup-celery-celerybeat",
+      },
+      "updatePolicy": {
+        "updateMode": "Auto",
       },
     },
   },
@@ -1269,6 +1357,28 @@ exports[`CrisisCleanupChart: 'defaults' > celery matches snapshot > defaults-cel
     },
   },
   {
+    "apiVersion": "autoscaling.k8s.io/v1",
+    "kind": "VerticalPodAutoscaler",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/component": "task-queue",
+        "app.kubernetes.io/part-of": "crisiscleanup",
+      },
+      "name": "crisiscleanup-celery-celery-celery-vpa",
+      "namespace": "test",
+    },
+    "spec": {
+      "targetRef": {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "name": "crisiscleanup-celery-celery-celery",
+      },
+      "updatePolicy": {
+        "updateMode": "Auto",
+      },
+    },
+  },
+  {
     "apiVersion": "apps/v1",
     "kind": "Deployment",
     "metadata": {
@@ -1425,6 +1535,28 @@ exports[`CrisisCleanupChart: 'defaults' > celery matches snapshot > defaults-cel
         "apiVersion": "apps/v1",
         "kind": "Deployment",
         "name": "crisiscleanup-celery-celery-signal",
+      },
+    },
+  },
+  {
+    "apiVersion": "autoscaling.k8s.io/v1",
+    "kind": "VerticalPodAutoscaler",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/component": "task-queue",
+        "app.kubernetes.io/part-of": "crisiscleanup",
+      },
+      "name": "crisiscleanup-celery-celery-signal-vpa",
+      "namespace": "test",
+    },
+    "spec": {
+      "targetRef": {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "name": "crisiscleanup-celery-celery-signal",
+      },
+      "updatePolicy": {
+        "updateMode": "Auto",
       },
     },
   },
@@ -1904,6 +2036,28 @@ exports[`CrisisCleanupChart: 'with spread' > api matches snapshot > with spread-
         "cdk8s.io/metadata.addr": "crisiscleanup-api-wsgi-c83e828d",
       },
       "type": "ClusterIP",
+    },
+  },
+  {
+    "apiVersion": "autoscaling.k8s.io/v1",
+    "kind": "VerticalPodAutoscaler",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/component": "api",
+        "app.kubernetes.io/part-of": "crisiscleanup",
+      },
+      "name": "crisiscleanup-api-wsgi-vpa",
+      "namespace": "test",
+    },
+    "spec": {
+      "targetRef": {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "name": "crisiscleanup-api-wsgi",
+      },
+      "updatePolicy": {
+        "updateMode": "Auto",
+      },
     },
   },
   {
@@ -2392,6 +2546,28 @@ exports[`CrisisCleanupChart: 'with spread' > api matches snapshot > with spread-
     },
   },
   {
+    "apiVersion": "autoscaling.k8s.io/v1",
+    "kind": "VerticalPodAutoscaler",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/component": "api",
+        "app.kubernetes.io/part-of": "crisiscleanup",
+      },
+      "name": "crisiscleanup-api-asgi-vpa",
+      "namespace": "test",
+    },
+    "spec": {
+      "targetRef": {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "name": "crisiscleanup-api-asgi",
+      },
+      "updatePolicy": {
+        "updateMode": "Auto",
+      },
+    },
+  },
+  {
     "apiVersion": "policy/v1",
     "kind": "PodDisruptionBudget",
     "metadata": {
@@ -2495,6 +2671,28 @@ exports[`CrisisCleanupChart: 'with spread' > api matches snapshot > with spread-
       },
     },
   },
+  {
+    "apiVersion": "autoscaling.k8s.io/v1",
+    "kind": "VerticalPodAutoscaler",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/component": "api",
+        "app.kubernetes.io/part-of": "crisiscleanup",
+      },
+      "name": "crisiscleanup-api-admin-websocket-vpa",
+      "namespace": "test",
+    },
+    "spec": {
+      "targetRef": {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "name": "crisiscleanup-api-admin-websocket",
+      },
+      "updatePolicy": {
+        "updateMode": "Auto",
+      },
+    },
+  },
 ]
 `;
 
@@ -2581,6 +2779,28 @@ exports[`CrisisCleanupChart: 'with spread' > celery matches snapshot > with spre
           "setHostnameAsFQDN": false,
           "terminationGracePeriodSeconds": 30,
         },
+      },
+    },
+  },
+  {
+    "apiVersion": "autoscaling.k8s.io/v1",
+    "kind": "VerticalPodAutoscaler",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/component": "task-queue",
+        "app.kubernetes.io/part-of": "crisiscleanup",
+      },
+      "name": "crisiscleanup-celery-celerybeat-vpa",
+      "namespace": "test",
+    },
+    "spec": {
+      "targetRef": {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "name": "crisiscleanup-celery-celerybeat",
+      },
+      "updatePolicy": {
+        "updateMode": "Auto",
       },
     },
   },
@@ -2745,6 +2965,28 @@ exports[`CrisisCleanupChart: 'with spread' > celery matches snapshot > with spre
     },
   },
   {
+    "apiVersion": "autoscaling.k8s.io/v1",
+    "kind": "VerticalPodAutoscaler",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/component": "task-queue",
+        "app.kubernetes.io/part-of": "crisiscleanup",
+      },
+      "name": "crisiscleanup-celery-celery-celery-vpa",
+      "namespace": "test",
+    },
+    "spec": {
+      "targetRef": {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "name": "crisiscleanup-celery-celery-celery",
+      },
+      "updatePolicy": {
+        "updateMode": "Auto",
+      },
+    },
+  },
+  {
     "apiVersion": "apps/v1",
     "kind": "Deployment",
     "metadata": {
@@ -2901,6 +3143,28 @@ exports[`CrisisCleanupChart: 'with spread' > celery matches snapshot > with spre
         "apiVersion": "apps/v1",
         "kind": "Deployment",
         "name": "crisiscleanup-celery-celery-signal",
+      },
+    },
+  },
+  {
+    "apiVersion": "autoscaling.k8s.io/v1",
+    "kind": "VerticalPodAutoscaler",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/component": "task-queue",
+        "app.kubernetes.io/part-of": "crisiscleanup",
+      },
+      "name": "crisiscleanup-celery-celery-signal-vpa",
+      "namespace": "test",
+    },
+    "spec": {
+      "targetRef": {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "name": "crisiscleanup-celery-celery-signal",
+      },
+      "updatePolicy": {
+        "updateMode": "Auto",
       },
     },
   },
@@ -3442,6 +3706,28 @@ exports[`CrisisCleanupChart: 'with sync' > api matches snapshot > with sync-api 
     },
   },
   {
+    "apiVersion": "autoscaling.k8s.io/v1",
+    "kind": "VerticalPodAutoscaler",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/component": "api",
+        "app.kubernetes.io/part-of": "crisiscleanup",
+      },
+      "name": "crisiscleanup-api-wsgi-vpa",
+      "namespace": "test",
+    },
+    "spec": {
+      "targetRef": {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "name": "crisiscleanup-api-wsgi",
+      },
+      "updatePolicy": {
+        "updateMode": "Auto",
+      },
+    },
+  },
+  {
     "apiVersion": "apps/v1",
     "kind": "Deployment",
     "metadata": {
@@ -3966,6 +4252,28 @@ exports[`CrisisCleanupChart: 'with sync' > api matches snapshot > with sync-api 
     },
   },
   {
+    "apiVersion": "autoscaling.k8s.io/v1",
+    "kind": "VerticalPodAutoscaler",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/component": "api",
+        "app.kubernetes.io/part-of": "crisiscleanup",
+      },
+      "name": "crisiscleanup-api-asgi-vpa",
+      "namespace": "test",
+    },
+    "spec": {
+      "targetRef": {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "name": "crisiscleanup-api-asgi",
+      },
+      "updatePolicy": {
+        "updateMode": "Auto",
+      },
+    },
+  },
+  {
     "apiVersion": "apps/v1",
     "kind": "Deployment",
     "metadata": {
@@ -4046,6 +4354,28 @@ exports[`CrisisCleanupChart: 'with sync' > api matches snapshot > with sync-api 
           "setHostnameAsFQDN": false,
           "terminationGracePeriodSeconds": 30,
         },
+      },
+    },
+  },
+  {
+    "apiVersion": "autoscaling.k8s.io/v1",
+    "kind": "VerticalPodAutoscaler",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/component": "api",
+        "app.kubernetes.io/part-of": "crisiscleanup",
+      },
+      "name": "crisiscleanup-api-admin-websocket-vpa",
+      "namespace": "test",
+    },
+    "spec": {
+      "targetRef": {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "name": "crisiscleanup-api-admin-websocket",
+      },
+      "updatePolicy": {
+        "updateMode": "Auto",
       },
     },
   },
@@ -4135,6 +4465,28 @@ exports[`CrisisCleanupChart: 'with sync' > celery matches snapshot > with sync-c
           "setHostnameAsFQDN": false,
           "terminationGracePeriodSeconds": 30,
         },
+      },
+    },
+  },
+  {
+    "apiVersion": "autoscaling.k8s.io/v1",
+    "kind": "VerticalPodAutoscaler",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/component": "task-queue",
+        "app.kubernetes.io/part-of": "crisiscleanup",
+      },
+      "name": "crisiscleanup-celery-celerybeat-vpa",
+      "namespace": "test",
+    },
+    "spec": {
+      "targetRef": {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "name": "crisiscleanup-celery-celerybeat",
+      },
+      "updatePolicy": {
+        "updateMode": "Auto",
       },
     },
   },
@@ -4299,6 +4651,28 @@ exports[`CrisisCleanupChart: 'with sync' > celery matches snapshot > with sync-c
     },
   },
   {
+    "apiVersion": "autoscaling.k8s.io/v1",
+    "kind": "VerticalPodAutoscaler",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/component": "task-queue",
+        "app.kubernetes.io/part-of": "crisiscleanup",
+      },
+      "name": "crisiscleanup-celery-celery-celery-vpa",
+      "namespace": "test",
+    },
+    "spec": {
+      "targetRef": {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "name": "crisiscleanup-celery-celery-celery",
+      },
+      "updatePolicy": {
+        "updateMode": "Auto",
+      },
+    },
+  },
+  {
     "apiVersion": "apps/v1",
     "kind": "Deployment",
     "metadata": {
@@ -4455,6 +4829,28 @@ exports[`CrisisCleanupChart: 'with sync' > celery matches snapshot > with sync-c
         "apiVersion": "apps/v1",
         "kind": "Deployment",
         "name": "crisiscleanup-celery-celery-signal",
+      },
+    },
+  },
+  {
+    "apiVersion": "autoscaling.k8s.io/v1",
+    "kind": "VerticalPodAutoscaler",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/component": "task-queue",
+        "app.kubernetes.io/part-of": "crisiscleanup",
+      },
+      "name": "crisiscleanup-celery-celery-signal-vpa",
+      "namespace": "test",
+    },
+    "spec": {
+      "targetRef": {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "name": "crisiscleanup-celery-celery-signal",
+      },
+      "updatePolicy": {
+        "updateMode": "Auto",
       },
     },
   },
@@ -5682,6 +6078,28 @@ exports[`CrisisCleanupChart: 'with vertical scaling' > api matches snapshot > wi
       },
     },
   },
+  {
+    "apiVersion": "autoscaling.k8s.io/v1",
+    "kind": "VerticalPodAutoscaler",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/component": "api",
+        "app.kubernetes.io/part-of": "crisiscleanup",
+      },
+      "name": "crisiscleanup-api-admin-websocket-vpa",
+      "namespace": "test",
+    },
+    "spec": {
+      "targetRef": {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "name": "crisiscleanup-api-admin-websocket",
+      },
+      "updatePolicy": {
+        "updateMode": "Auto",
+      },
+    },
+  },
 ]
 `;
 
@@ -5768,6 +6186,28 @@ exports[`CrisisCleanupChart: 'with vertical scaling' > celery matches snapshot >
           "setHostnameAsFQDN": false,
           "terminationGracePeriodSeconds": 30,
         },
+      },
+    },
+  },
+  {
+    "apiVersion": "autoscaling.k8s.io/v1",
+    "kind": "VerticalPodAutoscaler",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/component": "task-queue",
+        "app.kubernetes.io/part-of": "crisiscleanup",
+      },
+      "name": "crisiscleanup-celery-celerybeat-vpa",
+      "namespace": "test",
+    },
+    "spec": {
+      "targetRef": {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "name": "crisiscleanup-celery-celerybeat",
+      },
+      "updatePolicy": {
+        "updateMode": "Auto",
       },
     },
   },
@@ -5932,6 +6372,28 @@ exports[`CrisisCleanupChart: 'with vertical scaling' > celery matches snapshot >
     },
   },
   {
+    "apiVersion": "autoscaling.k8s.io/v1",
+    "kind": "VerticalPodAutoscaler",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/component": "task-queue",
+        "app.kubernetes.io/part-of": "crisiscleanup",
+      },
+      "name": "crisiscleanup-celery-celery-celery-vpa",
+      "namespace": "test",
+    },
+    "spec": {
+      "targetRef": {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "name": "crisiscleanup-celery-celery-celery",
+      },
+      "updatePolicy": {
+        "updateMode": "Auto",
+      },
+    },
+  },
+  {
     "apiVersion": "apps/v1",
     "kind": "Deployment",
     "metadata": {
@@ -6088,6 +6550,28 @@ exports[`CrisisCleanupChart: 'with vertical scaling' > celery matches snapshot >
         "apiVersion": "apps/v1",
         "kind": "Deployment",
         "name": "crisiscleanup-celery-celery-signal",
+      },
+    },
+  },
+  {
+    "apiVersion": "autoscaling.k8s.io/v1",
+    "kind": "VerticalPodAutoscaler",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/component": "task-queue",
+        "app.kubernetes.io/part-of": "crisiscleanup",
+      },
+      "name": "crisiscleanup-celery-celery-signal-vpa",
+      "namespace": "test",
+    },
+    "spec": {
+      "targetRef": {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "name": "crisiscleanup-celery-celery-signal",
+      },
+      "updatePolicy": {
+        "updateMode": "Auto",
       },
     },
   },
