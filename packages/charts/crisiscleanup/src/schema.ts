@@ -1,3 +1,5 @@
+import { Size } from 'cdk8s'
+import * as kplus from 'cdk8s-plus-27'
 import { z } from 'zod'
 
 const ImagePullPolicyEnum = z.enum(['Always', 'Never', 'IfNotPresent'])
@@ -12,8 +14,21 @@ const containerImageSchema = z
 
 const metricPercent = z.number().min(0).max(100)
 
+/**
+ * @see https://github.com/colinhacks/zod/issues/384
+ */
+const CpuInstanceSchema = z.custom<kplus.Cpu>(
+	(data) => data instanceof kplus.Cpu,
+)
+const SizeInstanceSchema = z.custom<Size>((data) => data instanceof Size)
+
 const K8sMillicores = z.number().describe('Kubernetes CPU Millicores')
 const K8sMemoryMebibytes = z.number().describe('Kubernetes Memory Mebibytes')
+
+const K8sMillicoresToCpu = K8sMillicores.transform((v) => kplus.Cpu.millis(v))
+const K8sMemoryMebibytesToSize = K8sMemoryMebibytes.transform((v) =>
+	Size.mebibytes(v),
+)
 
 const resourcesSchema = z
 	.object({
@@ -46,10 +61,46 @@ const scalingSchema = z
 	.describe('Horizontal Autoscaling Parameters')
 	.passthrough()
 
+const resourcesRangeSchema = z
+	.object({
+		cpu: z.union([CpuInstanceSchema, K8sMillicoresToCpu]).optional(),
+		memory: z.union([SizeInstanceSchema, K8sMemoryMebibytesToSize]).optional(),
+	})
+	.describe('Resource limits for vertical scaling.')
+	.partial()
+	.pipe(
+		z.object({
+			cpu: CpuInstanceSchema.optional(),
+			memory: SizeInstanceSchema.optional(),
+		}),
+	)
+	.describe('Resource limits for vertical scaling.')
+
+const verticalScalingContainerPolicySchema = z
+	.object({
+		containerName: z
+			.string()
+			.describe('Name or pattern of containers to target.'),
+		minAllowed: resourcesRangeSchema.optional(),
+		maxAllowed: resourcesRangeSchema.optional(),
+	})
+	.describe('Container policy for resource adjustments.')
+
+const verticalScalingSchema = z
+	.object({
+		enabled: z.boolean().default(true),
+		policies: z
+			.array(verticalScalingContainerPolicySchema)
+			.optional()
+			.describe('Container policies for resource adjustments.'),
+	})
+	.describe('Vertical Pod Autoscaler Configuration')
+
 const deploymentSchema = z.object({
 	image: containerImageSchema.optional(),
 	spread: z.boolean().default(false),
 	resources: resourcesSchema.optional(),
+	verticalScaling: verticalScalingSchema.optional(),
 })
 
 const withScaling = <T extends typeof deploymentSchema>(inSchema: T) =>
