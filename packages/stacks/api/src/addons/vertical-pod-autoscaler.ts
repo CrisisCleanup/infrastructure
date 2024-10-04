@@ -32,6 +32,7 @@ export class VerticalPodAutoscalerAddOn extends blueprints.HelmAddOn {
 				clusterInfo,
 				this.props.values,
 				this.props.namespace !== 'kube-system',
+				true,
 			),
 		)
 	}
