@@ -4,6 +4,7 @@ import {
 	ComponentScaling,
 	ContainerImage,
 	Label,
+	VerticalPodAutoscaler,
 } from '@crisiscleanup/k8s.construct.component'
 import { ApiObject, Chart, Duration, JsonPatch, Size } from 'cdk8s'
 import * as kplus from 'cdk8s-plus-27'
@@ -387,6 +388,9 @@ export class ApiASGI
 			maxReplicas: 6,
 			cpuUtilPercent: 50,
 			memUtilPercent: 80,
+			target: this.ragStatefulSet,
+		})
+		new VerticalPodAutoscaler(this, this.id + '-rag-vpa', {
 			target: this.ragStatefulSet,
 		})
 
