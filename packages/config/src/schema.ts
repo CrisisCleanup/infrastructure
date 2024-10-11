@@ -97,6 +97,7 @@ const postgresSchema = z.object({
 	password: z.string(),
 	user: z.string(),
 	port: z.coerce.string(),
+	hostReplica: z.string().optional(),
 })
 
 const redisSchema = z.object({
@@ -203,6 +204,7 @@ const apiAppSecretsSchema = z
 				password: true,
 				port: true,
 				user: true,
+				hostReplica: true,
 			})
 			.default({ dbname: 'crisiscleanup_local', port: '5432' }),
 		redis: redisSchema.default({ host: '172.17.0.1' }),
