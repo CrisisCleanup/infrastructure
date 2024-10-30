@@ -1,5 +1,5 @@
 target "default" {
   dockerfile = "Dockerfile"
-  tags = ["ghcr.io/crisiscleanup/runner:v2.319.1"]
+  tags = ["ghcr.io/crisiscleanup/runner:v2.320.0"]
   platforms = ["linux/arm64"]
 }
