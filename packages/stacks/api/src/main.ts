@@ -92,6 +92,9 @@ const pipeline = Pipeline.builder({
 				.addOns(
 					new ARCScaleSetController({
 						values: {
+							flags: {
+								runnerMaxConcurrentReconciles: 8,
+							},
 							metrics: {
 								controllerManagerAddr: ':8080',
 								listenerAddr: ':8080',
