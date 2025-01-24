@@ -92,7 +92,11 @@ const scaleSetControllerDefaultProps: blueprints.HelmAddOnProps &
 	release: 'arc',
 	namespace: 'arc-systems',
 	version: '0.10.1',
-	values: {},
+	values: {
+		flags: {
+			runnerMaxConcurrentReconciles: 8,
+		},
+	},
 }
 
 const scaleSetDefaultProps: blueprints.HelmAddOnProps &
