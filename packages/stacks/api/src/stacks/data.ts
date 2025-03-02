@@ -70,6 +70,20 @@ export class Database extends Construct {
 			}
 		}
 
+		const parameterGroup = new rds.ParameterGroup(
+			this,
+			id + '-parameter-group',
+			{
+				engine: rds.DatabaseClusterEngine.auroraPostgres({
+					version: engineVersion,
+				}),
+				parameters: {
+					shared_preload_libraries: 'pg_cron,pg_stat_statements',
+					'cron.database_name': props.databaseName || 'crisiscleanup',
+				},
+			},
+		)
+
 		const updateBehavior =
 			readers.length >= 1
 				? rds.InstanceUpdateBehaviour.ROLLING
@@ -82,6 +96,7 @@ export class Database extends Construct {
 				subnetType,
 			},
 			securityGroups: [this.securityGroup],
+			parameterGroup,
 			iamAuthentication: true,
 			port: 5432,
 			// WARNING:

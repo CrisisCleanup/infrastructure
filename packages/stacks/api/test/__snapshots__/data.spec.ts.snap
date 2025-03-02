@@ -586,7 +586,9 @@ exports[`DataStack > renders expected template with defaults 1`] = `
       "Properties": {
         "BackupRetentionPeriod": 1,
         "CopyTagsToSnapshot": true,
-        "DBClusterParameterGroupName": "default.aurora-postgresql15",
+        "DBClusterParameterGroupName": {
+          "Ref": "testdatabasedatabasetestdatabasedatabaseparametergroupAC757BA0",
+        },
         "DBSubnetGroupName": {
           "Ref": "testdatabasedatabasetestdatabasedatabaseclusterSubnets5240EB31",
         },
@@ -734,6 +736,17 @@ exports[`DataStack > renders expected template with defaults 1`] = `
       },
       "Type": "AWS::RDS::DBInstance",
       "UpdateReplacePolicy": "Delete",
+    },
+    "testdatabasedatabasetestdatabasedatabaseparametergroupAC757BA0": {
+      "Properties": {
+        "Description": "Cluster parameter group for aurora-postgresql15",
+        "Family": "aurora-postgresql15",
+        "Parameters": {
+          "cron.database_name": "crisiscleanup",
+          "shared_preload_libraries": "pg_cron,pg_stat_statements",
+        },
+      },
+      "Type": "AWS::RDS::DBClusterParameterGroup",
     },
     "testdatabasedatabasetestdatabasedatabasesecuritygroup6CD4AEDA": {
       "Properties": {
@@ -1424,7 +1437,9 @@ exports[`DataStack > renders expected template with multiple replicas 1`] = `
       "Properties": {
         "BackupRetentionPeriod": 1,
         "CopyTagsToSnapshot": true,
-        "DBClusterParameterGroupName": "default.aurora-postgresql15",
+        "DBClusterParameterGroupName": {
+          "Ref": "testdatabasereplicasdatabasetestdatabasereplicasdatabaseparametergroup73CE779D",
+        },
         "DBSubnetGroupName": {
           "Ref": "testdatabasereplicasdatabasetestdatabasereplicasdatabaseclusterSubnets3BBCF632",
         },
@@ -1614,6 +1629,17 @@ exports[`DataStack > renders expected template with multiple replicas 1`] = `
       },
       "Type": "AWS::RDS::DBInstance",
       "UpdateReplacePolicy": "Delete",
+    },
+    "testdatabasereplicasdatabasetestdatabasereplicasdatabaseparametergroup73CE779D": {
+      "Properties": {
+        "Description": "Cluster parameter group for aurora-postgresql15",
+        "Family": "aurora-postgresql15",
+        "Parameters": {
+          "cron.database_name": "crisiscleanup",
+          "shared_preload_libraries": "pg_cron,pg_stat_statements",
+        },
+      },
+      "Type": "AWS::RDS::DBClusterParameterGroup",
     },
     "testdatabasereplicasdatabasetestdatabasereplicasdatabasesecuritygroupF326E969": {
       "Properties": {
@@ -2304,7 +2330,9 @@ exports[`DataStack > renders expected template with performance insights 1`] = `
       "Properties": {
         "BackupRetentionPeriod": 1,
         "CopyTagsToSnapshot": true,
-        "DBClusterParameterGroupName": "default.aurora-postgresql15",
+        "DBClusterParameterGroupName": {
+          "Ref": "testdatabasewithinsightsdatabasetestdatabasewithinsightsdatabaseparametergroupD31044B2",
+        },
         "DBSubnetGroupName": {
           "Ref": "testdatabasewithinsightsdatabasetestdatabasewithinsightsdatabaseclusterSubnetsCCC763F0",
         },
@@ -2633,6 +2661,17 @@ exports[`DataStack > renders expected template with performance insights 1`] = `
       },
       "Type": "AWS::RDS::DBInstance",
       "UpdateReplacePolicy": "Delete",
+    },
+    "testdatabasewithinsightsdatabasetestdatabasewithinsightsdatabaseparametergroupD31044B2": {
+      "Properties": {
+        "Description": "Cluster parameter group for aurora-postgresql15",
+        "Family": "aurora-postgresql15",
+        "Parameters": {
+          "cron.database_name": "crisiscleanup",
+          "shared_preload_libraries": "pg_cron,pg_stat_statements",
+        },
+      },
+      "Type": "AWS::RDS::DBClusterParameterGroup",
     },
     "testdatabasewithinsightsdatabasetestdatabasewithinsightsdatabasesecuritygroup9F838984": {
       "Properties": {
