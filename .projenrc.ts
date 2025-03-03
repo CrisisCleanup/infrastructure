@@ -155,7 +155,7 @@ actionsProvider.set('actions/setup-node', 'actions/setup-node@v4')
 actionsProvider.set('actions/download-artifact', 'actions/download-artifact@v4')
 actionsProvider.set('actions/upload-artifact', 'actions/upload-artifact@v4')
 actionsProvider.set('actions/deploy-pages', 'actions/deploy-pages@v4')
-actionsProvider.set('actions/upload-pages-artifact', 'actions/upload-pages-artifact@v2')
+actionsProvider.set('actions/upload-pages-artifact', 'actions/upload-pages-artifact@v3')
 
 const tools = new ToolVersions(monorepo, {
 	tools: {
