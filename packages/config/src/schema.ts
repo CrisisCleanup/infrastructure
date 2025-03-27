@@ -137,6 +137,10 @@ const jwtSchema = keySchema
 
 const cloudfrontSchema = keySchema
 
+const ipStackSchema = z.object({
+	apiKey: z.string().optional(),
+})
+
 const zendeskSchema = z.object({
 	apiKey: z.string(),
 })
@@ -220,6 +224,7 @@ const apiAppSecretsSchema = z
 		}),
 		django: djangoSecretsSchema.default({}),
 		langchain: langchainSecretsSchema.default({}),
+		ipstack: ipStackSchema.default({}),
 	})
 	.passthrough()
 
