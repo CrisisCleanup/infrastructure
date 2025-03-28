@@ -169,6 +169,19 @@ const langchainSecretsSchema = z.object({
 	apiKey: z.string().default('').optional(),
 })
 
+const slackWebhookSchema = z.object({
+	webhookUrl: z.string().optional(),
+})
+
+const slackNotificationSecretsSchema = z.object({
+	chat: slackWebhookSchema.default({}),
+	default: slackWebhookSchema.default({}),
+})
+
+const notificationsSecretsSchema = z.object({
+	slack: slackNotificationSecretsSchema.default({}),
+})
+
 const apiAppConfigSchema = z.object({
 	celery: celerySchema.default({}),
 	django: djangoSchema.default({}),
@@ -225,6 +238,7 @@ const apiAppSecretsSchema = z
 		django: djangoSecretsSchema.default({}),
 		langchain: langchainSecretsSchema.default({}),
 		ipstack: ipStackSchema.default({}),
+		notifications: notificationsSecretsSchema.default({}),
 	})
 	.passthrough()
 
