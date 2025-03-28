@@ -225,6 +225,9 @@ const apiAppSecretsSchema = z
 		django: djangoSecretsSchema.default({}),
 		langchain: langchainSecretsSchema.default({}),
 		ipstack: ipStackSchema.default({}),
+		newRelic: z.object({
+			licenseKey: z.string().default(''),
+		}),
 	})
 	.passthrough()
 
