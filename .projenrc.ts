@@ -48,7 +48,7 @@ const CommonDefaultsBuilder = new builders.DefaultOptionsBuilder({
 	projenrcTs: true,
 	projenVersion: '0.83.1',
 	minNodeVersion: '18.16.0',
-	pnpmVersion: '9.7.1',
+	pnpmVersion: '10.2.1',
 	typescriptVersion: '~5.2',
 	author: 'CrisisCleanup',
 	authorName: 'CrisisCleanup',
@@ -155,7 +155,10 @@ actionsProvider.set('actions/setup-node', 'actions/setup-node@v4')
 actionsProvider.set('actions/download-artifact', 'actions/download-artifact@v4')
 actionsProvider.set('actions/upload-artifact', 'actions/upload-artifact@v4')
 actionsProvider.set('actions/deploy-pages', 'actions/deploy-pages@v4')
-actionsProvider.set('actions/upload-pages-artifact', 'actions/upload-pages-artifact@v3')
+actionsProvider.set(
+	'actions/upload-pages-artifact',
+	'actions/upload-pages-artifact@v3',
+)
 
 const tools = new ToolVersions(monorepo, {
 	tools: {
