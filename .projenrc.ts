@@ -586,6 +586,7 @@ const awsCdkLibVersion =
 monorepo.package.addPackageResolutions(
 	`aws-cdk-lib@${awsCdkLibVersion}`,
 	`constructs@${CdkVersionsBuilder.defaultOptions.constructsVersion!}`,
+	`bcrypt@npm:bcryptjs@^2.4.3`,
 )
 
 monorepo.tryRemoveFile('.github/workflows/release_config.yml')

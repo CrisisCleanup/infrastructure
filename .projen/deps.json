@@ -202,6 +202,11 @@
       "type": "override"
     },
     {
+      "name": "bcrypt",
+      "version": "npm:bcryptjs@^2.4.3",
+      "type": "override"
+    },
+    {
       "name": "constructs",
       "version": "10.2.70",
       "type": "override"

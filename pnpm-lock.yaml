@@ -8,6 +8,7 @@ overrides:
   '@types/babel__traverse': 7.18.2
   '@zkochan/js-yaml': npm:js-yaml@4.1.0
   aws-cdk-lib: 2.97.0
+  bcrypt: npm:bcryptjs@^2.4.3
   constructs: 10.2.70
   projen: 0.83.1
   unbuild: ^2.0.0-rc.0
@@ -741,7 +742,7 @@ importers:
         version: 2.0.0(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)
       '@aws-quickstart/eks-blueprints':
         specifier: ^1.11.3
-        version: 1.11.3(encoding@0.1.13)
+        version: 1.11.3
       '@cdklabs/cdk-validator-cfnguard':
         specifier: ^0.0.54
         version: 0.0.54(aws-cdk-lib@2.97.0(constructs@10.2.70))
@@ -765,7 +766,7 @@ importers:
         version: link:../../k8s/construct/component
       '@kubecost/kubecost-eks-blueprints-addon':
         specifier: ^0.1.8
-        version: 0.1.8(aws-cdk-lib@2.97.0(constructs@10.2.70))(encoding@0.1.13)
+        version: 0.1.8(aws-cdk-lib@2.97.0(constructs@10.2.70))
       aws-cdk-lib:
         specifier: 2.97.0
         version: 2.97.0(constructs@10.2.70)
@@ -3334,13 +3335,6 @@ packages:
         integrity: sha512-d+pAmODkHZTyw0KNSOjqws3r7hjAWG5Cj33enBYO3bu4DcK0FKFTWwVUg1JBdBtoL3sI9wSz1BRw9FsBluGF0g==,
       }
 
-  '@mapbox/node-pre-gyp@1.0.11':
-    resolution:
-      {
-        integrity: sha512-Yhlar6v9WQgUp/He7BdgzOz8lqMQ8sU+jkCq7Wx8Myc5YFJLbEe7lgui/V7G1qB1DJykHSGwreceSaD60Y0PUQ==,
-      }
-    hasBin: true
-
   '@mrgrain/jsii-struct-builder@0.7.34':
     resolution:
       {
@@ -5257,13 +5251,6 @@ packages:
         integrity: sha512-lYe4Gx7QT+MKGbDsA+Z+he/Wtef0BiwDOlK/XkBrdfsh9J/jPPXbX0tE9x9cl27Tmu5gg3QUbUrQYa/y+KOHPQ==,
       }
 
-  are-we-there-yet@2.0.0:
-    resolution:
-      {
-        integrity: sha512-Ci/qENmwHnsYo9xKIcUJN5LeDKdJ6R1Z1j9V/J5wyq8nh/mYPEpIKJbBZXtZjG04HiK7zV/p6Vs9952MrMeUIw==,
-      }
-    engines: { node: '>=10' }
-
   are-we-there-yet@3.0.1:
     resolution:
       {
@@ -5498,12 +5485,11 @@ packages:
         integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==,
       }
 
-  bcrypt@5.1.1:
+  bcryptjs@2.4.3:
     resolution:
       {
-        integrity: sha512-AGBHOG5hPYZ5Xl9KXzU5iKq9516yEmvCKDg3ecP5kX2aB6UqTeXZxk2ELnDgDm6BQSMlLt9rDB4LoSMx0rYwww==,
+        integrity: sha512-V/Hy/X9Vt7f3BbPJEi8BdVFMByHi+jNXrYkW3huaybV/kQ0KJg0Y6PkEMbn+zeT+i+SiKZ/HMqJGIIt4LZDqNQ==,
       }
-    engines: { node: '>= 10.0.0' }
 
   before-after-hook@2.2.3:
     resolution:
@@ -6659,13 +6645,6 @@ packages:
       }
     engines: { node: '>=8' }
 
-  detect-libc@2.0.2:
-    resolution:
-      {
-        integrity: sha512-UX6sGumvvqSaXgdKGUsgZWqcUyIXZ/vZTrlRT/iobiKhGL0zL4d3osHj3uqllWJK+i+sixDS/3COVEOFbupFyw==,
-      }
-    engines: { node: '>=8' }
-
   detect-newline@2.1.0:
     resolution:
       {
@@ -7558,13 +7537,6 @@ packages:
         integrity: sha512-vKQDA9g868cZiW8ulgs2uN1yx1i7/nsS33jTMOxekk0Z03BJLffVcdW6AVD32fWb3E6RtmWWuBXBZOk8cLXFNQ==,
       }
     hasBin: true
-
-  gauge@3.0.2:
-    resolution:
-      {
-        integrity: sha512-+5J6MS/5XksCuXq++uFRsnUd7Ovu1XenbeuIuNRJxYWjgQbPuFhT14lAvsWfqfAmnwluf1OwMjz39HjfLPci0Q==,
-      }
-    engines: { node: '>=10' }
 
   gauge@4.0.4:
     resolution:
@@ -9387,12 +9359,6 @@ packages:
         integrity: sha512-mmcei9JghVNDYydghQmeDX8KoAm0FAiYyIcUt/N4nhyAipB17pllZQDOJD2fotxABnt4Mdz+dKTO7eftLg4d0A==,
       }
 
-  node-addon-api@5.1.0:
-    resolution:
-      {
-        integrity: sha512-eh0GgfEkpnoWDq+VY8OyvYhFEzBk6jIYbRKdIlyTiAXIVJ8PyBaKb0rp7oDtoddbdoHWhq8wwr+XZ81F1rpNdA==,
-      }
-
   node-domexception@1.0.0:
     resolution:
       {
@@ -9469,14 +9435,6 @@ packages:
       {
         integrity: sha512-d9VeXT4SJ7ZeOqGX6R5EM022wpL+eWPooLI+5UpWn2jCT1aosUQEhQP214x33Wkwx3JQMvIm+tIoVOdodFS40g==,
       }
-
-  nopt@5.0.0:
-    resolution:
-      {
-        integrity: sha512-Tbj67rffqceeLpcRXrT7vKAN8CwfPeIBgM7E6iBkmKLV7bEMwpGgYLGv0jACUsECaa/vuxP0IjEont6umdMgtQ==,
-      }
-    engines: { node: '>=6' }
-    hasBin: true
 
   nopt@6.0.0:
     resolution:
@@ -9591,12 +9549,6 @@ packages:
       }
     engines: { node: ^12.20.0 || ^14.13.1 || >=16.0.0 }
 
-  npmlog@5.0.1:
-    resolution:
-      {
-        integrity: sha512-AqZtDUWOMKs1G/8lwylVjrdYgqA4d9nu8hc+0gzRxlDb1I10+FHBGMXs6aiQHFdCUUlqH99MUMuLfzWDNDtfxw==,
-      }
-
   npmlog@6.0.2:
     resolution:
       {
@@ -9625,13 +9577,6 @@ packages:
         optional: true
       '@swc/core':
         optional: true
-
-  object-assign@4.1.1:
-    resolution:
-      {
-        integrity: sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg==,
-      }
-    engines: { node: '>=0.10.0' }
 
   object-inspect@1.12.3:
     resolution:
@@ -11769,10 +11714,10 @@ packages:
     engines: { node: '>=14.17' }
     hasBin: true
 
-  typescript@5.9.0-dev.20250429:
+  typescript@5.9.0-dev.20250430:
     resolution:
       {
-        integrity: sha512-PySfZNqDdNVucyOwiH7S10Ou3Ly/ge8u4xMoIxMFLDzYNO5tCLTLWn5JE00/GORSLIPG9mBWX6lvSXlbMH1xNQ==,
+        integrity: sha512-XCv8HsA7GgiWPibRv/7GtB9R4MNmR0kgQpWp1B+NtvVd1iCHCu7xsAnI0jSuiX5mzRDV5k04G4j8fZJmlrfyFw==,
       }
     engines: { node: '>=14.17' }
     hasBin: true
@@ -12890,7 +12835,7 @@ snapshots:
       '@smithy/util-utf8': 2.3.0
       tslib: 2.7.0
 
-  '@aws-quickstart/eks-blueprints@1.11.3(encoding@0.1.13)':
+  '@aws-quickstart/eks-blueprints@1.11.3':
     dependencies:
       '@aws-cdk/lambda-layer-kubectl-v25': 2.0.4(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)
       '@aws-cdk/lambda-layer-kubectl-v26': 2.0.1(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)
@@ -12902,7 +12847,7 @@ snapshots:
       '@types/lodash.clonedeep': 4.5.7
       '@types/uuid': 9.0.4
       aws-cdk-lib: 2.97.0(constructs@10.2.70)
-      bcrypt: 5.1.1(encoding@0.1.13)
+      bcrypt: bcryptjs@2.4.3
       constructs: 10.2.70
       dot-object: 2.1.4
       js-yaml: 4.1.0
@@ -12922,10 +12867,8 @@ snapshots:
       '@aws-cdk/lambda-layer-kubectl-v24': 2.0.242(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)
     transitivePeerDependencies:
       - aws-crt
-      - encoding
-      - supports-color
 
-  '@aws-quickstart/eks-blueprints@1.16.3(aws-cdk-lib@2.97.0(constructs@10.2.70))(aws-cdk@2.17.0)(encoding@0.1.13)':
+  '@aws-quickstart/eks-blueprints@1.16.3(aws-cdk-lib@2.97.0(constructs@10.2.70))(aws-cdk@2.17.0)':
     dependencies:
       '@aws-cdk/lambda-layer-kubectl-v27': 2.1.0(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)
       '@aws-cdk/lambda-layer-kubectl-v28': 2.2.0(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)
@@ -12940,7 +12883,7 @@ snapshots:
       '@types/uuid': 10.0.0
       aws-cdk: 2.17.0
       aws-cdk-lib: 2.97.0(constructs@10.2.70)
-      bcrypt: 5.1.1(encoding@0.1.13)
+      bcrypt: bcryptjs@2.4.3
       constructs: 10.2.70
       dot-object: 2.1.5
       js-yaml: 4.1.0
@@ -12962,8 +12905,6 @@ snapshots:
       '@aws-cdk/lambda-layer-kubectl-v26': 2.1.0(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)
     transitivePeerDependencies:
       - aws-crt
-      - encoding
-      - supports-color
 
   '@aws-sdk/client-eks@3.418.0':
     dependencies:
@@ -14614,31 +14555,14 @@ snapshots:
     dependencies:
       ajv: 8.12.0
 
-  '@kubecost/kubecost-eks-blueprints-addon@0.1.8(aws-cdk-lib@2.97.0(constructs@10.2.70))(encoding@0.1.13)':
+  '@kubecost/kubecost-eks-blueprints-addon@0.1.8(aws-cdk-lib@2.97.0(constructs@10.2.70))':
     dependencies:
-      '@aws-quickstart/eks-blueprints': 1.16.3(aws-cdk-lib@2.97.0(constructs@10.2.70))(aws-cdk@2.17.0)(encoding@0.1.13)
+      '@aws-quickstart/eks-blueprints': 1.16.3(aws-cdk-lib@2.97.0(constructs@10.2.70))(aws-cdk@2.17.0)
       aws-cdk: 2.17.0
       constructs: 10.2.70
     transitivePeerDependencies:
       - aws-cdk-lib
       - aws-crt
-      - encoding
-      - supports-color
-
-  '@mapbox/node-pre-gyp@1.0.11(encoding@0.1.13)':
-    dependencies:
-      detect-libc: 2.0.2
-      https-proxy-agent: 5.0.1(supports-color@9.4.0)
-      make-dir: 3.1.0
-      node-fetch: 2.7.0(encoding@0.1.13)
-      nopt: 5.0.0
-      npmlog: 5.0.1
-      rimraf: 3.0.2
-      semver: 7.6.3
-      tar: 6.2.0
-    transitivePeerDependencies:
-      - encoding
-      - supports-color
 
   '@mrgrain/jsii-struct-builder@0.7.34(projen@0.83.1(constructs@10.2.70))':
     dependencies:
@@ -16118,11 +16042,6 @@ snapshots:
 
   aproba@2.0.0: {}
 
-  are-we-there-yet@2.0.0:
-    dependencies:
-      delegates: 1.0.0
-      readable-stream: 3.6.2
-
   are-we-there-yet@3.0.1:
     dependencies:
       delegates: 1.0.0
@@ -16286,13 +16205,7 @@ snapshots:
 
   base64-js@1.5.1: {}
 
-  bcrypt@5.1.1(encoding@0.1.13):
-    dependencies:
-      '@mapbox/node-pre-gyp': 1.0.11(encoding@0.1.13)
-      node-addon-api: 5.1.0
-    transitivePeerDependencies:
-      - encoding
-      - supports-color
+  bcryptjs@2.4.3: {}
 
   before-after-hook@2.2.3:
     optional: true
@@ -17031,8 +16944,6 @@ snapshots:
 
   detect-indent@6.1.0: {}
 
-  detect-libc@2.0.2: {}
-
   detect-newline@2.1.0: {}
 
   detect-newline@3.1.0: {}
@@ -17091,7 +17002,7 @@ snapshots:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.9.0-dev.20250429
+      typescript: 5.9.0-dev.20250430
 
   duplexer@0.1.2: {}
 
@@ -17831,18 +17742,6 @@ snapshots:
   functions-have-names@1.2.3: {}
 
   fx@28.0.0: {}
-
-  gauge@3.0.2:
-    dependencies:
-      aproba: 2.0.0
-      color-support: 1.1.3
-      console-control-strings: 1.1.0
-      has-unicode: 2.0.1
-      object-assign: 4.1.1
-      signal-exit: 3.0.7
-      string-width: 4.2.3
-      strip-ansi: 6.0.1
-      wide-align: 1.1.5
 
   gauge@4.0.4:
     dependencies:
@@ -18748,6 +18647,7 @@ snapshots:
   make-dir@3.1.0:
     dependencies:
       semver: 6.3.1
+    optional: true
 
   make-error@1.3.6: {}
 
@@ -18972,8 +18872,6 @@ snapshots:
 
   node-addon-api@3.2.1: {}
 
-  node-addon-api@5.1.0: {}
-
   node-domexception@1.0.0: {}
 
   node-fetch-native@1.2.0: {}
@@ -18989,6 +18887,7 @@ snapshots:
       whatwg-url: 5.0.0
     optionalDependencies:
       encoding: 0.1.13
+    optional: true
 
   node-fetch@3.3.1:
     dependencies:
@@ -19019,10 +18918,6 @@ snapshots:
   node-releases@2.0.13: {}
 
   node-releases@2.0.18: {}
-
-  nopt@5.0.0:
-    dependencies:
-      abbrev: 1.1.1
 
   nopt@6.0.0:
     dependencies:
@@ -19139,13 +19034,6 @@ snapshots:
     dependencies:
       path-key: 4.0.0
 
-  npmlog@5.0.1:
-    dependencies:
-      are-we-there-yet: 2.0.0
-      console-control-strings: 1.1.0
-      gauge: 3.0.2
-      set-blocking: 2.0.0
-
   npmlog@6.0.2:
     dependencies:
       are-we-there-yet: 3.0.1
@@ -19216,8 +19104,6 @@ snapshots:
       '@nx/nx-win32-x64-msvc': 16.0.0
     transitivePeerDependencies:
       - debug
-
-  object-assign@4.1.1: {}
 
   object-inspect@1.12.3: {}
 
@@ -20483,7 +20369,7 @@ snapshots:
 
   typescript@5.2.2: {}
 
-  typescript@5.9.0-dev.20250429: {}
+  typescript@5.9.0-dev.20250430: {}
 
   ufo@1.1.2: {}
 
