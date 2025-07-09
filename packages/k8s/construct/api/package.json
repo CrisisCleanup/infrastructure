@@ -32,7 +32,7 @@
   "devDependencies": {
     "@arroyodev-llc/utils.unbuild-composite-preset": "^0.1.6",
     "@types/debug": "^4.1.9",
-    "@types/node": "^18",
+    "@types/node": "^22",
     "@typescript-eslint/eslint-plugin": "^7",
     "@typescript-eslint/parser": "^7",
     "cdk8s-plus-27": "^2.7.20",
@@ -48,7 +48,7 @@
     "jsii-rosetta": "~5",
     "lint-staged": "^14.0.1",
     "prettier": "^3.0.3",
-    "typescript": "~5.2",
+    "typescript": "~5.4",
     "unbuild": "^2.0.0-rc.0"
   },
   "peerDependencies": {
@@ -66,7 +66,7 @@
     "cdk"
   ],
   "engines": {
-    "node": ">= 18.16.0",
+    "node": ">= 22.14.0",
     "pnpm": "^10.2.1"
   },
   "main": "dist/index.mjs",

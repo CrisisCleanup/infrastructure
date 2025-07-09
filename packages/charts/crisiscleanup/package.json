@@ -28,7 +28,7 @@
     "@arroyodev-llc/utils.unbuild-composite-preset": "^0.1.6",
     "@types/debug": "^4.1.9",
     "@types/js-yaml": "^4.0.6",
-    "@types/node": "^18",
+    "@types/node": "^22",
     "@typescript-eslint/eslint-plugin": "^7",
     "@typescript-eslint/parser": "^7",
     "cdk8s-cli": "^2.103.0",
@@ -40,7 +40,7 @@
     "lint-staged": "^14.0.1",
     "prettier": "^3.0.3",
     "tsx": "^3.13.0",
-    "typescript": "~5.2",
+    "typescript": "~5.4",
     "unbuild": "^2.0.0-rc.0",
     "vitest": "^0.34.5"
   },
@@ -58,7 +58,7 @@
     "zod": "^3.22.2"
   },
   "engines": {
-    "node": ">= 18.16.0",
+    "node": ">= 22.14.0",
     "pnpm": "^10.2.1"
   },
   "license": "Apache-2.0",

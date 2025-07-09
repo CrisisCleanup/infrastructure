@@ -33,7 +33,7 @@
   "devDependencies": {
     "@arroyodev-llc/utils.unbuild-composite-preset": "^0.1.6",
     "@types/aws-lambda": "^8.10.122",
-    "@types/node": "^18",
+    "@types/node": "^22",
     "@typescript-eslint/eslint-plugin": "^7",
     "@typescript-eslint/parser": "^7",
     "aws-cdk-lib": "2.97.0",
@@ -51,7 +51,7 @@
     "jsii-rosetta": "~5",
     "lint-staged": "^14.0.1",
     "prettier": "^3.0.3",
-    "typescript": "~5.2",
+    "typescript": "~5.4",
     "unbuild": "^2.0.0-rc.0",
     "vitest": "^0.34.5"
   },
@@ -63,7 +63,7 @@
     "cdk"
   ],
   "engines": {
-    "node": ">= 18.16.0",
+    "node": ">= 22.14.0",
     "pnpm": "^10.2.1"
   },
   "license": "Apache-2.0",
