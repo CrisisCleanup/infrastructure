@@ -1,4 +1,4 @@
-import * as kplus from 'cdk8s-plus-27'
+import * as kplus from 'cdk8s-plus-30'
 import { type Construct, type Node } from 'constructs'
 
 export interface PodDisruptionBudgetProps {
