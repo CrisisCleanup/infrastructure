@@ -1,7 +1,7 @@
 import * as blueprints from '@aws-quickstart/eks-blueprints'
 import { type ClusterInfo } from '@aws-quickstart/eks-blueprints'
 import { type ServiceAccount } from 'aws-cdk-lib/aws-eks'
-import { type ContainerResources } from 'cdk8s-plus-27'
+import { type ContainerResources } from 'cdk8s-plus-30'
 import type { Construct } from 'constructs'
 import createDebug from 'debug'
 import defu from 'defu'
