@@ -320,9 +320,9 @@ exports[`Snapshot 1`] = `
       "Properties": {
         "Content": {
           "S3Bucket": "cdk-hnb659fds-assets-1234567890-us-east-1",
-          "S3Key": "9953ad4c3e84d120643ece4b2e51caf43fd9850063641b4d78bf30fbe6b4d381.zip",
+          "S3Key": "77675805670406a68c1baf43392c7e699bee435fe9b667ef4f9f1134b8c41d0e.zip",
         },
-        "Description": "/opt/kubectl/kubectl 1.30; /opt/helm/helm 3.17.1",
+        "Description": "/opt/kubectl/kubectl 1.31.9; /opt/helm/helm 3.17.3",
         "LicenseInfo": "Apache-2.0",
       },
       "Type": "AWS::Lambda::LayerVersion",
@@ -330,7 +330,7 @@ exports[`Snapshot 1`] = `
     "kubeproxyaddOn": {
       "Properties": {
         "AddonName": "kube-proxy",
-        "AddonVersion": "v1.30.13-eksbuild.2",
+        "AddonVersion": "v1.31.9-eksbuild.2",
         "ClusterName": {
           "Ref": "teststackF0A1F222",
         },
@@ -873,7 +873,7 @@ exports[`Snapshot 1`] = `
               "Arn",
             ],
           },
-          "version": "1.30",
+          "version": "1.31",
         },
         "ServiceToken": {
           "Fn::GetAtt": [
@@ -4574,9 +4574,9 @@ exports[`VerticalPodAutoscalerAddon 1`] = `
       "Properties": {
         "Content": {
           "S3Bucket": "cdk-hnb659fds-assets-1234567890-us-east-1",
-          "S3Key": "9953ad4c3e84d120643ece4b2e51caf43fd9850063641b4d78bf30fbe6b4d381.zip",
+          "S3Key": "77675805670406a68c1baf43392c7e699bee435fe9b667ef4f9f1134b8c41d0e.zip",
         },
-        "Description": "/opt/kubectl/kubectl 1.30; /opt/helm/helm 3.17.1",
+        "Description": "/opt/kubectl/kubectl 1.31.9; /opt/helm/helm 3.17.3",
         "LicenseInfo": "Apache-2.0",
       },
       "Type": "AWS::Lambda::LayerVersion",
@@ -4687,7 +4687,7 @@ exports[`VerticalPodAutoscalerAddon 1`] = `
               "Arn",
             ],
           },
-          "version": "1.30",
+          "version": "1.31",
         },
         "ServiceToken": {
           "Fn::GetAtt": [
