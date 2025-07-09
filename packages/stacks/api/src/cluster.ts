@@ -2,7 +2,6 @@ import * as blueprints from '@aws-quickstart/eks-blueprints'
 import { Lazy } from 'aws-cdk-lib'
 import type * as ec2 from 'aws-cdk-lib/aws-ec2'
 import { KubernetesVersion } from 'aws-cdk-lib/aws-eks'
-import { type ILayerVersion } from 'aws-cdk-lib/aws-lambda'
 import { type EKSAddonConfig } from './schema'
 import { lazyClusterInfo } from './util'
 
@@ -170,9 +169,6 @@ export const buildClusterBuilder = (
 		.clusterBuilder()
 		.withCommonOptions({
 			version,
-			kubectlLayer: blueprints.getNamedResource<ILayerVersion>(
-				ResourceNames.KUBE_LAYER,
-			),
 			vpc: blueprints.getNamedResource<ec2.IVpc>(
 				blueprints.GlobalResources.Vpc,
 			),
@@ -185,7 +181,7 @@ export const buildClusterBuilder = (
 			...(fargateProfileName
 				? {
 						fargateProfileName,
-				  }
+					}
 				: {}),
 		})
 }
