@@ -268,8 +268,8 @@ export class Pipeline {
 							},
 						}),
 						buildKarpenter(
-							undefined,
-							undefined,
+							`${name}-blueprint`,
+							network.vpc.privateSubnets.map((s) => s.node.path),
 							config.apiStack!.eks.instanceTypes ?? undefined,
 						),
 						new VerticalPodAutoscalerAddOn(),

@@ -94,69 +94,89 @@ export const tagKarpenter = (stack: blueprints.EksBlueprint) => {
  * Karpenter addon
  * @param clusterName Cluster name to target. Defaults to lazy lookup.
  * @param subnetNames Subnet names to target. Defaults to lazy lookup.
+ * @param instanceTypes Instance types to target. Defaults to common instance types.
  */
 export const buildKarpenter = (
 	clusterName?: string,
-	subnetNames?: string,
+	subnetNames?: string[],
 	instanceTypes?: string[],
 ) => {
-	const sgTag =
-		clusterName ??
-		Lazy.uncachedString(
-			lazyClusterInfo(
-				(clusterInfo) =>
-					`${Label.CLUSTER_DISCOVERY}/${clusterInfo.cluster.clusterName}`,
-			),
-		)
+	const sgTag = Lazy.uncachedString(
+		lazyClusterInfo(
+			(clusterInfo) =>
+				`${Label.CLUSTER_DISCOVERY}/${clusterInfo.cluster.clusterName}`,
+		),
+	)
 
 	const subnetTags =
 		subnetNames ??
-		Lazy.uncachedString(
+		Lazy.uncachedList(
 			lazyClusterInfo((clusterInfo) =>
-				clusterInfo.cluster.vpc.privateSubnets
-					.map((sn) => sn.node.path)
-					.join(','),
+				clusterInfo.cluster.vpc.privateSubnets.map((sn) => sn.node.path),
 			),
 		)
 
-	return new blueprints.KarpenterAddOn({
-		version: 'v0.30.0',
+	const nodeClassSpec: blueprints.Ec2NodeClassV1Spec = {
+		amiFamily: undefined, // use latest AL2023 ami
+		amiSelectorTerms: [
+			{
+				alias: 'al2023@latest',
+			},
+		],
+		securityGroupSelectorTerms: [
+			clusterName
+				? { tags: { 'aws:eks:cluster-name': clusterName } }
+				: { tags: { [sgTag]: 'owned' } },
+		],
+		subnetSelectorTerms: subnetTags.map(
+			(name) => ({ tags: { Name: name } }) as blueprints.BetaSubnetTerm,
+		),
+	}
+
+	const nodePoolSpec: blueprints.NodePoolV1Spec = {
+		labels: {
+			type: 'karpenter',
+		},
 		requirements: [
-			{ key: Label.ARCH, op: 'In', vals: ['arm64'] },
-			{ key: Label.CAPACITY_TYPE, op: 'In', vals: ['spot', 'on-demand'] },
+			{ key: Label.ARCH, operator: 'In', values: ['arm64'] },
+			{
+				key: Label.CAPACITY_TYPE,
+				operator: 'In',
+				values: ['spot', 'on-demand'],
+			},
 			{
 				key: Label.INSTANCE_CATEGORY,
-				op: 'In',
-				vals: instanceTypes ?? ['c', 'm', 'r', 't'],
+				operator: 'In',
+				values: instanceTypes ?? ['c', 'm', 'r', 't'],
 			},
-			{ key: Label.INSTANCE_HYPERVISOR, op: 'In', vals: ['nitro'] },
+			{ key: Label.INSTANCE_HYPERVISOR, operator: 'In', values: ['nitro'] },
 		],
-		subnetTags: {
-			Name: subnetTags,
+		disruption: {
+			consolidationPolicy: 'WhenEmptyOrUnderutilized',
+			consolidateAfter: '1m',
 		},
-		securityGroupTags: {
-			[sgTag]: 'owned',
-		},
-		amiFamily: 'AL2',
-		consolidation: { enabled: true },
-		interruptionHandling: true,
+		expireAfter: '24h',
+	}
+
+	return new blueprints.KarpenterV1AddOn({
+		version: '1.4.0',
 		namespace: 'karpenter',
+		nodePoolSpec,
+		ec2NodeClassSpec: nodeClassSpec,
+		interruptionHandling: true,
+		podIdentity: false,
 		values: {
+			replicas: 2,
 			settings: {
 				aws: {
 					// informs karpenter to expect prefix delegation.
 					enableENILimitedPodDensity: false,
 				},
+				featureGates: {
+					spotToSpotConsolidation: true,
+				},
 			},
 		},
-		// refresh nodes at least every 30 days
-		ttlSecondsUntilExpired: 2592000,
-		// limits: {
-		//   resources: {
-		//     cpu: 10,
-		//     memory: '200Gi',
-		//   }
-		// }
 	})
 }
 
