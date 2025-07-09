@@ -28,9 +28,9 @@ export type FlattenKeys<
 							T[K],
 							E extends string | number | symbol ? E : never,
 							Delimiter
-					  >
+						>
 				: never
-	  }[keyof T]
+		}[keyof T]
 	: P
 
 /**
@@ -58,7 +58,7 @@ export type FlattenObject<T, Delimiter extends string = ''> = T extends object
 				T,
 				Split<FlatKey, Delimiter>
 			>
-	  }
+		}
 	: never
 
 export type ScreamingSnakeCaseProperties<T> = T extends object
@@ -252,9 +252,9 @@ export type KeyToScreamingSnakeCaseKey<
 							? Split<ScreamingSnakeCase<Key>, '.'>
 							: never,
 						ValueDelimiter extends string ? ValueDelimiter : never
-				  >
+					>
 				: never
-	  }
+		}
 	: never
 
 /**
