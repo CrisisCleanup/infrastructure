@@ -156,7 +156,7 @@ exports[`DataStack > renders expected template with defaults 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "ca4cc4639c6bbeba984e296ee5f2a0bf0033cb3893a171c3ec84a49e61633c36.zip",
+          "S3Key": "6df647194cd2bd5032d6a0553b301f3350abb6035c13b5ba2a73503a45e7fd80.zip",
         },
         "Description": "Custom CFN resource: Manage EC2 Key Pairs",
         "FunctionName": "test-database-CFN-Resource-Custom-EC2-Key-Pair",
@@ -175,7 +175,6 @@ exports[`DataStack > renders expected template with defaults 1`] = `
     "EC2KeyPairManagerPolicyEBBC1576": {
       "Properties": {
         "Description": "Used by Lambda CFN-Resource-Custom-EC2-Key-Pair, which is a custom CFN resource, managing EC2 Key Pairs",
-        "ManagedPolicyName": "test-database-CFN-Resource-Custom-EC2-Key-Pair",
         "Path": "/",
         "PolicyDocument": {
           "Statement": [
@@ -313,7 +312,6 @@ exports[`DataStack > renders expected template with defaults 1`] = `
             ],
           },
         ],
-        "RoleName": "test-database-CFN-Resource-Custom-EC2-Key-Pair",
       },
       "Type": "AWS::IAM::Role",
     },
@@ -1139,7 +1137,7 @@ exports[`DataStack > renders expected template with multiple replicas 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "ca4cc4639c6bbeba984e296ee5f2a0bf0033cb3893a171c3ec84a49e61633c36.zip",
+          "S3Key": "6df647194cd2bd5032d6a0553b301f3350abb6035c13b5ba2a73503a45e7fd80.zip",
         },
         "Description": "Custom CFN resource: Manage EC2 Key Pairs",
         "FunctionName": "test-database-replicas-CFN-Resource-Custom-EC2-Key-Pair",
@@ -1158,7 +1156,6 @@ exports[`DataStack > renders expected template with multiple replicas 1`] = `
     "EC2KeyPairManagerPolicyEBBC1576": {
       "Properties": {
         "Description": "Used by Lambda CFN-Resource-Custom-EC2-Key-Pair, which is a custom CFN resource, managing EC2 Key Pairs",
-        "ManagedPolicyName": "test-database-replicas-CFN-Resource-Custom-EC2-Key-Pair",
         "Path": "/",
         "PolicyDocument": {
           "Statement": [
@@ -1296,7 +1293,6 @@ exports[`DataStack > renders expected template with multiple replicas 1`] = `
             ],
           },
         ],
-        "RoleName": "test-database-replicas-CFN-Resource-Custom-EC2-Key-Pair",
       },
       "Type": "AWS::IAM::Role",
     },
@@ -2173,7 +2169,7 @@ exports[`DataStack > renders expected template with performance insights 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "ca4cc4639c6bbeba984e296ee5f2a0bf0033cb3893a171c3ec84a49e61633c36.zip",
+          "S3Key": "6df647194cd2bd5032d6a0553b301f3350abb6035c13b5ba2a73503a45e7fd80.zip",
         },
         "Description": "Custom CFN resource: Manage EC2 Key Pairs",
         "FunctionName": "test-database-with-insights-CFN-Resource-Custom-EC2-Key-Pair",
@@ -2192,7 +2188,6 @@ exports[`DataStack > renders expected template with performance insights 1`] = `
     "EC2KeyPairManagerPolicyEBBC1576": {
       "Properties": {
         "Description": "Used by Lambda CFN-Resource-Custom-EC2-Key-Pair, which is a custom CFN resource, managing EC2 Key Pairs",
-        "ManagedPolicyName": "test-database-with-insights-CFN-Resource-Custom-EC2-Key-Pair",
         "Path": "/",
         "PolicyDocument": {
           "Statement": [
@@ -2330,7 +2325,6 @@ exports[`DataStack > renders expected template with performance insights 1`] = `
             ],
           },
         ],
-        "RoleName": "test-database-with-insights-CFN-Resource-Custom-EC2-Key-Pair",
       },
       "Type": "AWS::IAM::Role",
     },

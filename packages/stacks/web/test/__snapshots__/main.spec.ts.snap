@@ -30,10 +30,10 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
     },
   },
   "Resources": {
-    "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C81C01536": {
+    "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C2048MiB8AA4A604": {
       "DependsOn": [
-        "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRoleDefaultPolicy88902FDF",
-        "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265",
+        "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C2048MiBServiceRoleDefaultPolicy5D765796",
+        "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C2048MiBServiceRoleB37F9ACF",
       ],
       "Properties": {
         "Code": {
@@ -51,9 +51,10 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
             "Ref": "testcrisiscleanupsiteccuwebstaticsiteWebsiteDeploymentAwsCliLayer89EBEB24",
           },
         ],
+        "MemorySize": 2048,
         "Role": {
           "Fn::GetAtt": [
-            "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265",
+            "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C2048MiBServiceRoleB37F9ACF",
             "Arn",
           ],
         },
@@ -62,7 +63,7 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
       },
       "Type": "AWS::Lambda::Function",
     },
-    "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265": {
+    "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C2048MiBServiceRoleB37F9ACF": {
       "Properties": {
         "AssumeRolePolicyDocument": {
           "Statement": [
@@ -93,7 +94,7 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
       },
       "Type": "AWS::IAM::Role",
     },
-    "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRoleDefaultPolicy88902FDF": {
+    "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C2048MiBServiceRoleDefaultPolicy5D765796": {
       "Properties": {
         "PolicyDocument": {
           "Statement": [
@@ -179,10 +180,10 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
           ],
           "Version": "2012-10-17",
         },
-        "PolicyName": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRoleDefaultPolicy88902FDF",
+        "PolicyName": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C2048MiBServiceRoleDefaultPolicy5D765796",
         "Roles": [
           {
-            "Ref": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265",
+            "Ref": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C2048MiBServiceRoleB37F9ACF",
           },
         ],
       },
@@ -743,6 +744,11 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
           "Comment": "CrisisCleanup Site",
           "CustomErrorResponses": [
             {
+              "ErrorCode": 403,
+              "ResponseCode": 200,
+              "ResponsePagePath": "/index.html",
+            },
+            {
               "ErrorCode": 404,
               "ResponseCode": 200,
               "ResponsePagePath": "/index.html",
@@ -775,18 +781,14 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
                 ],
               },
               "Id": "testcrisiscleanupsitetestcrisiscleanupsiteccuwebstaticsiteCloudfrontDistributionOrigin1373BB693",
+              "OriginAccessControlId": {
+                "Fn::GetAtt": [
+                  "testcrisiscleanupsiteccuwebstaticsiteCloudfrontDistributionOrigin1S3OriginAccessControl45B01AA5",
+                  "Id",
+                ],
+              },
               "S3OriginConfig": {
-                "OriginAccessIdentity": {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "origin-access-identity/cloudfront/",
-                      {
-                        "Ref": "testcrisiscleanupsiteccuwebstaticsiteOriginAccessIdentity7416BEB5",
-                      },
-                    ],
-                  ],
-                },
+                "OriginAccessIdentity": "",
               },
             },
           ],
@@ -807,6 +809,81 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
         },
       },
       "Type": "AWS::CloudFront::Distribution",
+    },
+    "testcrisiscleanupsiteccuwebstaticsiteCloudfrontDistributionOrigin1S3OriginAccessControl45B01AA5": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-L1",
+              "reason": "Latest runtime cannot be configured. CDK will need to upgrade the BucketDeployment construct accordingly.",
+            },
+            {
+              "id": "AwsPrototyping-LambdaLatestVersion",
+              "reason": "Latest runtime cannot be configured. CDK will need to upgrade the BucketDeployment construct accordingly.",
+            },
+            {
+              "applies_to": [
+                {
+                  "regex": "/^Action::s3:.*$/g",
+                },
+                {
+                  "regex": "/^Resource::.*$/g",
+                },
+              ],
+              "id": "AwsSolutions-IAM5",
+              "reason": "All Policies have been scoped to a Bucket. Given Buckets can contain arbitrary content, wildcard resources with bucket scope are required.",
+            },
+            {
+              "applies_to": [
+                {
+                  "regex": "/^Action::s3:.*$/g",
+                },
+                {
+                  "regex": "/^Resource::.*$/g",
+                },
+              ],
+              "id": "AwsPrototyping-IAMNoWildcardPermissions",
+              "reason": "All Policies have been scoped to a Bucket. Given Buckets can contain arbitrary content, wildcard resources with bucket scope are required.",
+            },
+            {
+              "applies_to": [
+                {
+                  "regex": "/^Policy::arn:<AWS::Partition>:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole$/g",
+                },
+              ],
+              "id": "AwsSolutions-IAM4",
+              "reason": "Buckets can contain arbitrary content, therefore wildcard resources under a bucket are required.",
+            },
+            {
+              "applies_to": [
+                {
+                  "regex": "/^Policy::arn:<AWS::Partition>:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole$/g",
+                },
+              ],
+              "id": "AwsPrototyping-IAMNoManagedPolicies",
+              "reason": "Buckets can contain arbitrary content, therefore wildcard resources under a bucket are required.",
+            },
+            {
+              "id": "AwsSolutions-S1",
+              "reason": "Access Log buckets should not have s3 bucket logging",
+            },
+            {
+              "id": "AwsPrototyping-S3BucketLoggingEnabled",
+              "reason": "Access Log buckets should not have s3 bucket logging",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "OriginAccessControlConfig": {
+          "Name": "testcrisiscleanupsitetestcriOrigin1S3OriginAccessControlEA18A762",
+          "OriginAccessControlOriginType": "s3",
+          "SigningBehavior": "always",
+          "SigningProtocol": "sigv4",
+        },
+      },
+      "Type": "AWS::CloudFront::OriginAccessControl",
     },
     "testcrisiscleanupsiteccuwebstaticsiteDistributionLogBucketAutoDeleteObjectsCustomResource5C3075A7": {
       "DeletionPolicy": "Delete",
@@ -1146,78 +1223,6 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
       },
       "Type": "AWS::S3::BucketPolicy",
     },
-    "testcrisiscleanupsiteccuwebstaticsiteOriginAccessIdentity7416BEB5": {
-      "Metadata": {
-        "cdk_nag": {
-          "rules_to_suppress": [
-            {
-              "id": "AwsSolutions-L1",
-              "reason": "Latest runtime cannot be configured. CDK will need to upgrade the BucketDeployment construct accordingly.",
-            },
-            {
-              "id": "AwsPrototyping-LambdaLatestVersion",
-              "reason": "Latest runtime cannot be configured. CDK will need to upgrade the BucketDeployment construct accordingly.",
-            },
-            {
-              "applies_to": [
-                {
-                  "regex": "/^Action::s3:.*$/g",
-                },
-                {
-                  "regex": "/^Resource::.*$/g",
-                },
-              ],
-              "id": "AwsSolutions-IAM5",
-              "reason": "All Policies have been scoped to a Bucket. Given Buckets can contain arbitrary content, wildcard resources with bucket scope are required.",
-            },
-            {
-              "applies_to": [
-                {
-                  "regex": "/^Action::s3:.*$/g",
-                },
-                {
-                  "regex": "/^Resource::.*$/g",
-                },
-              ],
-              "id": "AwsPrototyping-IAMNoWildcardPermissions",
-              "reason": "All Policies have been scoped to a Bucket. Given Buckets can contain arbitrary content, wildcard resources with bucket scope are required.",
-            },
-            {
-              "applies_to": [
-                {
-                  "regex": "/^Policy::arn:<AWS::Partition>:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole$/g",
-                },
-              ],
-              "id": "AwsSolutions-IAM4",
-              "reason": "Buckets can contain arbitrary content, therefore wildcard resources under a bucket are required.",
-            },
-            {
-              "applies_to": [
-                {
-                  "regex": "/^Policy::arn:<AWS::Partition>:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole$/g",
-                },
-              ],
-              "id": "AwsPrototyping-IAMNoManagedPolicies",
-              "reason": "Buckets can contain arbitrary content, therefore wildcard resources under a bucket are required.",
-            },
-            {
-              "id": "AwsSolutions-S1",
-              "reason": "Access Log buckets should not have s3 bucket logging",
-            },
-            {
-              "id": "AwsPrototyping-S3BucketLoggingEnabled",
-              "reason": "Access Log buckets should not have s3 bucket logging",
-            },
-          ],
-        },
-      },
-      "Properties": {
-        "CloudFrontOriginAccessIdentityConfig": {
-          "Comment": "Allows CloudFront to reach the bucket",
-        },
-      },
-      "Type": "AWS::CloudFront::CloudFrontOriginAccessIdentity",
-    },
     "testcrisiscleanupsiteccuwebstaticsiteWebsiteAclCFAclCustomResource90064E99": {
       "DeletionPolicy": "Delete",
       "Metadata": {
@@ -1489,7 +1494,7 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-123-us-east-1",
-          "S3Key": "d4dfc9f938ca4dc05e3454ebd4ee57e8b315b4a31eda9da0238983d5e26f3fc6.zip",
+          "S3Key": "cfca3f6728adcd292c9c8a562487764efa23d14a0ccbc597a9f4dd7f242b3848.zip",
         },
         "FunctionName": "test-crisiscleanup-site-AclEvent-402571",
         "Handler": "index.onEvent",
@@ -1499,7 +1504,7 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs16.x",
+        "Runtime": "nodejs18.x",
         "Timeout": 300,
       },
       "Type": "AWS::Lambda::Function",
@@ -2116,7 +2121,7 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
             "Value": "true",
           },
           {
-            "Key": "aws-cdk:cr-owned:6c2543e4",
+            "Key": "aws-cdk:cr-owned:8a0b6574",
             "Value": "true",
           },
         ],
@@ -2272,33 +2277,33 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
               ],
             },
             {
-              "Action": "s3:ListBucket",
-              "Effect": "Allow",
-              "Principal": {
-                "CanonicalUser": {
-                  "Fn::GetAtt": [
-                    "testcrisiscleanupsiteccuwebstaticsiteOriginAccessIdentity7416BEB5",
-                    "S3CanonicalUserId",
-                  ],
-                },
-              },
-              "Resource": {
-                "Fn::GetAtt": [
-                  "testcrisiscleanupsiteccuwebstaticsiteWebsiteBucketE5ED7528",
-                  "Arn",
-                ],
-              },
-            },
-            {
               "Action": "s3:GetObject",
+              "Condition": {
+                "StringEquals": {
+                  "AWS:SourceArn": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:",
+                        {
+                          "Ref": "AWS::Partition",
+                        },
+                        ":cloudfront::",
+                        {
+                          "Ref": "AWS::AccountId",
+                        },
+                        ":distribution/",
+                        {
+                          "Ref": "testcrisiscleanupsiteccuwebstaticsiteCloudfrontDistribution0529F417",
+                        },
+                      ],
+                    ],
+                  },
+                },
+              },
               "Effect": "Allow",
               "Principal": {
-                "CanonicalUser": {
-                  "Fn::GetAtt": [
-                    "testcrisiscleanupsiteccuwebstaticsiteOriginAccessIdentity7416BEB5",
-                    "S3CanonicalUserId",
-                  ],
-                },
+                "Service": "cloudfront.amazonaws.com",
               },
               "Resource": {
                 "Fn::Join": [
@@ -2395,7 +2400,7 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
       },
       "Type": "AWS::Lambda::LayerVersion",
     },
-    "testcrisiscleanupsiteccuwebstaticsiteWebsiteDeploymentCustomResource841DCB7C": {
+    "testcrisiscleanupsiteccuwebstaticsiteWebsiteDeploymentCustomResource2048MiBF1551DE9": {
       "DeletionPolicy": "Delete",
       "Metadata": {
         "cdk_nag": {
@@ -2472,7 +2477,7 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
         "Prune": true,
         "ServiceToken": {
           "Fn::GetAtt": [
-            "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C81C01536",
+            "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C2048MiB8AA4A604",
             "Arn",
           ],
         },
