@@ -53,7 +53,7 @@
           "name": "Unbuild"
         },
         {
-          "exec": "esbuild --bundle src/handler.function.ts --format=\"esm\" --target=\"node18\" --platform=\"node\" --outfile=\"dist/handler.function.mjs\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/*"
+          "exec": "esbuild --bundle src/handler.function.ts --format=\"esm\" --target=\"node22\" --platform=\"node\" --outfile=\"dist/handler.function.mjs\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/*"
         }
       ]
     },
