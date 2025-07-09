@@ -47,9 +47,9 @@ const CommonDefaultsBuilder = new builders.DefaultOptionsBuilder({
 	packageManager: javascript.NodePackageManager.PNPM,
 	projenrcTs: true,
 	projenVersion: '0.83.1',
-	minNodeVersion: '18.16.0',
+	minNodeVersion: '22.14.0',
 	pnpmVersion: '10.2.1',
-	typescriptVersion: '~5.2',
+	typescriptVersion: '~5.4',
 	author: 'CrisisCleanup',
 	authorName: 'CrisisCleanup',
 	authorOrganization: true,
@@ -162,14 +162,14 @@ actionsProvider.set(
 
 const tools = new ToolVersions(monorepo, {
 	tools: {
-		direnv: ['2.34.0'],
+		direnv: ['2.37.0'],
 		nodejs: [monorepo.package.minNodeVersion!],
 		pnpm: [monorepo.package.pnpmVersion!],
 		kind: ['0.20.0'],
-		awscli: ['2.15.49'],
-		sops: ['3.8.1'],
-		helm: ['3.14.4'],
-		kubectl: ['1.27.3'],
+		awscli: ['2.27.49'],
+		sops: ['3.10.2'],
+		helm: ['3.18.4'],
+		kubectl: ['1.30.13'],
 		kubectx: ['0.9.5'],
 	},
 })
@@ -177,7 +177,7 @@ const tools = new ToolVersions(monorepo, {
 const dirEnv = new DirEnv(monorepo)
 	.buildDefaultEnvRc({
 		localEnvRc: '.envrc.local',
-		minDirEnvVersion: tools.versionsOf('direnv')[0],
+		minDirEnvVersion: '2.35.0',
 	})
 	.addComment('Expose Tool Versions')
 	.addEnvVar('TOOLS_AWSCLI_VERSION', tools.versionsOf('awscli')[0])
