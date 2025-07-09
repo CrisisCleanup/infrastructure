@@ -519,7 +519,6 @@ const apiStack = AwsCdkTsAppBuilder.add(new CdkTsAppCompileBuilder()).build({
 		'cdk-sops-secrets',
 		'@aws-quickstart/eks-blueprints',
 		'@kubecost/kubecost-eks-blueprints-addon',
-		'@aws-cdk/lambda-layer-kubectl-v27',
 		'defu',
 		'cdk-pipelines-github',
 		'flat',

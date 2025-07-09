@@ -1,4 +1,3 @@
-import { KubectlV27Layer } from '@aws-cdk/lambda-layer-kubectl-v27'
 import * as blueprints from '@aws-quickstart/eks-blueprints'
 import {
 	type CdkEnvironment,
@@ -108,9 +107,6 @@ export class Pipeline {
 					blueprints.GlobalResources.KmsKey,
 					new blueprints.CreateKmsKeyProvider('cluster-key'),
 				)
-				.resourceProvider(ResourceNames.KUBE_LAYER, {
-					provide: (ctx) => new KubectlV27Layer(ctx.scope, 'kubectllayer-27'),
-				})
 				.resourceProvider(
 					ResourceNames.EBS_KEY,
 					new blueprints.CreateKmsKeyProvider('ebs-csi-key'),
