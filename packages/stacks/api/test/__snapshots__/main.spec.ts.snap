@@ -260,7 +260,7 @@ exports[`Snapshot 1`] = `
       ],
       "Properties": {
         "AddonName": "aws-ebs-csi-driver",
-        "AddonVersion": "v1.28.0-eksbuild.1",
+        "AddonVersion": "v1.45.0-eksbuild.2",
         "ClusterName": {
           "Ref": "teststackF0A1F222",
         },
@@ -308,7 +308,7 @@ exports[`Snapshot 1`] = `
       ],
       "Properties": {
         "AddonName": "coredns",
-        "AddonVersion": "v1.10.1-eksbuild.2",
+        "AddonVersion": "v1.11.4-eksbuild.14",
         "ClusterName": {
           "Ref": "teststackF0A1F222",
         },
@@ -334,7 +334,7 @@ exports[`Snapshot 1`] = `
       ],
       "Properties": {
         "AddonName": "kube-proxy",
-        "AddonVersion": "v1.27.3-eksbuild.2",
+        "AddonVersion": "v1.30.13-eksbuild.2",
         "ClusterName": {
           "Ref": "teststackF0A1F222",
         },
@@ -876,7 +876,7 @@ exports[`Snapshot 1`] = `
               "Arn",
             ],
           },
-          "version": "1.27",
+          "version": "1.30",
         },
         "ServiceToken": {
           "Fn::GetAtt": [
@@ -4332,7 +4332,7 @@ exports[`Snapshot 1`] = `
       ],
       "Properties": {
         "AddonName": "vpc-cni",
-        "AddonVersion": "v1.13.3-eksbuild.1",
+        "AddonVersion": "v1.19.6-eksbuild.1",
         "ClusterName": {
           "Ref": "teststackF0A1F222",
         },
@@ -4627,7 +4627,7 @@ exports[`VerticalPodAutoscalerAddon 1`] = `
               "Arn",
             ],
           },
-          "version": "1.27",
+          "version": "1.30",
         },
         "ServiceToken": {
           "Fn::GetAtt": [
