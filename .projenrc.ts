@@ -191,9 +191,10 @@ const dirEnv = new DirEnv(monorepo)
 	.addComment('')
 	.addComment(' All config keys available for override:')
 
-const envConfig = flattenToScreamingSnakeCase<
-	Omit<CrisisCleanupConfig, 'chart'>
->(getConfigDefaults())
+const envConfig =
+	flattenToScreamingSnakeCase<Omit<CrisisCleanupConfig, 'chart'>>(
+		getConfigDefaults(),
+	)
 Object.keys(envConfig).forEach((key) => {
 	dirEnv.addComment(`  ${key}`)
 })
@@ -461,7 +462,7 @@ const pdfRendererConstruct = AwsCdkTsConstructBuilder.build({
 	// served via lambda layer during runtime
 	devDeps: ['@sparticuz/chromium-min@123.0.1', '@types/aws-lambda'],
 	lambdaOptions: {
-		runtime: awscdk.LambdaRuntime.NODEJS_18_X,
+		runtime: awscdk.LambdaRuntime.NODEJS_20_X,
 	},
 	prettier: true,
 	jest: false,
@@ -488,7 +489,7 @@ const cloudfrontUrlRewriteConstruct = AwsCdkTsConstructBuilder.build({
 cloudfrontUrlRewriteConstruct.tasks
 	.tryFind('compile')!
 	.exec(
-		`esbuild --bundle src/handler.function.ts --format="esm" --target="node18" --platform="node" --outfile="dist/handler.function.mjs" --tsconfig="tsconfig.dev.json" --external:@aws-sdk/*`,
+		`esbuild --bundle src/handler.function.ts --format="esm" --target="node22" --platform="node" --outfile="dist/handler.function.mjs" --tsconfig="tsconfig.dev.json" --external:@aws-sdk/*`,
 	)
 cloudfrontUrlRewriteConstruct.package.file.addDeletionOverride('main')
 cloudfrontUrlRewriteConstruct.tasks.tryFind('docgen')?.reset?.()
@@ -581,6 +582,7 @@ monorepo.gitattributes.addAttributes('*.snap', 'linguist-generated')
 
 monorepo.package.addPackageResolutions(
 	`aws-cdk-lib@2.192.0`,
+	`cdk8s@${CdkVersionsBuilder.defaultOptions.cdk8sVersion}`,
 	`constructs@${CdkVersionsBuilder.defaultOptions.constructsVersion!}`,
 	`bcrypt@npm:bcryptjs@^2.4.3`,
 )
