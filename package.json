@@ -51,7 +51,7 @@
     "@types/node": "^22",
     "@typescript-eslint/eslint-plugin": "^7",
     "@typescript-eslint/parser": "^7",
-    "constructs": "10.4.2",
+    "constructs": "^10.0.0",
     "defu": "^6.1.4",
     "destr": "^2.0.5",
     "eslint": "^8",
