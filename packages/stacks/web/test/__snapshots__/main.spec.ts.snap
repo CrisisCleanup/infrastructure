@@ -38,7 +38,7 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-123-us-east-1",
-          "S3Key": "9eb41a5505d37607ac419321497a4f8c21cf0ee1f9b4a6b29aa04301aea5c7fd.zip",
+          "S3Key": "9a1fcb4a7ecba81ad70e9d3fb241f6794497da945dae5f25924e4dd002b65f2d.zip",
         },
         "Environment": {
           "Variables": {
@@ -57,7 +57,7 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "python3.9",
+        "Runtime": "python3.11",
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
@@ -195,7 +195,7 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-123-us-east-1",
-          "S3Key": "5194f926380567b6fdffc61629afdad2afc818614cb227df45e499c69db163a7.zip",
+          "S3Key": "faa95a81ae7d7373f3e1f242268f904eb748d8d0fdd306e8a6fe515a1905a7d6.zip",
         },
         "Description": {
           "Fn::Join": [
@@ -217,7 +217,7 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs18.x",
+        "Runtime": "nodejs20.x",
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
@@ -559,6 +559,7 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
             },
             {
               "Action": [
+                "s3:PutBucketPolicy",
                 "s3:GetBucket*",
                 "s3:List*",
                 "s3:DeleteObject*",
@@ -1102,6 +1103,7 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
             },
             {
               "Action": [
+                "s3:PutBucketPolicy",
                 "s3:GetBucket*",
                 "s3:List*",
                 "s3:DeleteObject*",
@@ -1380,7 +1382,7 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-123-us-east-1",
-          "S3Key": "7382a0addb9f34974a1ea6c6c9b063882af874828f366f5c93b2b7b64db15c94.zip",
+          "S3Key": "bdc104ed9cab1b5b6421713c8155f0b753380595356f710400609664d3635eca.zip",
         },
         "Description": "AWS CDK resource provider framework - onEvent (test-crisiscleanup-site/test-crisiscleanup-site-ccu-web-static-site/WebsiteAcl/CloudfrontAclProvider)",
         "Environment": {
@@ -1411,7 +1413,7 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs18.x",
+        "Runtime": "nodejs20.x",
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
@@ -1736,6 +1738,16 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
                   ],
                 },
               ],
+            },
+            {
+              "Action": "lambda:GetFunction",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "testcrisiscleanupsiteccuwebstaticsiteWebsiteAclCloudfrontWebAclOnEventHandler346D04DF",
+                  "Arn",
+                ],
+              },
             },
           ],
           "Version": "2012-10-17",
@@ -2222,6 +2234,7 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
             },
             {
               "Action": [
+                "s3:PutBucketPolicy",
                 "s3:GetBucket*",
                 "s3:List*",
                 "s3:DeleteObject*",
@@ -2376,7 +2389,7 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
       "Properties": {
         "Content": {
           "S3Bucket": "cdk-hnb659fds-assets-123-us-east-1",
-          "S3Key": "e2277687077a2abf9ae1af1cc9565e6715e2ebb62f79ec53aa75a1af9298f642.zip",
+          "S3Key": "2e8ea9d657c30715826b809f41d1f2482ff4e16f37385f55fbcf7d8ccfdd14db.zip",
         },
         "Description": "/opt/awscli/aws",
       },
@@ -2455,6 +2468,7 @@ exports[`CrisisCleanupWeb > renders expected template 1`] = `
         "DistributionId": {
           "Ref": "testcrisiscleanupsiteccuwebstaticsiteCloudfrontDistribution0529F417",
         },
+        "OutputObjectKeys": true,
         "Prune": true,
         "ServiceToken": {
           "Fn::GetAtt": [
