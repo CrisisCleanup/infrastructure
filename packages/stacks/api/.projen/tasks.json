@@ -175,13 +175,13 @@
       },
       "steps": [
         {
-          "exec": "pnpm dlx npm-check-updates@16 --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@types/debug,@types/flat,esbuild,eslint-config-prettier,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-prettier,lint-staged,prettier,ts-node,vitest,@aws-cdk/lambda-layer-kubectl-v27,@aws-quickstart/eks-blueprints,@cdklabs/cdk-validator-cfnguard,@kubecost/kubecost-eks-blueprints-addon,cdk-ec2-key-pair,cdk-pipelines-github,cdk-redisdb,cdk-sops-secrets,debug,defu,flat,zod"
+          "exec": "pnpm dlx npm-check-updates@16 --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@types/debug,@types/flat,esbuild,eslint-config-prettier,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-prettier,lint-staged,prettier,ts-node,vitest,@aws-quickstart/eks-blueprints,@cdklabs/cdk-validator-cfnguard,@kubecost/kubecost-eks-blueprints-addon,cdk-ec2-key-pair,cdk-pipelines-github,cdk-redisdb,cdk-sops-secrets,debug,defu,flat,zod"
         },
         {
           "exec": "pnpm i --no-frozen-lockfile"
         },
         {
-          "exec": "pnpm update @types/debug @types/flat @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser aws-cdk esbuild eslint-config-prettier eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint lint-staged prettier ts-node typescript vitest @aws-cdk/lambda-layer-kubectl-v27 @aws-quickstart/eks-blueprints @cdklabs/cdk-validator-cfnguard @crisiscleanup/charts.crisiscleanup @crisiscleanup/config @crisiscleanup/construct.awscdk.github-pipeline @crisiscleanup/construct.awscdk.pdf-renderer @crisiscleanup/k8s.construct.api @crisiscleanup/k8s.construct.component @kubecost/kubecost-eks-blueprints-addon aws-cdk-lib cdk-ec2-key-pair cdk-pipelines-github cdk-redisdb cdk-sops-secrets cdk8s-plus-30 cdk8s constructs debug defu flat zod"
+          "exec": "pnpm update @types/debug @types/flat @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser aws-cdk esbuild eslint-config-prettier eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint lint-staged prettier ts-node typescript vitest @aws-quickstart/eks-blueprints @cdklabs/cdk-validator-cfnguard @crisiscleanup/charts.crisiscleanup @crisiscleanup/config @crisiscleanup/construct.awscdk.github-pipeline @crisiscleanup/construct.awscdk.pdf-renderer @crisiscleanup/k8s.construct.api @crisiscleanup/k8s.construct.component @kubecost/kubecost-eks-blueprints-addon aws-cdk-lib cdk-ec2-key-pair cdk-pipelines-github cdk-redisdb cdk-sops-secrets cdk8s-plus-30 cdk8s constructs debug defu flat zod"
         },
         {
           "exec": "npx projen"

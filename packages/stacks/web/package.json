@@ -37,7 +37,7 @@
     "eslint-import-resolver-typescript": "^3.10.1",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-prettier": "^5.5.1",
-    "lint-staged": "^14.0.1",
+    "lint-staged": "^16.1.2",
     "prettier": "^3.6.2",
     "ts-node": "^10.9.2",
     "typescript": "~5.4",
@@ -48,9 +48,9 @@
     "@crisiscleanup/config": "workspace:*",
     "@crisiscleanup/construct.awscdk.cloudfront-url-rewrite": "workspace:*",
     "@crisiscleanup/construct.awscdk.github-pipeline": "workspace:*",
-    "aws-cdk-lib": "^2.1012.0",
+    "aws-cdk-lib": "2.192.0",
     "cdk-pipelines-github": "^0.4.130",
-    "constructs": "^10.4.2"
+    "constructs": "10.4.2"
   },
   "engines": {
     "node": ">= 22.14.0",

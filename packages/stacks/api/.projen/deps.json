@@ -75,10 +75,6 @@
       "type": "build"
     },
     {
-      "name": "@aws-cdk/lambda-layer-kubectl-v27",
-      "type": "runtime"
-    },
-    {
       "name": "@aws-quickstart/eks-blueprints",
       "type": "runtime"
     },
