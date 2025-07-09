@@ -225,6 +225,9 @@ exports[`Snapshot 1`] = `
               "Arn",
             ],
           },
+          "referencetoteststackkubectllayer30A4626F15Ref": {
+            "Ref": "kubectllayer30FE27BA32",
+          },
           "referencetoteststackteststackvpcPrivateSubnet1Subnet81882649Ref": {
             "Ref": "teststackvpcPrivateSubnet1SubnetF0331D8A",
           },
@@ -243,7 +246,7 @@ exports[`Snapshot 1`] = `
               {
                 "Ref": "AWS::URLSuffix",
               },
-              "/cdk-hnb659fds-assets-1234567890-us-east-1/8fb112953fe71e472230cc6c9c7394fde44f66a77fe04881a0315b52b4a49c7e.json",
+              "/cdk-hnb659fds-assets-1234567890-us-east-1/fde6bd20d4892899c77fb214d053acfb068ef769c980d9480d9212465450c578.json",
             ],
           ],
         },
@@ -253,7 +256,6 @@ exports[`Snapshot 1`] = `
     },
     "awsebscsidriveraddOn": {
       "DependsOn": [
-        "teststackchartawsloadbalancercontrollerF71AE295",
         "teststackebscsicontrollersasaConditionJson1DADB0FD",
         "teststackebscsicontrollersasamanifestebscsicontrollersasaServiceAccountResourceEF2D0DF9",
         "teststackebscsicontrollersasaRole1889A7DF",
@@ -303,9 +305,6 @@ exports[`Snapshot 1`] = `
       "UpdateReplacePolicy": "Delete",
     },
     "corednsaddOn": {
-      "DependsOn": [
-        "teststackchartawsloadbalancercontrollerF71AE295",
-      ],
       "Properties": {
         "AddonName": "coredns",
         "AddonVersion": "v1.11.4-eksbuild.14",
@@ -317,21 +316,18 @@ exports[`Snapshot 1`] = `
       },
       "Type": "AWS::EKS::Addon",
     },
-    "kubectllayer275BD88CD2": {
+    "kubectllayer30FE27BA32": {
       "Properties": {
         "Content": {
           "S3Bucket": "cdk-hnb659fds-assets-1234567890-us-east-1",
-          "S3Key": "8e18eb5caccd2617fb76e648fa6a35dc0ece98c4681942bc6861f41afdff6a1b.zip",
+          "S3Key": "9953ad4c3e84d120643ece4b2e51caf43fd9850063641b4d78bf30fbe6b4d381.zip",
         },
-        "Description": "/opt/kubectl/kubectl 1.27; /opt/helm/helm 3.12",
+        "Description": "/opt/kubectl/kubectl 1.30; /opt/helm/helm 3.17.1",
         "LicenseInfo": "Apache-2.0",
       },
       "Type": "AWS::Lambda::LayerVersion",
     },
     "kubeproxyaddOn": {
-      "DependsOn": [
-        "teststackchartawsloadbalancercontrollerF71AE295",
-      ],
       "Properties": {
         "AddonName": "kube-proxy",
         "AddonVersion": "v1.30.13-eksbuild.2",
@@ -1769,6 +1765,8 @@ exports[`Snapshot 1`] = `
                 "elasticloadbalancing:DescribeTargetGroupAttributes",
                 "elasticloadbalancing:DescribeTargetHealth",
                 "elasticloadbalancing:DescribeTags",
+                "elasticloadbalancing:DescribeTrustStores",
+                "elasticloadbalancing:DescribeListenerAttributes",
               ],
               "Effect": "Allow",
               "Resource": "*",
@@ -2013,6 +2011,7 @@ exports[`Snapshot 1`] = `
                 "elasticloadbalancing:ModifyTargetGroup",
                 "elasticloadbalancing:ModifyTargetGroupAttributes",
                 "elasticloadbalancing:DeleteTargetGroup",
+                "elasticloadbalancing:ModifyListenerAttributes",
               ],
               "Condition": {
                 "Null": {
@@ -2313,7 +2312,7 @@ exports[`Snapshot 1`] = `
         },
         "Timeout": "900s",
         "Values": "{\\"grpcSupportedProviders\\":\\"aws\\",\\"syncSecret\\":{\\"enabled\\":\\"true\\"},\\"linux\\":{\\"affinity\\":{\\"nodeAffinity\\":{\\"requiredDuringSchedulingIgnoredDuringExecution\\":{\\"nodeSelectorTerms\\":[{\\"matchExpressions\\":[{\\"key\\":\\"eks.amazonaws.com/compute-type\\",\\"operator\\":\\"NotIn\\",\\"values\\":[\\"fargate\\"]}]}]}}}}}",
-        "Version": "1.3.4",
+        "Version": "1.5.0",
         "Wait": true,
       },
       "Type": "Custom::AWSCDK-EKS-HelmChart",
@@ -2382,6 +2381,7 @@ exports[`Snapshot 1`] = `
             "Outputs.teststackawscdkawseksKubectlProviderframeworkonEventA7D3599FArn",
           ],
         },
+        "Timeout": "900s",
         "Values": {
           "Fn::Join": [
             "",
@@ -2398,7 +2398,8 @@ exports[`Snapshot 1`] = `
             ],
           ],
         },
-        "Version": "1.6.0",
+        "Version": "1.12.0",
+        "Wait": true,
       },
       "Type": "Custom::AWSCDK-EKS-HelmChart",
       "UpdateReplacePolicy": "Delete",
@@ -2465,7 +2466,7 @@ exports[`Snapshot 1`] = `
           ],
         },
         "Values": "{\\"webhook\\":{\\"securePort\\":10260},\\"installCRDs\\":true}",
-        "Version": "1.12.3",
+        "Version": "1.17.2",
       },
       "Type": "Custom::AWSCDK-EKS-HelmChart",
       "UpdateReplacePolicy": "Delete",
@@ -2506,7 +2507,6 @@ exports[`Snapshot 1`] = `
         "teststackvpcPublicSubnet3Subnet37390ED3",
         "teststackvpcAF2EB73C",
         "teststackvpcVPCGW05B02F5B",
-        "teststackchartawsloadbalancercontrollerF71AE295",
         "teststackKubectlReadyBarrier041D6F85",
       ],
       "Properties": {
@@ -2530,8 +2530,8 @@ exports[`Snapshot 1`] = `
             "Outputs.teststackawscdkawseksKubectlProviderframeworkonEventA7D3599FArn",
           ],
         },
-        "Values": "{\\"chart\\":\\"metrics-server\\",\\"repository\\":\\"https://kubernetes-sigs.github.io/metrics-server\\",\\"version\\":\\"3.11.0\\",\\"release\\":\\"blueprints-addon-metrics-server\\",\\"name\\":\\"metrics-server\\",\\"namespace\\":\\"kube-system\\",\\"createNamespace\\":false}",
-        "Version": "3.11.0",
+        "Values": "{\\"chart\\":\\"metrics-server\\",\\"repository\\":\\"https://kubernetes-sigs.github.io/metrics-server\\",\\"version\\":\\"3.12.2\\",\\"release\\":\\"blueprints-addon-metrics-server\\",\\"name\\":\\"metrics-server\\",\\"namespace\\":\\"kube-system\\",\\"createNamespace\\":false}",
+        "Version": "3.12.2",
       },
       "Type": "Custom::AWSCDK-EKS-HelmChart",
       "UpdateReplacePolicy": "Delete",
@@ -2572,7 +2572,6 @@ exports[`Snapshot 1`] = `
         "teststackvpcPublicSubnet3Subnet37390ED3",
         "teststackvpcAF2EB73C",
         "teststackvpcVPCGW05B02F5B",
-        "teststackchartawsloadbalancercontrollerF71AE295",
         "teststackKubectlReadyBarrier041D6F85",
       ],
       "Properties": {
@@ -2701,7 +2700,6 @@ exports[`Snapshot 1`] = `
         "teststackvpcAF2EB73C",
         "teststackvpcVPCGW05B02F5B",
         "teststackapi7BAC5B30",
-        "teststackchartawsloadbalancercontrollerF71AE295",
         "teststackchartverticalpodautoscaler6D637854",
         "teststackKubectlReadyBarrier041D6F85",
         "teststackmanifestSecretsStoreCsiDriverProviderAws9B659B7C",
@@ -3482,7 +3480,7 @@ exports[`Snapshot 1`] = `
         "ClusterName": {
           "Ref": "teststackF0A1F222",
         },
-        "Manifest": "[{\\"apiVersion\\":\\"v1\\",\\"kind\\":\\"ServiceAccount\\",\\"metadata\\":{\\"name\\":\\"csi-secrets-store-provider-aws\\",\\"namespace\\":\\"kube-system\\",\\"labels\\":{\\"aws.cdk.eks/prune-c873200ebe732b00a6555daa115b176b31325a4f00\\":\\"\\"}}},{\\"apiVersion\\":\\"rbac.authorization.k8s.io/v1\\",\\"kind\\":\\"ClusterRole\\",\\"metadata\\":{\\"name\\":\\"csi-secrets-store-provider-aws-cluster-role\\",\\"labels\\":{\\"aws.cdk.eks/prune-c873200ebe732b00a6555daa115b176b31325a4f00\\":\\"\\"}},\\"rules\\":[{\\"apiGroups\\":[\\"\\"],\\"resources\\":[\\"serviceaccounts/token\\"],\\"verbs\\":[\\"create\\"]},{\\"apiGroups\\":[\\"\\"],\\"resources\\":[\\"serviceaccounts\\"],\\"verbs\\":[\\"get\\"]},{\\"apiGroups\\":[\\"\\"],\\"resources\\":[\\"pods\\"],\\"verbs\\":[\\"get\\"]},{\\"apiGroups\\":[\\"\\"],\\"resources\\":[\\"nodes\\"],\\"verbs\\":[\\"get\\"]}]},{\\"apiVersion\\":\\"rbac.authorization.k8s.io/v1\\",\\"kind\\":\\"ClusterRoleBinding\\",\\"metadata\\":{\\"name\\":\\"csi-secrets-store-provider-aws-cluster-rolebinding\\",\\"labels\\":{\\"aws.cdk.eks/prune-c873200ebe732b00a6555daa115b176b31325a4f00\\":\\"\\"}},\\"roleRef\\":{\\"apiGroup\\":\\"rbac.authorization.k8s.io\\",\\"kind\\":\\"ClusterRole\\",\\"name\\":\\"csi-secrets-store-provider-aws-cluster-role\\"},\\"subjects\\":[{\\"kind\\":\\"ServiceAccount\\",\\"name\\":\\"csi-secrets-store-provider-aws\\",\\"namespace\\":\\"kube-system\\"}]},{\\"apiVersion\\":\\"apps/v1\\",\\"kind\\":\\"DaemonSet\\",\\"metadata\\":{\\"namespace\\":\\"kube-system\\",\\"name\\":\\"csi-secrets-store-provider-aws\\",\\"labels\\":{\\"aws.cdk.eks/prune-c873200ebe732b00a6555daa115b176b31325a4f00\\":\\"\\",\\"app\\":\\"csi-secrets-store-provider-aws\\"}},\\"spec\\":{\\"updateStrategy\\":{\\"type\\":\\"RollingUpdate\\"},\\"selector\\":{\\"matchLabels\\":{\\"app\\":\\"csi-secrets-store-provider-aws\\"}},\\"template\\":{\\"metadata\\":{\\"labels\\":{\\"app\\":\\"csi-secrets-store-provider-aws\\"}},\\"spec\\":{\\"serviceAccountName\\":\\"csi-secrets-store-provider-aws\\",\\"hostNetwork\\":false,\\"containers\\":[{\\"name\\":\\"provider-aws-installer\\",\\"image\\":\\"public.ecr.aws/aws-secrets-manager/secrets-store-csi-driver-provider-aws:1.0.r2-96-gfeeb3ac-2025.05.06.20.19\\",\\"imagePullPolicy\\":\\"Always\\",\\"args\\":[\\"--provider-volume=/var/run/secrets-store-csi-providers\\"],\\"resources\\":{\\"requests\\":{\\"cpu\\":\\"50m\\",\\"memory\\":\\"100Mi\\"},\\"limits\\":{\\"cpu\\":\\"50m\\",\\"memory\\":\\"100Mi\\"}},\\"securityContext\\":{\\"privileged\\":false,\\"allowPrivilegeEscalation\\":false},\\"volumeMounts\\":[{\\"mountPath\\":\\"/var/run/secrets-store-csi-providers\\",\\"name\\":\\"providervol\\"},{\\"name\\":\\"mountpoint-dir\\",\\"mountPath\\":\\"/var/lib/kubelet/pods\\",\\"mountPropagation\\":\\"HostToContainer\\"}]}],\\"volumes\\":[{\\"name\\":\\"providervol\\",\\"hostPath\\":{\\"path\\":\\"/var/run/secrets-store-csi-providers\\"}},{\\"name\\":\\"mountpoint-dir\\",\\"hostPath\\":{\\"path\\":\\"/var/lib/kubelet/pods\\",\\"type\\":\\"DirectoryOrCreate\\"}}],\\"nodeSelector\\":{\\"kubernetes.io/os\\":\\"linux\\"}}}}}]",
+        "Manifest": "[{\\"apiVersion\\":\\"v1\\",\\"kind\\":\\"ServiceAccount\\",\\"metadata\\":{\\"name\\":\\"csi-secrets-store-provider-aws\\",\\"namespace\\":\\"kube-system\\",\\"labels\\":{\\"aws.cdk.eks/prune-c873200ebe732b00a6555daa115b176b31325a4f00\\":\\"\\"}}},{\\"apiVersion\\":\\"rbac.authorization.k8s.io/v1\\",\\"kind\\":\\"ClusterRole\\",\\"metadata\\":{\\"name\\":\\"csi-secrets-store-provider-aws-cluster-role\\",\\"labels\\":{\\"aws.cdk.eks/prune-c873200ebe732b00a6555daa115b176b31325a4f00\\":\\"\\"}},\\"rules\\":[{\\"apiGroups\\":[\\"\\"],\\"resources\\":[\\"serviceaccounts/token\\"],\\"verbs\\":[\\"create\\"]},{\\"apiGroups\\":[\\"\\"],\\"resources\\":[\\"serviceaccounts\\"],\\"verbs\\":[\\"get\\"]},{\\"apiGroups\\":[\\"\\"],\\"resources\\":[\\"pods\\"],\\"verbs\\":[\\"get\\"]},{\\"apiGroups\\":[\\"\\"],\\"resources\\":[\\"nodes\\"],\\"verbs\\":[\\"get\\"]}]},{\\"apiVersion\\":\\"rbac.authorization.k8s.io/v1\\",\\"kind\\":\\"ClusterRoleBinding\\",\\"metadata\\":{\\"name\\":\\"csi-secrets-store-provider-aws-cluster-rolebinding\\",\\"labels\\":{\\"aws.cdk.eks/prune-c873200ebe732b00a6555daa115b176b31325a4f00\\":\\"\\"}},\\"roleRef\\":{\\"apiGroup\\":\\"rbac.authorization.k8s.io\\",\\"kind\\":\\"ClusterRole\\",\\"name\\":\\"csi-secrets-store-provider-aws-cluster-role\\"},\\"subjects\\":[{\\"kind\\":\\"ServiceAccount\\",\\"name\\":\\"csi-secrets-store-provider-aws\\",\\"namespace\\":\\"kube-system\\"}]},{\\"apiVersion\\":\\"apps/v1\\",\\"kind\\":\\"DaemonSet\\",\\"metadata\\":{\\"namespace\\":\\"kube-system\\",\\"name\\":\\"csi-secrets-store-provider-aws\\",\\"labels\\":{\\"aws.cdk.eks/prune-c873200ebe732b00a6555daa115b176b31325a4f00\\":\\"\\",\\"app\\":\\"csi-secrets-store-provider-aws\\"}},\\"spec\\":{\\"updateStrategy\\":{\\"type\\":\\"RollingUpdate\\"},\\"selector\\":{\\"matchLabels\\":{\\"app\\":\\"csi-secrets-store-provider-aws\\"}},\\"template\\":{\\"metadata\\":{\\"labels\\":{\\"app\\":\\"csi-secrets-store-provider-aws\\"}},\\"spec\\":{\\"serviceAccountName\\":\\"csi-secrets-store-provider-aws\\",\\"hostNetwork\\":false,\\"containers\\":[{\\"name\\":\\"provider-aws-installer\\",\\"image\\":\\"public.ecr.aws/aws-secrets-manager/secrets-store-csi-driver-provider-aws:1.0.r2-80-g8244505-2025.02.10.18.44\\",\\"imagePullPolicy\\":\\"Always\\",\\"args\\":[\\"--provider-volume=/etc/kubernetes/secrets-store-csi-providers\\"],\\"resources\\":{\\"requests\\":{\\"cpu\\":\\"50m\\",\\"memory\\":\\"100Mi\\"},\\"limits\\":{\\"cpu\\":\\"50m\\",\\"memory\\":\\"100Mi\\"}},\\"securityContext\\":{\\"privileged\\":false,\\"allowPrivilegeEscalation\\":false},\\"volumeMounts\\":[{\\"mountPath\\":\\"/etc/kubernetes/secrets-store-csi-providers\\",\\"name\\":\\"providervol\\"},{\\"name\\":\\"mountpoint-dir\\",\\"mountPath\\":\\"/var/lib/kubelet/pods\\",\\"mountPropagation\\":\\"HostToContainer\\"}]}],\\"volumes\\":[{\\"name\\":\\"providervol\\",\\"hostPath\\":{\\"path\\":\\"/etc/kubernetes/secrets-store-csi-providers\\"}},{\\"name\\":\\"mountpoint-dir\\",\\"hostPath\\":{\\"path\\":\\"/var/lib/kubelet/pods\\",\\"type\\":\\"DirectoryOrCreate\\"}}],\\"nodeSelector\\":{\\"kubernetes.io/os\\":\\"linux\\"}}}}}]",
         "PruneLabel": "aws.cdk.eks/prune-c873200ebe732b00a6555daa115b176b31325a4f00",
         "RoleArn": {
           "Fn::GetAtt": [
@@ -3729,6 +3727,65 @@ exports[`Snapshot 1`] = `
         },
       },
       "Type": "AWS::KMS::Alias",
+    },
+    "teststackteststackRemoveGP2SC3A25F461": {
+      "DeletionPolicy": "Delete",
+      "DependsOn": [
+        "awsebscsidriveraddOn",
+        "teststackKubectlReadyBarrier041D6F85",
+      ],
+      "Properties": {
+        "ApplyPatchJson": "{\\"metadata\\":{\\"annotations\\":{\\"storageclass.kubernetes.io/is-default-class\\":\\"false\\"}}}",
+        "ClusterName": {
+          "Ref": "teststackF0A1F222",
+        },
+        "PatchType": "strategic",
+        "ResourceName": "storageclass/gp2",
+        "ResourceNamespace": "default",
+        "RestorePatchJson": "{\\"metadata\\":{\\"annotations\\":{\\"storageclass.kubernetes.io/is-default-class\\":\\"true\\"}}}",
+        "RoleArn": {
+          "Fn::GetAtt": [
+            "teststackCreationRole2F53ED2E",
+            "Arn",
+          ],
+        },
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "awscdkawseksKubectlProviderNestedStackawscdkawseksKubectlProviderNestedStackResourceA7AEBA6B",
+            "Outputs.teststackawscdkawseksKubectlProviderframeworkonEventA7D3599FArn",
+          ],
+        },
+      },
+      "Type": "Custom::AWSCDK-EKS-KubernetesPatch",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "teststackteststackSetDefaultSCCB3176B9": {
+      "DeletionPolicy": "Delete",
+      "DependsOn": [
+        "teststackteststackRemoveGP2SC3A25F461",
+        "teststackKubectlReadyBarrier041D6F85",
+      ],
+      "Properties": {
+        "ClusterName": {
+          "Ref": "teststackF0A1F222",
+        },
+        "Manifest": "[{\\"apiVersion\\":\\"storage.k8s.io/v1\\",\\"kind\\":\\"StorageClass\\",\\"metadata\\":{\\"name\\":\\"gp3\\",\\"annotations\\":{\\"storageclass.kubernetes.io/is-default-class\\":\\"true\\"},\\"labels\\":{\\"aws.cdk.eks/prune-c8ec81356ff3bff186519f75d697f314c72281910e\\":\\"\\"}},\\"provisioner\\":\\"ebs.csi.aws.com\\",\\"reclaimPolicy\\":\\"Delete\\",\\"volumeBindingMode\\":\\"WaitForFirstConsumer\\",\\"parameters\\":{\\"type\\":\\"gp3\\",\\"fsType\\":\\"ext4\\",\\"encrypted\\":\\"true\\"}}]",
+        "PruneLabel": "aws.cdk.eks/prune-c8ec81356ff3bff186519f75d697f314c72281910e",
+        "RoleArn": {
+          "Fn::GetAtt": [
+            "teststackCreationRole2F53ED2E",
+            "Arn",
+          ],
+        },
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "awscdkawseksKubectlProviderNestedStackawscdkawseksKubectlProviderNestedStackResourceA7AEBA6B",
+            "Outputs.teststackawscdkawseksKubectlProviderframeworkonEventA7D3599FArn",
+          ],
+        },
+      },
+      "Type": "Custom::AWSCDK-EKS-KubernetesResource",
+      "UpdateReplacePolicy": "Delete",
     },
     "teststackvpcAF2EB73C": {
       "Properties": {
@@ -4329,16 +4386,13 @@ exports[`Snapshot 1`] = `
       "Type": "AWS::EC2::VPCGatewayAttachment",
     },
     "vpccniaddOn": {
-      "DependsOn": [
-        "teststackchartawsloadbalancercontrollerF71AE295",
-      ],
       "Properties": {
         "AddonName": "vpc-cni",
         "AddonVersion": "v1.19.6-eksbuild.1",
         "ClusterName": {
           "Ref": "teststackF0A1F222",
         },
-        "ConfigurationValues": "{\\"env\\":{\\"ENABLE_PREFIX_DELEGATION\\":\\"true\\"}}",
+        "ConfigurationValues": "{\\"init\\":{\\"env\\":{}},\\"env\\":{\\"ENABLE_PREFIX_DELEGATION\\":\\"true\\"}}",
         "ResolveConflicts": "OVERWRITE",
       },
       "Type": "AWS::EKS::Addon",
@@ -4487,6 +4541,9 @@ exports[`VerticalPodAutoscalerAddon 1`] = `
               "Arn",
             ],
           },
+          "referencetotestvpastackkubectllayer30F96AFCB1Ref": {
+            "Ref": "kubectllayer30FE27BA32",
+          },
           "referencetotestvpastacktestvpastackvpcPrivateSubnet1Subnet90A30CA9Ref": {
             "Ref": "testvpastackvpcPrivateSubnet1SubnetC54635A4",
           },
@@ -4505,7 +4562,7 @@ exports[`VerticalPodAutoscalerAddon 1`] = `
               {
                 "Ref": "AWS::URLSuffix",
               },
-              "/cdk-hnb659fds-assets-1234567890-us-east-1/f2000da6570f845729da883cab922ab3e02b03210954afd199db60fb4e5ea9cd.json",
+              "/cdk-hnb659fds-assets-1234567890-us-east-1/279346a37c72a7f877a114f37e0440a66b51dcabace1bd04fd2a4f7feb0ce63f.json",
             ],
           ],
         },
@@ -4513,13 +4570,13 @@ exports[`VerticalPodAutoscalerAddon 1`] = `
       "Type": "AWS::CloudFormation::Stack",
       "UpdateReplacePolicy": "Delete",
     },
-    "kubectllayer275BD88CD2": {
+    "kubectllayer30FE27BA32": {
       "Properties": {
         "Content": {
           "S3Bucket": "cdk-hnb659fds-assets-1234567890-us-east-1",
-          "S3Key": "8e18eb5caccd2617fb76e648fa6a35dc0ece98c4681942bc6861f41afdff6a1b.zip",
+          "S3Key": "9953ad4c3e84d120643ece4b2e51caf43fd9850063641b4d78bf30fbe6b4d381.zip",
         },
-        "Description": "/opt/kubectl/kubectl 1.27; /opt/helm/helm 3.12",
+        "Description": "/opt/kubectl/kubectl 1.30; /opt/helm/helm 3.17.1",
         "LicenseInfo": "Apache-2.0",
       },
       "Type": "AWS::Lambda::LayerVersion",
