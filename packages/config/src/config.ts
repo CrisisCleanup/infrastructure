@@ -203,7 +203,7 @@ export const getConfig = async <
 					? (defu(
 							{ ...envOverrides, ccuStage: key },
 							value,
-					  ) as CrisisCleanupConfig)
+						) as CrisisCleanupConfig)
 					: ({ ...value, ccuStage: key } as CrisisCleanupConfig),
 			),
 		]) as EnvConfig

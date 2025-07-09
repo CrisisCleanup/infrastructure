@@ -128,7 +128,7 @@ export class Database extends Construct {
 			...(this.props.performanceInsights
 				? {
 						monitoringInterval: cdk.Duration.minutes(1),
-				  }
+					}
 				: {}),
 		}
 
@@ -159,10 +159,10 @@ export class Database extends Construct {
 					? rds.Credentials.fromSecret(
 							this.props.credentialsSecret,
 							this.props.username ?? 'postgres',
-					  )
+						)
 					: rds.Credentials.fromGeneratedSecret(
 							this.props.username ?? 'postgres',
-					  ),
+						),
 			}
 			this.cluster = new rds.DatabaseCluster(
 				this,
@@ -361,7 +361,7 @@ export class DataStack extends cdk.Stack {
 						? {}
 						: {
 								excludeCharacters: '%+~`#$&*()|[]{}:;?!\'/@"\\',
-						  }),
+							}),
 				},
 			})
 

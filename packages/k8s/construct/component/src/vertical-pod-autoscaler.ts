@@ -149,7 +149,7 @@ export class VerticalPodAutoscaler extends kplus.Resource {
 		return this.containerPolicies.length
 			? {
 					containerPolicies: this.containerPolicies,
-			  }
+				}
 			: undefined
 	}
 
@@ -178,7 +178,7 @@ export class VerticalPodAutoscaler extends kplus.Resource {
 											memory: policy.minAllowed.memory
 												? `${policy.minAllowed.memory.toMebibytes()}Mi`
 												: undefined,
-									  }
+										}
 									: undefined,
 								maxAllowed: policy.maxAllowed
 									? {
@@ -186,11 +186,11 @@ export class VerticalPodAutoscaler extends kplus.Resource {
 											memory: policy.maxAllowed.memory
 												? `${policy.maxAllowed.memory.toMebibytes()}Mi`
 												: undefined,
-									  }
+										}
 									: undefined,
 							}),
 						),
-				  }
+					}
 				: undefined,
 		}
 	}

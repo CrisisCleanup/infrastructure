@@ -198,7 +198,7 @@ export class CrisisCleanupChart extends Chart {
 			props.ingressAnnotations
 				? {
 						metadata: { annotations: props.ingressAnnotations },
-				  }
+					}
 				: undefined,
 		)
 

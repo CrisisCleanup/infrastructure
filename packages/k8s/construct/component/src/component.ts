@@ -159,7 +159,7 @@ export class Component<PropsT extends DeploymentProps = DeploymentProps> {
 										: undefined,
 								}),
 							),
-					  }
+						}
 					: undefined,
 			})
 		}
@@ -186,7 +186,7 @@ export class Component<PropsT extends DeploymentProps = DeploymentProps> {
 								? K8sCpuToMillicores.parse(cpuDefaults.request.amount)
 								: undefined,
 						},
-				  }
+					}
 				: {}),
 			...(memoryDefaults
 				? {
@@ -198,7 +198,7 @@ export class Component<PropsT extends DeploymentProps = DeploymentProps> {
 								? memoryDefaults.request.toMebibytes()
 								: undefined,
 						},
-				  }
+					}
 				: {}),
 		}
 		const resourcesIn = defu(
@@ -246,7 +246,7 @@ export class Component<PropsT extends DeploymentProps = DeploymentProps> {
 										// @ts-expect-error - defu converts Size to object
 										resources.memory.request.amount,
 									),
-							  }
+								}
 							: {}),
 						...(resources.memory.limit
 							? {
@@ -256,7 +256,7 @@ export class Component<PropsT extends DeploymentProps = DeploymentProps> {
 										// @ts-expect-error - defu converts Size to object
 										resources.memory.limit.amount,
 									),
-							  }
+								}
 							: {}),
 					},
 				},
