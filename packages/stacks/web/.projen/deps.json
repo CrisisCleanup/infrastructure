@@ -2,7 +2,7 @@
   "dependencies": [
     {
       "name": "@types/node",
-      "version": "^18",
+      "version": "^22",
       "type": "build"
     },
     {
@@ -59,7 +59,7 @@
     },
     {
       "name": "typescript",
-      "version": "~5.2",
+      "version": "~5.4",
       "type": "build"
     },
     {

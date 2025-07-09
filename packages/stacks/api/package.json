@@ -29,7 +29,7 @@
   "devDependencies": {
     "@types/debug": "^4.1.9",
     "@types/flat": "^5.0.3",
-    "@types/node": "^18",
+    "@types/node": "^22",
     "@typescript-eslint/eslint-plugin": "^7",
     "@typescript-eslint/parser": "^7",
     "aws-cdk": "^2.97.0",
@@ -42,7 +42,7 @@
     "lint-staged": "^14.0.1",
     "prettier": "^3.0.3",
     "ts-node": "^10.9.1",
-    "typescript": "~5.2",
+    "typescript": "~5.4",
     "vitest": "^0.34.5"
   },
   "dependencies": {
@@ -70,7 +70,7 @@
     "zod": "^3.22.2"
   },
   "engines": {
-    "node": ">= 18.16.0",
+    "node": ">= 22.14.0",
     "pnpm": "^10.2.1"
   },
   "license": "Apache-2.0",
