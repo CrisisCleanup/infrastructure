@@ -2,25 +2,25 @@ import { z } from 'zod'
 import { ScaleSetContainer } from './addons'
 
 export const kubeConfigSchema = z.object({
-	version: z.string().default('1.27').describe('Kubernetes version.'),
+	version: z.string().default('1.30').describe('Kubernetes version.'),
 })
 
 export const eksAddonSchema = z.object({
 	coreDnsVersion: z
 		.string()
-		.default('v1.10.1-eksbuild.2')
+		.default('v1.11.4-eksbuild.14')
 		.describe('CoreDNS version.'),
 	kubeProxyVersion: z
 		.string()
-		.default('v1.27.3-eksbuild.2')
+		.default('v1.30.13-eksbuild.2')
 		.describe('Kube-proxy version.'),
 	vpcCniVersion: z
 		.string()
-		.default('v1.13.3-eksbuild.1')
+		.default('v1.19.6-eksbuild.1')
 		.describe('VPC CNI driver version.'),
 	ebsCsiVersion: z
 		.string()
-		.default('v1.28.0-eksbuild.1')
+		.default('v1.45.0-eksbuild.2')
 		.describe('EBS CSI driver version.'),
 })
 
