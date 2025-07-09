@@ -198,7 +198,7 @@
     },
     {
       "name": "aws-cdk-lib",
-      "version": "2.97.0",
+      "version": "2.192.0",
       "type": "override"
     },
     {
@@ -208,7 +208,7 @@
     },
     {
       "name": "constructs",
-      "version": "10.2.70",
+      "version": "10.4.2",
       "type": "override"
     },
     {

@@ -25,7 +25,7 @@
     },
     {
       "name": "aws-cdk",
-      "version": "^2.97.0",
+      "version": "^2.1012.0",
       "type": "build"
     },
     {
@@ -122,7 +122,7 @@
     },
     {
       "name": "aws-cdk-lib",
-      "version": "^2.97.0",
+      "version": "^2.1012.0",
       "type": "runtime"
     },
     {
@@ -142,18 +142,18 @@
       "type": "runtime"
     },
     {
-      "name": "cdk8s-plus-27",
-      "version": "2.7.20",
+      "name": "cdk8s-plus-30",
+      "version": "2.0.0",
       "type": "runtime"
     },
     {
       "name": "cdk8s",
-      "version": "2.64.19",
+      "version": "2.69.70",
       "type": "runtime"
     },
     {
       "name": "constructs",
-      "version": "^10.2.70",
+      "version": "^10.4.2",
       "type": "runtime"
     },
     {
