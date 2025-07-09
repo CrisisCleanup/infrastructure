@@ -31,36 +31,36 @@
   },
   "devDependencies": {
     "@arroyodev-llc/utils.unbuild-composite-preset": "^0.1.6",
-    "@types/debug": "^4.1.9",
+    "@types/debug": "^4.1.12",
     "@types/node": "^22",
     "@typescript-eslint/eslint-plugin": "^7",
     "@typescript-eslint/parser": "^7",
-    "cdk8s-plus-30": "*",
+    "cdk8s-plus-30": "^2.0.0",
     "eslint": "^8",
-    "eslint-config-prettier": "^9.0.0",
-    "eslint-import-resolver-typescript": "^3.6.1",
-    "eslint-plugin-import": "^2.28.1",
-    "eslint-plugin-prettier": "^5.0.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-import-resolver-typescript": "^3.10.1",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-prettier": "^5.5.1",
     "jsii": "~5",
-    "jsii-diff": "^1.89.0",
-    "jsii-docgen": "^9.1.2",
-    "jsii-pacmak": "^1.89.0",
+    "jsii-diff": "^1.112.0",
+    "jsii-docgen": "^9.2.2",
+    "jsii-pacmak": "^1.112.0",
     "jsii-rosetta": "~5",
     "lint-staged": "^14.0.1",
-    "prettier": "^3.0.3",
+    "prettier": "^3.6.2",
     "typescript": "~5.4",
-    "unbuild": "^2.0.0-rc.0"
+    "unbuild": "^3.5.0"
   },
   "peerDependencies": {
     "cdk8s": "^2.69.70",
-    "cdk8s-plus-30": "*",
+    "cdk8s-plus-30": "^2.0.0",
     "constructs": "^10.4.2"
   },
   "dependencies": {
-    "debug": "^4.3.4",
-    "defu": "^6.1.2",
+    "debug": "^4.4.1",
+    "defu": "^6.1.4",
     "js-yaml": "^4.1.0",
-    "zod": "^3.23.8"
+    "zod": "^3.25.76"
   },
   "keywords": [
     "cdk"
