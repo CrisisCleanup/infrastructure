@@ -7,9 +7,9 @@ settings:
 overrides:
   '@types/babel__traverse': 7.18.2
   '@zkochan/js-yaml': npm:js-yaml@4.1.0
-  aws-cdk-lib: 2.97.0
+  aws-cdk-lib: 2.192.0
   bcrypt: npm:bcryptjs@^2.4.3
-  constructs: 10.2.70
+  constructs: 10.4.2
   projen: 0.83.1
   unbuild: ^2.0.0-rc.0
   wrap-ansi: ^7.0.0
@@ -23,45 +23,45 @@ importers:
   .:
     dependencies:
       aws-cdk-lib:
-        specifier: 2.97.0
-        version: 2.97.0(constructs@10.2.70)
+        specifier: 2.192.0
+        version: 2.192.0(constructs@10.4.2)
       cdk-nag:
         specifier: ^2.27.141
-        version: 2.27.141(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)
+        version: 2.27.141(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2)
       constructs:
-        specifier: 10.2.70
-        version: 10.2.70
+        specifier: 10.4.2
+        version: 10.4.2
     devDependencies:
       '@arroyodev-llc/projen.component.dir-env':
         specifier: ^0.1.16
-        version: 0.1.16(projen@0.83.1(constructs@10.2.70))
+        version: 0.1.16(projen@0.83.1(constructs@10.4.2))
       '@arroyodev-llc/projen.component.git-hooks':
         specifier: ^0.1.13
-        version: 0.1.13(lint-staged@14.0.1(enquirer@2.4.1))(projen@0.83.1(constructs@10.2.70))(simple-git-hooks@2.9.0)
+        version: 0.1.13(lint-staged@14.0.1(enquirer@2.4.1))(projen@0.83.1(constructs@10.4.2))(simple-git-hooks@2.9.0)
       '@arroyodev-llc/projen.component.linting':
         specifier: ^0.1.24
-        version: 0.1.24(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70))
+        version: 0.1.24(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2))
       '@arroyodev-llc/projen.component.tool-versions':
         specifier: ^0.1.21
-        version: 0.1.21(projen@0.83.1(constructs@10.2.70))
+        version: 0.1.21(projen@0.83.1(constructs@10.4.2))
       '@arroyodev-llc/projen.component.vitest':
         specifier: ^0.1.28
-        version: 0.1.28(@aws/pdk@0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(aws-cdk-lib@2.97.0(constructs@10.2.70))(cdk-nag@2.27.141(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70)))(@types/node@22.16.2)(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70))(vue@3.5.10(typescript@5.4.5))
+        version: 0.1.28(@aws/pdk@0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(aws-cdk-lib@2.192.0(constructs@10.4.2))(cdk-nag@2.27.141(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2)))(@types/node@22.16.2)(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2))(vue@3.5.10(typescript@5.4.5))
       '@arroyodev-llc/projen.project.nx-monorepo':
         specifier: ^0.1.29
-        version: 0.1.29(@aws/pdk@0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(aws-cdk-lib@2.97.0(constructs@10.2.70))(cdk-nag@2.27.141(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70)))(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70))
+        version: 0.1.29(@aws/pdk@0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(aws-cdk-lib@2.192.0(constructs@10.4.2))(cdk-nag@2.27.141(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2)))(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2))
       '@arroyodev-llc/projen.project.typescript':
         specifier: ^0.1.33
-        version: 0.1.33(@aws/pdk@0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(aws-cdk-lib@2.97.0(constructs@10.2.70))(cdk-nag@2.27.141(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70)))(constructs@10.2.70)(lint-staged@14.0.1(enquirer@2.4.1))(projen@0.83.1(constructs@10.2.70))(simple-git-hooks@2.9.0)(typescript@5.4.5)
+        version: 0.1.33(@aws/pdk@0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(aws-cdk-lib@2.192.0(constructs@10.4.2))(cdk-nag@2.27.141(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2)))(constructs@10.4.2)(lint-staged@14.0.1(enquirer@2.4.1))(projen@0.83.1(constructs@10.4.2))(simple-git-hooks@2.9.0)(typescript@5.4.5)
       '@arroyodev-llc/utils.projen':
         specifier: ^0.1.23
-        version: 0.1.23(constructs@10.2.70)
+        version: 0.1.23(constructs@10.4.2)
       '@arroyodev-llc/utils.projen-builder':
         specifier: ^0.1.8
-        version: 0.1.8(constructs@10.2.70)
+        version: 0.1.8(constructs@10.4.2)
       '@aws/pdk':
         specifier: ^0
-        version: 0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(aws-cdk-lib@2.97.0(constructs@10.2.70))(cdk-nag@2.27.141(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70))
+        version: 0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(aws-cdk-lib@2.192.0(constructs@10.4.2))(cdk-nag@2.27.141(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2))
       '@crisiscleanup/charts.crisiscleanup':
         specifier: workspace:*
         version: link:packages/charts/crisiscleanup
@@ -124,7 +124,7 @@ importers:
         version: 3.0.3
       projen:
         specifier: 0.83.1
-        version: 0.83.1(constructs@10.2.70)
+        version: 0.83.1(constructs@10.4.2)
       rimraf:
         specifier: ^5.0.1
         version: 5.0.1
@@ -171,14 +171,14 @@ importers:
         specifier: workspace:*
         version: link:../../k8s/construct/component
       cdk8s:
-        specifier: ^2.64.19
-        version: 2.64.19(constructs@10.2.70)(debug@4.3.4)(encoding@0.1.13)
-      cdk8s-plus-27:
-        specifier: ^2.7.20
-        version: 2.7.20(cdk8s@2.64.19(constructs@10.2.70)(debug@4.3.4)(encoding@0.1.13))(constructs@10.2.70)(debug@4.3.4)(encoding@0.1.13)
+        specifier: ^2.69.70
+        version: 2.69.70(constructs@10.4.2)
+      cdk8s-plus-30:
+        specifier: ^2.0.0-rc.26
+        version: 2.0.0(cdk8s@2.69.70(constructs@10.4.2))(constructs@10.4.2)(debug@4.3.4)(encoding@0.1.13)
       constructs:
-        specifier: 10.2.70
-        version: 10.2.70
+        specifier: 10.4.2
+        version: 10.4.2
       debug:
         specifier: ^4.3.4
         version: 4.3.4(supports-color@9.4.0)
@@ -353,11 +353,11 @@ importers:
         specifier: ^7
         version: 7.18.0(eslint@8.47.0)(typescript@5.4.5)
       aws-cdk-lib:
-        specifier: 2.97.0
-        version: 2.97.0(constructs@10.2.70)
+        specifier: 2.192.0
+        version: 2.192.0(constructs@10.4.2)
       constructs:
-        specifier: 10.2.70
-        version: 10.2.70
+        specifier: 10.4.2
+        version: 10.4.2
       esbuild:
         specifier: ^0.19.3
         version: 0.19.3
@@ -438,14 +438,14 @@ importers:
         specifier: ^7
         version: 7.18.0(eslint@8.47.0)(typescript@5.4.5)
       aws-cdk-lib:
-        specifier: 2.97.0
-        version: 2.97.0(constructs@10.2.70)
+        specifier: 2.192.0
+        version: 2.192.0(constructs@10.4.2)
       cdk-pipelines-github:
         specifier: 0.4.103
-        version: 0.4.103(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)
+        version: 0.4.103(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2)
       constructs:
-        specifier: 10.2.70
-        version: 10.2.70
+        specifier: 10.4.2
+        version: 10.4.2
       eslint:
         specifier: ^8
         version: 8.47.0
@@ -520,11 +520,11 @@ importers:
         specifier: ^7
         version: 7.18.0(eslint@8.47.0)(typescript@5.4.5)
       aws-cdk-lib:
-        specifier: 2.97.0
-        version: 2.97.0(constructs@10.2.70)
+        specifier: 2.192.0
+        version: 2.192.0(constructs@10.4.2)
       constructs:
-        specifier: 10.2.70
-        version: 10.2.70
+        specifier: 10.4.2
+        version: 10.4.2
       esbuild:
         specifier: ^0.19.3
         version: 0.19.3
@@ -580,11 +580,11 @@ importers:
         specifier: workspace:*
         version: link:../component
       cdk8s:
-        specifier: ^2.64.19
-        version: 2.64.19(constructs@10.2.70)(debug@4.3.4)(encoding@0.1.13)
+        specifier: ^2.69.70
+        version: 2.69.70(constructs@10.4.2)
       constructs:
-        specifier: 10.2.70
-        version: 10.2.70
+        specifier: 10.4.2
+        version: 10.4.2
       debug:
         specifier: ^4.3.4
         version: 4.3.4(supports-color@9.4.0)
@@ -607,9 +607,9 @@ importers:
       '@typescript-eslint/parser':
         specifier: ^7
         version: 7.18.0(eslint@8.47.0)(typescript@5.4.5)
-      cdk8s-plus-27:
-        specifier: ^2.7.20
-        version: 2.7.20(cdk8s@2.64.19(constructs@10.2.70)(debug@4.3.4)(encoding@0.1.13))(constructs@10.2.70)(debug@4.3.4)(encoding@0.1.13)
+      cdk8s-plus-30:
+        specifier: '*'
+        version: 2.0.0(cdk8s@2.69.70(constructs@10.4.2))(constructs@10.4.2)(debug@4.3.4)(encoding@0.1.13)
       eslint:
         specifier: ^8
         version: 8.47.0
@@ -656,11 +656,11 @@ importers:
   packages/k8s/construct/component:
     dependencies:
       cdk8s:
-        specifier: ^2.64.19
-        version: 2.64.19(constructs@10.2.70)(debug@4.3.4)(encoding@0.1.13)
+        specifier: ^2.69.70
+        version: 2.69.70(constructs@10.4.2)
       constructs:
-        specifier: 10.2.70
-        version: 10.2.70
+        specifier: 10.4.2
+        version: 10.4.2
       debug:
         specifier: ^4.3.4
         version: 4.3.4(supports-color@9.4.0)
@@ -689,9 +689,9 @@ importers:
       '@typescript-eslint/parser':
         specifier: ^7
         version: 7.18.0(eslint@8.47.0)(typescript@5.4.5)
-      cdk8s-plus-27:
-        specifier: ^2.7.20
-        version: 2.7.20(cdk8s@2.64.19(constructs@10.2.70)(debug@4.3.4)(encoding@0.1.13))(constructs@10.2.70)(debug@4.3.4)(encoding@0.1.13)
+      cdk8s-plus-30:
+        specifier: '*'
+        version: 2.0.0(cdk8s@2.69.70(constructs@10.4.2))(constructs@10.4.2)(debug@4.3.4)(encoding@0.1.13)
       eslint:
         specifier: ^8
         version: 8.47.0
@@ -739,13 +739,13 @@ importers:
     dependencies:
       '@aws-cdk/lambda-layer-kubectl-v27':
         specifier: ^2.0.0
-        version: 2.0.0(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)
+        version: 2.0.0(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2)
       '@aws-quickstart/eks-blueprints':
         specifier: ^1.11.3
         version: 1.11.3
       '@cdklabs/cdk-validator-cfnguard':
         specifier: ^0.0.54
-        version: 0.0.54(aws-cdk-lib@2.97.0(constructs@10.2.70))
+        version: 0.0.54(aws-cdk-lib@2.192.0(constructs@10.4.2))
       '@crisiscleanup/charts.crisiscleanup':
         specifier: workspace:*
         version: link:../../charts/crisiscleanup
@@ -766,31 +766,31 @@ importers:
         version: link:../../k8s/construct/component
       '@kubecost/kubecost-eks-blueprints-addon':
         specifier: ^0.1.8
-        version: 0.1.8(aws-cdk-lib@2.97.0(constructs@10.2.70))
+        version: 0.1.8(aws-cdk-lib@2.192.0(constructs@10.4.2))
       aws-cdk-lib:
-        specifier: 2.97.0
-        version: 2.97.0(constructs@10.2.70)
+        specifier: 2.192.0
+        version: 2.192.0(constructs@10.4.2)
       cdk-ec2-key-pair:
         specifier: ^3.3.2
-        version: 3.3.2(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)
+        version: 3.3.2(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2)
       cdk-pipelines-github:
         specifier: ^0.4.103
-        version: 0.4.103(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)
+        version: 0.4.103(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2)
       cdk-redisdb:
         specifier: ^0.0.37
-        version: 0.0.37(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)
+        version: 0.0.37(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2)
       cdk-sops-secrets:
         specifier: ^1.4.16
-        version: 1.4.16(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)
+        version: 1.4.16(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2)
       cdk8s:
-        specifier: 2.64.19
-        version: 2.64.19(constructs@10.2.70)(debug@4.3.4)(encoding@0.1.13)
-      cdk8s-plus-27:
-        specifier: 2.7.20
-        version: 2.7.20(cdk8s@2.64.19(constructs@10.2.70)(debug@4.3.4)(encoding@0.1.13))(constructs@10.2.70)(debug@4.3.4)(encoding@0.1.13)
+        specifier: 2.69.70
+        version: 2.69.70(constructs@10.4.2)
+      cdk8s-plus-30:
+        specifier: 2.0.0
+        version: 2.0.0(cdk8s@2.69.70(constructs@10.4.2))(constructs@10.4.2)(debug@4.3.4)(encoding@0.1.13)
       constructs:
-        specifier: 10.2.70
-        version: 10.2.70
+        specifier: 10.4.2
+        version: 10.4.2
       debug:
         specifier: ^4.3.4
         version: 4.3.4(supports-color@9.4.0)
@@ -820,8 +820,8 @@ importers:
         specifier: ^7
         version: 7.18.0(eslint@8.47.0)(typescript@5.4.5)
       aws-cdk:
-        specifier: ^2.97.0
-        version: 2.97.0
+        specifier: ^2.1012.0
+        version: 2.1020.2
       esbuild:
         specifier: ^0.19.3
         version: 0.19.3
@@ -860,7 +860,7 @@ importers:
     dependencies:
       '@aws/pdk':
         specifier: ^0.22.6
-        version: 0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(aws-cdk-lib@2.97.0(constructs@10.2.70))(cdk-nag@2.28.195(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70))
+        version: 0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(aws-cdk-lib@2.192.0(constructs@10.4.2))(cdk-nag@2.28.195(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2))
       '@crisiscleanup/config':
         specifier: workspace:*
         version: link:../../config
@@ -868,14 +868,14 @@ importers:
         specifier: workspace:*
         version: link:../../construct/awscdk/github-pipeline
       aws-cdk-lib:
-        specifier: 2.97.0
-        version: 2.97.0(constructs@10.2.70)
+        specifier: 2.192.0
+        version: 2.192.0(constructs@10.4.2)
       cdk-pipelines-github:
         specifier: ^0.4.103
-        version: 0.4.103(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)
+        version: 0.4.103(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2)
       constructs:
-        specifier: 10.2.70
-        version: 10.2.70
+        specifier: 10.4.2
+        version: 10.4.2
     devDependencies:
       '@types/node':
         specifier: ^22
@@ -887,8 +887,8 @@ importers:
         specifier: ^7
         version: 7.18.0(eslint@8.47.0)(typescript@5.4.5)
       aws-cdk:
-        specifier: ^2.97.0
-        version: 2.97.0
+        specifier: ^2.1012.0
+        version: 2.1020.2
       esbuild:
         specifier: ^0.19.3
         version: 0.19.3
@@ -927,7 +927,7 @@ importers:
     dependencies:
       '@aws/pdk':
         specifier: ^0.22.6
-        version: 0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(aws-cdk-lib@2.97.0(constructs@10.2.70))(cdk-nag@2.28.195(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70))
+        version: 0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(aws-cdk-lib@2.192.0(constructs@10.4.2))(cdk-nag@2.28.195(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2))
       '@crisiscleanup/config':
         specifier: workspace:*
         version: link:../../config
@@ -938,14 +938,14 @@ importers:
         specifier: workspace:*
         version: link:../../construct/awscdk/github-pipeline
       aws-cdk-lib:
-        specifier: 2.97.0
-        version: 2.97.0(constructs@10.2.70)
+        specifier: 2.192.0
+        version: 2.192.0(constructs@10.4.2)
       cdk-pipelines-github:
         specifier: ^0.4.103
-        version: 0.4.103(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)
+        version: 0.4.103(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2)
       constructs:
-        specifier: 10.2.70
-        version: 10.2.70
+        specifier: 10.4.2
+        version: 10.4.2
     devDependencies:
       '@types/node':
         specifier: ^22
@@ -957,8 +957,8 @@ importers:
         specifier: ^7
         version: 7.18.0(eslint@8.47.0)(typescript@5.4.5)
       aws-cdk:
-        specifier: ^2.97.0
-        version: 2.97.0
+        specifier: ^2.1012.0
+        version: 2.1020.2
       esbuild:
         specifier: ^0.19.3
         version: 0.19.3
@@ -1181,22 +1181,16 @@ packages:
     peerDependencies:
       unbuild: ^2.0.0-rc.0
 
-  '@aws-cdk/asset-awscli-v1@2.2.200':
+  '@aws-cdk/asset-awscli-v1@2.2.244':
     resolution:
       {
-        integrity: sha512-Kf5J8DfJK4wZFWT2Myca0lhwke7LwHcHBo+4TvWOGJrFVVKVuuiLCkzPPRBQQVDj0Vtn2NBokZAz8pfMpAqAKg==,
+        integrity: sha512-gIoJJjeXpfRirz2bUN5yfHd9UhIz94XAL7adIraLV5og3IJ5q4FWJKJThGw5VTGJ3MKt7YhFbiujk3PA4jkILQ==,
       }
 
-  '@aws-cdk/asset-kubectl-v20@2.1.2':
+  '@aws-cdk/asset-node-proxy-agent-v6@2.1.0':
     resolution:
       {
-        integrity: sha512-3M2tELJOxQv0apCIiuKQ4pAbncz9GuLwnKFqxifWfe77wuMxyTRPmxssYHs42ePqzap1LT6GDcPygGs+hHstLg==,
-      }
-
-  '@aws-cdk/asset-node-proxy-agent-v6@2.0.1':
-    resolution:
-      {
-        integrity: sha512-DDt4SLdLOwWCjGtltH4VCST7hpOI5DzieuhGZsBpZ+AgJdSI2GCjklCXm0GCTwJG/SolkL5dtQXyUKgg9luBDg==,
+        integrity: sha512-7bY3J8GCVxLupn/kNmpPc5VJz8grx+4RKfnnJiO1LG+uxkZfANZG3RMHhE+qQxxwkyQ9/MfPtTpf748UhR425A==,
       }
 
   '@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0':
@@ -1207,8 +1201,8 @@ packages:
     engines: { node: '>= 14.15.0' }
     deprecated: This package has been stabilized and moved to aws-cdk-lib
     peerDependencies:
-      aws-cdk-lib: 2.97.0
-      constructs: 10.2.70
+      aws-cdk-lib: 2.192.0
+      constructs: 10.4.2
 
   '@aws-cdk/aws-eks-v2-alpha@2.187.0-alpha.0':
     resolution:
@@ -1217,10 +1211,20 @@ packages:
       }
     engines: { node: '>= 14.15.0' }
     peerDependencies:
-      aws-cdk-lib: 2.97.0
-      constructs: 10.2.70
+      aws-cdk-lib: 2.192.0
+      constructs: 10.4.2
     bundledDependencies:
       - yaml
+
+  '@aws-cdk/cloud-assembly-schema@41.2.0':
+    resolution:
+      {
+        integrity: sha512-JaulVS6z9y5+u4jNmoWbHZRs9uGOnmn/ktXygNWKNu1k6lF3ad4so3s18eRu15XCbUIomxN9WPYT6Ehh7hzONw==,
+      }
+    engines: { node: '>= 14.15.0' }
+    bundledDependencies:
+      - jsonschema
+      - semver
 
   '@aws-cdk/lambda-layer-kubectl-v23@2.0.8':
     resolution:
@@ -1228,8 +1232,8 @@ packages:
         integrity: sha512-egSftvjCVB9JHxNAtGLs8g1vMS2JYd+2NX51K9EqrjF2ew9FcsQFy9KGJVGpfMuyIe2GQBY6hX+VeeFw5R2JDQ==,
       }
     peerDependencies:
-      aws-cdk-lib: 2.97.0
-      constructs: 10.2.70
+      aws-cdk-lib: 2.192.0
+      constructs: 10.4.2
 
   '@aws-cdk/lambda-layer-kubectl-v24@2.0.242':
     resolution:
@@ -1237,8 +1241,8 @@ packages:
         integrity: sha512-7/wIOo685tmrEe4hh6zqDELhBZh5OQGf3Hd2FU2Vnwy2ZubW8qTmEw5gqJCsCrGKeYDoa1BcVhDRZ/nzjkaqyA==,
       }
     peerDependencies:
-      aws-cdk-lib: 2.97.0
-      constructs: 10.2.70
+      aws-cdk-lib: 2.192.0
+      constructs: 10.4.2
 
   '@aws-cdk/lambda-layer-kubectl-v25@2.0.4':
     resolution:
@@ -1246,8 +1250,8 @@ packages:
         integrity: sha512-q7pI3B+djl0L5QPMcQzBWnif9/3yCCVmW8xJhgk5G9ydD59ioZRHw/g5mrcRVYvq8m5KETqnLkSR520w8WJwVg==,
       }
     peerDependencies:
-      aws-cdk-lib: 2.97.0
-      constructs: 10.2.70
+      aws-cdk-lib: 2.192.0
+      constructs: 10.4.2
 
   '@aws-cdk/lambda-layer-kubectl-v26@2.0.1':
     resolution:
@@ -1255,8 +1259,8 @@ packages:
         integrity: sha512-xnrCzYgIKEL+Ad1QqTpN4Wsly8mVVvVGsgu1+xKcOCS6IL3Rz1AMUUtpJoEjVjq/UdJl2oJ/KmD3am+hV86scQ==,
       }
     peerDependencies:
-      aws-cdk-lib: 2.97.0
-      constructs: 10.2.70
+      aws-cdk-lib: 2.192.0
+      constructs: 10.4.2
 
   '@aws-cdk/lambda-layer-kubectl-v26@2.1.0':
     resolution:
@@ -1264,8 +1268,8 @@ packages:
         integrity: sha512-4aZQHrIIpzofTg5SCDdRKyFdfl/Xi4opOAj+sbK0veuUTZiFyPdn1w8bRjm/zBItSCFxJZeSL4Q89fXaJtRP4w==,
       }
     peerDependencies:
-      aws-cdk-lib: 2.97.0
-      constructs: 10.2.70
+      aws-cdk-lib: 2.192.0
+      constructs: 10.4.2
 
   '@aws-cdk/lambda-layer-kubectl-v27@2.0.0':
     resolution:
@@ -1273,8 +1277,8 @@ packages:
         integrity: sha512-BBh4ScPHaD82e7Z3PYXqyLjqfk/3/PRDTJW3x2j4l5f6sHXU041TaXKcFAGBHb1m4aq2UK+fwkIq95mgs3c0dg==,
       }
     peerDependencies:
-      aws-cdk-lib: 2.97.0
-      constructs: 10.2.70
+      aws-cdk-lib: 2.192.0
+      constructs: 10.4.2
 
   '@aws-cdk/lambda-layer-kubectl-v27@2.1.0':
     resolution:
@@ -1282,8 +1286,8 @@ packages:
         integrity: sha512-2gXadkJSw1gDWO3ep0JhmFP99Ul5uUCJAEcROt/hnDTc0TMeUDa8qLrCwhmgOAM9xCXMwRcWomEGmK0fmr2vQg==,
       }
     peerDependencies:
-      aws-cdk-lib: 2.97.0
-      constructs: 10.2.70
+      aws-cdk-lib: 2.192.0
+      constructs: 10.4.2
 
   '@aws-cdk/lambda-layer-kubectl-v28@2.2.1':
     resolution:
@@ -1291,8 +1295,8 @@ packages:
         integrity: sha512-iAuWV1B/HKDMEZ71nBNtZVE9flD8Y+TStaVAlL9sRjn0mMD/Z5PbGjdVMMi9aN56DYQKLbfmscnngzCb4he5Cw==,
       }
     peerDependencies:
-      aws-cdk-lib: 2.97.0
-      constructs: 10.2.70
+      aws-cdk-lib: 2.192.0
+      constructs: 10.4.2
 
   '@aws-cdk/lambda-layer-kubectl-v29@2.1.1':
     resolution:
@@ -1300,8 +1304,8 @@ packages:
         integrity: sha512-6CChfYXbV8jDIEhUrF2oxXUJPYjXRjt4d6D3Tck9z9wd1jN17juOHTetompVJCDYWfqrXYWT2gK8PEc9pqJojg==,
       }
     peerDependencies:
-      aws-cdk-lib: 2.97.0
-      constructs: 10.2.70
+      aws-cdk-lib: 2.192.0
+      constructs: 10.4.2
 
   '@aws-cdk/lambda-layer-kubectl-v30@2.0.4':
     resolution:
@@ -1309,8 +1313,8 @@ packages:
         integrity: sha512-zhi8pZA+NS+irgWdPOqK+O++qk3moOAoG4kv+VEVWC9G2p+dZX51VheKxawqPF9IwAZnQ2kmVGs7PgrsVIsDWQ==,
       }
     peerDependencies:
-      aws-cdk-lib: 2.97.0
-      constructs: 10.2.70
+      aws-cdk-lib: 2.192.0
+      constructs: 10.4.2
 
   '@aws-cdk/lambda-layer-kubectl-v31@2.1.0':
     resolution:
@@ -1318,8 +1322,8 @@ packages:
         integrity: sha512-ZO3nysb3X3zly10B91vTNXyeAxFPAsYVoKJLXxRTt7PRMhiD7W5TLLd/X/m6UZRbmtH623goi2HVSCAUhNFIuA==,
       }
     peerDependencies:
-      aws-cdk-lib: 2.97.0
-      constructs: 10.2.70
+      aws-cdk-lib: 2.192.0
+      constructs: 10.4.2
 
   '@aws-cdk/lambda-layer-kubectl-v32@2.1.0':
     resolution:
@@ -1327,8 +1331,8 @@ packages:
         integrity: sha512-a+zvCLapTg8R0P/Nrecc8mKV+ZgAwvkndn4/zlb43e14zRlc4/ozvmeghUT2eoyyaWJv+PwqgWohEXXec3kpSw==,
       }
     peerDependencies:
-      aws-cdk-lib: 2.97.0
-      constructs: 10.2.70
+      aws-cdk-lib: 2.192.0
+      constructs: 10.4.2
 
   '@aws-crypto/ie11-detection@3.0.0':
     resolution:
@@ -1398,7 +1402,7 @@ packages:
       }
     peerDependencies:
       aws-cdk: 2.1012.0
-      aws-cdk-lib: 2.97.0
+      aws-cdk-lib: 2.192.0
 
   '@aws-sdk/client-eks@3.418.0':
     resolution:
@@ -1744,9 +1748,9 @@ packages:
     hasBin: true
     peerDependencies:
       '@aws-cdk/aws-cognito-identitypool-alpha': ^2.93.0-alpha.0
-      aws-cdk-lib: 2.97.0
+      aws-cdk-lib: 2.192.0
       cdk-nag: ^2.27.115
-      constructs: 10.2.70
+      constructs: 10.4.2
       projen: 0.83.1
     bundledDependencies:
       - '@hpcc-js/wasm'
@@ -2126,7 +2130,7 @@ packages:
       }
     engines: { node: '>= 16.14.0' }
     peerDependencies:
-      aws-cdk-lib: 2.97.0
+      aws-cdk-lib: 2.192.0
 
   '@colors/colors@1.5.0':
     resolution:
@@ -5222,14 +5226,14 @@ packages:
       }
     engines: { node: '>= 0.4' }
 
-  aws-cdk-lib@2.97.0:
+  aws-cdk-lib@2.192.0:
     resolution:
       {
-        integrity: sha512-O9LYiQcaJTngaz4wocMw6RIcPs7jhIXE1k+2uEBrf6UqaH/nxa18wd4q5Mw7+jNFLkR37Ivw6XF/RYA5ZcREKw==,
+        integrity: sha512-Y9BAlr9a4QsEsamKc2cOGzX8DpVSOh94wsrMSGRXT0bZaqmixhhmT7WYCrT1KX4MU3gYk3OiwY2BbNyWaNE8Fg==,
       }
     engines: { node: '>= 14.15.0' }
     peerDependencies:
-      constructs: 10.2.70
+      constructs: 10.4.2
     bundledDependencies:
       - '@balena/dockerignore'
       - case
@@ -5241,19 +5245,20 @@ packages:
       - semver
       - table
       - yaml
+      - mime-types
+
+  aws-cdk@2.1020.2:
+    resolution:
+      {
+        integrity: sha512-yWdt3dJh4aPm1VNyEgfG3lozGrvddw0i7avt+Cl9KOYixmisQtAg39/aZqzVVqjzVZVEanXmz+tlhzzh75Z69A==,
+      }
+    engines: { node: '>= 18.0.0' }
+    hasBin: true
 
   aws-cdk@2.17.0:
     resolution:
       {
         integrity: sha512-gRPPpTONOjtQ40A8sc2SzXPGDzFlVbSPPts1pjOx4VBJ2S91A0ON3Fkby+XX/Xqdo1GITTWAk5Va4PnoYyUhmA==,
-      }
-    engines: { node: '>= 14.15.0' }
-    hasBin: true
-
-  aws-cdk@2.97.0:
-    resolution:
-      {
-        integrity: sha512-YTQU6y4E82Srz4F/Vj8zsHz8eCrstLY1HIMzkxOJqnaKO8wtGBCSjSwHlwcS/HnGUl9qBXWgHQwxXvu5yyVw5A==,
       }
     engines: { node: '>= 14.15.0' }
     hasBin: true
@@ -5568,8 +5573,8 @@ packages:
         integrity: sha512-fUGqUS/z9VLjPFNet9DMqgcZRkHasLjrYna8Tjncv5ZYoS1z4nST9SoSmi+dhvx+yYnVrhCxJ1o4O7KI/dVdbw==,
       }
     peerDependencies:
-      aws-cdk-lib: 2.97.0
-      constructs: 10.2.70
+      aws-cdk-lib: 2.192.0
+      constructs: 10.4.2
 
   cdk-nag@2.27.141:
     resolution:
@@ -5577,8 +5582,8 @@ packages:
         integrity: sha512-qxWZ+6AAtLN+TA9qYGpIfCCAbWDv09vLtUB4CGiLng3hb+JQwrsjDAbaTnp4MFziBNgug6vrHOiqUKBe8Jowxg==,
       }
     peerDependencies:
-      aws-cdk-lib: 2.97.0
-      constructs: 10.2.70
+      aws-cdk-lib: 2.192.0
+      constructs: 10.4.2
 
   cdk-nag@2.28.195:
     resolution:
@@ -5586,8 +5591,8 @@ packages:
         integrity: sha512-5kVN9pX14phyzY55xJAKZqkeGW6kd0WpV2o/hdGjwAFIeYwte3W2xhKsqZV/IF8HarhsvRrnoz3JI085LeqRGg==,
       }
     peerDependencies:
-      aws-cdk-lib: 2.97.0
-      constructs: 10.2.70
+      aws-cdk-lib: 2.192.0
+      constructs: 10.4.2
 
   cdk-pipelines-github@0.4.103:
     resolution:
@@ -5596,8 +5601,8 @@ packages:
       }
     engines: { node: '>= 16.13.0' }
     peerDependencies:
-      aws-cdk-lib: 2.97.0
-      constructs: 10.2.70
+      aws-cdk-lib: 2.192.0
+      constructs: 10.4.2
     bundledDependencies:
       - decamelize
       - fast-json-patch
@@ -5609,8 +5614,8 @@ packages:
         integrity: sha512-o2h/JAlNMKc8V0pIKsObvJ5tD8wqaxk0ptQ/udYaklNUbPwDAB8bBHQ3Cn/uW4SIalSinNlokTB52qnl0HKKoQ==,
       }
     peerDependencies:
-      aws-cdk-lib: 2.97.0
-      constructs: 10.2.70
+      aws-cdk-lib: 2.192.0
+      constructs: 10.4.2
 
   cdk-sops-secrets@1.4.16:
     resolution:
@@ -5618,8 +5623,8 @@ packages:
         integrity: sha512-O0g0ErRAYAbgCrcyyi6+dTu0TPPDptgq3tFDBYaERLa/4+WC+y6CXUvZd6CQvhlforLDDpu7PSys9DYHVOK8TA==,
       }
     peerDependencies:
-      aws-cdk-lib: 2.97.0
-      constructs: 10.2.70
+      aws-cdk-lib: 2.192.0
+      constructs: 10.4.2
 
   cdk8s-cli@2.103.0:
     resolution:
@@ -5637,30 +5642,30 @@ packages:
     engines: { node: '>= 16.20.0' }
     peerDependencies:
       cdk8s: ^2.64.19
-      constructs: 10.2.70
+      constructs: 10.4.2
     bundledDependencies:
       - minimatch
 
-  cdk8s-plus-27@2.7.20:
+  cdk8s-plus-30@2.0.0:
     resolution:
       {
-        integrity: sha512-VeGkgA/g0bf098BXrD4qLlQVbuNXazPRx/XZBg2eaj4B6SXtPyN5e2QnyW8r4ZHI1u3GxnseHUvErBC66gWPiQ==,
+        integrity: sha512-SmvZs6ZyqeABkbUlLeIejHfFjFmOfv5/RZsls0fyNj04fGFeyRSxOfY9ESDU4RHGyCtmhgJUmVz+Q+PgeoxxnA==,
       }
     engines: { node: '>= 16.20.0' }
     peerDependencies:
-      cdk8s: ^2.64.19
-      constructs: 10.2.70
+      cdk8s: ^2.68.11
+      constructs: 10.4.2
     bundledDependencies:
       - minimatch
 
-  cdk8s@2.64.19:
+  cdk8s@2.69.70:
     resolution:
       {
-        integrity: sha512-Ah35UDf+itgC/Mwi4px3ikSCO1DOU2mscd4wewsLCQBU/nKX8gSy5T5RKGumoUDq3uxMrEmQfy48oqI01lVyqg==,
+        integrity: sha512-wJB6jCD0TEUfADWYRy+vHC2etG/SQqZLnGYKpHLYB+YT30pbHLXIVa/t3kPBVhnkqNyDN5p6ZLTpDXXrvylB1A==,
       }
     engines: { node: '>= 16.20.0' }
     peerDependencies:
-      constructs: 10.2.70
+      constructs: 10.4.2
     bundledDependencies:
       - fast-json-patch
       - follow-redirects
@@ -6036,12 +6041,11 @@ packages:
         integrity: sha512-ty/fTekppD2fIwRvnZAVdeOiGd1c7YXEixbgJTNzqcxJWKQnjJ/V1bNEEE6hygpM3WjwHFUVK6HTjWSzV4a8sQ==,
       }
 
-  constructs@10.2.70:
+  constructs@10.4.2:
     resolution:
       {
-        integrity: sha512-z6zr1E8K/9tzJbCQzY0UGX0/oVKPFKu9C/mzEnghCG6TAJINnvlq0CMKm63XqqeMleadZYm5T3sZGJKcxJS/Pg==,
+        integrity: sha512-wsNxBlAott2qg8Zv87q3eYZYgheb9lchtBfjHzzLHtXbttwSrHPs1NNQbBrmbb1YZvYg2+Vh0Dor76w4mFxJkA==,
       }
-    engines: { node: '>= 16.14.0' }
 
   conventional-changelog-angular@5.0.13:
     resolution:
@@ -9906,7 +9910,7 @@ packages:
     engines: { node: '>= 16.0.0' }
     hasBin: true
     peerDependencies:
-      constructs: 10.2.70
+      constructs: 10.4.2
     bundledDependencies:
       - '@iarna/toml'
       - case
@@ -12285,69 +12289,69 @@ snapshots:
 
   '@antfu/utils@0.7.6': {}
 
-  '@arroyodev-llc/projen.component.dir-env@0.1.16(projen@0.83.1(constructs@10.2.70))':
+  '@arroyodev-llc/projen.component.dir-env@0.1.16(projen@0.83.1(constructs@10.4.2))':
     dependencies:
-      projen: 0.83.1(constructs@10.2.70)
+      projen: 0.83.1(constructs@10.4.2)
 
-  '@arroyodev-llc/projen.component.git-hooks@0.1.13(lint-staged@14.0.1(enquirer@2.4.1))(projen@0.83.1(constructs@10.2.70))(simple-git-hooks@2.9.0)':
+  '@arroyodev-llc/projen.component.git-hooks@0.1.13(lint-staged@14.0.1(enquirer@2.4.1))(projen@0.83.1(constructs@10.4.2))(simple-git-hooks@2.9.0)':
     dependencies:
       lint-staged: 14.0.1(enquirer@2.4.1)(supports-color@9.4.0)
-      projen: 0.83.1(constructs@10.2.70)
+      projen: 0.83.1(constructs@10.4.2)
       simple-git-hooks: 2.9.0
 
-  '@arroyodev-llc/projen.component.linting@0.1.24(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70))':
+  '@arroyodev-llc/projen.component.linting@0.1.24(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2))':
     dependencies:
-      '@arroyodev-llc/utils.projen': 0.1.23(constructs@10.2.70)
+      '@arroyodev-llc/utils.projen': 0.1.23(constructs@10.4.2)
       p-queue: 7.4.1
-      projen: 0.83.1(constructs@10.2.70)
+      projen: 0.83.1(constructs@10.4.2)
       shell-quote: 1.8.1
     transitivePeerDependencies:
       - constructs
 
-  '@arroyodev-llc/projen.component.pnpm-workspace@0.1.25(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70))':
+  '@arroyodev-llc/projen.component.pnpm-workspace@0.1.25(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2))':
     dependencies:
-      '@arroyodev-llc/utils.projen': 0.1.23(constructs@10.2.70)
-      projen: 0.83.1(constructs@10.2.70)
+      '@arroyodev-llc/utils.projen': 0.1.23(constructs@10.4.2)
+      projen: 0.83.1(constructs@10.4.2)
     transitivePeerDependencies:
       - constructs
 
-  '@arroyodev-llc/projen.component.release-please@0.1.26(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70))':
+  '@arroyodev-llc/projen.component.release-please@0.1.26(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2))':
     dependencies:
-      '@arroyodev-llc/utils.projen': 0.1.23(constructs@10.2.70)
-      projen: 0.83.1(constructs@10.2.70)
+      '@arroyodev-llc/utils.projen': 0.1.23(constructs@10.4.2)
+      projen: 0.83.1(constructs@10.4.2)
     transitivePeerDependencies:
       - constructs
 
-  '@arroyodev-llc/projen.component.tool-versions@0.1.21(projen@0.83.1(constructs@10.2.70))':
+  '@arroyodev-llc/projen.component.tool-versions@0.1.21(projen@0.83.1(constructs@10.4.2))':
     dependencies:
-      projen: 0.83.1(constructs@10.2.70)
+      projen: 0.83.1(constructs@10.4.2)
 
-  '@arroyodev-llc/projen.component.tsconfig-container@0.1.19(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70))':
+  '@arroyodev-llc/projen.component.tsconfig-container@0.1.19(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2))':
     dependencies:
-      '@arroyodev-llc/utils.projen': 0.1.23(constructs@10.2.70)
-      projen: 0.83.1(constructs@10.2.70)
+      '@arroyodev-llc/utils.projen': 0.1.23(constructs@10.4.2)
+      projen: 0.83.1(constructs@10.4.2)
     transitivePeerDependencies:
       - constructs
 
-  '@arroyodev-llc/projen.component.typescript-source-file@0.1.27(@aws/pdk@0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(aws-cdk-lib@2.97.0(constructs@10.2.70))(cdk-nag@2.27.141(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70)))(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70))':
+  '@arroyodev-llc/projen.component.typescript-source-file@0.1.27(@aws/pdk@0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(aws-cdk-lib@2.192.0(constructs@10.4.2))(cdk-nag@2.27.141(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2)))(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2))':
     dependencies:
-      '@arroyodev-llc/projen.component.linting': 0.1.24(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70))
+      '@arroyodev-llc/projen.component.linting': 0.1.24(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2))
       '@arroyodev-llc/utils.fs': 0.1.16
-      '@arroyodev-llc/utils.projen': 0.1.23(constructs@10.2.70)
-      '@arroyodev-llc/utils.ts-ast': 0.1.13(constructs@10.2.70)
-      '@aws/pdk': 0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(aws-cdk-lib@2.97.0(constructs@10.2.70))(cdk-nag@2.27.141(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70))
-      projen: 0.83.1(constructs@10.2.70)
+      '@arroyodev-llc/utils.projen': 0.1.23(constructs@10.4.2)
+      '@arroyodev-llc/utils.ts-ast': 0.1.13(constructs@10.4.2)
+      '@aws/pdk': 0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(aws-cdk-lib@2.192.0(constructs@10.4.2))(cdk-nag@2.27.141(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2))
+      projen: 0.83.1(constructs@10.4.2)
       ts-morph: 19.0.0
     transitivePeerDependencies:
       - constructs
 
-  '@arroyodev-llc/projen.component.unbuild@0.1.28(@aws/pdk@0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(aws-cdk-lib@2.97.0(constructs@10.2.70))(cdk-nag@2.27.141(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70)))(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70))(typescript@5.4.5)':
+  '@arroyodev-llc/projen.component.unbuild@0.1.28(@aws/pdk@0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(aws-cdk-lib@2.192.0(constructs@10.4.2))(cdk-nag@2.27.141(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2)))(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2))(typescript@5.4.5)':
     dependencies:
-      '@arroyodev-llc/projen.component.typescript-source-file': 0.1.27(@aws/pdk@0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(aws-cdk-lib@2.97.0(constructs@10.2.70))(cdk-nag@2.27.141(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70)))(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70))
-      '@arroyodev-llc/utils.projen': 0.1.23(constructs@10.2.70)
-      '@arroyodev-llc/utils.ts-ast': 0.1.13(constructs@10.2.70)
-      '@aws/pdk': 0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(aws-cdk-lib@2.97.0(constructs@10.2.70))(cdk-nag@2.27.141(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70))
-      projen: 0.83.1(constructs@10.2.70)
+      '@arroyodev-llc/projen.component.typescript-source-file': 0.1.27(@aws/pdk@0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(aws-cdk-lib@2.192.0(constructs@10.4.2))(cdk-nag@2.27.141(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2)))(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2))
+      '@arroyodev-llc/utils.projen': 0.1.23(constructs@10.4.2)
+      '@arroyodev-llc/utils.ts-ast': 0.1.13(constructs@10.4.2)
+      '@aws/pdk': 0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(aws-cdk-lib@2.192.0(constructs@10.4.2))(cdk-nag@2.27.141(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2))
+      projen: 0.83.1(constructs@10.4.2)
       ts-morph: 19.0.0
       unbuild: 2.0.0(typescript@5.4.5)
     transitivePeerDependencies:
@@ -12356,15 +12360,15 @@ snapshots:
       - supports-color
       - typescript
 
-  '@arroyodev-llc/projen.component.vite@0.1.29(@aws/pdk@0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(aws-cdk-lib@2.97.0(constructs@10.2.70))(cdk-nag@2.27.141(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70)))(@types/node@22.16.2)(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70))(vue@3.5.10(typescript@5.4.5))':
+  '@arroyodev-llc/projen.component.vite@0.1.29(@aws/pdk@0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(aws-cdk-lib@2.192.0(constructs@10.4.2))(cdk-nag@2.27.141(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2)))(@types/node@22.16.2)(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2))(vue@3.5.10(typescript@5.4.5))':
     dependencies:
-      '@arroyodev-llc/projen.component.linting': 0.1.24(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70))
-      '@arroyodev-llc/projen.component.typescript-source-file': 0.1.27(@aws/pdk@0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(aws-cdk-lib@2.97.0(constructs@10.2.70))(cdk-nag@2.27.141(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70)))(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70))
-      '@arroyodev-llc/utils.projen': 0.1.23(constructs@10.2.70)
-      '@arroyodev-llc/utils.ts-ast': 0.1.13(constructs@10.2.70)
+      '@arroyodev-llc/projen.component.linting': 0.1.24(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2))
+      '@arroyodev-llc/projen.component.typescript-source-file': 0.1.27(@aws/pdk@0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(aws-cdk-lib@2.192.0(constructs@10.4.2))(cdk-nag@2.27.141(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2)))(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2))
+      '@arroyodev-llc/utils.projen': 0.1.23(constructs@10.4.2)
+      '@arroyodev-llc/utils.ts-ast': 0.1.13(constructs@10.4.2)
       '@vitejs/plugin-vue': 4.6.2(vite@4.5.3(@types/node@22.16.2))(vue@3.5.10(typescript@5.4.5))
       '@vitejs/plugin-vue-jsx': 3.1.0(vite@4.5.3(@types/node@22.16.2))(vue@3.5.10(typescript@5.4.5))
-      projen: 0.83.1(constructs@10.2.70)
+      projen: 0.83.1(constructs@10.4.2)
       ts-morph: 19.0.0
       vite: 4.5.3(@types/node@22.16.2)
     transitivePeerDependencies:
@@ -12380,13 +12384,13 @@ snapshots:
       - terser
       - vue
 
-  '@arroyodev-llc/projen.component.vitest@0.1.28(@aws/pdk@0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(aws-cdk-lib@2.97.0(constructs@10.2.70))(cdk-nag@2.27.141(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70)))(@types/node@22.16.2)(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70))(vue@3.5.10(typescript@5.4.5))':
+  '@arroyodev-llc/projen.component.vitest@0.1.28(@aws/pdk@0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(aws-cdk-lib@2.192.0(constructs@10.4.2))(cdk-nag@2.27.141(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2)))(@types/node@22.16.2)(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2))(vue@3.5.10(typescript@5.4.5))':
     dependencies:
-      '@arroyodev-llc/projen.component.typescript-source-file': 0.1.27(@aws/pdk@0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(aws-cdk-lib@2.97.0(constructs@10.2.70))(cdk-nag@2.27.141(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70)))(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70))
-      '@arroyodev-llc/projen.component.vite': 0.1.29(@aws/pdk@0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(aws-cdk-lib@2.97.0(constructs@10.2.70))(cdk-nag@2.27.141(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70)))(@types/node@22.16.2)(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70))(vue@3.5.10(typescript@5.4.5))
-      '@arroyodev-llc/utils.projen': 0.1.23(constructs@10.2.70)
-      '@arroyodev-llc/utils.ts-ast': 0.1.13(constructs@10.2.70)
-      projen: 0.83.1(constructs@10.2.70)
+      '@arroyodev-llc/projen.component.typescript-source-file': 0.1.27(@aws/pdk@0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(aws-cdk-lib@2.192.0(constructs@10.4.2))(cdk-nag@2.27.141(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2)))(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2))
+      '@arroyodev-llc/projen.component.vite': 0.1.29(@aws/pdk@0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(aws-cdk-lib@2.192.0(constructs@10.4.2))(cdk-nag@2.27.141(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2)))(@types/node@22.16.2)(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2))(vue@3.5.10(typescript@5.4.5))
+      '@arroyodev-llc/utils.projen': 0.1.23(constructs@10.4.2)
+      '@arroyodev-llc/utils.ts-ast': 0.1.13(constructs@10.4.2)
+      projen: 0.83.1(constructs@10.4.2)
       ts-morph: 19.0.0
       vitest: 0.34.6
     transitivePeerDependencies:
@@ -12411,31 +12415,31 @@ snapshots:
       - vue
       - webdriverio
 
-  '@arroyodev-llc/projen.project.nx-monorepo@0.1.29(@aws/pdk@0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(aws-cdk-lib@2.97.0(constructs@10.2.70))(cdk-nag@2.27.141(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70)))(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70))':
+  '@arroyodev-llc/projen.project.nx-monorepo@0.1.29(@aws/pdk@0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(aws-cdk-lib@2.192.0(constructs@10.4.2))(cdk-nag@2.27.141(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2)))(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2))':
     dependencies:
-      '@arroyodev-llc/projen.component.linting': 0.1.24(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70))
-      '@arroyodev-llc/projen.component.pnpm-workspace': 0.1.25(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70))
-      '@arroyodev-llc/projen.component.tsconfig-container': 0.1.19(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70))
-      '@arroyodev-llc/utils.projen': 0.1.23(constructs@10.2.70)
-      '@aws/pdk': 0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(aws-cdk-lib@2.97.0(constructs@10.2.70))(cdk-nag@2.27.141(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70))
-      '@mrgrain/jsii-struct-builder': 0.7.34(projen@0.83.1(constructs@10.2.70))
-      projen: 0.83.1(constructs@10.2.70)
+      '@arroyodev-llc/projen.component.linting': 0.1.24(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2))
+      '@arroyodev-llc/projen.component.pnpm-workspace': 0.1.25(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2))
+      '@arroyodev-llc/projen.component.tsconfig-container': 0.1.19(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2))
+      '@arroyodev-llc/utils.projen': 0.1.23(constructs@10.4.2)
+      '@aws/pdk': 0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(aws-cdk-lib@2.192.0(constructs@10.4.2))(cdk-nag@2.27.141(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2))
+      '@mrgrain/jsii-struct-builder': 0.7.34(projen@0.83.1(constructs@10.4.2))
+      projen: 0.83.1(constructs@10.4.2)
     transitivePeerDependencies:
       - constructs
 
-  '@arroyodev-llc/projen.project.typescript@0.1.33(@aws/pdk@0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(aws-cdk-lib@2.97.0(constructs@10.2.70))(cdk-nag@2.27.141(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70)))(constructs@10.2.70)(lint-staged@14.0.1(enquirer@2.4.1))(projen@0.83.1(constructs@10.2.70))(simple-git-hooks@2.9.0)(typescript@5.4.5)':
+  '@arroyodev-llc/projen.project.typescript@0.1.33(@aws/pdk@0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(aws-cdk-lib@2.192.0(constructs@10.4.2))(cdk-nag@2.27.141(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2)))(constructs@10.4.2)(lint-staged@14.0.1(enquirer@2.4.1))(projen@0.83.1(constructs@10.4.2))(simple-git-hooks@2.9.0)(typescript@5.4.5)':
     dependencies:
-      '@arroyodev-llc/projen.component.git-hooks': 0.1.13(lint-staged@14.0.1(enquirer@2.4.1))(projen@0.83.1(constructs@10.2.70))(simple-git-hooks@2.9.0)
-      '@arroyodev-llc/projen.component.linting': 0.1.24(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70))
-      '@arroyodev-llc/projen.component.pnpm-workspace': 0.1.25(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70))
-      '@arroyodev-llc/projen.component.release-please': 0.1.26(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70))
-      '@arroyodev-llc/projen.component.tsconfig-container': 0.1.19(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70))
-      '@arroyodev-llc/projen.component.unbuild': 0.1.28(@aws/pdk@0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(aws-cdk-lib@2.97.0(constructs@10.2.70))(cdk-nag@2.27.141(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70)))(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70))(typescript@5.4.5)
-      '@arroyodev-llc/projen.project.nx-monorepo': 0.1.29(@aws/pdk@0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(aws-cdk-lib@2.97.0(constructs@10.2.70))(cdk-nag@2.27.141(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70)))(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70))
-      '@arroyodev-llc/utils.projen': 0.1.23(constructs@10.2.70)
-      '@arroyodev-llc/utils.projen-builder': 0.1.8(constructs@10.2.70)
-      '@aws/pdk': 0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(aws-cdk-lib@2.97.0(constructs@10.2.70))(cdk-nag@2.27.141(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70))
-      projen: 0.83.1(constructs@10.2.70)
+      '@arroyodev-llc/projen.component.git-hooks': 0.1.13(lint-staged@14.0.1(enquirer@2.4.1))(projen@0.83.1(constructs@10.4.2))(simple-git-hooks@2.9.0)
+      '@arroyodev-llc/projen.component.linting': 0.1.24(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2))
+      '@arroyodev-llc/projen.component.pnpm-workspace': 0.1.25(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2))
+      '@arroyodev-llc/projen.component.release-please': 0.1.26(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2))
+      '@arroyodev-llc/projen.component.tsconfig-container': 0.1.19(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2))
+      '@arroyodev-llc/projen.component.unbuild': 0.1.28(@aws/pdk@0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(aws-cdk-lib@2.192.0(constructs@10.4.2))(cdk-nag@2.27.141(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2)))(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2))(typescript@5.4.5)
+      '@arroyodev-llc/projen.project.nx-monorepo': 0.1.29(@aws/pdk@0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(aws-cdk-lib@2.192.0(constructs@10.4.2))(cdk-nag@2.27.141(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2)))(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2))
+      '@arroyodev-llc/utils.projen': 0.1.23(constructs@10.4.2)
+      '@arroyodev-llc/utils.projen-builder': 0.1.8(constructs@10.4.2)
+      '@aws/pdk': 0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(aws-cdk-lib@2.192.0(constructs@10.4.2))(cdk-nag@2.27.141(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2))
+      projen: 0.83.1(constructs@10.4.2)
       type-fest: 4.41.0
     transitivePeerDependencies:
       - constructs
@@ -12450,29 +12454,29 @@ snapshots:
       fs-extra: 11.2.0
       pathe: 1.1.2
 
-  '@arroyodev-llc/utils.projen-builder@0.1.8(constructs@10.2.70)':
+  '@arroyodev-llc/utils.projen-builder@0.1.8(constructs@10.4.2)':
     dependencies:
-      '@arroyodev-llc/utils.projen': 0.1.23(constructs@10.2.70)
-      projen: 0.83.1(constructs@10.2.70)
+      '@arroyodev-llc/utils.projen': 0.1.23(constructs@10.4.2)
+      projen: 0.83.1(constructs@10.4.2)
       type-fest: 4.25.0
     transitivePeerDependencies:
       - constructs
 
-  '@arroyodev-llc/utils.projen@0.1.23(constructs@10.2.70)':
+  '@arroyodev-llc/utils.projen@0.1.23(constructs@10.4.2)':
     dependencies:
       '@sindresorhus/is': 6.3.1
       defu: 6.1.4
       flat: 5.0.2
-      projen: 0.83.1(constructs@10.2.70)
+      projen: 0.83.1(constructs@10.4.2)
       type-fest: 4.25.0
     transitivePeerDependencies:
       - constructs
 
-  '@arroyodev-llc/utils.ts-ast@0.1.13(constructs@10.2.70)':
+  '@arroyodev-llc/utils.ts-ast@0.1.13(constructs@10.4.2)':
     dependencies:
       '@arroyodev-llc/utils.fs': 0.1.16
       '@sindresorhus/is': 6.3.1
-      projen: 0.83.1(constructs@10.2.70)
+      projen: 0.83.1(constructs@10.4.2)
       reflect-metadata: 0.2.2
       ts-morph: 19.0.0
       type-fest: 4.41.0
@@ -12487,87 +12491,87 @@ snapshots:
     dependencies:
       unbuild: 2.0.0-rc.0(patch_hash=47f70ec40787605e14e545a95802d32cd4a46f4d5c93cefdc2621e2fcfc68c4d)(supports-color@9.4.0)(typescript@5.4.5)
 
-  '@aws-cdk/asset-awscli-v1@2.2.200': {}
+  '@aws-cdk/asset-awscli-v1@2.2.244': {}
 
-  '@aws-cdk/asset-kubectl-v20@2.1.2': {}
+  '@aws-cdk/asset-node-proxy-agent-v6@2.1.0': {}
 
-  '@aws-cdk/asset-node-proxy-agent-v6@2.0.1': {}
-
-  '@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)':
+  '@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2)':
     dependencies:
-      aws-cdk-lib: 2.97.0(constructs@10.2.70)
-      constructs: 10.2.70
+      aws-cdk-lib: 2.192.0(constructs@10.4.2)
+      constructs: 10.4.2
 
-  '@aws-cdk/aws-eks-v2-alpha@2.187.0-alpha.0(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)':
+  '@aws-cdk/aws-eks-v2-alpha@2.187.0-alpha.0(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2)':
     dependencies:
-      aws-cdk-lib: 2.97.0(constructs@10.2.70)
-      constructs: 10.2.70
+      aws-cdk-lib: 2.192.0(constructs@10.4.2)
+      constructs: 10.4.2
 
-  '@aws-cdk/lambda-layer-kubectl-v23@2.0.8(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)':
+  '@aws-cdk/cloud-assembly-schema@41.2.0': {}
+
+  '@aws-cdk/lambda-layer-kubectl-v23@2.0.8(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2)':
     dependencies:
-      aws-cdk-lib: 2.97.0(constructs@10.2.70)
-      constructs: 10.2.70
+      aws-cdk-lib: 2.192.0(constructs@10.4.2)
+      constructs: 10.4.2
     optional: true
 
-  '@aws-cdk/lambda-layer-kubectl-v24@2.0.242(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)':
+  '@aws-cdk/lambda-layer-kubectl-v24@2.0.242(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2)':
     dependencies:
-      aws-cdk-lib: 2.97.0(constructs@10.2.70)
-      constructs: 10.2.70
+      aws-cdk-lib: 2.192.0(constructs@10.4.2)
+      constructs: 10.4.2
     optional: true
 
-  '@aws-cdk/lambda-layer-kubectl-v25@2.0.4(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)':
+  '@aws-cdk/lambda-layer-kubectl-v25@2.0.4(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2)':
     dependencies:
-      aws-cdk-lib: 2.97.0(constructs@10.2.70)
-      constructs: 10.2.70
+      aws-cdk-lib: 2.192.0(constructs@10.4.2)
+      constructs: 10.4.2
 
-  '@aws-cdk/lambda-layer-kubectl-v26@2.0.1(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)':
+  '@aws-cdk/lambda-layer-kubectl-v26@2.0.1(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2)':
     dependencies:
-      aws-cdk-lib: 2.97.0(constructs@10.2.70)
-      constructs: 10.2.70
+      aws-cdk-lib: 2.192.0(constructs@10.4.2)
+      constructs: 10.4.2
 
-  '@aws-cdk/lambda-layer-kubectl-v26@2.1.0(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)':
+  '@aws-cdk/lambda-layer-kubectl-v26@2.1.0(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2)':
     dependencies:
-      aws-cdk-lib: 2.97.0(constructs@10.2.70)
-      constructs: 10.2.70
+      aws-cdk-lib: 2.192.0(constructs@10.4.2)
+      constructs: 10.4.2
     optional: true
 
-  '@aws-cdk/lambda-layer-kubectl-v27@2.0.0(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)':
+  '@aws-cdk/lambda-layer-kubectl-v27@2.0.0(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2)':
     dependencies:
-      aws-cdk-lib: 2.97.0(constructs@10.2.70)
-      constructs: 10.2.70
+      aws-cdk-lib: 2.192.0(constructs@10.4.2)
+      constructs: 10.4.2
 
-  '@aws-cdk/lambda-layer-kubectl-v27@2.1.0(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)':
+  '@aws-cdk/lambda-layer-kubectl-v27@2.1.0(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2)':
     dependencies:
-      aws-cdk-lib: 2.97.0(constructs@10.2.70)
-      constructs: 10.2.70
+      aws-cdk-lib: 2.192.0(constructs@10.4.2)
+      constructs: 10.4.2
     optional: true
 
-  '@aws-cdk/lambda-layer-kubectl-v28@2.2.1(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)':
+  '@aws-cdk/lambda-layer-kubectl-v28@2.2.1(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2)':
     dependencies:
-      aws-cdk-lib: 2.97.0(constructs@10.2.70)
-      constructs: 10.2.70
+      aws-cdk-lib: 2.192.0(constructs@10.4.2)
+      constructs: 10.4.2
     optional: true
 
-  '@aws-cdk/lambda-layer-kubectl-v29@2.1.1(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)':
+  '@aws-cdk/lambda-layer-kubectl-v29@2.1.1(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2)':
     dependencies:
-      aws-cdk-lib: 2.97.0(constructs@10.2.70)
-      constructs: 10.2.70
+      aws-cdk-lib: 2.192.0(constructs@10.4.2)
+      constructs: 10.4.2
     optional: true
 
-  '@aws-cdk/lambda-layer-kubectl-v30@2.0.4(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)':
+  '@aws-cdk/lambda-layer-kubectl-v30@2.0.4(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2)':
     dependencies:
-      aws-cdk-lib: 2.97.0(constructs@10.2.70)
-      constructs: 10.2.70
+      aws-cdk-lib: 2.192.0(constructs@10.4.2)
+      constructs: 10.4.2
 
-  '@aws-cdk/lambda-layer-kubectl-v31@2.1.0(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)':
+  '@aws-cdk/lambda-layer-kubectl-v31@2.1.0(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2)':
     dependencies:
-      aws-cdk-lib: 2.97.0(constructs@10.2.70)
-      constructs: 10.2.70
+      aws-cdk-lib: 2.192.0(constructs@10.4.2)
+      constructs: 10.4.2
 
-  '@aws-cdk/lambda-layer-kubectl-v32@2.1.0(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)':
+  '@aws-cdk/lambda-layer-kubectl-v32@2.1.0(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2)':
     dependencies:
-      aws-cdk-lib: 2.97.0(constructs@10.2.70)
-      constructs: 10.2.70
+      aws-cdk-lib: 2.192.0(constructs@10.4.2)
+      constructs: 10.4.2
 
   '@aws-crypto/ie11-detection@3.0.0':
     dependencies:
@@ -12628,18 +12632,18 @@ snapshots:
 
   '@aws-quickstart/eks-blueprints@1.11.3':
     dependencies:
-      '@aws-cdk/lambda-layer-kubectl-v25': 2.0.4(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)
-      '@aws-cdk/lambda-layer-kubectl-v26': 2.0.1(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)
-      '@aws-cdk/lambda-layer-kubectl-v27': 2.0.0(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)
+      '@aws-cdk/lambda-layer-kubectl-v25': 2.0.4(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2)
+      '@aws-cdk/lambda-layer-kubectl-v26': 2.0.1(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2)
+      '@aws-cdk/lambda-layer-kubectl-v27': 2.0.0(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2)
       '@aws-sdk/client-eks': 3.418.0
       '@aws-sdk/client-secrets-manager': 3.418.0
       '@types/assert': 1.5.7
       '@types/bcrypt': 5.0.0
       '@types/lodash.clonedeep': 4.5.7
       '@types/uuid': 9.0.4
-      aws-cdk-lib: 2.97.0(constructs@10.2.70)
+      aws-cdk-lib: 2.192.0(constructs@10.4.2)
       bcrypt: bcryptjs@2.4.3
-      constructs: 10.2.70
+      constructs: 10.4.2
       dot-object: 2.1.4
       js-yaml: 4.1.0
       lodash: 4.17.21
@@ -12654,17 +12658,17 @@ snapshots:
       yaml: 2.3.2
       zod: 3.23.8
     optionalDependencies:
-      '@aws-cdk/lambda-layer-kubectl-v23': 2.0.8(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)
-      '@aws-cdk/lambda-layer-kubectl-v24': 2.0.242(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)
+      '@aws-cdk/lambda-layer-kubectl-v23': 2.0.8(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2)
+      '@aws-cdk/lambda-layer-kubectl-v24': 2.0.242(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2)
     transitivePeerDependencies:
       - aws-crt
 
-  '@aws-quickstart/eks-blueprints@1.17.1(aws-cdk-lib@2.97.0(constructs@10.2.70))(aws-cdk@2.17.0)':
+  '@aws-quickstart/eks-blueprints@1.17.1(aws-cdk-lib@2.192.0(constructs@10.4.2))(aws-cdk@2.17.0)':
     dependencies:
-      '@aws-cdk/aws-eks-v2-alpha': 2.187.0-alpha.0(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)
-      '@aws-cdk/lambda-layer-kubectl-v30': 2.0.4(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)
-      '@aws-cdk/lambda-layer-kubectl-v31': 2.1.0(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)
-      '@aws-cdk/lambda-layer-kubectl-v32': 2.1.0(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)
+      '@aws-cdk/aws-eks-v2-alpha': 2.187.0-alpha.0(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2)
+      '@aws-cdk/lambda-layer-kubectl-v30': 2.0.4(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2)
+      '@aws-cdk/lambda-layer-kubectl-v31': 2.1.0(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2)
+      '@aws-cdk/lambda-layer-kubectl-v32': 2.1.0(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2)
       '@aws-sdk/client-eks': 3.840.0
       '@aws-sdk/client-secrets-manager': 3.840.0
       '@types/assert': 1.5.11
@@ -12672,9 +12676,9 @@ snapshots:
       '@types/lodash.clonedeep': 4.5.9
       '@types/uuid': 10.0.0
       aws-cdk: 2.17.0
-      aws-cdk-lib: 2.97.0(constructs@10.2.70)
+      aws-cdk-lib: 2.192.0(constructs@10.4.2)
       bcrypt: bcryptjs@2.4.3
-      constructs: 10.2.70
+      constructs: 10.4.2
       dot-object: 2.1.5
       js-yaml: 4.1.0
       lodash: 4.17.21
@@ -12689,13 +12693,13 @@ snapshots:
       yaml: 2.8.0
       zod: 3.25.76
     optionalDependencies:
-      '@aws-cdk/lambda-layer-kubectl-v23': 2.0.8(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)
-      '@aws-cdk/lambda-layer-kubectl-v24': 2.0.242(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)
-      '@aws-cdk/lambda-layer-kubectl-v25': 2.0.4(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)
-      '@aws-cdk/lambda-layer-kubectl-v26': 2.1.0(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)
-      '@aws-cdk/lambda-layer-kubectl-v27': 2.1.0(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)
-      '@aws-cdk/lambda-layer-kubectl-v28': 2.2.1(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)
-      '@aws-cdk/lambda-layer-kubectl-v29': 2.1.1(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)
+      '@aws-cdk/lambda-layer-kubectl-v23': 2.0.8(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2)
+      '@aws-cdk/lambda-layer-kubectl-v24': 2.0.242(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2)
+      '@aws-cdk/lambda-layer-kubectl-v25': 2.0.4(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2)
+      '@aws-cdk/lambda-layer-kubectl-v26': 2.1.0(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2)
+      '@aws-cdk/lambda-layer-kubectl-v27': 2.1.0(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2)
+      '@aws-cdk/lambda-layer-kubectl-v28': 2.2.1(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2)
+      '@aws-cdk/lambda-layer-kubectl-v29': 2.1.1(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2)
     transitivePeerDependencies:
       - aws-crt
 
@@ -13427,21 +13431,21 @@ snapshots:
       '@smithy/types': 4.3.1
       tslib: 2.8.1
 
-  '@aws/pdk@0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(aws-cdk-lib@2.97.0(constructs@10.2.70))(cdk-nag@2.27.141(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70))':
+  '@aws/pdk@0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(aws-cdk-lib@2.192.0(constructs@10.4.2))(cdk-nag@2.27.141(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2))':
     dependencies:
-      '@aws-cdk/aws-cognito-identitypool-alpha': 2.160.0-alpha.0(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)
-      aws-cdk-lib: 2.97.0(constructs@10.2.70)
-      cdk-nag: 2.27.141(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)
-      constructs: 10.2.70
-      projen: 0.83.1(constructs@10.2.70)
+      '@aws-cdk/aws-cognito-identitypool-alpha': 2.160.0-alpha.0(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2)
+      aws-cdk-lib: 2.192.0(constructs@10.4.2)
+      cdk-nag: 2.27.141(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2)
+      constructs: 10.4.2
+      projen: 0.83.1(constructs@10.4.2)
 
-  '@aws/pdk@0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(aws-cdk-lib@2.97.0(constructs@10.2.70))(cdk-nag@2.28.195(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70))(constructs@10.2.70)(projen@0.83.1(constructs@10.2.70))':
+  '@aws/pdk@0.22.6(@aws-cdk/aws-cognito-identitypool-alpha@2.160.0-alpha.0(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(aws-cdk-lib@2.192.0(constructs@10.4.2))(cdk-nag@2.28.195(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2))(constructs@10.4.2)(projen@0.83.1(constructs@10.4.2))':
     dependencies:
-      '@aws-cdk/aws-cognito-identitypool-alpha': 2.160.0-alpha.0(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)
-      aws-cdk-lib: 2.97.0(constructs@10.2.70)
-      cdk-nag: 2.28.195(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70)
-      constructs: 10.2.70
-      projen: 0.83.1(constructs@10.2.70)
+      '@aws-cdk/aws-cognito-identitypool-alpha': 2.160.0-alpha.0(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2)
+      aws-cdk-lib: 2.192.0(constructs@10.4.2)
+      cdk-nag: 2.28.195(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2)
+      constructs: 10.4.2
+      projen: 0.83.1(constructs@10.4.2)
 
   '@babel/code-frame@7.22.13':
     dependencies:
@@ -13733,9 +13737,9 @@ snapshots:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.27.1
 
-  '@cdklabs/cdk-validator-cfnguard@0.0.54(aws-cdk-lib@2.97.0(constructs@10.2.70))':
+  '@cdklabs/cdk-validator-cfnguard@0.0.54(aws-cdk-lib@2.192.0(constructs@10.4.2))':
     dependencies:
-      aws-cdk-lib: 2.97.0(constructs@10.2.70)
+      aws-cdk-lib: 2.192.0(constructs@10.4.2)
 
   '@colors/colors@1.5.0':
     optional: true
@@ -14142,19 +14146,19 @@ snapshots:
     dependencies:
       ajv: 8.12.0
 
-  '@kubecost/kubecost-eks-blueprints-addon@0.1.8(aws-cdk-lib@2.97.0(constructs@10.2.70))':
+  '@kubecost/kubecost-eks-blueprints-addon@0.1.8(aws-cdk-lib@2.192.0(constructs@10.4.2))':
     dependencies:
-      '@aws-quickstart/eks-blueprints': 1.17.1(aws-cdk-lib@2.97.0(constructs@10.2.70))(aws-cdk@2.17.0)
+      '@aws-quickstart/eks-blueprints': 1.17.1(aws-cdk-lib@2.192.0(constructs@10.4.2))(aws-cdk@2.17.0)
       aws-cdk: 2.17.0
-      constructs: 10.2.70
+      constructs: 10.4.2
     transitivePeerDependencies:
       - aws-cdk-lib
       - aws-crt
 
-  '@mrgrain/jsii-struct-builder@0.7.34(projen@0.83.1(constructs@10.2.70))':
+  '@mrgrain/jsii-struct-builder@0.7.34(projen@0.83.1(constructs@10.4.2))':
     dependencies:
       '@jsii/spec': 1.102.0
-      projen: 0.83.1(constructs@10.2.70)
+      projen: 0.83.1(constructs@10.4.2)
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
@@ -15709,18 +15713,18 @@ snapshots:
 
   available-typed-arrays@1.0.5: {}
 
-  aws-cdk-lib@2.97.0(constructs@10.2.70):
+  aws-cdk-lib@2.192.0(constructs@10.4.2):
     dependencies:
-      '@aws-cdk/asset-awscli-v1': 2.2.200
-      '@aws-cdk/asset-kubectl-v20': 2.1.2
-      '@aws-cdk/asset-node-proxy-agent-v6': 2.0.1
-      constructs: 10.2.70
+      '@aws-cdk/asset-awscli-v1': 2.2.244
+      '@aws-cdk/asset-node-proxy-agent-v6': 2.1.0
+      '@aws-cdk/cloud-assembly-schema': 41.2.0
+      constructs: 10.4.2
 
-  aws-cdk@2.17.0:
+  aws-cdk@2.1020.2:
     optionalDependencies:
       fsevents: 2.3.2
 
-  aws-cdk@2.97.0:
+  aws-cdk@2.17.0:
     optionalDependencies:
       fsevents: 2.3.2
 
@@ -15957,45 +15961,45 @@ snapshots:
 
   caseless@0.12.0: {}
 
-  cdk-ec2-key-pair@3.3.2(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70):
+  cdk-ec2-key-pair@3.3.2(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2):
     dependencies:
-      aws-cdk-lib: 2.97.0(constructs@10.2.70)
-      constructs: 10.2.70
+      aws-cdk-lib: 2.192.0(constructs@10.4.2)
+      constructs: 10.4.2
 
-  cdk-nag@2.27.141(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70):
+  cdk-nag@2.27.141(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2):
     dependencies:
-      aws-cdk-lib: 2.97.0(constructs@10.2.70)
-      constructs: 10.2.70
+      aws-cdk-lib: 2.192.0(constructs@10.4.2)
+      constructs: 10.4.2
 
-  cdk-nag@2.28.195(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70):
+  cdk-nag@2.28.195(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2):
     dependencies:
-      aws-cdk-lib: 2.97.0(constructs@10.2.70)
-      constructs: 10.2.70
+      aws-cdk-lib: 2.192.0(constructs@10.4.2)
+      constructs: 10.4.2
 
-  cdk-pipelines-github@0.4.103(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70):
+  cdk-pipelines-github@0.4.103(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2):
     dependencies:
-      aws-cdk-lib: 2.97.0(constructs@10.2.70)
-      constructs: 10.2.70
+      aws-cdk-lib: 2.192.0(constructs@10.4.2)
+      constructs: 10.4.2
 
-  cdk-redisdb@0.0.37(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70):
+  cdk-redisdb@0.0.37(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2):
     dependencies:
-      aws-cdk-lib: 2.97.0(constructs@10.2.70)
-      constructs: 10.2.70
+      aws-cdk-lib: 2.192.0(constructs@10.4.2)
+      constructs: 10.4.2
 
-  cdk-sops-secrets@1.4.16(aws-cdk-lib@2.97.0(constructs@10.2.70))(constructs@10.2.70):
+  cdk-sops-secrets@1.4.16(aws-cdk-lib@2.192.0(constructs@10.4.2))(constructs@10.4.2):
     dependencies:
-      aws-cdk-lib: 2.97.0(constructs@10.2.70)
-      constructs: 10.2.70
+      aws-cdk-lib: 2.192.0(constructs@10.4.2)
+      constructs: 10.4.2
 
   cdk8s-cli@2.103.0(debug@4.3.4)(encoding@0.1.13):
     dependencies:
       '@types/node': 16.18.38
       ajv: 8.12.0
-      cdk8s: 2.64.19(constructs@10.2.70)(debug@4.3.4)(encoding@0.1.13)
-      cdk8s-plus-25: 2.22.18(cdk8s@2.64.19(constructs@10.2.70)(debug@4.3.4)(encoding@0.1.13))(constructs@10.2.70)(debug@4.3.4)(encoding@0.1.13)
+      cdk8s: 2.69.70(constructs@10.4.2)
+      cdk8s-plus-25: 2.22.18(cdk8s@2.69.70(constructs@10.4.2))(constructs@10.4.2)(debug@4.3.4)(encoding@0.1.13)
       codemaker: 1.89.0
       colors: 1.4.0
-      constructs: 10.2.70
+      constructs: 10.4.2
       fs-extra: 8.1.0
       jsii-pacmak: 1.89.0
       jsii-srcmak: 0.1.951
@@ -16012,34 +16016,29 @@ snapshots:
       - encoding
       - supports-color
 
-  cdk8s-plus-25@2.22.18(cdk8s@2.64.19(constructs@10.2.70)(debug@4.3.4)(encoding@0.1.13))(constructs@10.2.70)(debug@4.3.4)(encoding@0.1.13):
+  cdk8s-plus-25@2.22.18(cdk8s@2.69.70(constructs@10.4.2))(constructs@10.4.2)(debug@4.3.4)(encoding@0.1.13):
     dependencies:
-      cdk8s: 2.64.19(constructs@10.2.70)(debug@4.3.4)(encoding@0.1.13)
-      constructs: 10.2.70
+      cdk8s: 2.69.70(constructs@10.4.2)
+      constructs: 10.4.2
     optionalDependencies:
       backport: 8.5.0(debug@4.3.4)(encoding@0.1.13)
     transitivePeerDependencies:
       - debug
       - encoding
 
-  cdk8s-plus-27@2.7.20(cdk8s@2.64.19(constructs@10.2.70)(debug@4.3.4)(encoding@0.1.13))(constructs@10.2.70)(debug@4.3.4)(encoding@0.1.13):
+  cdk8s-plus-30@2.0.0(cdk8s@2.69.70(constructs@10.4.2))(constructs@10.4.2)(debug@4.3.4)(encoding@0.1.13):
     dependencies:
-      cdk8s: 2.64.19(constructs@10.2.70)(debug@4.3.4)(encoding@0.1.13)
-      constructs: 10.2.70
+      cdk8s: 2.69.70(constructs@10.4.2)
+      constructs: 10.4.2
     optionalDependencies:
       backport: 8.5.0(debug@4.3.4)(encoding@0.1.13)
     transitivePeerDependencies:
       - debug
       - encoding
 
-  cdk8s@2.64.19(constructs@10.2.70)(debug@4.3.4)(encoding@0.1.13):
+  cdk8s@2.69.70(constructs@10.4.2):
     dependencies:
-      constructs: 10.2.70
-    optionalDependencies:
-      backport: 8.5.0(debug@4.3.4)(encoding@0.1.13)
-    transitivePeerDependencies:
-      - debug
-      - encoding
+      constructs: 10.4.2
 
   chai@4.3.8:
     dependencies:
@@ -16266,7 +16265,7 @@ snapshots:
 
   console-control-strings@1.1.0: {}
 
-  constructs@10.2.70: {}
+  constructs@10.4.2: {}
 
   conventional-changelog-angular@5.0.13:
     dependencies:
@@ -18985,9 +18984,9 @@ snapshots:
 
   progress@2.0.3: {}
 
-  projen@0.83.1(constructs@10.2.70):
+  projen@0.83.1(constructs@10.4.2):
     dependencies:
-      constructs: 10.2.70
+      constructs: 10.4.2
 
   promise-inflight@1.0.1: {}
 

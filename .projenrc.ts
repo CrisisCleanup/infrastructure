@@ -313,14 +313,14 @@ new Vitest(config)
 
 const CdkVersionsBuilder = new builders.DefaultOptionsBuilder({
 	jsiiVersion: '~5',
-	constructsVersion: '10.2.70',
-	cdkVersion: '2.97.0',
+	constructsVersion: '10.4.2',
+	cdkVersion: '2.1012.0',
 	cdk8sCliVersion: '2.103.0',
-	cdk8sVersion: '2.64.19',
+	cdk8sVersion: '2.69.70',
 	cdksPlus: true,
-	cdk8sPlusVersion: '2.7.20',
-	k8sMinorVersion: 27,
-	typescriptVersion: '~5.1',
+	// cdk8sPlusVersion: '2.7.20',
+	k8sMinorVersion: 30,
+	typescriptVersion: '~5.4',
 })
 
 /**
@@ -581,10 +581,8 @@ monorepo.addWorkspaceDeps(
 
 monorepo.gitattributes.addAttributes('*.snap', 'linguist-generated')
 
-const awsCdkLibVersion =
-	apiStack.package.tryResolveDependencyVersion('aws-cdk-lib')!
 monorepo.package.addPackageResolutions(
-	`aws-cdk-lib@${awsCdkLibVersion}`,
+	`aws-cdk-lib@2.192.0`,
 	`constructs@${CdkVersionsBuilder.defaultOptions.constructsVersion!}`,
 	`bcrypt@npm:bcryptjs@^2.4.3`,
 )

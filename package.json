@@ -89,9 +89,9 @@
     "overrides": {
       "@types/babel__traverse": "7.18.2",
       "@zkochan/js-yaml": "npm:js-yaml@4.1.0",
-      "aws-cdk-lib": "2.97.0",
+      "aws-cdk-lib": "2.192.0",
       "bcrypt": "npm:bcryptjs@^2.4.3",
-      "constructs": "10.2.70",
+      "constructs": "10.4.2",
       "projen": "0.83.1",
       "unbuild": "^2.0.0-rc.0",
       "wrap-ansi": "^7.0.0"
