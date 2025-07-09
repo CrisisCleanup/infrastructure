@@ -173,7 +173,7 @@
           "exec": "pnpm i --no-frozen-lockfile"
         },
         {
-          "exec": "pnpm update @arroyodev-llc/utils.unbuild-composite-preset @types/debug @types/js-yaml @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser cdk8s-cli eslint-config-prettier eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint lint-staged prettier tsx typescript unbuild vitest @crisiscleanup/config @crisiscleanup/k8s.construct.api @crisiscleanup/k8s.construct.component cdk8s-plus-30 cdk8s constructs debug defu js-yaml type-fest zod"
+          "exec": "pnpm update @arroyodev-llc/utils.unbuild-composite-preset @types/debug @types/js-yaml @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser cdk8s-cli eslint-config-prettier eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint lint-staged prettier tsx typescript unbuild vitest @crisiscleanup/config @crisiscleanup/k8s.construct.api @crisiscleanup/k8s.construct.component cdk8s-plus-31 cdk8s constructs debug defu js-yaml type-fest zod"
         },
         {
           "exec": "npx projen"

@@ -5,7 +5,7 @@ import {
 	type ScreamingSnakeCaseProperties,
 } from '@crisiscleanup/config'
 import { type DeploymentProps } from '@crisiscleanup/k8s.construct.component'
-import type * as kplus from 'cdk8s-plus-30'
+import type * as kplus from 'cdk8s-plus-31'
 import type { DatabaseSyncProps } from './sync'
 
 export interface ApiConfigProps {

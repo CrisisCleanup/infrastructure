@@ -7,8 +7,8 @@ import {
 	VerticalPodAutoscaler,
 } from '@crisiscleanup/k8s.construct.component'
 import { ApiObject, Chart, Duration, JsonPatch, Size } from 'cdk8s'
-import * as kplus from 'cdk8s-plus-30'
-import { type EnvValue } from 'cdk8s-plus-30'
+import * as kplus from 'cdk8s-plus-31'
+import { type EnvValue } from 'cdk8s-plus-31'
 import { Construct } from 'constructs'
 import createDebug from 'debug'
 import defu from 'defu'

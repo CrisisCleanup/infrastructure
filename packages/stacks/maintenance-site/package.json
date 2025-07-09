@@ -47,9 +47,9 @@
     "@aws/pdk": "^0.26.13",
     "@crisiscleanup/config": "workspace:*",
     "@crisiscleanup/construct.awscdk.github-pipeline": "workspace:*",
-    "aws-cdk-lib": "2.192.0",
+    "aws-cdk-lib": "^2.1012.0",
     "cdk-pipelines-github": "^0.4.130",
-    "constructs": "10.4.2"
+    "constructs": "^10.4.2"
   },
   "engines": {
     "node": ">= 22.14.0",
