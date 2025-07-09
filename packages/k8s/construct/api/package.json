@@ -35,7 +35,7 @@
     "@types/node": "^22",
     "@typescript-eslint/eslint-plugin": "^7",
     "@typescript-eslint/parser": "^7",
-    "cdk8s-plus-27": "^2.7.20",
+    "cdk8s-plus-30": "*",
     "eslint": "^8",
     "eslint-config-prettier": "^9.0.0",
     "eslint-import-resolver-typescript": "^3.6.1",
@@ -52,9 +52,9 @@
     "unbuild": "^2.0.0-rc.0"
   },
   "peerDependencies": {
-    "cdk8s": "^2.64.19",
-    "cdk8s-plus-27": "^2.7.20",
-    "constructs": "^10.2.70"
+    "cdk8s": "^2.69.70",
+    "cdk8s-plus-30": "*",
+    "constructs": "^10.4.2"
   },
   "dependencies": {
     "@crisiscleanup/config": "workspace:*",

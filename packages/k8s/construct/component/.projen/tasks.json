@@ -163,13 +163,13 @@
       },
       "steps": [
         {
-          "exec": "pnpm dlx npm-check-updates@16 --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@arroyodev-llc/utils.unbuild-composite-preset,@types/debug,cdk8s-plus-27,eslint-config-prettier,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-prettier,jsii-diff,jsii-docgen,jsii-pacmak,lint-staged,prettier,unbuild,debug,defu,js-yaml,zod"
+          "exec": "pnpm dlx npm-check-updates@16 --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@arroyodev-llc/utils.unbuild-composite-preset,@types/debug,cdk8s-plus-30,eslint-config-prettier,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-prettier,jsii-diff,jsii-docgen,jsii-pacmak,lint-staged,prettier,unbuild,debug,defu,js-yaml,zod"
         },
         {
           "exec": "pnpm i --no-frozen-lockfile"
         },
         {
-          "exec": "pnpm update @arroyodev-llc/utils.unbuild-composite-preset @types/debug @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser cdk8s-plus-27 eslint-config-prettier eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint jsii-diff jsii-docgen jsii-pacmak jsii-rosetta jsii lint-staged prettier typescript unbuild cdk8s constructs debug defu js-yaml zod"
+          "exec": "pnpm update @arroyodev-llc/utils.unbuild-composite-preset @types/debug @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser cdk8s-plus-30 eslint-config-prettier eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint jsii-diff jsii-docgen jsii-pacmak jsii-rosetta jsii lint-staged prettier typescript unbuild cdk8s constructs debug defu js-yaml zod"
         },
         {
           "exec": "npx projen"
