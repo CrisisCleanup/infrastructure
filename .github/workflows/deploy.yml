@@ -168,7 +168,6 @@ jobs:
       asset-hash46: ${{steps.publish.outputs.asset-hash46}}
       asset-hash47: ${{steps.publish.outputs.asset-hash47}}
       asset-hash48: ${{steps.publish.outputs.asset-hash48}}
-      asset-hash49: ${{steps.publish.outputs.asset-hash49}}
       asset-hash5: ${{steps.publish.outputs.asset-hash5}}
       asset-hash6: ${{steps.publish.outputs.asset-hash6}}
       asset-hash7: ${{steps.publish.outputs.asset-hash7}}
@@ -216,7 +215,7 @@ jobs:
       - name: Publish
         id: publish
         run: >-
-          targets="./cdk.out/publish-Assets-FileAsset1-step.sh,./cdk.out/publish-Assets-FileAsset10-step.sh,./cdk.out/publish-Assets-FileAsset11-step.sh,./cdk.out/publish-Assets-FileAsset12-step.sh,./cdk.out/publish-Assets-FileAsset13-step.sh,./cdk.out/publish-Assets-FileAsset14-step.sh,./cdk.out/publish-Assets-FileAsset15-step.sh,./cdk.out/publish-Assets-FileAsset16-step.sh,./cdk.out/publish-Assets-FileAsset17-step.sh,./cdk.out/publish-Assets-FileAsset18-step.sh,./cdk.out/publish-Assets-FileAsset19-step.sh,./cdk.out/publish-Assets-FileAsset2-step.sh,./cdk.out/publish-Assets-FileAsset20-step.sh,./cdk.out/publish-Assets-FileAsset21-step.sh,./cdk.out/publish-Assets-FileAsset22-step.sh,./cdk.out/publish-Assets-FileAsset23-step.sh,./cdk.out/publish-Assets-FileAsset24-step.sh,./cdk.out/publish-Assets-FileAsset25-step.sh,./cdk.out/publish-Assets-FileAsset26-step.sh,./cdk.out/publish-Assets-FileAsset27-step.sh,./cdk.out/publish-Assets-FileAsset28-step.sh,./cdk.out/publish-Assets-FileAsset29-step.sh,./cdk.out/publish-Assets-FileAsset3-step.sh,./cdk.out/publish-Assets-FileAsset30-step.sh,./cdk.out/publish-Assets-FileAsset31-step.sh,./cdk.out/publish-Assets-FileAsset32-step.sh,./cdk.out/publish-Assets-FileAsset33-step.sh,./cdk.out/publish-Assets-FileAsset34-step.sh,./cdk.out/publish-Assets-FileAsset35-step.sh,./cdk.out/publish-Assets-FileAsset36-step.sh,./cdk.out/publish-Assets-FileAsset37-step.sh,./cdk.out/publish-Assets-FileAsset38-step.sh,./cdk.out/publish-Assets-FileAsset39-step.sh,./cdk.out/publish-Assets-FileAsset4-step.sh,./cdk.out/publish-Assets-FileAsset40-step.sh,./cdk.out/publish-Assets-FileAsset41-step.sh,./cdk.out/publish-Assets-FileAsset42-step.sh,./cdk.out/publish-Assets-FileAsset43-step.sh,./cdk.out/publish-Assets-FileAsset44-step.sh,./cdk.out/publish-Assets-FileAsset45-step.sh,./cdk.out/publish-Assets-FileAsset46-step.sh,./cdk.out/publish-Assets-FileAsset47-step.sh,./cdk.out/publish-Assets-FileAsset48-step.sh,./cdk.out/publish-Assets-FileAsset49-step.sh,./cdk.out/publish-Assets-FileAsset5-step.sh,./cdk.out/publish-Assets-FileAsset6-step.sh,./cdk.out/publish-Assets-FileAsset7-step.sh,./cdk.out/publish-Assets-FileAsset8-step.sh,./cdk.out/publish-Assets-FileAsset9-step.sh"
+          targets="./cdk.out/publish-Assets-FileAsset1-step.sh,./cdk.out/publish-Assets-FileAsset10-step.sh,./cdk.out/publish-Assets-FileAsset11-step.sh,./cdk.out/publish-Assets-FileAsset12-step.sh,./cdk.out/publish-Assets-FileAsset13-step.sh,./cdk.out/publish-Assets-FileAsset14-step.sh,./cdk.out/publish-Assets-FileAsset15-step.sh,./cdk.out/publish-Assets-FileAsset16-step.sh,./cdk.out/publish-Assets-FileAsset17-step.sh,./cdk.out/publish-Assets-FileAsset18-step.sh,./cdk.out/publish-Assets-FileAsset19-step.sh,./cdk.out/publish-Assets-FileAsset2-step.sh,./cdk.out/publish-Assets-FileAsset20-step.sh,./cdk.out/publish-Assets-FileAsset21-step.sh,./cdk.out/publish-Assets-FileAsset22-step.sh,./cdk.out/publish-Assets-FileAsset23-step.sh,./cdk.out/publish-Assets-FileAsset24-step.sh,./cdk.out/publish-Assets-FileAsset25-step.sh,./cdk.out/publish-Assets-FileAsset26-step.sh,./cdk.out/publish-Assets-FileAsset27-step.sh,./cdk.out/publish-Assets-FileAsset28-step.sh,./cdk.out/publish-Assets-FileAsset29-step.sh,./cdk.out/publish-Assets-FileAsset3-step.sh,./cdk.out/publish-Assets-FileAsset30-step.sh,./cdk.out/publish-Assets-FileAsset31-step.sh,./cdk.out/publish-Assets-FileAsset32-step.sh,./cdk.out/publish-Assets-FileAsset33-step.sh,./cdk.out/publish-Assets-FileAsset34-step.sh,./cdk.out/publish-Assets-FileAsset35-step.sh,./cdk.out/publish-Assets-FileAsset36-step.sh,./cdk.out/publish-Assets-FileAsset37-step.sh,./cdk.out/publish-Assets-FileAsset38-step.sh,./cdk.out/publish-Assets-FileAsset39-step.sh,./cdk.out/publish-Assets-FileAsset4-step.sh,./cdk.out/publish-Assets-FileAsset40-step.sh,./cdk.out/publish-Assets-FileAsset41-step.sh,./cdk.out/publish-Assets-FileAsset42-step.sh,./cdk.out/publish-Assets-FileAsset43-step.sh,./cdk.out/publish-Assets-FileAsset44-step.sh,./cdk.out/publish-Assets-FileAsset45-step.sh,./cdk.out/publish-Assets-FileAsset46-step.sh,./cdk.out/publish-Assets-FileAsset47-step.sh,./cdk.out/publish-Assets-FileAsset48-step.sh,./cdk.out/publish-Assets-FileAsset5-step.sh,./cdk.out/publish-Assets-FileAsset6-step.sh,./cdk.out/publish-Assets-FileAsset7-step.sh,./cdk.out/publish-Assets-FileAsset8-step.sh,./cdk.out/publish-Assets-FileAsset9-step.sh"
 
           echo -n "$targets" | xargs -r -d',' -t -n1 -P2 /bin/bash
   deploy-development-development-delegator-zone-deploy:
@@ -575,7 +574,7 @@ jobs:
         with:
           name: production-au-production-au-delegator-zone
           template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PIPELINE}}-us-east-1.s3.us-east-1.amazonaws.com/${{
-            needs.publish.outputs.asset-hash41 }}.json
+            needs.publish.outputs.asset-hash40 }}.json
           no-fail-on-empty-changeset: "1"
           capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM
           role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_PIPELINE}}-us-east-1
@@ -627,7 +626,7 @@ jobs:
         with:
           name: production-au-production-au-network
           template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}-ap-southeast-2.s3.ap-southeast-2.amazonaws.com/${{
-            needs.publish.outputs.asset-hash42 }}.json
+            needs.publish.outputs.asset-hash41 }}.json
           no-fail-on-empty-changeset: "1"
           capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM
           role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}-ap-southeast-2
@@ -889,7 +888,7 @@ jobs:
         with:
           name: production-au-production-au-cache
           template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}-ap-southeast-2.s3.ap-southeast-2.amazonaws.com/${{
-            needs.publish.outputs.asset-hash43 }}.json
+            needs.publish.outputs.asset-hash42 }}.json
           no-fail-on-empty-changeset: "1"
           capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM
           role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}-ap-southeast-2
@@ -942,7 +941,7 @@ jobs:
         with:
           name: production-au-production-au-delegate-zone
           template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}-ap-southeast-2.s3.ap-southeast-2.amazonaws.com/${{
-            needs.publish.outputs.asset-hash44 }}.json
+            needs.publish.outputs.asset-hash43 }}.json
           no-fail-on-empty-changeset: "1"
           capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM
           role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}-ap-southeast-2
@@ -1154,7 +1153,7 @@ jobs:
         with:
           name: production-au-production-au-data
           template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}-ap-southeast-2.s3.ap-southeast-2.amazonaws.com/${{
-            needs.publish.outputs.asset-hash45 }}.json
+            needs.publish.outputs.asset-hash44 }}.json
           no-fail-on-empty-changeset: "1"
           capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM
           role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}-ap-southeast-2
@@ -1368,7 +1367,7 @@ jobs:
         with:
           name: production-au-production-au-blueprint
           template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}-ap-southeast-2.s3.ap-southeast-2.amazonaws.com/${{
-            needs.publish.outputs.asset-hash46 }}.json
+            needs.publish.outputs.asset-hash45 }}.json
           no-fail-on-empty-changeset: "1"
           capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM
           role-arn: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}:role/cdk-hnb659fds-cfn-exec-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}-ap-southeast-2
