@@ -132,6 +132,7 @@ exports[`CrisisCleanupChart: 'defaults' > api matches snapshot > defaults-api 1`
             "runAsNonRoot": true,
           },
           "setHostnameAsFQDN": false,
+          "shareProcessNamespace": false,
           "terminationGracePeriodSeconds": 30,
           "volumes": [
             {
@@ -219,6 +220,7 @@ exports[`CrisisCleanupChart: 'defaults' > api matches snapshot > defaults-api 1`
             "runAsUser": 1000,
           },
           "setHostnameAsFQDN": false,
+          "shareProcessNamespace": false,
           "terminationGracePeriodSeconds": 300,
         },
       },
@@ -302,6 +304,7 @@ exports[`CrisisCleanupChart: 'defaults' > api matches snapshot > defaults-api 1`
             "runAsUser": 1000,
           },
           "setHostnameAsFQDN": false,
+          "shareProcessNamespace": false,
           "terminationGracePeriodSeconds": 300,
           "volumes": [
             {
@@ -549,6 +552,7 @@ exports[`CrisisCleanupChart: 'defaults' > api matches snapshot > defaults-api 1`
             "runAsNonRoot": true,
           },
           "setHostnameAsFQDN": false,
+          "shareProcessNamespace": false,
           "terminationGracePeriodSeconds": 30,
         },
       },
@@ -764,6 +768,7 @@ exports[`CrisisCleanupChart: 'defaults' > api matches snapshot > defaults-api 1`
             "runAsNonRoot": true,
           },
           "setHostnameAsFQDN": false,
+          "shareProcessNamespace": false,
           "terminationGracePeriodSeconds": 30,
         },
       },
@@ -1080,6 +1085,7 @@ exports[`CrisisCleanupChart: 'defaults' > api matches snapshot > defaults-api 1`
             "runAsNonRoot": true,
           },
           "setHostnameAsFQDN": false,
+          "shareProcessNamespace": false,
           "terminationGracePeriodSeconds": 30,
         },
       },
@@ -1191,6 +1197,7 @@ exports[`CrisisCleanupChart: 'defaults' > celery matches snapshot > defaults-cel
             "runAsNonRoot": true,
           },
           "setHostnameAsFQDN": false,
+          "shareProcessNamespace": false,
           "terminationGracePeriodSeconds": 30,
         },
       },
@@ -1301,6 +1308,7 @@ exports[`CrisisCleanupChart: 'defaults' > celery matches snapshot > defaults-cel
             "runAsNonRoot": true,
           },
           "setHostnameAsFQDN": false,
+          "shareProcessNamespace": false,
           "terminationGracePeriodSeconds": 30,
         },
       },
@@ -1483,6 +1491,7 @@ exports[`CrisisCleanupChart: 'defaults' > celery matches snapshot > defaults-cel
             "runAsNonRoot": true,
           },
           "setHostnameAsFQDN": false,
+          "shareProcessNamespace": false,
           "terminationGracePeriodSeconds": 30,
         },
       },
@@ -1841,6 +1850,7 @@ exports[`CrisisCleanupChart: 'with spread' > api matches snapshot > with spread-
             "runAsNonRoot": true,
           },
           "setHostnameAsFQDN": false,
+          "shareProcessNamespace": false,
           "terminationGracePeriodSeconds": 30,
           "topologySpreadConstraints": [
             {
@@ -1940,6 +1950,7 @@ exports[`CrisisCleanupChart: 'with spread' > api matches snapshot > with spread-
             "runAsUser": 1000,
           },
           "setHostnameAsFQDN": false,
+          "shareProcessNamespace": false,
           "terminationGracePeriodSeconds": 300,
         },
       },
@@ -2023,6 +2034,7 @@ exports[`CrisisCleanupChart: 'with spread' > api matches snapshot > with spread-
             "runAsUser": 1000,
           },
           "setHostnameAsFQDN": false,
+          "shareProcessNamespace": false,
           "terminationGracePeriodSeconds": 300,
           "volumes": [
             {
@@ -2219,6 +2231,7 @@ exports[`CrisisCleanupChart: 'with spread' > api matches snapshot > with spread-
             "runAsNonRoot": true,
           },
           "setHostnameAsFQDN": false,
+          "shareProcessNamespace": false,
           "terminationGracePeriodSeconds": 30,
           "topologySpreadConstraints": [
             {
@@ -2446,6 +2459,7 @@ exports[`CrisisCleanupChart: 'with spread' > api matches snapshot > with spread-
             "runAsNonRoot": true,
           },
           "setHostnameAsFQDN": false,
+          "shareProcessNamespace": false,
           "terminationGracePeriodSeconds": 30,
         },
       },
@@ -2710,6 +2724,7 @@ exports[`CrisisCleanupChart: 'with spread' > api matches snapshot > with spread-
             "runAsNonRoot": true,
           },
           "setHostnameAsFQDN": false,
+          "shareProcessNamespace": false,
           "terminationGracePeriodSeconds": 30,
         },
       },
@@ -2821,6 +2836,7 @@ exports[`CrisisCleanupChart: 'with spread' > celery matches snapshot > with spre
             "runAsNonRoot": true,
           },
           "setHostnameAsFQDN": false,
+          "shareProcessNamespace": false,
           "terminationGracePeriodSeconds": 30,
         },
       },
@@ -2931,6 +2947,7 @@ exports[`CrisisCleanupChart: 'with spread' > celery matches snapshot > with spre
             "runAsNonRoot": true,
           },
           "setHostnameAsFQDN": false,
+          "shareProcessNamespace": false,
           "terminationGracePeriodSeconds": 30,
         },
       },
@@ -3113,6 +3130,7 @@ exports[`CrisisCleanupChart: 'with spread' > celery matches snapshot > with spre
             "runAsNonRoot": true,
           },
           "setHostnameAsFQDN": false,
+          "shareProcessNamespace": false,
           "terminationGracePeriodSeconds": 30,
         },
       },
@@ -3470,6 +3488,7 @@ exports[`CrisisCleanupChart: 'with sync' > api matches snapshot > with sync-api 
             "runAsNonRoot": true,
           },
           "setHostnameAsFQDN": false,
+          "shareProcessNamespace": false,
           "terminationGracePeriodSeconds": 30,
           "volumes": [
             {
@@ -3557,6 +3576,7 @@ exports[`CrisisCleanupChart: 'with sync' > api matches snapshot > with sync-api 
             "runAsUser": 1000,
           },
           "setHostnameAsFQDN": false,
+          "shareProcessNamespace": false,
           "terminationGracePeriodSeconds": 300,
         },
       },
@@ -3640,6 +3660,7 @@ exports[`CrisisCleanupChart: 'with sync' > api matches snapshot > with sync-api 
             "runAsUser": 1000,
           },
           "setHostnameAsFQDN": false,
+          "shareProcessNamespace": false,
           "terminationGracePeriodSeconds": 300,
           "volumes": [
             {
@@ -3887,6 +3908,7 @@ exports[`CrisisCleanupChart: 'with sync' > api matches snapshot > with sync-api 
             "runAsNonRoot": true,
           },
           "setHostnameAsFQDN": false,
+          "shareProcessNamespace": false,
           "terminationGracePeriodSeconds": 30,
         },
       },
@@ -4102,6 +4124,7 @@ exports[`CrisisCleanupChart: 'with sync' > api matches snapshot > with sync-api 
             "runAsNonRoot": true,
           },
           "setHostnameAsFQDN": false,
+          "shareProcessNamespace": false,
           "terminationGracePeriodSeconds": 30,
         },
       },
@@ -4418,6 +4441,7 @@ exports[`CrisisCleanupChart: 'with sync' > api matches snapshot > with sync-api 
             "runAsNonRoot": true,
           },
           "setHostnameAsFQDN": false,
+          "shareProcessNamespace": false,
           "terminationGracePeriodSeconds": 30,
         },
       },
@@ -4529,6 +4553,7 @@ exports[`CrisisCleanupChart: 'with sync' > celery matches snapshot > with sync-c
             "runAsNonRoot": true,
           },
           "setHostnameAsFQDN": false,
+          "shareProcessNamespace": false,
           "terminationGracePeriodSeconds": 30,
         },
       },
@@ -4639,6 +4664,7 @@ exports[`CrisisCleanupChart: 'with sync' > celery matches snapshot > with sync-c
             "runAsNonRoot": true,
           },
           "setHostnameAsFQDN": false,
+          "shareProcessNamespace": false,
           "terminationGracePeriodSeconds": 30,
         },
       },
@@ -4821,6 +4847,7 @@ exports[`CrisisCleanupChart: 'with sync' > celery matches snapshot > with sync-c
             "runAsNonRoot": true,
           },
           "setHostnameAsFQDN": false,
+          "shareProcessNamespace": false,
           "terminationGracePeriodSeconds": 30,
         },
       },
@@ -5121,6 +5148,7 @@ exports[`CrisisCleanupChart: 'with sync' > sync matches snapshot > with sync-syn
                 "runAsNonRoot": true,
               },
               "setHostnameAsFQDN": false,
+              "shareProcessNamespace": false,
               "terminationGracePeriodSeconds": 30,
               "volumes": [
                 {
@@ -5277,6 +5305,7 @@ exports[`CrisisCleanupChart: 'with vertical scaling' > api matches snapshot > wi
             "runAsNonRoot": true,
           },
           "setHostnameAsFQDN": false,
+          "shareProcessNamespace": false,
           "terminationGracePeriodSeconds": 30,
           "topologySpreadConstraints": [
             {
@@ -5376,6 +5405,7 @@ exports[`CrisisCleanupChart: 'with vertical scaling' > api matches snapshot > wi
             "runAsUser": 1000,
           },
           "setHostnameAsFQDN": false,
+          "shareProcessNamespace": false,
           "terminationGracePeriodSeconds": 300,
         },
       },
@@ -5459,6 +5489,7 @@ exports[`CrisisCleanupChart: 'with vertical scaling' > api matches snapshot > wi
             "runAsUser": 1000,
           },
           "setHostnameAsFQDN": false,
+          "shareProcessNamespace": false,
           "terminationGracePeriodSeconds": 300,
           "volumes": [
             {
@@ -5670,6 +5701,7 @@ exports[`CrisisCleanupChart: 'with vertical scaling' > api matches snapshot > wi
             "runAsNonRoot": true,
           },
           "setHostnameAsFQDN": false,
+          "shareProcessNamespace": false,
           "terminationGracePeriodSeconds": 30,
           "topologySpreadConstraints": [
             {
@@ -5897,6 +5929,7 @@ exports[`CrisisCleanupChart: 'with vertical scaling' > api matches snapshot > wi
             "runAsNonRoot": true,
           },
           "setHostnameAsFQDN": false,
+          "shareProcessNamespace": false,
           "terminationGracePeriodSeconds": 30,
         },
       },
@@ -6161,6 +6194,7 @@ exports[`CrisisCleanupChart: 'with vertical scaling' > api matches snapshot > wi
             "runAsNonRoot": true,
           },
           "setHostnameAsFQDN": false,
+          "shareProcessNamespace": false,
           "terminationGracePeriodSeconds": 30,
         },
       },
@@ -6272,6 +6306,7 @@ exports[`CrisisCleanupChart: 'with vertical scaling' > celery matches snapshot >
             "runAsNonRoot": true,
           },
           "setHostnameAsFQDN": false,
+          "shareProcessNamespace": false,
           "terminationGracePeriodSeconds": 30,
         },
       },
@@ -6382,6 +6417,7 @@ exports[`CrisisCleanupChart: 'with vertical scaling' > celery matches snapshot >
             "runAsNonRoot": true,
           },
           "setHostnameAsFQDN": false,
+          "shareProcessNamespace": false,
           "terminationGracePeriodSeconds": 30,
         },
       },
@@ -6564,6 +6600,7 @@ exports[`CrisisCleanupChart: 'with vertical scaling' > celery matches snapshot >
             "runAsNonRoot": true,
           },
           "setHostnameAsFQDN": false,
+          "shareProcessNamespace": false,
           "terminationGracePeriodSeconds": 30,
         },
       },
