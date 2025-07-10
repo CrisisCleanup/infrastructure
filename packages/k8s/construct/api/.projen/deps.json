@@ -24,7 +24,7 @@
       "type": "build"
     },
     {
-      "name": "cdk8s-plus-31",
+      "name": "cdk8s-plus-32",
       "version": "*",
       "type": "build"
     },
@@ -89,7 +89,7 @@
       "type": "build"
     },
     {
-      "name": "cdk8s-plus-31",
+      "name": "cdk8s-plus-32",
       "type": "peer"
     },
     {

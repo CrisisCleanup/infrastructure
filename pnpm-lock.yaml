@@ -168,7 +168,7 @@ importers:
       cdk8s:
         specifier: 2.69.70
         version: 2.69.70(constructs@10.4.2)
-      cdk8s-plus-31:
+      cdk8s-plus-32:
         specifier: ^2.0.0-rc.26
         version: 2.0.0(cdk8s@2.69.70(constructs@10.4.2))(constructs@10.4.2)
       constructs:
@@ -602,7 +602,7 @@ importers:
       '@typescript-eslint/parser':
         specifier: ^7
         version: 7.18.0(eslint@8.47.0)(typescript@5.4.5)
-      cdk8s-plus-31:
+      cdk8s-plus-32:
         specifier: ^2.0.0
         version: 2.0.0(cdk8s@2.69.70(constructs@10.4.2))(constructs@10.4.2)
       eslint:
@@ -684,7 +684,7 @@ importers:
       '@typescript-eslint/parser':
         specifier: ^7
         version: 7.18.0(eslint@8.47.0)(typescript@5.4.5)
-      cdk8s-plus-31:
+      cdk8s-plus-32:
         specifier: ^2.0.0
         version: 2.0.0(cdk8s@2.69.70(constructs@10.4.2))(constructs@10.4.2)
       eslint:
@@ -777,7 +777,7 @@ importers:
       cdk8s:
         specifier: 2.69.70
         version: 2.69.70(constructs@10.4.2)
-      cdk8s-plus-31:
+      cdk8s-plus-32:
         specifier: 2.0.0
         version: 2.0.0(cdk8s@2.69.70(constructs@10.4.2))(constructs@10.4.2)
       constructs:
@@ -5398,10 +5398,10 @@ packages:
     bundledDependencies:
       - minimatch
 
-  cdk8s-plus-31@2.0.0:
+  cdk8s-plus-32@2.0.0:
     resolution:
       {
-        integrity: sha512-c+keTSahjs7iBR5w1WqRBgwU3y1b9Z0E+hV7pOLay8qCwZh7nUgit7NUJ9IyKn3QiaN3YQN6x0cQfK6p7aroCQ==,
+        integrity: sha512-daP1dO9yDwUpH4fZ3I0s0TDTgHGc/D+8+AV9MqCPzonuuFAUvQVoJSyMG81/mYJrRCoo8U/poNYaNgfXgomeug==,
       }
     engines: { node: '>= 16.20.0' }
     peerDependencies:
@@ -15513,7 +15513,7 @@ snapshots:
       cdk8s: 2.69.70(constructs@10.4.2)
       constructs: 10.4.2
 
-  cdk8s-plus-31@2.0.0(cdk8s@2.69.70(constructs@10.4.2))(constructs@10.4.2):
+  cdk8s-plus-32@2.0.0(cdk8s@2.69.70(constructs@10.4.2))(constructs@10.4.2):
     dependencies:
       cdk8s: 2.69.70(constructs@10.4.2)
       constructs: 10.4.2
