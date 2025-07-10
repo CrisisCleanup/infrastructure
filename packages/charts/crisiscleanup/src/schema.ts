@@ -1,5 +1,5 @@
 import { Size } from 'cdk8s'
-import * as kplus from 'cdk8s-plus-31'
+import * as kplus from 'cdk8s-plus-32'
 import { z } from 'zod'
 
 const ImagePullPolicyEnum = z.enum(['Always', 'Never', 'IfNotPresent'])

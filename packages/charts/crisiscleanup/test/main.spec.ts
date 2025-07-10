@@ -1,6 +1,6 @@
 import { baseConfig } from '@crisiscleanup/config'
 import { type App, Chart, Size, Testing } from 'cdk8s'
-import { Cpu, ImagePullPolicy } from 'cdk8s-plus-31'
+import { Cpu, ImagePullPolicy } from 'cdk8s-plus-32'
 import defu from 'defu'
 import { describe, expect, it } from 'vitest'
 import defaultChartConfig from '../crisiscleanup.config'

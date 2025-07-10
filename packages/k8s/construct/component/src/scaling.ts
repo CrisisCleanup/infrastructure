@@ -1,4 +1,4 @@
-import * as kplus from 'cdk8s-plus-31'
+import * as kplus from 'cdk8s-plus-32'
 import { type Construct, type Node } from 'constructs'
 import defu from 'defu'
 
