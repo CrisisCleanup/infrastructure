@@ -307,7 +307,7 @@ exports[`Snapshot 1`] = `
     "corednsaddOn": {
       "Properties": {
         "AddonName": "coredns",
-        "AddonVersion": "v1.11.4-eksbuild.14",
+        "AddonVersion": "v1.12.2-eksbuild.4",
         "ClusterName": {
           "Ref": "teststackF0A1F222",
         },
@@ -330,7 +330,7 @@ exports[`Snapshot 1`] = `
     "kubeproxyaddOn": {
       "Properties": {
         "AddonName": "kube-proxy",
-        "AddonVersion": "v1.32.5-eksbuild.2",
+        "AddonVersion": "v1.33.0-eksbuild.2",
         "ClusterName": {
           "Ref": "teststackF0A1F222",
         },
