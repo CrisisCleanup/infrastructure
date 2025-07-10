@@ -2,17 +2,17 @@ import { z } from 'zod'
 import { ScaleSetContainer } from './addons'
 
 export const kubeConfigSchema = z.object({
-	version: z.string().default('1.32').describe('Kubernetes version.'),
+	version: z.string().default('1.33').describe('Kubernetes version.'),
 })
 
 export const eksAddonSchema = z.object({
 	coreDnsVersion: z
 		.string()
-		.default('v1.11.4-eksbuild.14')
+		.default('v1.12.2-eksbuild.4')
 		.describe('CoreDNS version.'),
 	kubeProxyVersion: z
 		.string()
-		.default('v1.32.5-eksbuild.2')
+		.default('v1.33.0-eksbuild.2')
 		.describe('Kube-proxy version.'),
 	vpcCniVersion: z
 		.string()
