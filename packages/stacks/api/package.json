@@ -61,7 +61,7 @@
     "cdk-redisdb": "^0.0.39",
     "cdk-sops-secrets": "^1.16.13",
     "cdk8s": "2.69.70",
-    "cdk8s-plus-31": "2.0.0",
+    "cdk8s-plus-32": "2.0.0",
     "constructs": "^10.4.2",
     "debug": "^4.4.1",
     "defu": "^6.1.4",

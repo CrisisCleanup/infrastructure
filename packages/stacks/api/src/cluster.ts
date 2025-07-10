@@ -159,7 +159,7 @@ export const buildKarpenter = (
 	}
 
 	return new blueprints.KarpenterV1AddOn({
-		version: '1.4.0',
+		version: '1.5.2',
 		namespace: 'karpenter',
 		nodePoolSpec,
 		ec2NodeClassSpec: nodeClassSpec,

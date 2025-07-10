@@ -181,7 +181,7 @@
           "exec": "pnpm i --no-frozen-lockfile"
         },
         {
-          "exec": "pnpm update @types/debug @types/flat @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser aws-cdk esbuild eslint-config-prettier eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint lint-staged prettier ts-node typescript vitest @aws-quickstart/eks-blueprints @cdklabs/cdk-validator-cfnguard @crisiscleanup/charts.crisiscleanup @crisiscleanup/config @crisiscleanup/construct.awscdk.github-pipeline @crisiscleanup/construct.awscdk.pdf-renderer @crisiscleanup/k8s.construct.api @crisiscleanup/k8s.construct.component @kubecost/kubecost-eks-blueprints-addon aws-cdk-lib cdk-ec2-key-pair cdk-pipelines-github cdk-redisdb cdk-sops-secrets cdk8s-plus-31 cdk8s constructs debug defu flat zod"
+          "exec": "pnpm update @types/debug @types/flat @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser aws-cdk esbuild eslint-config-prettier eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint lint-staged prettier ts-node typescript vitest @aws-quickstart/eks-blueprints @cdklabs/cdk-validator-cfnguard @crisiscleanup/charts.crisiscleanup @crisiscleanup/config @crisiscleanup/construct.awscdk.github-pipeline @crisiscleanup/construct.awscdk.pdf-renderer @crisiscleanup/k8s.construct.api @crisiscleanup/k8s.construct.component @kubecost/kubecost-eks-blueprints-addon aws-cdk-lib cdk-ec2-key-pair cdk-pipelines-github cdk-redisdb cdk-sops-secrets cdk8s-plus-32 cdk8s constructs debug defu flat zod"
         },
         {
           "exec": "npx projen"
