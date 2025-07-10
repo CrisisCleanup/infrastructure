@@ -19,7 +19,7 @@ import {
 	Label,
 } from '@crisiscleanup/k8s.construct.component'
 import { Chart, type ChartProps } from 'cdk8s'
-import * as kplus from 'cdk8s-plus-31'
+import * as kplus from 'cdk8s-plus-32'
 import { type Construct } from 'constructs'
 import createDebug from 'debug'
 import defu from 'defu'

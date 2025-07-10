@@ -1,6 +1,6 @@
 import { type CrisisCleanupConfig, getConfig } from '@crisiscleanup/config'
 import { App } from 'cdk8s'
-import * as kplus from 'cdk8s-plus-31'
+import * as kplus from 'cdk8s-plus-32'
 import { CrisisCleanupChart, LocalChart } from './lib'
 
 export const createChart = (app: App, config: CrisisCleanupConfig) => {

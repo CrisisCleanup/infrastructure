@@ -3,8 +3,8 @@ import {
 	type ContainerImageProps,
 } from '@crisiscleanup/k8s.construct.component'
 import { Cron, type CronOptions, Duration, Size } from 'cdk8s'
-import * as kplus from 'cdk8s-plus-31'
-import { RestartPolicy } from 'cdk8s-plus-31'
+import * as kplus from 'cdk8s-plus-32'
+import { RestartPolicy } from 'cdk8s-plus-32'
 import { Construct } from 'constructs'
 
 export interface DatabaseSyncTargetConfig {

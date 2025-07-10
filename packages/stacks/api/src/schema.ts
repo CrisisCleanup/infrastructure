@@ -2,7 +2,7 @@ import { z } from 'zod'
 import { ScaleSetContainer } from './addons'
 
 export const kubeConfigSchema = z.object({
-	version: z.string().default('1.33').describe('Kubernetes version.'),
+	version: z.string().default('1.32').describe('Kubernetes version.'),
 })
 
 export const eksAddonSchema = z.object({
