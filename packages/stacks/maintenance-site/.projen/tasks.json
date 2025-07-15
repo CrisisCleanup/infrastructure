@@ -181,7 +181,7 @@
           "exec": "pnpm i --no-frozen-lockfile"
         },
         {
-          "exec": "pnpm update @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser aws-cdk esbuild eslint-config-prettier eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint lint-staged prettier ts-node tsx typescript vitest @aws/pdk @crisiscleanup/config @crisiscleanup/construct.awscdk.github-pipeline aws-cdk-lib cdk-pipelines-github constructs"
+          "exec": "pnpm update @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser aws-cdk esbuild eslint-config-prettier eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint lint-staged prettier ts-node typescript vitest @aws/pdk @crisiscleanup/config @crisiscleanup/construct.awscdk.github-pipeline aws-cdk-lib cdk-pipelines-github constructs"
         },
         {
           "exec": "npx projen"
