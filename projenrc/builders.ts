@@ -5,7 +5,6 @@ import {
 	BaseBuildStep,
 	type TypedPropertyDescriptorMap,
 } from '@arroyodev-llc/utils.projen-builder'
-import { NodePackageUtils } from '@aws/pdk/monorepo'
 import { type awscdk, type ProjectOptions } from 'projen'
 
 export class CdkTsAppCompileBuilder extends BaseBuildStep<{
@@ -27,11 +26,7 @@ export class CdkTsAppCompileBuilder extends BaseBuildStep<{
 		project.addGitIgnore('cdk.context.json')
 		project.cdkConfig.json.addOverride(
 			'app',
-			NodePackageUtils.command.exec(
-				project.package.packageManager,
-				'tsx',
-				'src/main.ts',
-			),
+			`node --import tsx/esm src/main.ts`,
 		)
 		const postCompile = project.tasks.tryFind('post-compile')!
 		postCompile.reset()
