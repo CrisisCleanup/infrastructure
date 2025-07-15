@@ -24,6 +24,8 @@ export class CdkTsAppCompileBuilder extends BaseBuildStep<{
 		project: awscdk.AwsCdkTypeScriptApp,
 	): TypedPropertyDescriptorMap<BuildOutput<BuildStep>> {
 		project.addGitIgnore('cdk.context.json')
+		// Add tsx as a dev dependency since we're using it for CDK execution
+		project.addDevDeps('tsx@^3.14.0')
 		project.cdkConfig.json.addOverride(
 			'app',
 			`node --import tsx/esm src/main.ts`,
