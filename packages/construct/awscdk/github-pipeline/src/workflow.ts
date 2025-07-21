@@ -281,9 +281,38 @@ export class GithubWorkflowPipeline extends ghpipelines.GitHubWorkflow {
 
 		const jobOutputs = Object.entries(assetHashMap).map(
 			([assetHash, jobName]) => {
-				const scriptPath = path.posix.join(outDir, `publish-${jobName}-step.sh`)
+				const scriptName = `publish-${jobName}-step.sh`
 				const assetNum = jobName.slice(jobName.lastIndexOf('t') + 1)
 				const assetOutput = `asset-hash${assetNum}`
+
+				// Look for script in outDir and assembly subdirectories
+				let scriptPath = path.posix.join(outDir, scriptName)
+				if (!fs.existsSync(scriptPath)) {
+					// Try to find in assembly subdirectories
+					try {
+						const assemblyDirs = fs
+							.readdirSync(outDir, { withFileTypes: true })
+							.filter(
+								(dirent) =>
+									dirent.isDirectory() && dirent.name.startsWith('assembly-'),
+							)
+							.map((dirent) => dirent.name)
+
+						for (const assemblyDir of assemblyDirs) {
+							const candidatePath = path.posix.join(
+								outDir,
+								assemblyDir,
+								scriptName,
+							)
+							if (fs.existsSync(candidatePath)) {
+								scriptPath = candidatePath
+								break
+							}
+						}
+					} catch {
+						// Ignore errors when scanning for assembly directories
+					}
+				}
 
 				// Check if file exists before trying to read it
 				if (fs.existsSync(scriptPath)) {
