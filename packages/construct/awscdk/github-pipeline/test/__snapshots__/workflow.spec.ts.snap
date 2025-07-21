@@ -38,7 +38,7 @@ exports[`GithubCodePipeline > builder has expected props 1`] = `
       "uses": "actions/setup-node@v4",
       "with": {
         "cache": "pnpm",
-        "node-version": "18",
+        "node-version": "22.14.0",
       },
     },
     {
@@ -93,7 +93,7 @@ exports[`GithubCodePipeline > builder has expected props 1`] = `
       "name": "Setup Node",
       "uses": "actions/setup-node@v4",
       "with": {
-        "node-version": "18",
+        "node-version": "22.14.0",
       },
     },
     {
@@ -171,7 +171,7 @@ GithubCodePipeline {
         "uses": "actions/setup-node@v4",
         "with": {
           "cache": "pnpm",
-          "node-version": "18",
+          "node-version": "22.14.0",
         },
       },
       {
@@ -226,7 +226,7 @@ GithubCodePipeline {
         "name": "Setup Node",
         "uses": "actions/setup-node@v4",
         "with": {
-          "node-version": "18",
+          "node-version": "22.14.0",
         },
       },
       {
@@ -314,7 +314,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: \\"18\\"
+          node-version: 22.14.0
           cache: pnpm
       - name: Install SOPs
         uses: CrisisCleanup/mozilla-sops-action@main
@@ -385,7 +385,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: \\"18\\"
+          node-version: 22.14.0
         if: inputs.runner && !contains(inputs.runner, 'ubuntu')
       - name: Install AWS CLI
         uses: unfor19/install-aws-cli-action@v1
