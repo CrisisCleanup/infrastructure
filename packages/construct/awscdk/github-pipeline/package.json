@@ -37,7 +37,7 @@
     "@typescript-eslint/eslint-plugin": "^7",
     "@typescript-eslint/parser": "^7",
     "aws-cdk-lib": "2.1012.0",
-    "cdk-pipelines-github": "0.4.103",
+    "cdk-pipelines-github": "^0.4.130",
     "constructs": "10.4.2",
     "eslint": "^8",
     "eslint-config-prettier": "^9.1.0",

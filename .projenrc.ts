@@ -442,7 +442,7 @@ const AwsCdkTsConstructBuilder = new ProjectBuilder(
 const ghPipelineConstruct = AwsCdkTsConstructBuilder.build({
 	name: 'construct.awscdk.github-pipeline',
 	deps: ['flat', 'defu', 'decamelize'],
-	devDeps: ['@types/flat'],
+	devDeps: ['@types/flat', 'cdk-pipelines-github@^0.4.130'],
 	peerDeps: ['cdk-pipelines-github'],
 	workspaceDeps: [config],
 	prettier: true,
