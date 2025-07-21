@@ -29,7 +29,9 @@ export class CdkTsAppCompileBuilder extends BaseBuildStep<{
 			'app',
 			NodePackageUtils.command.exec(
 				project.package.packageManager,
-				'tsx',
+				'node',
+				'--import',
+				'tsx/esm',
 				'src/main.ts',
 			),
 		)

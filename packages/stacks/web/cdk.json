@@ -1,5 +1,5 @@
 {
-  "app": "pnpm exec tsx src/main.ts",
+  "app": "pnpm exec node --import tsx/esm src/main.ts",
   "output": "cdk.out",
   "build": "npx projen bundle",
   "watch": {
