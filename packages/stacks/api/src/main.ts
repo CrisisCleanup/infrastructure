@@ -75,7 +75,23 @@ const pipeline = Pipeline.builder({
 	.target({
 		name: 'staging',
 		stackBuilder: (builder) => builder.addOns(new RedisStackAddOn()),
-		config: config.$env!.staging as unknown as CrisisCleanupConfig,
+		config: {
+			...(config.$env!.staging as unknown as CrisisCleanupConfig),
+			chart: {
+				...((config.$env!.staging as unknown as CrisisCleanupConfig)?.chart ||
+					{}),
+				wsgi: {
+					...((config.$env!.staging as unknown as CrisisCleanupConfig)?.chart
+						?.wsgi || {}),
+					resources: {
+						memory: {
+							request: 2048,
+							limit: 2048,
+						},
+					},
+				},
+			},
+		} as CrisisCleanupConfig,
 		secretsProvider: stagingSecretsProvider,
 	})
 	.target({
