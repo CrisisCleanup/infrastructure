@@ -312,7 +312,8 @@ export class GithubWorkflowPipeline extends ghpipelines.GitHubWorkflow {
 		)
 
 		const scripts = assetJobNames.map(
-			(name) => `./cdk.out/publish-${name}-step.sh`,
+			(name) =>
+				`$(find ./cdk.out -name "publish-${name}-step.sh" -type f | head -1)`,
 		)
 
 		const run = [

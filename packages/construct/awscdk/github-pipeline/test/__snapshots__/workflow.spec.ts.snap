@@ -411,8 +411,13 @@ jobs:
         run: npm install --no-save cdk-assets
       - name: Publish
         id: publish
-        run: |-
-          targets=\\"./cdk.out/publish-Assets-FileAsset1-step.sh,./cdk.out/publish-Assets-FileAsset2-step.sh,./cdk.out/publish-Assets-FileAsset3-step.sh\\"
+        run: >-
+          targets=\\"$(find ./cdk.out -name \\"publish-Assets-FileAsset1-step.sh\\"
+          -type f | head -1),$(find ./cdk.out -name
+          \\"publish-Assets-FileAsset2-step.sh\\" -type f | head -1),$(find
+          ./cdk.out -name \\"publish-Assets-FileAsset3-step.sh\\" -type f | head
+          -1)\\"
+
           echo -n \\"$targets\\" | xargs -r -d',' -t -n1 -P2 /bin/bash
       - name: My Custom post publish step
         run: echo \\"hello world\\"
@@ -652,8 +657,10 @@ jobs:
         run: npm install --no-save cdk-assets
       - name: Publish
         id: publish
-        run: |-
-          targets=\\"./cdk.out/publish-Assets-FileAsset1-step.sh\\"
+        run: >-
+          targets=\\"$(find ./cdk.out -name \\"publish-Assets-FileAsset1-step.sh\\"
+          -type f | head -1)\\"
+
           echo -n \\"$targets\\" | xargs -r -d',' -t -n1 -P2 /bin/bash
   test-test-stack-deploy:
     name: Deploy testteststack14D97B62
@@ -793,8 +800,10 @@ jobs:
         run: npm install --no-save cdk-assets
       - name: Publish
         id: publish
-        run: |-
-          targets=\\"./cdk.out/publish-Assets-FileAsset1-step.sh\\"
+        run: >-
+          targets=\\"$(find ./cdk.out -name \\"publish-Assets-FileAsset1-step.sh\\"
+          -type f | head -1)\\"
+
           echo -n \\"$targets\\" | xargs -r -d',' -t -n1 -P2 /bin/bash
   test-test-stack-deploy:
     name: Deploy testteststack14D97B62
