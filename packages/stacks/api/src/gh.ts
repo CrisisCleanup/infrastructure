@@ -280,7 +280,7 @@ class PipelineBuilder {
 					default: 'development,staging',
 				},
 			})
-			.concurrency({
+			.withConcurrency({
 				group: 'deploy-infra',
 				cancelInProgress: false,
 			})

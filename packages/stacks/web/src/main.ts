@@ -129,7 +129,7 @@ const pipeline = GithubCodePipeline.create({
 			default: 'development',
 		},
 	})
-	.concurrency({
+	.withConcurrency({
 		group:
 			'deploy-web-' + interpolateValue(ActionsContext.INPUTS, 'environment'),
 		cancelInProgress: false,

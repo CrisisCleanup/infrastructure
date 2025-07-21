@@ -46,7 +46,7 @@ GithubCodePipeline.create({
 	.build(app)
 	.onWorkflowCall()
 	.onWorkflowDispatch()
-	.concurrency({ group: 'deploy-maintenance', cancelInProgress: false })
+	.withConcurrency({ group: 'deploy-maintenance', cancelInProgress: false })
 	.addStage(
 		new MaintenanceStage(app, 'pipeline', { env: config.cdkEnvironment }),
 	)
@@ -82,7 +82,7 @@ GithubCodePipeline.create({
 	.build(app)
 	.onWorkflowCall()
 	.onWorkflowDispatch()
-	.concurrency({ group: 'deploy-offline-au', cancelInProgress: false })
+	.withConcurrency({ group: 'deploy-offline-au', cancelInProgress: false })
 	.addStage(
 		new MaintenanceStage(app, 'production-au', {
 			env: config.$env!['production-au']!.cdkEnvironment,
