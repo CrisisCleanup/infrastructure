@@ -239,7 +239,7 @@ GithubCodePipeline {
         },
       },
     ],
-    "rootDir": "/tmp/github-pipeline-test/builder-has-expected-props",
+    "rootDir": "/var/folders/kc/lsn6w_xj3w9b8c6ck32n6j540000gn/T/github-pipeline-test/builder-has-expected-props",
     "workflowName": "Deploy Many Stages",
   },
   "synthProps": {
