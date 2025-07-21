@@ -61,7 +61,7 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: CrisisCleanup/infrastructure
           ref: main
@@ -70,25 +70,25 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "22.14.0"
+          node-version: 22.14.0
           cache: pnpm
       - name: Install SOPs
         uses: CrisisCleanup/mozilla-sops-action@main
         with:
-          version: 3.10.2
+          version: 3.7.3
       - name: Install AWS CLI
         uses: unfor19/install-aws-cli-action@v1
         if: runner.arch == 'ARM64' && (inputs.runner && !contains(inputs.runner,
           'ubuntu'))
         with:
           arch: arm64
-          version: 2.27.49
+          version: "2"
       - name: Install Helm
         uses: azure/setup-helm@v3
         with:
-          version: 3.18.4
+          version: 3.12.2
       - name: Authenticate Via OIDC Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -188,7 +188,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "22.14.0"
+          node-version: 22.14.0
         if: inputs.runner && !contains(inputs.runner, 'ubuntu')
       - name: Install AWS CLI
         uses: unfor19/install-aws-cli-action@v1
@@ -196,9 +196,9 @@ jobs:
           'ubuntu'))
         with:
           arch: arm64
-          version: 2.27.49
+          version: "2"
       - name: Authenticate Via OIDC Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -215,7 +215,70 @@ jobs:
       - name: Publish
         id: publish
         run: >-
-          targets="./cdk.out/publish-Assets-FileAsset1-step.sh,./cdk.out/publish-Assets-FileAsset10-step.sh,./cdk.out/publish-Assets-FileAsset11-step.sh,./cdk.out/publish-Assets-FileAsset12-step.sh,./cdk.out/publish-Assets-FileAsset13-step.sh,./cdk.out/publish-Assets-FileAsset14-step.sh,./cdk.out/publish-Assets-FileAsset15-step.sh,./cdk.out/publish-Assets-FileAsset16-step.sh,./cdk.out/publish-Assets-FileAsset17-step.sh,./cdk.out/publish-Assets-FileAsset18-step.sh,./cdk.out/publish-Assets-FileAsset19-step.sh,./cdk.out/publish-Assets-FileAsset2-step.sh,./cdk.out/publish-Assets-FileAsset20-step.sh,./cdk.out/publish-Assets-FileAsset21-step.sh,./cdk.out/publish-Assets-FileAsset22-step.sh,./cdk.out/publish-Assets-FileAsset23-step.sh,./cdk.out/publish-Assets-FileAsset24-step.sh,./cdk.out/publish-Assets-FileAsset25-step.sh,./cdk.out/publish-Assets-FileAsset26-step.sh,./cdk.out/publish-Assets-FileAsset27-step.sh,./cdk.out/publish-Assets-FileAsset28-step.sh,./cdk.out/publish-Assets-FileAsset29-step.sh,./cdk.out/publish-Assets-FileAsset3-step.sh,./cdk.out/publish-Assets-FileAsset30-step.sh,./cdk.out/publish-Assets-FileAsset31-step.sh,./cdk.out/publish-Assets-FileAsset32-step.sh,./cdk.out/publish-Assets-FileAsset33-step.sh,./cdk.out/publish-Assets-FileAsset34-step.sh,./cdk.out/publish-Assets-FileAsset35-step.sh,./cdk.out/publish-Assets-FileAsset36-step.sh,./cdk.out/publish-Assets-FileAsset37-step.sh,./cdk.out/publish-Assets-FileAsset38-step.sh,./cdk.out/publish-Assets-FileAsset39-step.sh,./cdk.out/publish-Assets-FileAsset4-step.sh,./cdk.out/publish-Assets-FileAsset40-step.sh,./cdk.out/publish-Assets-FileAsset41-step.sh,./cdk.out/publish-Assets-FileAsset42-step.sh,./cdk.out/publish-Assets-FileAsset43-step.sh,./cdk.out/publish-Assets-FileAsset44-step.sh,./cdk.out/publish-Assets-FileAsset45-step.sh,./cdk.out/publish-Assets-FileAsset46-step.sh,./cdk.out/publish-Assets-FileAsset47-step.sh,./cdk.out/publish-Assets-FileAsset48-step.sh,./cdk.out/publish-Assets-FileAsset5-step.sh,./cdk.out/publish-Assets-FileAsset6-step.sh,./cdk.out/publish-Assets-FileAsset7-step.sh,./cdk.out/publish-Assets-FileAsset8-step.sh,./cdk.out/publish-Assets-FileAsset9-step.sh"
+          targets="$(find ./cdk.out -name "publish-Assets-FileAsset1-step.sh"
+          -type f | head -1),$(find ./cdk.out -name
+          "publish-Assets-FileAsset10-step.sh" -type f | head -1),$(find
+          ./cdk.out -name "publish-Assets-FileAsset11-step.sh" -type f | head
+          -1),$(find ./cdk.out -name "publish-Assets-FileAsset12-step.sh" -type
+          f | head -1),$(find ./cdk.out -name
+          "publish-Assets-FileAsset13-step.sh" -type f | head -1),$(find
+          ./cdk.out -name "publish-Assets-FileAsset14-step.sh" -type f | head
+          -1),$(find ./cdk.out -name "publish-Assets-FileAsset15-step.sh" -type
+          f | head -1),$(find ./cdk.out -name
+          "publish-Assets-FileAsset16-step.sh" -type f | head -1),$(find
+          ./cdk.out -name "publish-Assets-FileAsset17-step.sh" -type f | head
+          -1),$(find ./cdk.out -name "publish-Assets-FileAsset18-step.sh" -type
+          f | head -1),$(find ./cdk.out -name
+          "publish-Assets-FileAsset19-step.sh" -type f | head -1),$(find
+          ./cdk.out -name "publish-Assets-FileAsset2-step.sh" -type f | head
+          -1),$(find ./cdk.out -name "publish-Assets-FileAsset20-step.sh" -type
+          f | head -1),$(find ./cdk.out -name
+          "publish-Assets-FileAsset21-step.sh" -type f | head -1),$(find
+          ./cdk.out -name "publish-Assets-FileAsset22-step.sh" -type f | head
+          -1),$(find ./cdk.out -name "publish-Assets-FileAsset23-step.sh" -type
+          f | head -1),$(find ./cdk.out -name
+          "publish-Assets-FileAsset24-step.sh" -type f | head -1),$(find
+          ./cdk.out -name "publish-Assets-FileAsset25-step.sh" -type f | head
+          -1),$(find ./cdk.out -name "publish-Assets-FileAsset26-step.sh" -type
+          f | head -1),$(find ./cdk.out -name
+          "publish-Assets-FileAsset27-step.sh" -type f | head -1),$(find
+          ./cdk.out -name "publish-Assets-FileAsset28-step.sh" -type f | head
+          -1),$(find ./cdk.out -name "publish-Assets-FileAsset29-step.sh" -type
+          f | head -1),$(find ./cdk.out -name
+          "publish-Assets-FileAsset3-step.sh" -type f | head -1),$(find
+          ./cdk.out -name "publish-Assets-FileAsset30-step.sh" -type f | head
+          -1),$(find ./cdk.out -name "publish-Assets-FileAsset31-step.sh" -type
+          f | head -1),$(find ./cdk.out -name
+          "publish-Assets-FileAsset32-step.sh" -type f | head -1),$(find
+          ./cdk.out -name "publish-Assets-FileAsset33-step.sh" -type f | head
+          -1),$(find ./cdk.out -name "publish-Assets-FileAsset34-step.sh" -type
+          f | head -1),$(find ./cdk.out -name
+          "publish-Assets-FileAsset35-step.sh" -type f | head -1),$(find
+          ./cdk.out -name "publish-Assets-FileAsset36-step.sh" -type f | head
+          -1),$(find ./cdk.out -name "publish-Assets-FileAsset37-step.sh" -type
+          f | head -1),$(find ./cdk.out -name
+          "publish-Assets-FileAsset38-step.sh" -type f | head -1),$(find
+          ./cdk.out -name "publish-Assets-FileAsset39-step.sh" -type f | head
+          -1),$(find ./cdk.out -name "publish-Assets-FileAsset4-step.sh" -type f
+          | head -1),$(find ./cdk.out -name "publish-Assets-FileAsset40-step.sh"
+          -type f | head -1),$(find ./cdk.out -name
+          "publish-Assets-FileAsset41-step.sh" -type f | head -1),$(find
+          ./cdk.out -name "publish-Assets-FileAsset42-step.sh" -type f | head
+          -1),$(find ./cdk.out -name "publish-Assets-FileAsset43-step.sh" -type
+          f | head -1),$(find ./cdk.out -name
+          "publish-Assets-FileAsset44-step.sh" -type f | head -1),$(find
+          ./cdk.out -name "publish-Assets-FileAsset45-step.sh" -type f | head
+          -1),$(find ./cdk.out -name "publish-Assets-FileAsset46-step.sh" -type
+          f | head -1),$(find ./cdk.out -name
+          "publish-Assets-FileAsset47-step.sh" -type f | head -1),$(find
+          ./cdk.out -name "publish-Assets-FileAsset48-step.sh" -type f | head
+          -1),$(find ./cdk.out -name "publish-Assets-FileAsset5-step.sh" -type f
+          | head -1),$(find ./cdk.out -name "publish-Assets-FileAsset6-step.sh"
+          -type f | head -1),$(find ./cdk.out -name
+          "publish-Assets-FileAsset7-step.sh" -type f | head -1),$(find
+          ./cdk.out -name "publish-Assets-FileAsset8-step.sh" -type f | head
+          -1),$(find ./cdk.out -name "publish-Assets-FileAsset9-step.sh" -type f
+          | head -1)"
 
           echo -n "$targets" | xargs -r -d',' -t -n1 -P2 /bin/bash
   deploy-development-development-delegator-zone-deploy:
@@ -243,7 +306,7 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Authenticate Via OIDC Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -251,7 +314,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
           role-session-name: deploy
       - name: Assume CDK Deploy Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -262,7 +325,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_PIPELINE}}-us-east-1
           role-external-id: Pipeline
       - id: Deploy
-        uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           name: development-development-delegator-zone
           template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PIPELINE}}-us-east-1.s3.us-east-1.amazonaws.com/${{
@@ -294,7 +357,7 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Authenticate Via OIDC Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -302,7 +365,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
           role-session-name: deploy
       - name: Assume CDK Deploy Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -313,7 +376,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}-us-east-1
           role-external-id: Pipeline
       - id: Deploy
-        uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           name: development-development-network
           template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}-us-east-1.s3.us-east-1.amazonaws.com/${{
@@ -345,7 +408,7 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Authenticate Via OIDC Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -353,7 +416,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
           role-session-name: deploy
       - name: Assume CDK Deploy Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -364,7 +427,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_PIPELINE}}-us-east-1
           role-external-id: Pipeline
       - id: Deploy
-        uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           name: staging-staging-delegator-zone
           template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PIPELINE}}-us-east-1.s3.us-east-1.amazonaws.com/${{
@@ -396,7 +459,7 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Authenticate Via OIDC Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -404,7 +467,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
           role-session-name: deploy
       - name: Assume CDK Deploy Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -415,7 +478,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_STAGING}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_STAGING}}-us-east-1
           role-external-id: Pipeline
       - id: Deploy
-        uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           name: staging-staging-network
           template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_STAGING}}-us-east-1.s3.us-east-1.amazonaws.com/${{
@@ -448,7 +511,7 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Authenticate Via OIDC Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -456,7 +519,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
           role-session-name: deploy
       - name: Assume CDK Deploy Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -467,7 +530,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_PIPELINE}}-us-east-1
           role-external-id: Pipeline
       - id: Deploy
-        uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           name: production-production-delegator-zone
           template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PIPELINE}}-us-east-1.s3.us-east-1.amazonaws.com/${{
@@ -499,7 +562,7 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Authenticate Via OIDC Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -507,7 +570,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
           role-session-name: deploy
       - name: Assume CDK Deploy Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -518,7 +581,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}-us-east-1
           role-external-id: Pipeline
       - id: Deploy
-        uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           name: production-production-network
           template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}-us-east-1.s3.us-east-1.amazonaws.com/${{
@@ -551,7 +614,7 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Authenticate Via OIDC Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -559,7 +622,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
           role-session-name: deploy
       - name: Assume CDK Deploy Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -570,7 +633,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PIPELINE}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_PIPELINE}}-us-east-1
           role-external-id: Pipeline
       - id: Deploy
-        uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           name: production-au-production-au-delegator-zone
           template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PIPELINE}}-us-east-1.s3.us-east-1.amazonaws.com/${{
@@ -603,7 +666,7 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Authenticate Via OIDC Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: ap-southeast-2
           role-duration-seconds: 1800
@@ -611,7 +674,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
           role-session-name: deploy
       - name: Assume CDK Deploy Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: ap-southeast-2
           role-duration-seconds: 1800
@@ -622,7 +685,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}-ap-southeast-2
           role-external-id: Pipeline
       - id: Deploy
-        uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           name: production-au-production-au-network
           template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}-ap-southeast-2.s3.ap-southeast-2.amazonaws.com/${{
@@ -656,7 +719,7 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Authenticate Via OIDC Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -664,7 +727,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
           role-session-name: deploy
       - name: Assume CDK Deploy Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -675,7 +738,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}-us-east-1
           role-external-id: Pipeline
       - id: Deploy
-        uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           name: development-development-delegate-zone
           template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}-us-east-1.s3.us-east-1.amazonaws.com/${{
@@ -708,7 +771,7 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Authenticate Via OIDC Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -716,7 +779,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
           role-session-name: deploy
       - name: Assume CDK Deploy Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -727,7 +790,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_STAGING}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_STAGING}}-us-east-1
           role-external-id: Pipeline
       - id: Deploy
-        uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           name: staging-staging-delegate-zone
           template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_STAGING}}-us-east-1.s3.us-east-1.amazonaws.com/${{
@@ -760,7 +823,7 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Authenticate Via OIDC Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -768,7 +831,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
           role-session-name: deploy
       - name: Assume CDK Deploy Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -779,7 +842,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}-us-east-1
           role-external-id: Pipeline
       - id: Deploy
-        uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           name: production-production-cache
           template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}-us-east-1.s3.us-east-1.amazonaws.com/${{
@@ -813,7 +876,7 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Authenticate Via OIDC Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -821,7 +884,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
           role-session-name: deploy
       - name: Assume CDK Deploy Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -832,7 +895,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}-us-east-1
           role-external-id: Pipeline
       - id: Deploy
-        uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           name: production-production-delegate-zone
           template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}-us-east-1.s3.us-east-1.amazonaws.com/${{
@@ -865,7 +928,7 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Authenticate Via OIDC Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: ap-southeast-2
           role-duration-seconds: 1800
@@ -873,7 +936,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
           role-session-name: deploy
       - name: Assume CDK Deploy Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: ap-southeast-2
           role-duration-seconds: 1800
@@ -884,7 +947,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}-ap-southeast-2
           role-external-id: Pipeline
       - id: Deploy
-        uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           name: production-au-production-au-cache
           template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}-ap-southeast-2.s3.ap-southeast-2.amazonaws.com/${{
@@ -918,7 +981,7 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Authenticate Via OIDC Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: ap-southeast-2
           role-duration-seconds: 1800
@@ -926,7 +989,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
           role-session-name: deploy
       - name: Assume CDK Deploy Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: ap-southeast-2
           role-duration-seconds: 1800
@@ -937,7 +1000,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}-ap-southeast-2
           role-external-id: Pipeline
       - id: Deploy
-        uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           name: production-au-production-au-delegate-zone
           template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}-ap-southeast-2.s3.ap-southeast-2.amazonaws.com/${{
@@ -971,7 +1034,7 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Authenticate Via OIDC Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -979,7 +1042,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
           role-session-name: deploy
       - name: Assume CDK Deploy Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -990,7 +1053,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}-us-east-1
           role-external-id: Pipeline
       - id: Deploy
-        uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           name: development-development-data
           template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}-us-east-1.s3.us-east-1.amazonaws.com/${{
@@ -1024,7 +1087,7 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Authenticate Via OIDC Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -1032,7 +1095,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
           role-session-name: deploy
       - name: Assume CDK Deploy Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -1043,7 +1106,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_STAGING}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_STAGING}}-us-east-1
           role-external-id: Pipeline
       - id: Deploy
-        uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           name: staging-staging-data
           template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_STAGING}}-us-east-1.s3.us-east-1.amazonaws.com/${{
@@ -1077,7 +1140,7 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Authenticate Via OIDC Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -1085,7 +1148,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
           role-session-name: deploy
       - name: Assume CDK Deploy Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -1096,7 +1159,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}-us-east-1
           role-external-id: Pipeline
       - id: Deploy
-        uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           name: production-production-data
           template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}-us-east-1.s3.us-east-1.amazonaws.com/${{
@@ -1130,7 +1193,7 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Authenticate Via OIDC Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: ap-southeast-2
           role-duration-seconds: 1800
@@ -1138,7 +1201,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
           role-session-name: deploy
       - name: Assume CDK Deploy Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: ap-southeast-2
           role-duration-seconds: 1800
@@ -1149,7 +1212,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}-ap-southeast-2
           role-external-id: Pipeline
       - id: Deploy
-        uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           name: production-au-production-au-data
           template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}-ap-southeast-2.s3.ap-southeast-2.amazonaws.com/${{
@@ -1184,7 +1247,7 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Authenticate Via OIDC Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -1192,7 +1255,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
           role-session-name: deploy
       - name: Assume CDK Deploy Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -1203,7 +1266,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}-us-east-1
           role-external-id: Pipeline
       - id: Deploy
-        uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           name: development-development-blueprint
           template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_DEVELOPMENT}}-us-east-1.s3.us-east-1.amazonaws.com/${{
@@ -1237,7 +1300,7 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Authenticate Via OIDC Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -1245,7 +1308,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
           role-session-name: deploy
       - name: Assume CDK Deploy Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -1256,7 +1319,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_STAGING}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_STAGING}}-us-east-1
           role-external-id: Pipeline
       - id: Deploy
-        uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           name: staging-staging-blueprint
           template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_STAGING}}-us-east-1.s3.us-east-1.amazonaws.com/${{
@@ -1290,7 +1353,7 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Authenticate Via OIDC Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -1298,7 +1361,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
           role-session-name: deploy
       - name: Assume CDK Deploy Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -1309,7 +1372,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}-us-east-1
           role-external-id: Pipeline
       - id: Deploy
-        uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           name: production-production-blueprint
           template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}-us-east-1.s3.us-east-1.amazonaws.com/${{
@@ -1344,7 +1407,7 @@ jobs:
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION}}
           echo ::add-mask::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}
       - name: Authenticate Via OIDC Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: ap-southeast-2
           role-duration-seconds: 1800
@@ -1352,7 +1415,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
           role-session-name: deploy
       - name: Assume CDK Deploy Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: ap-southeast-2
           role-duration-seconds: 1800
@@ -1363,7 +1426,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}:role/cdk-hnb659fds-deploy-role-${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}-ap-southeast-2
           role-external-id: Pipeline
       - id: Deploy
-        uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           name: production-au-production-au-blueprint
           template: https://cdk-hnb659fds-assets-${{secrets.AWS_ACCOUNT_ID_PRODUCTION_AU}}-ap-southeast-2.s3.ap-southeast-2.amazonaws.com/${{
