@@ -24,6 +24,11 @@
       "type": "build"
     },
     {
+      "name": "cdk-pipelines-github",
+      "version": "^0.4.130",
+      "type": "build"
+    },
+    {
       "name": "eslint-config-prettier",
       "type": "build"
     },

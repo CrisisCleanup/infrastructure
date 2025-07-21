@@ -241,7 +241,11 @@ class PipelineBuilder {
 				packageName: 'stacks.api',
 				workingDirectory: 'packages/stacks/api',
 			})
-			.defaultTools()
+			.installHelm()
+			.installAwsCli()
+			.installSops()
+			.installNode('22.14.0', 'pnpm')
+			.installPnpm()
 			.clone({ workflowTriggers: {} })
 			.build(scope, props.name)
 			.onWorkflowCall({

@@ -39,7 +39,11 @@ GithubCodePipeline.create({
 		packageName: 'stacks.maintenance-site',
 		workingDirectory: 'packages/stacks/maintenance-site',
 	})
-	.defaultTools()
+	.installHelm()
+	.installAwsCli()
+	.installSops()
+	.installNode('22.14.0', 'pnpm')
+	.installPnpm()
 	.clone({
 		workflowTriggers: {},
 	})
@@ -75,7 +79,11 @@ GithubCodePipeline.create({
 		packageName: 'stacks.maintenance-site',
 		workingDirectory: 'packages/stacks/maintenance-site',
 	})
-	.defaultTools()
+	.installHelm()
+	.installAwsCli()
+	.installSops()
+	.installNode('22.14.0', 'pnpm')
+	.installPnpm()
 	.clone({
 		workflowTriggers: {},
 	})

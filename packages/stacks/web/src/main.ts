@@ -117,7 +117,11 @@ const pipeline = GithubCodePipeline.create({
 			url: interpolateValue(ActionsContext.VARS, 'VITE_APP_BASE_URL'),
 		},
 	})
-	.defaultTools()
+	.installHelm()
+	.installAwsCli()
+	.installSops()
+	.installNode('22.14.0', 'pnpm')
+	.installPnpm()
 	.clone({
 		workflowTriggers: {},
 	})
