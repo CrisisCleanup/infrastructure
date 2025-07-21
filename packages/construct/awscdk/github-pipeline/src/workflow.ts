@@ -282,14 +282,19 @@ export class GithubWorkflowPipeline extends ghpipelines.GitHubWorkflow {
 		const jobOutputs = Object.entries(assetHashMap).map(
 			([assetHash, jobName]) => {
 				const scriptPath = path.posix.join(outDir, `publish-${jobName}-step.sh`)
-				const lines = fs
-					.readFileSync(scriptPath, { encoding: 'utf-8' })
-					.toString()
-					.split('\n')
 				const assetNum = jobName.slice(jobName.lastIndexOf('t') + 1)
 				const assetOutput = `asset-hash${assetNum}`
-				lines.push(`echo '${assetOutput}=${assetHash}' >> $GITHUB_OUTPUT`)
-				fs.writeFileSync(scriptPath, lines.join('\n'), { encoding: 'utf-8' })
+
+				// Check if file exists before trying to read it
+				if (fs.existsSync(scriptPath)) {
+					const lines = fs
+						.readFileSync(scriptPath, { encoding: 'utf-8' })
+						.toString()
+						.split('\n')
+					lines.push(`echo '${assetOutput}=${assetHash}' >> $GITHUB_OUTPUT`)
+					fs.writeFileSync(scriptPath, lines.join('\n'), { encoding: 'utf-8' })
+				}
+
 				return [assetOutput, jobName]
 			},
 		)

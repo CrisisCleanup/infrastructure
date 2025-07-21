@@ -66,7 +66,7 @@ exports[`GithubCodePipeline > builder has expected props 1`] = `
     },
     {
       "name": "Authenticate Via OIDC Role",
-      "uses": "aws-actions/configure-aws-credentials@v1-node16",
+      "uses": "aws-actions/configure-aws-credentials@v4",
       "with": {
         "aws-access-key-id": undefined,
         "aws-region": "us-east-1",
@@ -106,7 +106,7 @@ exports[`GithubCodePipeline > builder has expected props 1`] = `
       },
     },
   ],
-  "rootDir": "/tmp/github-pipeline-test/builder-has-expected-props",
+  "rootDir": "/var/folders/kc/lsn6w_xj3w9b8c6ck32n6j540000gn/T/github-pipeline-test/builder-has-expected-props",
   "workflowName": "Deploy Many Stages",
 }
 `;
@@ -199,7 +199,7 @@ GithubCodePipeline {
       },
       {
         "name": "Authenticate Via OIDC Role",
-        "uses": "aws-actions/configure-aws-credentials@v1-node16",
+        "uses": "aws-actions/configure-aws-credentials@v4",
         "with": {
           "aws-access-key-id": undefined,
           "aws-region": "us-east-1",
@@ -303,7 +303,7 @@ jobs:
           echo ::add-mask::\${{secrets.AWS_ACCOUNT_ID_BETA}}
           echo ::add-mask::\${{secrets.AWS_ACCOUNT_ID_DELTA}}
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: CrisisCleanup/infrastructure
           ref: main
@@ -332,7 +332,7 @@ jobs:
         with:
           version: 3.6.3
       - name: Authenticate Via OIDC Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -395,7 +395,7 @@ jobs:
           arch: arm64
           version: \\"2\\"
       - name: Authenticate Via OIDC Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -411,9 +411,8 @@ jobs:
         run: npm install --no-save cdk-assets
       - name: Publish
         id: publish
-        run: >-
+        run: |-
           targets=\\"./cdk.out/publish-Assets-FileAsset1-step.sh,./cdk.out/publish-Assets-FileAsset2-step.sh,./cdk.out/publish-Assets-FileAsset3-step.sh\\"
-
           echo -n \\"$targets\\" | xargs -r -d',' -t -n1 -P2 /bin/bash
       - name: My Custom post publish step
         run: echo \\"hello world\\"
@@ -434,7 +433,7 @@ jobs:
           echo ::add-mask::\${{secrets.AWS_ACCOUNT_ID_BETA}}
           echo ::add-mask::\${{secrets.AWS_ACCOUNT_ID_DELTA}}
       - name: Authenticate Via OIDC Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -442,7 +441,7 @@ jobs:
           role-to-assume: arn:aws:iam::\${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
           role-session-name: deploy-many-stages
       - name: Assume CDK Deploy Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -453,7 +452,7 @@ jobs:
           role-to-assume: arn:aws:iam::\${{secrets.AWS_ACCOUNT_ID_ALPHA}}:role/cdk-hnb659fds-deploy-role-\${{secrets.AWS_ACCOUNT_ID_ALPHA}}-us-east-1
           role-external-id: Pipeline
       - id: Deploy
-        uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           name: alpha-alpha-stack
           template: https://cdk-hnb659fds-assets-\${{secrets.AWS_ACCOUNT_ID_ALPHA}}-us-east-1.s3.us-east-1.amazonaws.com/\${{
@@ -478,7 +477,7 @@ jobs:
           echo ::add-mask::\${{secrets.AWS_ACCOUNT_ID_BETA}}
           echo ::add-mask::\${{secrets.AWS_ACCOUNT_ID_DELTA}}
       - name: Authenticate Via OIDC Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -486,7 +485,7 @@ jobs:
           role-to-assume: arn:aws:iam::\${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
           role-session-name: deploy-many-stages
       - name: Assume CDK Deploy Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -497,7 +496,7 @@ jobs:
           role-to-assume: arn:aws:iam::\${{secrets.AWS_ACCOUNT_ID_BETA}}:role/cdk-hnb659fds-deploy-role-\${{secrets.AWS_ACCOUNT_ID_BETA}}-us-east-1
           role-external-id: Pipeline
       - id: Deploy
-        uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           name: beta-beta-stack
           template: https://cdk-hnb659fds-assets-\${{secrets.AWS_ACCOUNT_ID_BETA}}-us-east-1.s3.us-east-1.amazonaws.com/\${{
@@ -522,7 +521,7 @@ jobs:
           echo ::add-mask::\${{secrets.AWS_ACCOUNT_ID_BETA}}
           echo ::add-mask::\${{secrets.AWS_ACCOUNT_ID_DELTA}}
       - name: Authenticate Via OIDC Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -530,7 +529,7 @@ jobs:
           role-to-assume: arn:aws:iam::\${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
           role-session-name: deploy-many-stages
       - name: Assume CDK Deploy Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -541,7 +540,7 @@ jobs:
           role-to-assume: arn:aws:iam::\${{secrets.AWS_ACCOUNT_ID_DELTA}}:role/cdk-hnb659fds-deploy-role-\${{secrets.AWS_ACCOUNT_ID_DELTA}}-us-east-1
           role-external-id: Pipeline
       - id: Deploy
-        uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           name: delta-delta-stack
           template: https://cdk-hnb659fds-assets-\${{secrets.AWS_ACCOUNT_ID_DELTA}}-us-east-1.s3.us-east-1.amazonaws.com/\${{
@@ -580,12 +579,12 @@ jobs:
           echo ::add-mask::\${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
           echo ::add-mask::\${{secrets.AWS_ACCOUNT_ID_TEST}}
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: CrisisCleanup/infrastructure
           ref: main
       - name: Authenticate Via OIDC Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -637,7 +636,7 @@ jobs:
           echo ::add-mask::\${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
           echo ::add-mask::\${{secrets.AWS_ACCOUNT_ID_TEST}}
       - name: Authenticate Via OIDC Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -671,7 +670,7 @@ jobs:
           echo ::add-mask::\${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
           echo ::add-mask::\${{secrets.AWS_ACCOUNT_ID_TEST}}
       - name: Authenticate Via OIDC Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -679,7 +678,7 @@ jobs:
           role-to-assume: arn:aws:iam::\${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
           role-session-name: deploy-test-stack
       - name: Assume CDK Deploy Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -690,7 +689,7 @@ jobs:
           role-to-assume: arn:aws:iam::\${{secrets.AWS_ACCOUNT_ID_TEST}}:role/cdk-hnb659fds-deploy-role-\${{secrets.AWS_ACCOUNT_ID_TEST}}-us-east-1
           role-external-id: Pipeline
       - id: Deploy
-        uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           name: test-test-stack
           template: https://cdk-hnb659fds-assets-\${{secrets.AWS_ACCOUNT_ID_TEST}}-us-east-1.s3.us-east-1.amazonaws.com/\${{
@@ -726,12 +725,12 @@ jobs:
           echo ::add-mask::\${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
           echo ::add-mask::\${{secrets.AWS_ACCOUNT_ID_TEST}}
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: CrisisCleanup/infrastructure
           ref: main
       - name: Authenticate Via OIDC Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -778,7 +777,7 @@ jobs:
           echo ::add-mask::\${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
           echo ::add-mask::\${{secrets.AWS_ACCOUNT_ID_TEST}}
       - name: Authenticate Via OIDC Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -812,7 +811,7 @@ jobs:
           echo ::add-mask::\${{secrets.AWS_PIPELINE_ACCOUNT_ID}}
           echo ::add-mask::\${{secrets.AWS_ACCOUNT_ID_TEST}}
       - name: Authenticate Via OIDC Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -820,7 +819,7 @@ jobs:
           role-to-assume: arn:aws:iam::\${{secrets.AWS_PIPELINE_ACCOUNT_ID}}:role/GitHubActionRole
           role-session-name: deploy-test-stack
       - name: Assume CDK Deploy Role
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
           role-duration-seconds: 1800
@@ -831,7 +830,7 @@ jobs:
           role-to-assume: arn:aws:iam::\${{secrets.AWS_ACCOUNT_ID_TEST}}:role/cdk-hnb659fds-deploy-role-\${{secrets.AWS_ACCOUNT_ID_TEST}}-us-east-1
           role-external-id: Pipeline
       - id: Deploy
-        uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           name: test-test-stack
           template: https://cdk-hnb659fds-assets-\${{secrets.AWS_ACCOUNT_ID_TEST}}-us-east-1.s3.us-east-1.amazonaws.com/\${{
