@@ -114,7 +114,7 @@ exports[`GithubCodePipeline > builder has expected props 1`] = `
 exports[`GithubCodePipeline > builder has expected props 2`] = `
 {
   "commands": [
-    "pnpm build",
+    "SKIP_SYNTH=1 pnpm build",
     "pnpm -F 'test.many' run synth:silent",
     "cp -r packages/test-many/cdk.out ./cdk.out",
   ],
@@ -244,7 +244,7 @@ GithubCodePipeline {
   },
   "synthProps": {
     "commands": [
-      "pnpm build",
+      "SKIP_SYNTH=1 pnpm build",
       "pnpm -F 'test.many' run synth:silent",
       "cp -r packages/test-many/cdk.out ./cdk.out",
     ],
@@ -349,7 +349,7 @@ jobs:
         run: pnpm install
       - name: Build
         run: |-
-          pnpm build
+          SKIP_SYNTH=1 pnpm build
           pnpm -F 'test.many' run synth:silent
           cp -r packages/test-many/cdk.out ./cdk.out
       - name: Push cdk.context.json
@@ -606,7 +606,7 @@ jobs:
         run: pnpm install
       - name: Build
         run: |-
-          pnpm build
+          SKIP_SYNTH=1 pnpm build
           pnpm -F 'test-stack' run synth:silent
           cp -r packages/test-stack/cdk.out ./cdk.out
         env:
@@ -754,7 +754,7 @@ jobs:
         run: pnpm install
       - name: Build
         run: |-
-          pnpm build
+          SKIP_SYNTH=1 pnpm build
           pnpm -F 'test-stack' run synth:silent
           cp -r packages/test-stack/cdk.out ./cdk.out
       - name: Push cdk.context.json
