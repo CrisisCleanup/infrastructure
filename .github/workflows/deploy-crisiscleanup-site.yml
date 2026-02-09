@@ -111,7 +111,7 @@ jobs:
         run: pnpm install
       - name: Build
         run: |-
-          pnpm build
+          SKIP_SYNTH=1 pnpm build
           pnpm -F 'stacks.web' run synth:silent
           cp -r packages/stacks/web/cdk.out ./cdk.out
         env:

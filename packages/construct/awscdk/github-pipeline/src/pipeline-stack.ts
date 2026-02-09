@@ -428,7 +428,11 @@ export class GithubCodePipeline {
 			.synthPostStep(...pushContextStep.jobSteps)
 			.clone(undefined, {
 				installCommands: ['pnpm install'],
-				commands: ['pnpm build', synthCommand, `cp -r ${cdkOut} ./cdk.out`],
+				commands: [
+					'SKIP_SYNTH=1 pnpm build',
+					synthCommand,
+					`cp -r ${cdkOut} ./cdk.out`,
+				],
 			})
 		if (environment) {
 			pipeline = pipeline.synthJobPatch((key) => {
